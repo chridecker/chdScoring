@@ -11,26 +11,56 @@ using chdScoring.DataAccess.Repositories;
 using chdScoring.DataAccess.Contracts.Repositories;
 using chdScoring.DataAccess.Repositories.Base;
 using chdScoring.DataAccess.Contracts.Interfaces;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using chdScoring.DataAccess.Contracts.Domain;
 
 Thread.CurrentThread.SetApartmentState(ApartmentState.Unknown);
 Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
 
 var path = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
 
-Host.CreateDefaultBuilder()
-    .UseWindowsFormsLifetime<MainForm>()
-    .ConfigureAppConfiguration((context, config) =>
-    {
-        config.AddJsonFile(path, true, true);
-    })
-    .ConfigureLogging(builder =>
-    {
-        builder.ClearProviders();
-        builder.AddNLogWeb();
-    })
-.ConfigureServices((context, services) =>
-    {
-        services.AddchdScoringDataAccess(context.Configuration);
-        services.AddHostedService<chdScoringCacheService>();
-    })
-.Build().Run();
+var config = new ConfigurationBuilder().AddJsonFile(path).Build();
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddJsonFile(path);
+builder.Logging.ClearProviders();
+builder.Logging.AddNLogWeb();
+
+builder.WebHost.UseUrls(config.GetValue<string>("BaseAddress"));
+
+builder.Host.UseWindowsFormsLifetime<MainForm>();
+
+builder.Services.AddchdScoringDataAccess(builder.Configuration);
+builder.Services.AddHostedService<chdScoringCacheService>();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+
+
+var app = builder.Build();
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.AddApiLogger();
+
+app.MapGet("test", (int id) =>
+{
+    Results.Ok();
+})
+.WithName("test")
+.WithOpenApi();
+
+app.MapPost("score", (Wertung w) =>
+{
+    Results.Ok();
+})
+.WithName("score")
+.WithOpenApi();
+
+app.Run();
+
+
