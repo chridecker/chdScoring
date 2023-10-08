@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using chdScoring.DataAccess.Contracts.Domain;
+using chdScoring.Main.UI.Extensions;
 
 Thread.CurrentThread.SetApartmentState(ApartmentState.Unknown);
 Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
@@ -47,19 +48,7 @@ app.UseSwaggerUI();
 
 app.AddApiLogger();
 
-app.MapGet("test", (int id) =>
-{
-    Results.Ok();
-})
-.WithName("test")
-.WithOpenApi();
-
-app.MapPost("score", (Wertung w) =>
-{
-    Results.Ok();
-})
-.WithName("score")
-.WithOpenApi();
+app.MapChdScoring("/chdScoring");
 
 app.Run();
 

@@ -11,9 +11,9 @@ namespace chdScoring.Main.UI
     {
         private readonly ILogNotifyService _logNotifyService;
         private readonly IApiLogger _apiLogger;
-        private readonly ICountryImageRepository _countryImageRepository;
+        private readonly IImageRepository _countryImageRepository;
 
-        public MainForm(ILogNotifyService logNotifyService, IApiLogger apiLogger, ICountryImageRepository countryImageRepository)
+        public MainForm(ILogNotifyService logNotifyService, IApiLogger apiLogger, IImageRepository countryImageRepository)
         {
             InitializeComponent();
 
@@ -61,9 +61,7 @@ namespace chdScoring.Main.UI
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            Country_Images img = await this._countryImageRepository.FindById(207, CancellationToken.None);
-            using var ms = new MemoryStream(img.Img_Data);
-            var _image = Image.FromStream(ms, true, true);
+            
 
         }
     }
