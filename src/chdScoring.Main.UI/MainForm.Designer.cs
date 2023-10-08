@@ -36,15 +36,15 @@
             schließenToolStripMenuItem = new ToolStripMenuItem();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
-            splitContainer1 = new SplitContainer();
             tabPage2 = new TabPage();
             textBoxWebLog = new TextBox();
+            pictureBox1 = new PictureBox();
+            button1 = new Button();
             contextMenuStripSysTray.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
-            splitContainer1.SuspendLayout();
             tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             this.SuspendLayout();
             // 
             // notifyIconMain
@@ -92,7 +92,8 @@
             // 
             // tabPage1
             // 
-            tabPage1.Controls.Add(splitContainer1);
+            tabPage1.Controls.Add(button1);
+            tabPage1.Controls.Add(pictureBox1);
             tabPage1.Location = new Point(4, 39);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
@@ -100,15 +101,6 @@
             tabPage1.TabIndex = 0;
             tabPage1.Text = "tabPage1";
             tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer1
-            // 
-            splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(3, 3);
-            splitContainer1.Name = "splitContainer1";
-            splitContainer1.Size = new Size(1915, 1060);
-            splitContainer1.SplitterDistance = 638;
-            splitContainer1.TabIndex = 0;
             // 
             // tabPage2
             // 
@@ -129,6 +121,24 @@
             textBoxWebLog.Size = new Size(1446, 869);
             textBoxWebLog.TabIndex = 0;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Location = new Point(881, 341);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(589, 343);
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(867, 199);
+            button1.Name = "button1";
+            button1.Size = new Size(131, 40);
+            button1.TabIndex = 1;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += this.button1_Click;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new SizeF(12F, 30F);
@@ -141,10 +151,9 @@
             contextMenuStripSysTray.ResumeLayout(false);
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
-            splitContainer1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             this.ResumeLayout(false);
         }
 
@@ -156,8 +165,9 @@
         private ToolStripMenuItem öffnenToolStripMenuItem;
         private TabControl tabControl1;
         private TabPage tabPage1;
-        private SplitContainer splitContainer1;
         private TabPage tabPage2;
         private TextBox textBoxWebLog;
+        private PictureBox pictureBox1;
+        private Button button1;
     }
 }

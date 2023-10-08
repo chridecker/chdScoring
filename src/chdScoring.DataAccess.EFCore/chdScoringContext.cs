@@ -19,6 +19,8 @@ namespace chdScoring.DataAccess.EFCore
         public DbSet<Wertung> Wertung { get; set; }
         public DbSet<Judge> Judge { get; set; }
         public DbSet<Judge_Panel> Judge_Panel { get; set; }
+        public DbSet<Country_Images> Country_Images { get; set; }
+        public DbSet<Images> Images { get; set; }
 
 
         public chdScoringContext(DbContextOptions<chdScoringContext> dbContextOptions) : base(dbContextOptions)
@@ -32,6 +34,8 @@ namespace chdScoring.DataAccess.EFCore
             modelBuilder.Entity<Figur_Programm>().HasKey(x => new { x.Programm, x.Figur });
             modelBuilder.Entity<Judge_Panel>().HasKey(x => new { x.Judge, x.Panel });
             modelBuilder.Entity<Wertung>().HasKey(x => new { x.Judge, x.Durchgang,x.Figur,x.Teilnehmer });
+            modelBuilder.Entity<Country_Images>().HasKey(x => x.Img_Id);
+            modelBuilder.Entity<Images>().HasKey(x => x.Img_Id);
 
             base.OnModelCreating(modelBuilder);
         }
