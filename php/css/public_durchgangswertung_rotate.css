@@ -1,0 +1,42 @@
+body{
+	margin:0px;
+}
+table{
+	font-family:Arial, Helvetica, sans-serif;
+	border-collapse:collapse;
+	width:100%;
+}
+th{
+	font-size:14pt;
+	padding: 5px;
+	text-align:right;
+}
+td{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align:left;
+	font-size:25pt;	
+}
+div.wert_abs {
+	font-size:20pt;
+	font-style:italic;
+}
+tr.headline th{
+	font-size:50pt;
+	text-align:center;
+	border-bottom:double black;
+	background-color:lightblue;
+	padding:20px;
+}
+tr.headline .logo{
+	height:150px;
+	width:auto;
+}
+tr.header th{
+	font-size:30pt;
+	border-bottom: 1px solid black;
+	text-align:left;
+}
+tr.gerade td{
+	background-color:lightgrey;
+}

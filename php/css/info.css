@@ -1,0 +1,28 @@
+body{
+	margin:0px;
+}
+table {
+	width:100%;
+	font-family:Arial, Helvetica, sans-serif;
+	border-collapse:collapse;
+	text-align:center;
+}
+th.headline {
+	font-size:50pt;
+	background-color:lightblue;
+	padding:20px;
+	border-bottom: solid;
+	text-align:center;
+}
+th.header {
+	padding:20px;
+	background-color:lightgrey;
+	font-size:50pt;
+	border-bottom:double;
+	text-align:center;
+}
+th.info_text {
+	font-size:30pt;
+	text-align:center;
+	padding-top:3cm;
+}

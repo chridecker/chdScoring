@@ -1,0 +1,33 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	margin:0px;
+}
+table{
+	font-family:Arial, Helvetica, sans-serif;
+	border-collapse:collapse;
+	width:100%;
+}
+button{
+	background-color:transparent;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:20pt;
+	border:1px solid black;
+	font-weight:bold;
+	background-color:white;
+}
+img {
+	height:300px;
+	width:300px;
+}
+th.headline {
+	font-size:30pt;
+	padding:10px;
+	border-bottom:1px solid;
+	background-color:lightblue;
+}
+td{
+	padding:10px;
+	background-color:lightgrey;
+	text-align:left;
+}

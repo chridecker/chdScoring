@@ -1,0 +1,176 @@
+body{
+	margin:0px;
+}
+@media print {
+	table{
+		page-break-after:always;
+	}
+}
+table {
+	border-collapse:collapse;
+	font-family:Arial, Helvetica, sans-serif;
+	-webkit-print-color-adjust: exact;
+	width:10.5cm;
+	height:14.8cm;
+}
+.header th.turnier{
+	text-align:center;
+	font-size:20pt;
+}
+.header td.photo{
+	text-align:left;
+}
+.header td.photo img{
+	max-width:4cm;
+	max-height:5cm;
+	border:solid 1px black;
+}
+.header td.logo img{
+	max-height: 1.7cm;
+}
+.header td.flag img{
+	width:5.2cm;
+	max-height:4cm;
+	border:1px solid black;
+}
+.header td.logo{
+	text-align:center;
+	vertical-align:text-top;
+}
+.header td.flag{
+	text-align:right;
+	vertical-align:central;
+}
+.header td.function{
+	height:1cm;
+	text-align:center;
+	font-size:25pt;
+	font-weight:bolder;
+	letter-spacing:6px;
+	color:black;
+	background-color:lightblue;
+	padding:0.1cm;
+	max-width:4.4cm;
+}
+.main td.id{
+	text-align:left;
+	font-size:20pt;
+}
+.main td.name{
+	text-align:left;
+	font-size:20pt;
+	padding-top:0.3cm;
+}
+.main td.club{
+	text-align:left;
+	font-size:15pt;
+	vertical-align:text-top
+}
+.main td.land{
+	text-align:left;
+	font-size:20pt;
+	padding-top:0cm;
+	padding-bottom:0cm;
+
+}
+.main td.barcode{
+	text-align:right;
+	font-size:10pt;
+	letter-spacing:0.18cm;
+	vertical-align:bottom;
+}
+.main th.area{
+	border:solid black;
+	text-align:center;
+	height:2cm;
+	width:2.5cm;
+	background-color:lightblue;
+	font-size:20pt;
+}
+.main th.permitted{
+	border:solid black;
+	text-align:center;
+	height:2cm;
+	width:2.5cm;
+	opacity:.3;
+	background-color:lightgrey;
+	font-size:20pt;
+}
+.main th.area img{
+	height:1.3cm;
+	width:1.5cm;
+}
+.main th.permitted img{
+	height:1.3cm;
+	width:1.5cm;
+}
+.main td.area_small{
+	#border:1px solid black;
+	text-align:center;
+	height:0.5cm;
+	width:2.5cm;
+	background-color:;
+	font-size:10pt;
+	padding-bottom:0.2cm;
+}
+.header td.ort {
+	font-size:10pt;
+	text-align:left;
+	padding-bottom:0.3cm;
+}
+.header td.datum {
+	font-size:10pt;
+	text-align:right;
+	padding-bottom:0.3cm;
+}
+.footer td.version {
+	font-size:10pt;
+	padding-top:0cm;
+	background-color:lightgrey;
+	text-align:center;
+}
+
+.backside {
+	margin-top:0.5cm;
+}
+.rear td.turnier {
+	text-align:center;
+	font-size:20pt;
+	border-top:solid black;
+	border-bottom: solid black;
+}
+.rear td.fai_logo {
+	font-size:9pt;
+	padding-top:0.2cm;
+	padding-bottom:0.1cm;
+	text-align:center;
+	color:grey;
+	border-bottom: solid black;
+}
+.rear td.fai_logo img {
+	margin-bottom:0.1cm;
+	height:1.5cm;
+	opacity:0.8;
+}
+.rear td.host_logo {
+	font-size:9pt;
+	padding-top:0.2cm;
+	padding-bottom:0.1cm;
+	text-align:center;
+	color:grey;
+	border-bottom: solid black;
+}
+.rear td.host_logo img {
+	margin-bottom:0.1cm;
+	height:1.5cm;
+	opacity:0.8;
+}
+.rear td.sponsor {
+	text-align:center;
+	border-bottom:1px solid black;
+}
+.rear td.sponsor img {
+	max-height:1.5cm;
+	max-width:3cm;
+	margin:0.1cm;
+}

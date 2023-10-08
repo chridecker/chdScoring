@@ -1,0 +1,43 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	margin:0px;
+}
+table{
+	border-collapse:collapse;
+	font-family:Arial, Helvetica, sans-serif;
+	width:20cm;
+	height:28cm;
+	border-bottom: solid 1px;
+	-webkit-print-color-adjust: exact;
+}
+tr.headline th{
+	font-size:18pt;
+	background-color:transparent;
+	padding:0.5cm;
+	border-bottom:double;
+	text-align:center;
+}
+tr.header th{
+	font-size:16pt;
+	text-align:center;
+	padding-top:0.5cm;
+	border-top:solid 1px;
+	background-color:lightblue;
+}
+th {
+	background-color:lightgrey;
+	padding:0.2cm;
+	font-size:14pt;
+	text-align:left;
+}
+td {
+	font-size:14pt;
+	padding-left:0.5cm;
+}
+tr.footer td{
+	font-size:10pt;
+	text-align:center;
+	margin-bottom:0cm;
+}
+	

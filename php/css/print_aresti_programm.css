@@ -1,0 +1,20 @@
+body{
+	margin:0px;
+}
+table {
+	width:20cm;
+}
+tr {
+	width:100%;
+}
+td {
+	text-align:center;
+	font-size:16pt;
+}
+th {
+	font-size:20pt;
+}
+.aresti {
+	width:4cm;
+	margin:.5cm;
+}

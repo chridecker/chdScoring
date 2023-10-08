@@ -1,0 +1,104 @@
+body{
+	margin:0px;
+}
+@media print {
+		table{
+			page-break-after:always;
+		}
+	}
+	table {
+		font-family:Arial, Helvetica, sans-serif;
+		-webkit-print-color-adjust: exact;
+		width:20cm;
+		/*background-image: url("../bilder/wasserzeichen.png");*/
+		
+		background-size: contain;
+		background-position: top center;
+		background-repeat: no-repeat;
+	}
+	tr.headline th {
+		font-size:80pt;
+		letter-spacing:0.2cm;
+	}
+	tr.header th img {
+		height:7cm;
+		padding-top:1cm;
+		padding-bottom:1cm;
+	}
+	th.veranstalter {
+		vertical-align:text-top;
+		text-align:left;
+		font-size:20pt;
+		text-align:center;
+		letter-spacing:10pt;
+	}
+	tr.header th.turnier {
+		padding-top:0.7cm;
+		font-size:25pt;
+		font-weight:100;
+		letter-spacing:0.2cm;
+	}
+	tr.ergebnis{
+		text-align:center;
+	}
+	tr.ergebnis td {
+		font-size:22pt;
+	}
+	tr.ergebnis th.name {
+		padding-top:1cm;
+		padding-bottom:0.5cm;
+		font-size:40pt;
+		font-family:"Comic Sans MS", cursive;
+		font-weight:bold;
+	}
+	tr.ergebnis th.club {
+		font-weight:100;
+		font-size:20pt;
+	}
+	tr.ergebnis th.platz{
+		font-size:40pt;
+	}
+	tr.ergebnis th.platz i{
+		font-size:22pt;
+		font-style:normal;
+	}
+	tr.ergebnis th.punkte {
+		font-size:22pt;
+		padding-top:0.5cm;
+		padding-bottom:0.5cm;
+	}
+	tr.footer th {
+		border-top:1px solid;
+		width:33%;
+	}
+	tr.footer td{
+		width:33%;
+	}
+	tr.footer td.signature{
+		text-align:center;
+		height:1.5cm;
+	}
+	tr.footer td.signature img{
+		height:1.3cm;
+	}
+	tr.footer td.spacer {
+		height:2.5cm;
+		
+	}
+	tr.footer th.name{
+		font-size:11pt;
+		font-weight:bold;
+	}
+	tr.footer th.funktion{
+		font-size:9pt;
+		font-weight:100;
+		border:none;
+	}
+	td.ort{
+		text-align:center;
+		font-size:10pt;
+	}
+	td.logo {
+		text-align:center;
+		padding-top: 0.5cm;
+	}

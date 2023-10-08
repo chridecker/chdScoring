@@ -1,0 +1,50 @@
+body{
+	margin:0px;
+}
+
+table {
+	font-family:Arial, Helvetica, sans-serif;
+	border-collapse:collapse;
+	width:500px;
+}
+table.liste th{
+	font-size:12pt;
+	background-color:lightblue;
+	padding:10px;
+}
+table.liste td{
+	font-size:10pt;
+	text-align:center;
+}
+table.liste tr.gerade td{
+	background-color:lightgrey;
+}
+table.liste tr.gerade td input[type=text]{
+	background-color:lightgrey;
+}
+table.liste th.header{
+	font-size:14pt;
+}
+input[type=button]{
+	background-color:transparent;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	border:1px solid black;
+	font-weight:bold;
+	background-color:lightblue;
+}
+input[type=text]{
+	border:none;
+	border-bottom:1px dashed;
+	font-size:10pt;
+	padding:10px;
+	margin-right:3px;
+	text-align:center;
+	width:500px;
+}input[type=date]{
+	border:none;
+	font-size:10pt;
+	padding:10px;
+	margin-right:3px;
+	text-align:center;
+}

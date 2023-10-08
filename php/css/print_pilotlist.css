@@ -1,0 +1,62 @@
+body {
+	margin:0cm;
+}
+table {
+	width:20cm;
+	max-height:29cm;
+	border-collapse:collapse;
+	-webkit-print-color-adjust: exact;
+	font-family:Arial, Helvetica, sans-serif;
+}
+.headline th{
+	font-size:20pt;
+	text-align:center;
+	background-color:white;
+	border-bottom:solid 1px grey;
+}
+.headline td{
+	font-size:10pt;
+	text-align:center;
+	background-color:white;
+	border-bottom:solid 1px black;
+}
+tr.header th {
+	background-color:lightblue;
+	font-size:14pt;
+	text-align:center;
+	padding:0.1cm;
+	border-bottom:solid black;
+}
+
+td{
+	font-size:12pt;
+	padding-left:0.2cm;
+}
+td.name{
+	width:5cm;
+}
+td.adresse {
+	width:6cm;
+}
+
+.grey td {
+	background-color:lightgrey;
+}
+td.profil {
+	padding:0cm;
+	width:2.25cm;
+}
+td.profil img{
+	max-height:2.9cm;
+	max-width:2.1cm;
+}
+
+.footer td {
+	font-size:10pt;
+	border-top:1px solid black;
+}
+@media print {
+	table{
+		page-break-after:always;
+	}
+}

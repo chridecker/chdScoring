@@ -1,0 +1,57 @@
+body{
+	margin:0px;
+}
+
+table {
+	font-family:Arial, Helvetica, sans-serif;
+	border-collapse:collapse;
+	-webkit-print-color-adjust: exact;
+	width:20cm;
+}
+table.liste tr.header th{
+	border-bottom:1px solid;
+	background-color:lightblue;
+	text-align:center;
+}
+table.liste th{
+	text-align:left;
+	font-size:14pt;
+	background-color:transparent;
+	padding:10px;
+}
+table.liste td{
+	font-size:12pt;
+	text-align:center;
+}
+table.liste tr.gerade td{
+	background-color:lightgrey;
+}
+table.liste tr.gerade td input[type=text]{
+	background-color:lightgrey;
+}
+table.liste th.header{
+	font-size:16pt;
+}
+th.header img {
+	height:1.5cm;
+}
+table.liste td {
+	border:none;
+	border-bottom:1px dashed;
+	font-size:10pt;
+	padding:7px;
+	margin-right:3px;
+	text-align:center;
+}
+table.liste th.pause{
+	font-size:14pt;
+	background-color:lightblue;
+	padding:10px;
+	border-top:solid;
+	border-bottom:solid;
+}
+@media print {
+	table{
+		page-break-after:always;
+	}
+}

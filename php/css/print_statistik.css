@@ -1,0 +1,65 @@
+body{
+	margin:0px;
+}
+table.judge_stats{
+	border-collapse:collapse;
+	font-family:Arial, Helvetica, sans-serif;
+	width:29cm;
+	max-height:19.5cm;
+	-webkit-print-color-adjust: exact;
+}
+tr.kopf th{
+	font-size:14pt;
+}
+th{
+	background-color:lightblue;
+}
+tr.headline th{
+	font-size:14pt;
+	background-color:transparent;
+}
+tr.header th{
+	font-size:12pt;
+	padding-top:0.1cm;
+	border:1px solid;
+	border-bottom:double;
+	text-align:left;
+}
+tr.header_small th{
+	font-size:11pt;
+	border:1px solid;
+	padding-top:0.1cm;
+}
+td {
+	font-size:10pt;
+	padding:0.1cm;
+}	
+tr.content td.figur{
+	font-weight:bold;
+}
+tr.content td.judge{
+	border-left:1px solid;
+	text-align:center;
+}
+tr.total {
+	border-left:1px solid;
+	border-right:1px solid;
+}
+
+tr.content {
+	border-left:1px solid;
+	border-right:1px solid;
+}
+tr.total td{
+	border-top: double;
+	border-bottom:1px solid;
+	text-align:center;
+	font-size:10pt;
+	padding-top:0.1cm;
+	padding-bottom:0cm;
+}
+@media print {
+	table{
+		page-break-after:always;
+	}
+}

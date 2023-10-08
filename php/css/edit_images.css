@@ -1,0 +1,69 @@
+body{
+	margin:0px;
+}
+table{
+	border-collapse:collapse;
+	width:100%;
+}
+tr.headline th{
+	font-size:30pt;
+	background-color:lightblue;
+	padding:10px;
+	border-bottom:double;
+}
+tr.header th{
+	font-size:20pt;
+	background-color:lightgrey;;
+	border-bottom:1px solid;
+	padding:10px;;
+}
+tr.images td{
+	font-size:10pt;
+	padding-top:0.5cm;
+	text-align:center;
+
+}
+input[type=text]{
+	margin:5px;
+	border:none;
+	text-align:center;
+	font-size:12pt;
+	background-color:lightgrey;
+}
+
+input[type=button]{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:15pt;
+	border:1px solid black;
+	font-weight:bold;
+	background-color:lightblue;
+	padding:5px;
+}
+input[type=submit]{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:15pt;
+	border:1px solid black;
+	font-weight:bold;
+	background-color:lightblue;
+	padding:5px;
+}
+input[type=file]{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	background-color:lightgrey;
+	padding:5px;
+}
+button{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:15pt;
+	border:1px solid black;
+	font-weight:bold;
+	background-color:white;
+	padding:5px;
+}
+button img {
+	height:30px;
+}
+tr.headline button:hover {
+	background-color:lightgrey;
+}

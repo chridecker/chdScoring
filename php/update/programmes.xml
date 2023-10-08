@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+ <programme>
+ <programm name="Unknown Schedule I">    
+  <beschreibung>Teste9, Pista de S. Silvestre, Agosto de 2016</beschreibung>
+   <figuren>
+    <figur id="1" mgroup="04" number="36" k="6" arestifilename="04-36.jpg">Knife-edge triangular loop (base at top), roll on horizontal leg, inverted entry and exit </figur>
+    <figur id="2" mgroup="f" number="6" k="2" arestifilename="f-6.jpg">Half cuban eight, 2/2pt roll, inverted entry</figur>
+    <figur id="3" mgroup="20" number="4" k="5" arestifilename="20-4.jpg">Stall turn, 3/4 roll up, 1 1/4 snap roll down</figur>
+    <figur id="4" mgroup="k" number="30" k="5" arestifilename="k-30.jpg">45 degree up-line from upright, 3/4 roll, knife-edge half loop (up or down), 3/4 snap roll down, exit inverted</figur>
+    <figur id="5" mgroup="23" number="28" k="5" arestifilename="23-28.jpg">2/4pt roll, 1 1/2 snap roll opposite, inverted entry</figur>
+    <figur id="6" mgroup="k" number="28" k="5" arestifilename="k-28.jpg">45 degree up-line from inverted, 1/4 roll, knife-edge half loop (up or down), 3/4 snap roll down, exit inverted</figur>
+    <figur id="7" mgroup="22" number="10" k="5" arestifilename="22-10.jpg">Rolling circle with 4 rolls inside, inverted entry</figur>
+    <figur id="8" mgroup="f" number="44" k="4" arestifilename="f-44.jpg">Half Cuban Eight from inverted up with roll integrated in first 180 degree of loop, exit upright</figur>
+    <figur id="9" mgroup="13" number="15" k="4" arestifilename="13-15.jpg">Hourglass (middle entry, bottom first) half roll up</figur>
+    <figur id="10" mgroup="e" number="64" k="4" arestifilename="e-64.jpg">Figure 9 from middle inverted with 3 consecutive 1/4 rolls , 3/4 knife edge loop, 3 consecutive 1/4 rolls, exit inverted</figur>
+    <figur id="11" mgroup="24" number="4" k="6" arestifilename="24-4.jpg">Double key: from inverted push into vertical upline, 3/4 pt. roll up, 5/8 knife-edge loop towards the back, 3/4 roll down, push into 45 degree upline, 3/4 roll up, 5/8 knife-edge loop towards the back, 3/4 pt.roll down, push to exit inverted</figur>
+    <figur id="12" mgroup="d" number="9" k="4" arestifilename="d-9.jpg">Immelmann Turn from inverted with 1/4 roll, knife-edge half loop up, 3/4 roll, exit upright</figur>
+    <figur id="13" mgroup="19" number="3" k="4" arestifilename="19-3.jpg">2 turn opposite spin</figur>
+    <figur id="14" mgroup="e" number="57" k="4" arestifilename="e-57.jpg">Figure 9 from bottom upright with 3 consecutive 1/4 rolls up, 3/4 knife edge loop, 3 consecutive 1/4 rolls, exit upright</figur>
+    <figur id="15" mgroup="14" number="7" k="3" arestifilename="14-7.jpg">Vertical eight (from middle)</figur>
+    <figur id="16" mgroup="h" number="13" k="3" arestifilename="h-13.jpg">Stall turn, 3/4pt roll up, 1/4 roll down</figur>
+    <figur id="17" mgroup="10" number="21" k="6" arestifilename="10-21.jpg">Knife-edge Cuban eight </figur>
+  </figuren>
+  </programm>
+  <programm name="Unknown Schedule II">
+  <beschreibung>Teste9, Pista de S. Silvestre, Agosto de 2016</beschreibung>
+   <figuren>
+    <figur id="1" mgroup="15" number="3" k="5" arestifilename="15-3.jpg">Square horizontal eight (from top)</figur>
+    <figur id="2" mgroup="g" number="3" k="2" arestifilename="g-3.jpg">2 1/2 turn spin</figur>
+    <figur id="3" mgroup="01" number="7" k="6" arestifilename="01-7.jpg">Knife-edge loop </figur>
+    <figur id="4" mgroup="k" number="26" k="5" arestifilename="k-26.jpg">45 degree up-line from upright, 1/4 roll, knife-edge half loop (up or down), 3/4 snap roll down, exit inverted</figur>
+    <figur id="5" mgroup="10" number="22" k="6" arestifilename="10-22.jpg">Knife-edge Cuban eight, inverted entry and exit </figur>
+    <figur id="6" mgroup="k" number="32" k="5" arestifilename="k-32.jpg">45 degree up-line from inverted, 3/4 roll, knife-edge half loop (up or down), 3/4 snap roll down, exit inverted</figur>
+    <figur id="7" mgroup="22" number="12" k="5" arestifilename="22-12.jpg">Rolling circle with 4 rolls outside, inverted entry</figur>
+    <figur id="8" mgroup="f" number="44" k="4" arestifilename="f-44.jpg">Half Cuban Eight from inverted up with roll integrated in first 180 degree of loop, exit upright</figur>
+    <figur id="9" mgroup="20" number="7" k="5" arestifilename="20-7.jpg">Stall turn, 3/4pt roll up, 1 1/4 snap roll down</figur>
+    <figur id="10" mgroup="j" number="26" k="4" arestifilename="j-26.jpg">Top Hat, from upright, 3/4 roll up, 1 1/4 snap roll down, exit upright</figur>
+    <figur id="11" mgroup="04" number="35" k="6" arestifilename="04-35.jpg">Knife-edge triangular loop (base at top), roll on horizontal leg </figur>
+    <figur id="12" mgroup="j" number="18" k="4" arestifilename="j-18.jpg">Top Hat, from upright, three consecutive 1/4 rolls up, 1 3/4 snap roll down, exit inverted</figur>
+    <figur id="13" mgroup="23" number="8" k="4" arestifilename="23-8.jpg">Eight point roll, inverted entry</figur>
+    <figur id="14" mgroup="f" number="10" k="3" arestifilename="f-10.jpg">Half cuban eight with full snap roll, inverted entry</figur>
+    <figur id="15" mgroup="08" number="7" k="3" arestifilename="08-7.jpg">Cobra roll from top with 2/4pt rolls</figur>
+    <figur id="16" mgroup="e" number="66" k="4" arestifilename="e-66.jpg">Figure 6 from middle upright with 3 consecutive 1/4 rolls, 3/4 knife edge loop, 3 consecutive 1/4 rolls, exit inverted</figur>
+    <figur id="17" mgroup="14" number="12" k="3" arestifilename="14-12.jpg">Vertical eight (from top) inverted entry</figur>
+  </figuren>
+ </programm>
+</programme>

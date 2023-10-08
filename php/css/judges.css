@@ -1,0 +1,32 @@
+body{
+	margin:0px;
+}
+table{
+	border-collapse:collapse;
+	width:100%;
+}
+tr.headline th{
+	font-size:30pt;
+	background-color:lightblue;
+	padding:10px;
+	border-bottom:double;
+}
+tr.header th{
+	font-size:20pt;
+	background-color:lightgrey;;
+	border-bottom:1px solid;
+	padding:10px;;
+}
+td{
+	font-size:15pt;
+	padding-top:0.5cm;
+}
+button.button{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:15pt;
+	border:1px solid black;
+	font-weight:bold;
+	background-color:lightblue;
+	width:100%;
+	padding:5px;t;
+}

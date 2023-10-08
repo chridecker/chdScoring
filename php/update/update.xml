@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<programme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="schedule.xsd">
+	<programm name="Unknown Schedule I">
+		<beschreibung>F3A - Unknown Schedule I / Wordchampionships 2015 CH</beschreibung>
+		<figuren>
+			<figur id="1" k="3" mgroup="e" number="2" arestifilename="1.png">Eye-Catcher with 1/2 roll, 1/2 roll</figur>
+			<figur id="2" k="2" mgroup="e" number="2" arestifilename="2.png">Half Square Loop with 1/2 roll</figur>
+			<figur id="3" k="4" mgroup="e" number="2" arestifilename="3.png">Knife Edge Combo with 1/4roll, roll, 1/4 roll</figur>
+			<figur id="4" k="3" mgroup="e" number="2" arestifilename="4.png">Stall Turn with 2x conse 1/4 rolls</figur>
+			<figur id="5" k="5" mgroup="e" number="2" arestifilename="5.png">Humpty Bump with 3/4 roll, 1/2 knife-edge loop, 3/4 roll</figur>
+			<figur id="6" k="3" mgroup="e" number="2" arestifilename="6.png">Komet with 2x consec 1/4 rolls, 1/2 roll</figur>
+			<figur id="7" k="4" mgroup="e" number="2" arestifilename="7.png">Six-sided loop with 2x 1/4 rolls, roll, 2x consesc 1/4 rolls</figur>
+			<figur id="8" k="3" mgroup="e" number="2" arestifilename="8.png">Split S Reverse Immelmann Combintation with 2x 1/2 rolls, 2 1/2 rolls</figur>
+			<figur id="9" k="5" mgroup="e" number="2" arestifilename="9.png">Figur S with 1/2 integrated</figur>
+			<figur id="10" k="4" mgroup="e" number="2" arestifilename="10.png">Spin with 3 turns, 1/2 roll</figur>
+			<figur id="11" k="4" mgroup="e" number="2" arestifilename="11.png">45 deg Upline with consec 1/2 roll, roll, 1/2 roll</figur>
+			<figur id="12" k="3" mgroup="e" number="2" arestifilename="12.png">Reverse Pull-Pull-Push Humpty-Bump with roll</figur>
+			<figur id="13" k="4" mgroup="e" number="2" arestifilename="13.png">Triangle Loop with 2x consec 1/4 rolls, 2x consec 1/4 rolls, 4x consec 1/4 rolls</figur>
+			<figur id="14" k="2" mgroup="e" number="2" arestifilename="14.png">half Square loop on corner with 1/2 roll</figur>
+			<figur id="15" k="4" mgroup="e" number="2" arestifilename="15.png">Roll Combination with consec 1/2 roll, snap roll, 1/2 roll</figur>
+			<figur id="16" k="2" mgroup="e" number="2" arestifilename="16.png">Half Cuban 8 with consec 2x 1/4 rolls</figur>
+			<figur id="17" k="5" mgroup="e" number="2" arestifilename="17.png">Loop with roll integrated</figur>
+		</figuren>	
+	</programm>	
+</programme>

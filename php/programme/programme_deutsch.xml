@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<programme>
+	<programm name="F3A-A16">
+		<beschreibung>Advanced Schedule</beschreibung>
+		<figuren>
+			<figur id="1" k="3">Eye-Catcher mit 1/2 Rolle</figur>
+			<figur id="2" k="2">1/2 Quadrat Looping</figur>
+			<figur id="3" k="4">Rollenkombination mit zwei 1/2 Rollen</figur>
+			<figur id="4" k="3">Turn</figur>
+			<figur id="5" k="5">Humpty Bump mit 3/4 Rolle, 3/4 Rolle</figur>
+			<figur id="6" k="4">Komet mit 1/2 Rolle, 1/2 Rolle</figur>
+			<figur id="7" k="4">Sechseck Looping</figur>
+			<figur id="8" k="2">Halber Loop</figur>
+			<figur id="9" k="4">Figur S</figur>
+			<figur id="10" k="4">3 x Trudeln</figur>
+			<figur id="11" k="4">45 Grad aufwärts mit zwei 1/2 Rollen gegengleich</figur>
+			<figur id="12" k="3">Umgekehrter Ziehen-Ziehen-Drücken-Humpty</figur>
+			<figur id="13" k="4">Dreiecks Looping mit ganzer Rolle</figur>
+			<figur id="14" k="3">Halber Diamant mit 1/2 Rolle</figur>
+			<figur id="15" k="4">Rollenkombination zwei Rollen gegengleich</figur>
+			<figur id="16" k="2">Halbe Kuban 8 mit 1/2 Rolle</figur>
+			<figur id="17" k="5">Avalanche</figur>
+		</figuren>	
+	</programm>
+	<programm name="F3A-P17">
+		<beschreibung>Preliminary Schedule</beschreibung>
+		<figuren>
+			<figur id="1" k="3">Eye-Catcher mit 1/2 Rolle, 1/2 Rolle</figur>
+			<figur id="2" k="2">Halber Quadrat Looping mit 1/2 Rolle</figur>
+			<figur id="3" k="4">Messerflug Kombo mit 1/4 Rolle, Rolle, 1/4 Rolle, gegengleich</figur>
+			<figur id="4" k="3">Turn mit zwei 1/4 Rollen</figur>
+			<figur id="5" k="5">Humpty Bump mit 3/4 Rolle, 1/2 Messerflug Looping, 3/4 Rolle</figur>
+			<figur id="6" k="3">Komet mit zwei 1/4 Rollen, 1/2 Rolle</figur>
+			<figur id="7" k="4">Sechseck Looping mit zwei 1/4 Rollen, Rolle, zwei 1/4 Rollen </figur>
+			<figur id="8" k="3">Split S umgekehrter Immelmann Kombintation mit zwei 1/2 Rollen, 2 1/2 Rollen</figur>
+			<figur id="9" k="5">Figur S mit 1/2 Rolle integriert</figur>
+			<figur id="10" k="4">3 x Trudeln mit 1/2 Rolle</figur>
+			<figur id="11" k="4">45 Grad aufwärts mit 1/2 Rolle, Rolle, 1/2 Rolle gegengleich</figur>
+			<figur id="12" k="3">Umgekehrter Ziehen-Ziehen-Drücke-Humpty mit Rolle</figur>
+			<figur id="13" k="4">Dreieck Looping mit zwei 1/4 Rollen gegengleich, zwei 1/4 Rollen gegengleich, vier 1/4 Rollen</figur>
+			<figur id="14" k="2">Halber Diamant mit 1/2 Rolle</figur>
+			<figur id="15" k="4">Rollenkombination mit 1/2 Rolle, Snap, 1/2 Rolle</figur>
+			<figur id="16" k="2">Halbe Kuban 8 mit zwei 1/4 Rollen</figur>
+			<figur id="17" k="5">Looping mit integrierter Rolle</figur>
+		</figuren>	
+	</programm>	
+	<programm name="F3A-F17">
+		<beschreibung>Semi-Final and Final Schedule</beschreibung>
+		<figuren>
+			<figur id="1" k="4">Dreieck mit zwei 1/4 Rolle, zwei Rollen gegengleich, zwei 1/4 Rollen</figur>
+			<figur id="2" k="3">Turnaround-Avalanche Snap</figur>
+			<figur id="3" k="5">Rollenkombination mit 1/2 Rolle, 1 1/4 Snap, 1/2 Rolle gegengleich</figur>
+			<figur id="4" k="3">Halber Quadrat Looping mit zwei 1/4 Rollen, zwei 1/4 Rollen </figur>
+			<figur id="5" k="5">Zwei Looping mit integrierten Rollen gegengleich</figur>
+			<figur id="6" k="2">Halber Quadrat Looping mit Rolle, 1/2 Rolle gegengleich</figur>
+			<figur id="7" k="4">Fass-Rolle</figur>
+			<figur id="8" k="4">Messerflug Split S umgekehrter Immelmann Kombination mit 1/4 Rolle, 3/4 Rolle</figur>
+			<figur id="9" k="6">Horizontaler zweifacher Immelmann Kreis mit 1/4 Rolle, 1/2 Rolle integriert, 1 1/2 Snap, 1/2 Rolle integriert, 1 1/2 Snap, 1/4 Rolle</figur>
+			<figur id="10" k="4">Figure 6 mit Turn, Rolle</figur>
+			<figur id="11" k="6">Umgekehrter Hut mit 1/4 Rolle, Rolle, 1/4 Rolle</figur>
+			<figur id="12" k="3">Figure 9 mit 1/2 Rolle, Rolle gegengleich</figur>
+			<figur id="13" k="4">Großes-M mit zwei 1/4 Rollen, 1/2 Rolle, 1/2 Rolle integriert, 1/2 Rolle, zwei 1/4 Rollen</figur>
+			<figur id="14" k="4">Fighter Turn mit 1/4 Rolle, 1/4 Rolle integriert, 1/4 Rolle</figur>
+			<figur id="15" k="5">Figure Z mit Snap, 1/2 Rolle, Rolle, 1/2 Rolle gegengleich, Snap</figur>
+			<figur id="16" k="4">Clown Dance mit 1/2 Rolle integriert, 2 x Trudeln, 1/2 Rolle</figur>
+			<figur id="17" k="4">Messerflug Looping mit acht integrierten 1/8 Rollen</figur>
+		</figuren>
+	</programm>
+</programme>

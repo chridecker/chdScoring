@@ -1,0 +1,59 @@
+body{
+	margin:0px;
+}
+table{
+	font-family:Arial, Helvetica, sans-serif;
+	border-collapse:collapse;
+	width:100%;
+}
+th.teilnehmer{
+	font-size:60pt;
+	padding: 5px;
+	text-align:right;
+}
+tr.header th.judges {
+	text-align:center;
+}
+td{
+	font-size:20pt;
+	padding: 5px;	
+}
+.figur{
+	max-width:800px;
+	text-align:left;
+	white-space:nowrap;
+	overflow:hidden;
+}
+tr.header th{
+	font-size:20pt;
+	border-bottom: 1px solid black;
+	text-align:left;
+}
+tr.gerade td{
+	background-color: lightgrey;
+}
+.logo{
+	height:150px;
+	margin-right:70px;
+}
+.profilbild{
+	height:250px;
+	width: auto;
+}
+.flagge{
+	margin-left:70px;
+	height:200px;
+	width: auto;
+	border: 1px solid black;
+}
+tr.total th{
+	padding-top:20px;
+	text-align:right;
+	font-size:50pt;
+}
+th.gesamt {
+	font-size:40pt;
+}
+.timer_point{
+	height:60px;
+}

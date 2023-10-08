@@ -1,0 +1,72 @@
+body{
+	margin:0px;
+	overflow:hidden;
+}
+table {
+	width:100%;
+	height:100%;
+	font-family:Arial, Helvetica, sans-serif;
+	border-collapse:collapse;
+	text-align:center;
+}
+th.teilnehmer {
+	height:10px;
+	padding:0px;
+	font-size:70pt;
+	background-color:black;
+	color:white;
+	#border-bottom: solid;
+	text-align:center;
+}
+th.teilnehmer img {
+	height:150px;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+tr.aresti{
+	height:50%;
+}
+tr.aresti th {
+	padding:10px;
+	background-color:white;
+	font-size:60pt;
+	text-align:center;
+}
+tr.figur th{
+	padding:0px;
+	background-color:lightgrey;
+	font-size:40pt;
+	border-bottom:solid 1px black;
+	border-top:solid 1px black;
+	text-align:center;
+}
+tr.aresti td img {
+	padding-left:100px;
+	padding-bottom:100px;
+	max-width:1000px;
+	max-height:700px;
+}
+th.timer {
+	padding:0px;
+	background-color:black;
+	color:white;
+	font-size:70pt;
+	#border-bottom:solid black;
+	text-align:center;
+}
+tr.wertungen td {
+	font-size:150pt;
+	font-weight:bolder;
+	border-bottom: solid black;
+	background-color: black;
+	color: white;
+}
+.wertung {
+	position:relative;
+	float:left;
+	height:auto;
+	margin-left:12.5%;
+}
+.timer_point{
+	height:70px;
+}

@@ -1,0 +1,99 @@
+body {
+	margin:0px;
+}
+table{
+	font-family:Arial, Helvetica, sans-serif;
+	border-collapse:collapse;
+	width:20cm;
+	-webkit-print-color-adjust: exact;
+}
+th{
+	text-align:right;
+	padding-bottom: 5px;
+	padding-top:5px;
+}
+td{
+	font-size:10pt;
+	text-align:left;
+	padding-right:2px;
+	padding-left:2px;
+}
+img.logo {
+	height:2.5cm;
+	margin-bottom:0.1cm;
+}
+td.min{
+	text-decoration:line-through;
+}
+tr.headline th{
+	font-size:14pt;
+	text-align:center;
+	background-color:lightblue;
+	border:1px solid;
+}
+tr.header th{
+	font-size:12pt;
+	text-align:left;
+}
+tr.header {
+	margin-top:.2cm;
+}
+tr.header_small {
+	border-left:1px solid;
+	border-right:1px solid;
+}
+tr.header_small th{
+	font-size:10pt;
+	border-top:1px solid;
+	border-bottom: 1px solid black;
+	text-align:center;
+	background-color:lightblue;
+}
+tr.header_small td{
+	font-size:10pt;
+	text-align:left;
+	background-color:lightblue;
+	#padding:5px;
+}
+tr.kopf th{
+	font-size:12pt;
+	padding:0px;
+}
+tr.gerade{
+	background-color:lightgrey;
+	border-left:1px solid;
+	border-right:1px solid;
+}
+tr.ungerade{
+	border-left:1px solid;
+	border-right:1px solid;
+}
+td.zahl{
+	text-align:right;
+}
+tr.header_small th.zahl{
+	text-align:center;
+}
+tr.sponsoren td{
+	text-align:center;
+	border:1px solid black;
+	border-top:none;
+}
+tr.sponsoren img{
+	height:60px;
+	text-align:center;
+	padding-top:5px;
+	
+}
+tr.footer{
+	border-top:1px solid;
+}
+tr.footer td{
+		padding-top:0.2cm;
+
+}
+@media print {
+	table{
+		page-break-after:always;
+	}
+}

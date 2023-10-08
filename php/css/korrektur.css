@@ -1,0 +1,50 @@
+body{
+	margin:0px;
+}
+table {
+	border-collapse:collapse;
+	font-family:Arial, Helvetica, sans-serif;
+	width:1000px;
+}
+table.select tr.headline th{
+	font-size:20pt;
+	background-color:lightblue;
+}
+table.select tr.header th{
+	background-color:lightblue;
+	text-align:left;
+}
+table.select tr.header th select{
+	font-size:14pt;
+	padding:5px;
+}
+.wertung{
+	width:20px;	
+}
+table.korrektur tr.name th{
+	font-size:14pt;
+	background-color:lightblue;
+	padding:10px;
+	border-bottom:1px dashed;
+}
+table.korrektur tr.header th{
+	font-size:12pt;
+	border-bottom:1px solid;
+	padding:5px;
+	background-color:lightblue;
+}
+table.korrektur td{
+	font-size:12pt;
+	padding:5px;
+}
+table.korrektur tr.gerade td{
+	background-color:lightgrey;
+}
+input[type=button]{
+	background-color:transparent;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	border:1px solid black;
+	font-weight:bold;
+	background-color:lightblue;
+}

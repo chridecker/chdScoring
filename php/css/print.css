@@ -1,0 +1,68 @@
+body{
+	margin:0px;
+}
+table{
+	font-family:Arial, Helvetica, sans-serif;
+	border-collapse:collapse;
+	-webkit-print-color-adjust: exact;
+	width:29cm;
+	height: 19.8cm;
+}
+th{
+	font-size:11pt;
+	padding: 0.2cm;
+}
+td{
+	font-size:10pt;
+	padding: 0cm;	
+	
+}
+tr.header th{
+	font-size:12pt;
+	border-bottom: 1px solid black;
+	text-align:center;
+}
+tr.header th.figur{
+	text-align:left;
+}
+tr.header th.judge{
+	padding-left:0.5px;
+	padding-right:0.5px;
+}
+tr.gerade td{
+	background-color: lightgrey;
+}
+img{
+	height:2cm;
+}
+.gesamt th{
+	border-top:1px solid black;
+}
+.gesamt td {
+	border-top:1px solid black;
+	font-size:10pt;
+	font-style:italic;
+}
+.figur{
+	text-align:left;
+	max-width:10cm;
+	overflow:hidden;
+	max-height:12pt;
+}
+th.headline{
+	font-size:14pt;
+	padding-bottom:0cm;
+}
+tr.teilnehmer td{
+	text-align:left;
+}
+tr.teilnehmer th{
+	text-align:left;
+	font-size:12pt;
+	border-bottom: 1px solid black;	
+	background-color:lightblue;
+}
+tr.footer td{
+	padding-top:0cm;
+	text-align:right;
+}

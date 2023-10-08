@@ -1,0 +1,268 @@
+body {
+	margin: 0px;
+	border-collapse:collapse;
+}
+#all {
+	width:100%;
+	height:100%;
+	vertical-align:central;
+}
+
+#header {
+	width:100%;
+	height:auto;
+	border-bottom: double grey;
+}
+#main {
+	width:99.9%;
+	height:75%;
+	float:left;
+	position:relative;
+}
+#teilnehmer_offen{
+	position:relative;
+	float:inherit;
+	width:20%;
+	height:99%;
+}
+
+#teilnehmer_aktuell {
+	margin-left:-2px;
+	position:relative;
+	float:inherit;
+	width:59%;
+	height:99%;
+}
+#buttons{
+	position:relative;
+	float:inherit;
+	width:21%;
+	height:99%;
+	text-align:center;
+}
+#logo {
+	position:fixed;
+	width:auto;
+	height:auto;
+	bottom:0px;
+	right:0px;
+	opacity:0.5;
+}
+
+#footer {
+	position:fixed;
+	width:99%;
+	height:auto;
+	bottom:0px;
+	text-align:center;
+	font-size:12pt;
+	#border-top:1px black dashed;
+}
+#box {
+	visibility:hidden;
+	position:absolute;
+	top:0px;
+	left:0px;
+	height:100%;
+	width:100%;
+	background: rgba(0,0,0,0.85);
+	margin:0px;
+}
+#closebox{
+	position:absolute;
+	top:0px;
+	right:0px;
+	font-size:16pt;
+}
+#inbox {
+	position:absolute;
+	top:1%;
+	left:10%;
+	height:98%;
+	width:80%;
+	background-color:white;
+}
+body{
+	font-family:Arial, Helvetica, sans-serif;
+}
+table{
+	border-collapse:collapse;	
+}
+table.headline {
+	width:100%;
+}
+table.headline th.title{
+	font-size:30pt;
+	background-color: lightblue;
+	color:white;
+	text-shadow: 1px 1px 5px black;
+	padding:5px;
+	border-bottom: 1px solid black;
+	border-top: solid black;
+	vertical-align:text-top;
+}
+table.headline th.login{
+	font-size:12pt;
+	background-color: lightblue;
+	padding:5px;
+	border-bottom: 1px solid black;
+	color:black;
+	vertical-align:text-top;
+	text-align:right;
+}
+table.headline th{
+	font-size:20pt;
+	text-align:center;
+	vertical-align:middle;
+}
+table.headline tr.header th{
+	text-align:center;
+	font-size:12pt;
+	background-color:lightgrey;
+	color:black;
+}
+table.headline td{
+	padding-top:5px;
+	text-align:center;
+	background-color: lightgrey;
+}
+table.headline td.controlButtons{
+	border:none;
+	text-align:right;
+}
+table.headline td.controlButtons img{
+	height:20px;
+	width:25px;
+}
+#main table {
+	width:100%;
+	height:100%;
+}
+table.live {
+	border-collapse:collapse;
+	width:100%;
+	height:100%;
+}
+table.live tr.headline th{
+	font-size:20pt;
+	background-color:lightgrey;
+	text-align:center;
+	padding-bottom:10px;
+	height:20pt;
+}
+table.live tr.header th{
+	font-size:16pt;
+	text-align:left;
+	border-bottom:1px solid;
+	text-align:center;
+	height:16pt;
+}
+table.live tr.gesamt th{
+	font-size:20pt;
+	text-align:right;
+	border:none;
+}
+table.live th{
+	font-size:16pt;
+	text-align:left;
+	border-bottom:1px solid black;
+}
+table.live th.teilnehmer{
+	font-size:16pt;
+	text-align:left;
+	padding-bottom:10px;
+	border:none;
+}
+table.live td{
+	font-size:14pt;
+	padding:5px;
+}
+table.liste {
+	border-collapse:collapse;
+	width:100%;
+	height:100%;
+}
+table.liste tr.headline th{
+	font-size:20pt;
+	background-color:lightgrey;
+	text-align:center;
+	padding-bottom:10px;
+	border-bottom:1px solid black;
+	height:20pt;
+}
+table.liste tr.header th{
+	font-size:16pt;
+	background-color:transparent;
+	text-align:left;
+	border-bottom:1px solid;
+	height:auto;
+}
+table.liste td{
+	font-size:14pt;
+	padding:5px;
+}
+tr.gerade td{
+	background-color:lightgrey;
+}
+input[type=button]{
+	background-color:transparent;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	border:1px solid black;
+	font-weight:bold;
+	background-color:lightblue;
+}
+button{
+	font-family:Arial, Helvetica, sans-serif;
+	border:1px solid black;
+	font-weight:bold;
+	background-color:white;
+	margin-left:10px;
+	margin-right:10px;
+	margin-bottom:10px;
+	font-size:8pt;
+}
+button:hover{
+	background-color:lightgrey;
+}
+button img {
+	height:30px;
+}
+#buttons img {
+	height:80px;
+	margin:10px;
+}
+#buttons button {
+	background-color:lightgrey;
+}
+#buttons button:hover{
+	background-color:lightblue;
+}
+#timer{
+	width:100%;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:40pt;
+	padding-bottom:20px;
+	margin-bottom:20px;
+}
+#timer .header{
+	font-size:20pt;
+	background-color:lightgrey;
+	text-align:center;
+	font-weight:bold;
+	border-bottom:1px solid;
+	margin:0px;
+	padding-bottom:10px;
+}
+#timer .header_grey {
+	font-size:16pt;
+	background-color:lightgrey;
+	text-align:center;
+	border-bottom:1px solid;
+	font-weight:bold;	
+}
+
+.warning{
+	background-color:red;
+}

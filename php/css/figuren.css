@@ -1,0 +1,97 @@
+body {
+	margin:0px;
+}
+table {
+	font-family:Arial, Helvetica, sans-serif;
+	width:80%;
+	border-collapse:collapse;
+	-webkit-print-color-adjust: exact;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+th {
+	background-color:lightblue;
+}
+tr.header th{
+	font-size:14pt;
+	border-bottom: double;
+}
+tr.headline th{
+	padding-top:0.5cm;
+	font-size:12pt;
+	border-bottom:1px solid;
+	border-collapse:collapse;
+}
+td{
+	text-align:left;
+	font-size:12pt;
+	padding:10px;
+}
+tr.gerade td{
+	background-color:lightgrey;
+}
+td input{
+	padding:5px;
+	border:0px;
+	font-size:12pt;
+}
+th input{
+	padding:5px;
+	border:0px;
+	font-size:14pt;
+	background-color:transparent;
+	text-align:center;
+}
+tr.gerade td{
+	background-color:lightgrey;
+}
+tr.gerade td input{
+	background-color:lightgrey;
+}
+input[type=button]{
+	background-color:transparent;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	border:1px solid black;
+	font-weight:bold;
+	background-color:lightblue;
+}
+select{
+	width:500px;
+	background-color:transparent;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	border:1px solid black;
+	font-weight:bold;
+	background-color:lightgrey;
+	text-align:center;
+	padding-left:20px;
+}
+tr.headline th input[type=button]{
+	background-color:lightgrey;
+}
+.name {
+	width:250pt;
+}
+.wert {
+	width: 20pt;
+	text-align:center;
+}
+input[type=button]{
+	background-color:transparent;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	border:1px solid black;
+	font-weight:bold;
+	background-color:lightblue;
+}
+button{
+	background-color:transparent;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12pt;
+	border:1px solid black;
+	font-weight:bold;
+	background-color:lightgrey;
+}

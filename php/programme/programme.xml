@@ -1,0 +1,202 @@
+<?xml version="1.0"?>
+<programme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="schedule.xsd">
+	<programm name="F3A-A16">
+		<beschreibung>Advanced Schedule</beschreibung>
+		<figuren>
+			<figur id="1" k="3">Eye-Catcher with 1/2 roll</figur>
+			<figur id="2" k="2">Half Square Loop</figur>
+			<figur id="3" k="4">Roll Combination with two 1/2 rolls</figur>
+			<figur id="4" k="3">Stall Turn</figur>
+			<figur id="5" k="5">Humpty Bump with 3/4 roll, 3/4 roll</figur>
+			<figur id="6" k="4">Comet with 1/2 roll, 1/2 roll</figur>
+			<figur id="7" k="4">Six-sided Loop</figur>
+			<figur id="8" k="2">Half Loop</figur>
+			<figur id="9" k="4">Figur S</figur>
+			<figur id="10" k="4">Spin with 3 turns</figur>
+			<figur id="11" k="4">45 deg Upline with consec 1/2 roll, 1/2 roll</figur>
+			<figur id="12" k="3">Reverse Pull-Pull-Push-Humpty-Bump</figur>
+			<figur id="13" k="4">Triangle Loop with roll</figur>
+			<figur id="14" k="3">Half Square Loop on Corner with 1/2 roll</figur>
+			<figur id="15" k="4">Roll Combination with consec two rolls</figur>
+			<figur id="16" k="2">Half Cuban 8 with 1/2 roll</figur>
+			<figur id="17" k="5">Avalanche</figur>
+		</figuren>	
+	</programm>
+	<programm name="F3A-A18">
+		<beschreibung>Advanced Schedule</beschreibung>
+		<figuren>
+			<figur id="1" k="3">Triangle loop with 1/2 roll, 1/2 roll</figur>
+			<figur id="2" k="3">Figure Et with cons. two 1/2 rolls in opposite directions, 1/2 roll</figur>
+			<figur id="3" k="5">Cuban 8 with roll, roll</figur>
+			<figur id="4" k="2">Half square loop with 1/2 roll</figur>
+			<figur id="5" k="4">Reverse Cobra Roll with cons. two 1/4 rolls</figur>
+			<figur id="6" k="3">Spin with two turns </figur>
+			<figur id="7" k="3">Figure 9 with 1/2 roll</figur>
+			<figur id="8" k="4">Push-Pull-Push Humpty-Bump with cons. two 1/4 rolls</figur>
+			<figur id="9" k="5">Stall Turn with 3/4 roll, 1/4 roll</figur>
+			<figur id="10" k="3">Half Reverse Cuban 8</figur>
+			<figur id="11" k="4">Knife-Edge flight with 1/4 roll, 1/4 roll</figur>
+			<figur id="12" k="2">Immelman Turn with 1/2 roll</figur>
+			<figur id="13" k="5">Loop with 1/2 roll integrated</figur>
+			<figur id="14" k="2">Half square loop on corner</figur>
+			<figur id="15" k="5">Double Key</figur>
+			<figur id="16" k="3">Half Cuban 8 with 1/2 roll</figur>
+			<figur id="17" k="4">Square loop with 1/2 roll, 1/2 roll</figur>
+		</figuren>	
+	</programm>	
+	<programm name="F3A-P19">
+		<beschreibung>Preliminary Schedule</beschreibung>
+		<figuren>
+			<figur id="1" k="3">Triangle loop with 1/2 roll, consecutive two 1/4 rolls, consecutive two 1/4 roll, 1/2 roll</figur>
+			<figur id="2" k="3">Figure Et with consecutive two 1/2 rolls in opposite directions, consecutive four 1/8 rolls</figur>
+			<figur id="3" k="5">Cuban 8 with snap-roll, snap-roll</figur>
+			<figur id="4" k="2">Half square loop with 1/2 roll</figur>
+			<figur id="5" k="4">Reverse Cobra Roll with roll, consecutive two 1/4 rolls</figur>
+			<figur id="6" k="3">Inverted Spin with two turns</figur>
+			<figur id="7" k="3">Figure 9 with 1/2 roll</figur>
+			<figur id="8" k="4">Push-Push-Push Humpy-Bump with consecutive two 1/4 rolls in opposite directions, consecutive two 1/2 rolls (Option: with 1/4 roll, consecutive 1/2 roll, 1/4 roll in opposite directions, 1/4 roll)</figur>
+			<figur id="9" k="5">Stall Turn with roll, consecutive three 1/4 rolls, 3/4 roll</figur>
+			<figur id="10" k="3">Half Reverse Cuban 8 with roll</figur>
+			<figur id="11" k="4">Knife-Edge flight with 1 1/4 roll, 1 1/4 roll</figur>
+			<figur id="12" k="2">Immelman Turn with 1/2 roll</figur>
+			<figur id="13" k="5">Loop with two 1/2 rolls integrated</figur>
+			<figur id="14" k="2">Half Square Loop on Corner with 1/2 roll</figur>
+			<figur id="15" k="5">Double Key with roll, 1/2 roll, 1/2 roll, roll</figur>
+			<figur id="16" k="3">Half Cuban 8 with consecutive two 1/4 rolls</figur>
+			<figur id="17" k="4">Square Loop with, 1/2 roll, 1/2 roll, 1/2 roll, 1/2 roll</figur>
+		</figuren>
+	</programm>
+	<programm name="F3A-P17">
+		<beschreibung>Preliminary Schedule</beschreibung>
+		<figuren>
+			<figur id="1" k="3">Eye-Catcher with 1/2 roll, 1/2 roll</figur>
+			<figur id="2" k="2">Half Square Loop with 1/2 roll</figur>
+			<figur id="3" k="4">Knife Edge Combo with 1/4roll, roll, 1/4 roll</figur>
+			<figur id="4" k="3">Stall Turn with 2x conse 1/4 rolls</figur>
+			<figur id="5" k="5">Humpty Bump with 3/4 roll, 1/2 knife-edge loop, 3/4 roll</figur>
+			<figur id="6" k="3">Komet with 2x consec 1/4 rolls, 1/2 roll</figur>
+			<figur id="7" k="4">Six-sided loop with 2x 1/4 rolls, roll, 2x consesc 1/4 rolls</figur>
+			<figur id="8" k="3">Split S Reverse Immelmann Combintation with 2x 1/2 rolls, 2 1/2 rolls</figur>
+			<figur id="9" k="5">Figur S with 1/2 integrated</figur>
+			<figur id="10" k="4">Spin with 3 turns, 1/2 roll</figur>
+			<figur id="11" k="4">45 deg Upline with consec 1/2 roll, roll, 1/2 roll</figur>
+			<figur id="12" k="3">Reverse Pull-Pull-Push Humpty-Bump with roll</figur>
+			<figur id="13" k="4">Triangle Loop with 2x consec 1/4 rolls, 2x consec 1/4 rolls, 4x consec 1/4 rolls</figur>
+			<figur id="14" k="2">half Square loop on corner with 1/2 roll</figur>
+			<figur id="15" k="4">Roll Combination with consec 1/2 roll, snap roll, 1/2 roll</figur>
+			<figur id="16" k="2">Half Cuban 8 with consec 2x 1/4 rolls</figur>
+			<figur id="17" k="5">Loop with roll integrated</figur>
+		</figuren>	
+	</programm>	
+	<programm name="F3A-F19">
+		<beschreibung>Semi-Final and Final Schedule</beschreibung>
+		<figuren>
+			<figur id="1" k="4">Square Loop with 1/2 roll integrated, 1/2 roll integrated, 1/2 roll integrated, 1/2 roll integrated</figur>
+			<figur id="2" k="3">Figure 9 with two rolls</figur>
+			<figur id="3" k="5">Vertical 8 with roll integrated</figur>
+			<figur id="4" k="3">Stall Turn with consecutive 1/2 rolls in opposite directions</figur>
+			<figur id="5" k="6">Push-Knife-Edge-Push Humpty-Bump with 1 1/4 snap-roll, 1 1/4 snap-roll</figur>
+			<figur id="6" k="3">Shark Fin with four consecutive 1/4 rolls, 1/2 roll</figur>
+			<figur id="7" k="4">Roll Combination with four 1/8 rolls, four 1/8 rolls in opposite direction</figur>
+			<figur id="8" k="3">Top Hat with two consecutive 1/4 rolls, roll</figur>
+			<figur id="9" k="6">Two Horizontal Circles with 1/2 roll to the inside integrated, roll integrated in opposite direction, 1/2 roll integrated in opposite direction</figur>
+			<figur id="10" k="2">Trombone with roll</figur>
+			<figur id="11" k="6">Double Fighter Turn with 3/4 roll, 3/4 roll</figur>
+			<figur id="12" k="4">Inverted Figure Et with 1/2 roll, roll</figur>
+			<figur id="13" k="4">Inverted Spin with two turns, two consecutive 1/4 rolls</figur>
+			<figur id="14" k="4">Pull-Push-Pull Humpty-Bump with snap-roll, 1/2 roll (Option: with 1 1/4 snap-roll, 3/4 roll)</figur>
+			<figur id="15" k="4">Roll Combination with consecutive two 1/8 rolls, roll in opposite direction, consecutive two 1/8 rolls in opposite direction</figur>
+			<figur id="16" k="4">Half Loop with two 1/2 rolls in opposite directions integrated</figur>
+			<figur id="17" k="5">45 deg Downline with consecutive 1/2 roll, two snap-rolls in opposite directions, 1/2 roll</figur>
+		</figuren>
+	</programm>
+	<programm name="F3A-F17">
+		<beschreibung>Semi-Final and Final Schedule</beschreibung>
+		<figuren>
+			<figur id="1" k="4">Triangle with two consecutive 1/4 rolls, two consecutive rolls, two consecutive 1/4 rolls</figur>
+			<figur id="2" k="3">Turnaround-Avalanche with snap-roll</figur>
+			<figur id="3" k="5">Roll Combination with consecutive 1/2 roll, two 1 1/4 snap-rolls, 1/2 roll</figur>
+			<figur id="4" k="3">Half Square Loop with two consecutive 1/4 rolls, two consecutive 1/4 rolls</figur>
+			<figur id="5" k="5">Two Loops with rolls integrated</figur>
+			<figur id="6" k="2">Half Square Loop with consecutive roll, 1/2 roll </figur>
+			<figur id="7" k="4">Barrel-Roll</figur>
+			<figur id="8" k="4">Knife-Edge Split S Reverse Immelmann Combination with 1/4 roll, 3/4 roll</figur>
+			<figur id="9" k="6">Horizontal Double Immelmann Circle with 1/4 roll, 1/2 roll integrated, 1 1/2 snap-roll, 1/2 roll integrated, 1 1/2 snap-roll, 1/4 roll</figur>
+			<figur id="10" k="4">Figure 6 with stall turn, roll</figur>
+			<figur id="11" k="6">Inverted Top Hat with 1/4 roll, roll, 1/4 roll</figur>
+			<figur id="12" k="3">Figure 9 with consecutive 1/2 roll, roll</figur>
+			<figur id="13" k="4">Big-M with two consecutive 1/4 rolls, 1/2 roll, 1/2 roll integrated, 1/2 roll, two consecutive 1/4 rolls</figur>
+			<figur id="14" k="4">Fighter Turn with 1/4 roll, 1/4 roll integrated, 1/4 roll</figur>
+			<figur id="15" k="5">Figure Z with snap-roll, consecutive 1/2 roll, roll, 1/2 roll, snap-roll</figur>
+			<figur id="16" k="4">Clown Dance with 1/2 roll integrated, spin 2 turns, 1/2 roll</figur>
+			<figur id="17" k="4">Knife-Edge Loop with consecutive eight 1/8 rolls integrated</figur>
+		</figuren>
+	</programm>
+	<programm name="F3P-AA17">
+		<beschreibung>Advanced Schedule F3P Indoor</beschreibung>
+		<figuren>
+			<figur id="1" k="3">Tilted Humpty-Bump with 1/2 roll, 1/2 roll</figur>
+			<figur id="2" k="3">Stall Turn</figur>
+			<figur id="3" k="6">Horizontal Circle 8</figur>
+			<figur id="4" k="2">Half Horizontal Square Circle</figur>
+			<figur id="5" k="4">Roll Combination with consecutive 1/2 roll, 1/2 roll, 1/2 roll</figur>
+			<figur id="6" k="3">Knife-Edge Humpty-Bump with 1/2 roll</figur>
+			<figur id="7" k="5">Cobra Roll with 1/2 roll, 1/2 roll</figur>
+			<figur id="8" k="3">1/2 Horizontal Circle</figur>
+			<figur id="9" k="5">Vertical Upline with consecutive two 1/2 rolls(Option: Vertical Upline with torque-roll)</figur>
+			<figur id="10" k="3">1/2 Square Loop</figur>
+			<figur id="11" k="5">Loop with 1/2 roll</figur>
+
+		</figuren>
+	</programm>
+	<programm name="F3P-AP17">
+		<beschreibung>Preliminary Schedule F3P Indoor</beschreibung>
+		<figuren>
+			<figur id="1" k="3">Double Immelman with roll, roll</figur>
+			<figur id="2" k="3">Figure M with 1/4 roll, 1/4 roll</figur>
+			<figur id="3" k="6">Horizontal Circle 8 with two rolls</figur>
+			<figur id="4" k="2">1/2 Horizontal Square Circle with two consecutive 1/4 rolls</figur>
+			<figur id="5" k="4">Roll Combination with consecutive 1 1/4 roll, 1 1/4 roll</figur>
+			<figur id="6" k="3">Knife-Edge Humpty-Bump with two consecutive 1/2 rolls, 1/2 roll</figur>
+			<figur id="7" k="3">Knife-Edge Cobra Roll with 1/4 roll, 1/4 roll, 3/4 roll, 3/4 roll</figur>
+			<figur id="8" k="5">1/2 Horizontal Circle with four consecutive 1/4 rolls</figur>
+			<figur id="9" k="5">Vertical Upline with consecutive two 1/2 torque rolls</figur>
+			<figur id="10" k="3">1/2 Square Loop with consecutive two 1/4 rolls</figur>
+			<figur id="11" k="5">Knife-Edge Loop with 1/4 roll, 1/2 roll, 1/4 roll</figur>
+
+		</figuren>
+	</programm>
+	<programm name="F3P-AF17">
+		<beschreibung>Semi-Final and Final  Schedule F3P Indoor</beschreibung>
+		<figuren>
+			<figur id="1" k="3">Knife-Edge Humpty-Bump with 3/4 roll, 3/4 roll</figur>
+			<figur id="2" k="3">Figure 9 with roll</figur>
+			<figur id="3" k="5">Vertical 8 with roll integrated</figur>
+			<figur id="4" k="4">1/2 Horizontal Circle with consecutive eight 1/8 rolls</figur>
+			<figur id="5" k="6">Horizontal Double Immelmann Circle with 1/4 roll, 1/2 roll integrated, 1 1/2 roll, 1/2 roll integrated, 1 1/2 roll, 1/4 roll</figur>
+			<figur id="6" k="3">Knife-Edge Top Hat with two consecutive 1/2 rolls, two consecutive 1/4 rolls</figur>
+			<figur id="7" k="6">Double Fighter Turn with 3/4 roll, 3/4 roll</figur>
+			<figur id="8" k="4">1/2 Horizontal Square Circle with 1/4 roll, two consecutive 1/2 rolls, 1/4 roll</figur>
+			<figur id="9" k="5">Barrel Roll</figur>
+			<figur id="10" k="2">1/2 Square Loop with roll</figur>
+			<figur id="11" k="6">Clover Leaf with 1/2 torque roll, 3/4 torque roll, 3/4 torque roll</figur>
+
+		</figuren>
+	</programm>
+	<programm name="F3P-AF19">
+		<beschreibung>Semi-Final and Final  Schedule F3P Indoor</beschreibung>
+		<figuren>
+			<figur id="1" k="3">Knife-Edge Humpty-Bump with 3/4 roll, 3/4 roll</figur>
+			<figur id="2" k="3">Figure 9 with roll</figur>
+			<figur id="3" k="5">Vertical 8 with roll integrated</figur>
+			<figur id="4" k="4">1/2 Horizontal Circle with consecutive eight 1/8 rolls</figur>
+			<figur id="5" k="6">Horizontal Double Immelmann Circle with 1/4 roll, 1/2 roll integrated, 1 1/2 roll, 1/2 roll integrated, 1 1/2 roll, 1/4 roll</figur>
+			<figur id="6" k="3">Knife-Edge Top Hat with two consecutive 1/2 rolls, two consecutive 1/4 rolls</figur>
+			<figur id="7" k="6">Double Fighter Turn with 3/4 roll, 3/4 roll</figur>
+			<figur id="8" k="4">1/2 Horizontal Square Circle with 1/4 roll, two consecutive 1/2 rolls, 1/4 roll</figur>
+			<figur id="9" k="5">Barrel Roll</figur>
+			<figur id="10" k="2">1/2 Square Loop with roll</figur>
+			<figur id="11" k="6">Clover Leaf with 1/2 torque roll, 3/4 torque roll, 3/4 torque roll</figur>
+		</figuren>
+	</programm>
+</programme>
