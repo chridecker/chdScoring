@@ -9,24 +9,14 @@ namespace chdScoring.Main.UI
 {
     public partial class MainForm : Form
     {
-        private readonly ILogNotifyService _logNotifyService;
         private readonly IApiLogger _apiLogger;
-        private readonly ICountryImageRepository _countryImageRepository;
 
-        public MainForm(ILogNotifyService logNotifyService, IApiLogger apiLogger, ICountryImageRepository countryImageRepository)
+        public MainForm(IApiLogger apiLogger)
         {
             InitializeComponent();
 
             this.Resize += this.MainForm_Resize;
-            this._logNotifyService = logNotifyService;
             this._apiLogger = apiLogger;
-            this._countryImageRepository = countryImageRepository;
-            this._logNotifyService.LogUpdate += this._logNotifyService_LogUpdate;
-        }
-
-        private void _logNotifyService_LogUpdate(object? sender, EventArgs e)
-        {
-            this.Invoke(() => this.textBoxWebLog.Text = this._apiLogger.Text);
         }
 
         private void MainForm_Resize(object? sender, EventArgs e)
@@ -56,14 +46,6 @@ namespace chdScoring.Main.UI
         {
             this.Show();
             this.WindowState = FormWindowState.Maximized;
-
-        }
-
-        private async void button1_Click(object sender, EventArgs e)
-        {
-            Country_Images img = await this._countryImageRepository.FindById(207, CancellationToken.None);
-            using var ms = new MemoryStream(img.Img_Data);
-            var _image = Image.FromStream(ms, true, true);
 
         }
     }

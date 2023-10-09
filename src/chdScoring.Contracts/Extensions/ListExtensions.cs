@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace chdScoring.BusinessLogic.Extensions
+namespace chdScoring.Contracts.Extensions
 {
     public static class ListExtensions
     {

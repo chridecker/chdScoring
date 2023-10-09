@@ -1,55 +1,30 @@
-﻿using chdScoring.BusinessLogic.Extensions;
-using chdScoring.DataAccess.Contracts.Domain;
+﻿using chdScoring.DataAccess.Contracts.DAL;
+using chdScoring.DataAccess.Contracts.DAL.Base;
 using chdScoring.DataAccess.Contracts.Repositories;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Hosting;
+using chdScoring.DataAccess.DAL.Base;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using chdScoring.Contracts.Extensions;
 
-namespace chdScoring.Main.UI.Services
+namespace chdScoring.DataAccess.DAL
 {
-    public class chdScoringCacheService : BackgroundService
+    public class TBLDAL : BaseDAL, ITBLDAL
     {
-        private readonly ITeilnehmerRepository _teilnehmerRepository;
-        private readonly IStammDatenRepository _stammDatenRepository;
-        private readonly IJudgeRepository _judgeRepository;
-        private readonly IJudgePanelRepository _judgePanelRepository;
-        private readonly IDurchgangPanelRepository _durchgangPanelRepository;
-        private readonly IDurchgangProgramRepository _durchgangProgramRepository;
-        private readonly IFigurProgrammRepository _figurProgrammRepository;
-        private readonly IFigurRepository _figurRepository;
-        private readonly IWertungRepository _wertungRepository;
-        private readonly IProgrammRepository _programmRepository;
-
-        public chdScoringCacheService(ITeilnehmerRepository teilnehmerRepository, IStammDatenRepository stammDatanRepository,
-            IJudgeRepository judgeRepository, IJudgePanelRepository judgePanelRepository, IDurchgangPanelRepository durchgangPanelRepository,
-            IDurchgangProgramRepository durchgangProgramRepository, IFigurProgrammRepository figurProgrammRepository, IFigurRepository figurRepository,
-            IWertungRepository wertungRepository, IProgrammRepository programmRepository)
+        public TBLDAL(ILogger<TBLDAL> logger, IWettkampfLeitungRepository wettkampfLeitungRepository, ITeilnehmerRepository teilnehmerRepository, IJudgeRepository judgeRepository, IFigurRepository figurRepository, IProgrammRepository programmRepository, IWertungRepository wertungRepository, IKlasseRepository klasseRepository, ICountryImageRepository countryImageRepository, IImageRepository imageRepository, IDurchgangPanelRepository durchgangPanelRepository, IDurchgangProgramRepository durchgangProgramRepository, IFigurProgrammRepository figurProgrammRepository, IJudgePanelRepository judgePanelRepository, IStammDatenRepository stammDatenRepository, IBebwerbRepository bebwerbRepository, IDurchgangRepository durchgangRepository, ITeilnehmerBewerbRepository teilnehmerBewerbRepository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, figurProgrammRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
         {
-            this._teilnehmerRepository = teilnehmerRepository;
-            this._stammDatenRepository = stammDatanRepository;
-            this._judgeRepository = judgeRepository;
-            this._judgePanelRepository = judgePanelRepository;
-            this._durchgangPanelRepository = durchgangPanelRepository;
-            this._durchgangProgramRepository = durchgangProgramRepository;
-            this._figurProgrammRepository = figurProgrammRepository;
-            this._figurRepository = figurRepository;
-            this._wertungRepository = wertungRepository;
-            this._programmRepository = programmRepository;
         }
-
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        public async Task Calculate(int round,CancellationToken stoppingToken)
         {
             try
             {
-
                 var stammdaten = await this._stammDatenRepository.FindAll(stoppingToken);
                 var judgesPanels = await this._judgePanelRepository.FindAll(stoppingToken);
                 var teilnehmerLst = await this._teilnehmerRepository.FindAll(stoppingToken);
-                var round = 1;
 
                 var resDict = new Dictionary<int, decimal>();
 
@@ -64,12 +39,10 @@ namespace chdScoring.Main.UI.Services
                 var figurenInProgram = (await this._figurProgrammRepository.FindAll(stoppingToken)).Where(x => x.Programm == program.Programm);
                 var figuren = allFiguren.Where(x => figurenInProgram.Any(a => a.Figur == x.Id));
 
-                var figurMapDict = new Dictionary<int,decimal>();
-                var c = 1;
-                foreach(var figure in allFiguren.OrderBy(o => o.Id))
+                var figurMapDict = new Dictionary<int, decimal>();
+                for (int i = 1; i <= allFiguren.Count(); i++)
                 {
-                    figurMapDict[c]=figure.Wert;
-                    c++;
+                    figurMapDict[i] = allFiguren.ElementAt(i - 1).Wert;
                 }
 
                 var teilnehmerRes = new Dictionary<int, decimal>();
@@ -106,8 +79,11 @@ namespace chdScoring.Main.UI.Services
                     var jStdv = judgeAvg[judge.Id].Select(s => s.Value).StandardDeviation();
                     foreach (var teilnehmer in teilnehmerLst)
                     {
-                        var avg = teilnehmerJRes[teilnehmer.Id][judge.Id];
-                        var val = avgAll + ((avg + avgAll - jAvg) - avgAll) * stdvAll / jStdv;
+                        var val = teilnehmerJRes[teilnehmer.Id][judge.Id];
+                        val = val + avgAll - jAvg;
+
+                        val = val - (val - avgAll - (val - avgAll) * (stdvAll / jStdv));
+
                         teilnehmerJRes[teilnehmer.Id][judge.Id] = val;
                     }
                 }

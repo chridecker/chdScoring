@@ -1,4 +1,5 @@
-﻿using System;
+﻿using chdScoring.Contracts.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,6 +11,6 @@ namespace chdScoring.DataAccess.Contracts.Domain
         public int Teilnehmer { get; set; }
         public int Durchgang { get; set; }
         public int Status { get; set; }
-        public TimeSpan Start_Time { get; set; }
+        public DateTime Start_Time { get; set; }
     }
 }
