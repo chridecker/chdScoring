@@ -20,6 +20,7 @@ namespace chdScoring.BusinessLogic.Extensions
 
         public async Task InvokeAsync(HttpContext context, IApiLogger logger)
         {
+            var time = DateTime.Now;
             string body = string.Empty;
             if (context.Request.Method == HttpMethods.Post
                 && context.Request.Path.Value.EndsWith("score/save"))
@@ -27,7 +28,7 @@ namespace chdScoring.BusinessLogic.Extensions
                 var score = await JsonSerializer.DeserializeAsync<SaveScoreDto>(context.Request.Body);
             }
 
-            await logger.Log($"{context.Request.Method} {context.Request.Path}: " +
+            await logger.Log($"{time}: {context.Request.Method} {context.Request.Path}" +
                 $"{string.Join(",", context.Request.Query.Select(s => $"{s.Key}->{s.Value}"))} {body}");
             await this._next(context);
         }

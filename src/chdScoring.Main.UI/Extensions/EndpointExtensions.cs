@@ -1,6 +1,7 @@
 ﻿using chdScoring.BusinessLogic.Services;
 using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Dtos;
+using chdScoring.DataAccess.Contracts.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,16 +29,22 @@ namespace chdScoring.Main.UI.Extensions
                 .WithName(EndpointConstants.GET_Test_Connection);
 
 
-            judges.MapGet($"{EndpointConstants.GET_Flight}", (int judge, IFlightCacheService flightCacheService) => Results.Ok(flightCacheService.GetCurrentFlight()))
+            judges.MapGet($"{EndpointConstants.GET_Flight}", (IFlightCacheService flightCacheService) => Results.Ok(flightCacheService.GetCurrentFlight()))
                 .WithName(EndpointConstants.GET_Flight);
 
+            judges.MapGet(string.Empty, async (IJudgeRepository judgeRepo, CancellationToken cancellationToken) =>
+            {
+                var judges = await judgeRepo.FindAll(cancellationToken);
+                return judges.Select(s => new JudgeDto { Id = s.Id, Name = $"{s.Vorname} {s.Name}" });
+            }).WithName(string.Empty);
 
-            scoring.MapPost("savescore", async (SaveScoreDto dto,IScoreService service, CancellationToken cancellationToken) =>
+
+            scoring.MapPost(EndpointConstants.POST_Save, async (SaveScoreDto dto, IScoreService service, CancellationToken cancellationToken) =>
             {
                 return Results.Ok(await service.SaveScore(dto, cancellationToken));
-            }).WithName("savescore");
+            }).WithName(EndpointConstants.POST_Save);
 
-          
+
 
 
             return app;

@@ -11,6 +11,6 @@ namespace chdScoring.Contracts.Constants
 
         public const string GET_Test_Connection = "TestConnection";
         public const string GET_Flight = "flight";
-        public const string POST_Save = "save";
+        public const string POST_Save = "savescore";
     }
 }

@@ -50,7 +50,7 @@
             this.notifyIconMain.BalloonTipTitle = "chdScoring Title";
             this.notifyIconMain.ContextMenuStrip = this.contextMenuStripSysTray;
             this.notifyIconMain.Icon = (Icon)resources.GetObject("notifyIconMain.Icon");
-            this.notifyIconMain.Text = "Text";
+            this.notifyIconMain.Text = "chdScoring";
             this.notifyIconMain.Visible = true;
             this.notifyIconMain.MouseDoubleClick += this.notifyIconMain_MouseDoubleClick;
             // 
@@ -81,7 +81,7 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = DockStyle.Fill;
             this.tabControl1.Location = new Point(0, 0);
-            this.tabControl1.Margin = new Padding(2, 2, 2, 2);
+            this.tabControl1.Margin = new Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new Size(1125, 554);
@@ -90,9 +90,9 @@
             // tabPage1
             // 
             this.tabPage1.Location = new Point(4, 24);
-            this.tabPage1.Margin = new Padding(2, 2, 2, 2);
+            this.tabPage1.Margin = new Padding(2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new Padding(2, 2, 2, 2);
+            this.tabPage1.Padding = new Padding(2);
             this.tabPage1.Size = new Size(1117, 526);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
@@ -102,9 +102,9 @@
             // 
             this.tabPage2.Controls.Add(this.textBoxWebLog);
             this.tabPage2.Location = new Point(4, 24);
-            this.tabPage2.Margin = new Padding(2, 2, 2, 2);
+            this.tabPage2.Margin = new Padding(2);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new Padding(2, 2, 2, 2);
+            this.tabPage2.Padding = new Padding(2);
             this.tabPage2.Size = new Size(1117, 526);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
@@ -113,7 +113,7 @@
             // textBoxWebLog
             // 
             this.textBoxWebLog.Location = new Point(4, 3);
-            this.textBoxWebLog.Margin = new Padding(2, 2, 2, 2);
+            this.textBoxWebLog.Margin = new Padding(2);
             this.textBoxWebLog.Multiline = true;
             this.textBoxWebLog.Name = "textBoxWebLog";
             this.textBoxWebLog.Size = new Size(845, 436);
@@ -126,7 +126,7 @@
             this.ClientSize = new Size(1125, 554);
             this.Controls.Add(this.tabControl1);
             this.Icon = (Icon)resources.GetObject("$this.Icon");
-            this.Margin = new Padding(2, 2, 2, 2);
+            this.Margin = new Padding(2);
             this.Name = "MainForm";
             this.Text = "chdScoring";
             this.contextMenuStripSysTray.ResumeLayout(false);
