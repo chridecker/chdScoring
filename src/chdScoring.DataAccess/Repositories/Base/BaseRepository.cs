@@ -28,20 +28,24 @@ namespace chdScoring.DataAccess.Repositories.Base
 
         public Task Commit(CancellationToken cancellationToken) => this._context.Database.CommitTransactionAsync(cancellationToken);
         public Task Rollback(CancellationToken cancellationToken) => this._context.Database.RollbackTransactionAsync(cancellationToken);
-        public async Task SetTransaction(DbTransaction transaction)
-        {
-            this._currentTransaction = await this._context.Database.UseTransactionAsync(transaction);
-        }
-        public async Task CreateTransaction(CancellationToken cancellationToken)
+        public async Task SetTransaction(DbTransaction transaction, CancellationToken cancellationToken)
+        => this._currentTransaction = await this._context.Database.UseTransactionAsync(transaction, cancellationToken);
+
+
+        public async Task<DbTransaction> CreateTransaction(CancellationToken cancellationToken)
         {
             if (this._currentTransaction == null)
             {
-                //await this._context.Database.OpenConnectionAsync(cancellationToken);
                 this._currentTransaction = await this._context.Database.BeginTransactionAsync(cancellationToken);
             }
+            return this._currentTransaction.GetDbTransaction();
         }
 
-
+        public async Task<bool> SaveAsync(TEntity entity, CancellationToken cancellationToken)
+        {
+            await this._context.AddAsync<TEntity>(entity, cancellationToken);
+            return (await this._context.SaveChangesAsync(cancellationToken)) == 1;
+        }
         public async Task<IEnumerable<TEntity>> FindAll(CancellationToken cancellationToken) => await this._context.Set<TEntity>().ToListAsync(cancellationToken);
 
 

@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace chdScoring.DataAccess.Repositories
 {
@@ -14,5 +16,8 @@ namespace chdScoring.DataAccess.Repositories
         public TeilnehmerRepository(ILogger<TeilnehmerRepository> logger, chdScoringContext context) : base(logger, context)
         {
         }
+
+        public Task<Teilnehmer> FindById(int teilnehmer, CancellationToken cancellationToken)
+        => this._context.Teilnehmer.FindAsync(teilnehmer,cancellationToken).AsTask();
     }
 }

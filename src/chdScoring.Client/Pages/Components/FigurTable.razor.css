@@ -1,0 +1,34 @@
+﻿table.wertungen {
+    border-collapse: collapse;
+    width: 100%;
+    height: 100%;
+    border-right: 1px solid black;
+}
+
+    table.wertungen th.headline {
+        font-size: 15pt;
+        background-color: lightblue;
+        border-bottom: 1px solid;
+        text-align: center;
+        padding-bottom: 3px;
+    }
+
+    table.wertungen tr.header th {
+        font-size: 14pt;
+        border-bottom: 1px solid;
+        text-align: center;
+    }
+
+    table.wertungen td {
+        font-size: 15pt;
+    }
+
+        table.wertungen td.score {
+            font-size: 15pt;
+            font-weight: bold;
+            text-align: center;
+        }
+
+    table.wertungen tr.grey td {
+        background-color: lightgrey;
+    }

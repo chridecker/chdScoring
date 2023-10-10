@@ -9,9 +9,9 @@ namespace chdScoring.DataAccess.Contracts.Interfaces
 {
     public interface IBaseRepository
     {
-        Task CreateTransaction(CancellationToken cancellationToken);
+        Task<DbTransaction> CreateTransaction(CancellationToken cancellationToken);
         Task Commit(CancellationToken cancellationToken);
         Task Rollback(CancellationToken cancellationToken);
-        Task SetTransaction(DbTransaction transaction);
+        Task SetTransaction(DbTransaction transaction, CancellationToken cancellationToken);
     }
 }

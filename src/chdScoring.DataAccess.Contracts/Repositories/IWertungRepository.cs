@@ -11,6 +11,8 @@ namespace chdScoring.DataAccess.Contracts.Repositories
 {
     public interface IWertungRepository : IBaseEntityRepository<Wertung>
     {
+        Task<bool> Exists(int pilot, int round, int figur, int judge, CancellationToken cancellationToken);
         Task<IEnumerable<Wertung>> FindByRound(int round, CancellationToken stoppingToken);
+        Task<IEnumerable<Wertung>> GetScoresToPilotInRound(int id, int round, CancellationToken cancellationToken);
     }
 }

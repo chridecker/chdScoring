@@ -30,130 +30,122 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            notifyIconMain = new NotifyIcon(this.components);
-            contextMenuStripSysTray = new ContextMenuStrip(this.components);
-            öffnenToolStripMenuItem = new ToolStripMenuItem();
-            schließenToolStripMenuItem = new ToolStripMenuItem();
-            tabControl1 = new TabControl();
-            tabPage1 = new TabPage();
-            tabPage2 = new TabPage();
-            textBoxWebLog = new TextBox();
-            pictureBox1 = new PictureBox();
-            button1 = new Button();
-            contextMenuStripSysTray.SuspendLayout();
-            tabControl1.SuspendLayout();
-            tabPage1.SuspendLayout();
-            tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            this.notifyIconMain = new NotifyIcon(this.components);
+            this.contextMenuStripSysTray = new ContextMenuStrip(this.components);
+            this.öffnenToolStripMenuItem = new ToolStripMenuItem();
+            this.schließenToolStripMenuItem = new ToolStripMenuItem();
+            this.tabControl1 = new TabControl();
+            this.tabPage1 = new TabPage();
+            this.tabPage2 = new TabPage();
+            this.textBoxWebLog = new TextBox();
+            this.button1 = new Button();
+            this.contextMenuStripSysTray.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIconMain
             // 
-            notifyIconMain.BalloonTipIcon = ToolTipIcon.Info;
-            notifyIconMain.BalloonTipText = "chdScoring";
-            notifyIconMain.BalloonTipTitle = "chdScoring Title";
-            notifyIconMain.ContextMenuStrip = contextMenuStripSysTray;
-            notifyIconMain.Icon = (Icon)resources.GetObject("notifyIconMain.Icon");
-            notifyIconMain.Text = "Text";
-            notifyIconMain.Visible = true;
-            notifyIconMain.MouseDoubleClick += this.notifyIconMain_MouseDoubleClick;
+            this.notifyIconMain.BalloonTipIcon = ToolTipIcon.Info;
+            this.notifyIconMain.BalloonTipText = "chdScoring";
+            this.notifyIconMain.BalloonTipTitle = "chdScoring Title";
+            this.notifyIconMain.ContextMenuStrip = this.contextMenuStripSysTray;
+            this.notifyIconMain.Icon = (Icon)resources.GetObject("notifyIconMain.Icon");
+            this.notifyIconMain.Text = "chdScoring";
+            this.notifyIconMain.Visible = true;
+            this.notifyIconMain.MouseDoubleClick += this.notifyIconMain_MouseDoubleClick;
             // 
             // contextMenuStripSysTray
             // 
-            contextMenuStripSysTray.ImageScalingSize = new Size(28, 28);
-            contextMenuStripSysTray.Items.AddRange(new ToolStripItem[] { öffnenToolStripMenuItem, schließenToolStripMenuItem });
-            contextMenuStripSysTray.Name = "contextMenuStripSysTray";
-            contextMenuStripSysTray.Size = new Size(175, 76);
+            this.contextMenuStripSysTray.ImageScalingSize = new Size(28, 28);
+            this.contextMenuStripSysTray.Items.AddRange(new ToolStripItem[] { this.öffnenToolStripMenuItem, this.schließenToolStripMenuItem });
+            this.contextMenuStripSysTray.Name = "contextMenuStripSysTray";
+            this.contextMenuStripSysTray.Size = new Size(126, 48);
             // 
             // öffnenToolStripMenuItem
             // 
-            öffnenToolStripMenuItem.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            öffnenToolStripMenuItem.Name = "öffnenToolStripMenuItem";
-            öffnenToolStripMenuItem.Size = new Size(174, 36);
-            öffnenToolStripMenuItem.Text = "Öffnen";
+            this.öffnenToolStripMenuItem.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            this.öffnenToolStripMenuItem.Name = "öffnenToolStripMenuItem";
+            this.öffnenToolStripMenuItem.Size = new Size(125, 22);
+            this.öffnenToolStripMenuItem.Text = "Öffnen";
             // 
             // schließenToolStripMenuItem
             // 
-            schließenToolStripMenuItem.Name = "schließenToolStripMenuItem";
-            schließenToolStripMenuItem.Size = new Size(174, 36);
-            schließenToolStripMenuItem.Text = "Schließen";
-            schließenToolStripMenuItem.Click += this.schließenToolStripMenuItem_Click;
+            this.schließenToolStripMenuItem.Name = "schließenToolStripMenuItem";
+            this.schließenToolStripMenuItem.Size = new Size(125, 22);
+            this.schließenToolStripMenuItem.Text = "Schließen";
+            this.schließenToolStripMenuItem.Click += this.schließenToolStripMenuItem_Click;
             // 
             // tabControl1
             // 
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
-            tabControl1.Dock = DockStyle.Fill;
-            tabControl1.Location = new Point(0, 0);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1929, 1109);
-            tabControl1.TabIndex = 1;
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = DockStyle.Fill;
+            this.tabControl1.Location = new Point(0, 0);
+            this.tabControl1.Margin = new Padding(2);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new Size(1125, 554);
+            this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
             // 
-            tabPage1.Controls.Add(button1);
-            tabPage1.Controls.Add(pictureBox1);
-            tabPage1.Location = new Point(4, 39);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1921, 1066);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "tabPage1";
-            tabPage1.UseVisualStyleBackColor = true;
+            this.tabPage1.Location = new Point(4, 24);
+            this.tabPage1.Margin = new Padding(2);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new Padding(2);
+            this.tabPage1.Size = new Size(1117, 526);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(textBoxWebLog);
-            tabPage2.Location = new Point(4, 39);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1921, 1066);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
-            tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Controls.Add(this.button1);
+            this.tabPage2.Controls.Add(this.textBoxWebLog);
+            this.tabPage2.Location = new Point(4, 24);
+            this.tabPage2.Margin = new Padding(2);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new Padding(2);
+            this.tabPage2.Size = new Size(1117, 526);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // textBoxWebLog
             // 
-            textBoxWebLog.Location = new Point(6, 6);
-            textBoxWebLog.Multiline = true;
-            textBoxWebLog.Name = "textBoxWebLog";
-            textBoxWebLog.Size = new Size(1446, 869);
-            textBoxWebLog.TabIndex = 0;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Location = new Point(881, 341);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(589, 343);
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
+            this.textBoxWebLog.Location = new Point(4, 3);
+            this.textBoxWebLog.Margin = new Padding(2);
+            this.textBoxWebLog.Multiline = true;
+            this.textBoxWebLog.Name = "textBoxWebLog";
+            this.textBoxWebLog.ScrollBars = ScrollBars.Vertical;
+            this.textBoxWebLog.Size = new Size(941, 519);
+            this.textBoxWebLog.TabIndex = 0;
             // 
             // button1
             // 
-            button1.Location = new Point(867, 199);
-            button1.Name = "button1";
-            button1.Size = new Size(131, 40);
-            button1.TabIndex = 1;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += this.button1_Click;
+            this.button1.Location = new Point(950, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Clear";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += this.button1_Click;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new SizeF(12F, 30F);
+            this.AutoScaleDimensions = new SizeF(7F, 15F);
             this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(1929, 1109);
-            this.Controls.Add(tabControl1);
+            this.ClientSize = new Size(1125, 554);
+            this.Controls.Add(this.tabControl1);
             this.Icon = (Icon)resources.GetObject("$this.Icon");
+            this.Margin = new Padding(2);
             this.Name = "MainForm";
             this.Text = "chdScoring";
-            contextMenuStripSysTray.ResumeLayout(false);
-            tabControl1.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
-            tabPage2.ResumeLayout(false);
-            tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            this.contextMenuStripSysTray.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
         }
 
@@ -167,7 +159,6 @@
         private TabPage tabPage1;
         private TabPage tabPage2;
         private TextBox textBoxWebLog;
-        private PictureBox pictureBox1;
         private Button button1;
     }
 }

@@ -9,20 +9,20 @@ namespace chdScoring.BusinessLogic.Services
     public class ApiLogger : IApiLogger
     {
         private readonly StringBuilder _log = new StringBuilder();
-        private readonly ILogNotifyService _logNotifyService;
 
+        public event EventHandler LogAdded;
         public string Text => _log.ToString();
 
-        public ApiLogger(ILogNotifyService logNotifyService)
+        public void Clear()
         {
-            this._logNotifyService = logNotifyService;
+            this._log.Clear();
+            this.LogAdded?.Invoke(this, EventArgs.Empty);
         }
 
         public Task Log(string message)
         {
             _log.AppendLine(message);
-            this._logNotifyService.LogAdded();
-
+            this.LogAdded?.Invoke(this, EventArgs.Empty);
             return Task.CompletedTask;
         }
 
@@ -33,5 +33,8 @@ namespace chdScoring.BusinessLogic.Services
         string Text { get; }
 
         Task Log(string v);
+        void Clear();
+
+        event EventHandler LogAdded;
     }
 }

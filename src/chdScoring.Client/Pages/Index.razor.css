@@ -1,0 +1,24 @@
+﻿table.judge {
+    border-collapse: collapse;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    height: 100%;
+}
+
+    table.judge td.left {
+        width: 50%;
+        height: 100%;
+    }
+
+    table.judge td.right {
+        width: 50%;
+    }
+
+    table.judge tr.name th {
+        font-size: 15pt;
+        background-color: lightgrey;
+        border-bottom: 1px solid;
+        text-align: center;
+        padding: 0px;
+        height: 15pt;
+    }

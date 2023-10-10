@@ -9,24 +9,20 @@ namespace chdScoring.Main.UI
 {
     public partial class MainForm : Form
     {
-        private readonly ILogNotifyService _logNotifyService;
         private readonly IApiLogger _apiLogger;
-        private readonly IImageRepository _countryImageRepository;
-
-        public MainForm(ILogNotifyService logNotifyService, IApiLogger apiLogger, IImageRepository countryImageRepository)
+        private volatile bool _closing = true;
+        public MainForm(IApiLogger apiLogger)
         {
             InitializeComponent();
 
             this.Resize += this.MainForm_Resize;
-            this._logNotifyService = logNotifyService;
             this._apiLogger = apiLogger;
-            this._countryImageRepository = countryImageRepository;
-            this._logNotifyService.LogUpdate += this._logNotifyService_LogUpdate;
+            this._apiLogger.LogAdded += this._apiLogger_LogAdded;
         }
 
-        private void _logNotifyService_LogUpdate(object? sender, EventArgs e)
+        private void _apiLogger_LogAdded(object? sender, EventArgs e)
         {
-            this.Invoke(() => this.textBoxWebLog.Text = this._apiLogger.Text);
+            this.textBoxWebLog.Text = this._apiLogger.Text;
         }
 
         private void MainForm_Resize(object? sender, EventArgs e)
@@ -40,7 +36,7 @@ namespace chdScoring.Main.UI
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            e.Cancel = true;
+            e.Cancel = this._closing;
             this.Hide();
             this.WindowState = FormWindowState.Minimized;
 
@@ -49,6 +45,8 @@ namespace chdScoring.Main.UI
 
         private void schlieﬂenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            this._closing = false;
+            this.Close();
             Application.Exit();
         }
 
@@ -59,10 +57,9 @@ namespace chdScoring.Main.UI
 
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            
-
+            this._apiLogger.Clear();
         }
     }
 }

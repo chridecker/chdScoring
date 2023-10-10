@@ -21,6 +21,8 @@ namespace chdScoring.DataAccess.EFCore
         public DbSet<Judge_Panel> Judge_Panel { get; set; }
         public DbSet<Country_Images> Country_Images { get; set; }
         public DbSet<Images> Images { get; set; }
+        public DbSet<Wettkampf_Leitung> Wettkampf_Leitung { get; set; }
+        public DbSet<Klassen> Klassen { get; set; }
 
 
         public chdScoringContext(DbContextOptions<chdScoringContext> dbContextOptions) : base(dbContextOptions)
@@ -33,9 +35,11 @@ namespace chdScoring.DataAccess.EFCore
             modelBuilder.Entity<Durchgang_Programm>().HasKey(x => new { x.Programm, x.Durchgang });
             modelBuilder.Entity<Figur_Programm>().HasKey(x => new { x.Programm, x.Figur });
             modelBuilder.Entity<Judge_Panel>().HasKey(x => new { x.Judge, x.Panel });
-            modelBuilder.Entity<Wertung>().HasKey(x => new { x.Judge, x.Durchgang,x.Figur,x.Teilnehmer });
+            modelBuilder.Entity<Wertung>().HasKey(x => new { x.Judge, x.Durchgang, x.Figur, x.Teilnehmer });
             modelBuilder.Entity<Country_Images>().HasKey(x => x.Img_Id);
             modelBuilder.Entity<Images>().HasKey(x => x.Img_Id);
+            modelBuilder.Entity<Klassen>().HasKey(x => x.Id);
+            modelBuilder.Entity<Wettkampf_Leitung>().ToTable("wettkampf_leitung").HasKey(x => new { x.Teilnehmer, x.Durchgang });
 
             base.OnModelCreating(modelBuilder);
         }
