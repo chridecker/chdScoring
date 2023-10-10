@@ -13,7 +13,11 @@ namespace chdScoring.BusinessLogic.Services
         public event EventHandler LogAdded;
         public string Text => _log.ToString();
 
-
+        public void Clear()
+        {
+            this._log.Clear();
+            this.LogAdded?.Invoke(this, EventArgs.Empty);
+        }
 
         public Task Log(string message)
         {
@@ -29,6 +33,8 @@ namespace chdScoring.BusinessLogic.Services
         string Text { get; }
 
         Task Log(string v);
+        void Clear();
+
         event EventHandler LogAdded;
     }
 }

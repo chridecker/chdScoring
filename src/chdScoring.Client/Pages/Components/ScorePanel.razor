@@ -1,0 +1,46 @@
+﻿@using chdScoring.Client.Helper;
+@using chdScoring.Client.Services;
+@using chdScoring.Contracts.Dtos;
+<table class="panel">
+    <tr>
+        <th colspan="3" class="teilnehmer" id="teilnehmer">@this.Pilot?.Id @this.Pilot?.Name</th>
+    </tr>
+    <tr>
+        <th colspan="3" class="figur" id="recent_figur">#@this.Maneouvre?.Id @this.Maneouvre?.Name</th>
+    </tr>
+    <tr style="text-align:center;">
+
+        <th style="background-color:white; font-size:30pt; width:33%">
+            <FunctionButton PanelDisabled="@PanelDisabled" Execution="Save" CustomStyle="width:70%; height:95%; font-size: 28pt; background-color:lightblue; border: 5px solid black;" Title="OK" />
+        </th>
+
+        <th style="background-color:white; font-size:40pt; width:33%" id="recent_value">@_scoreValueText</th>
+
+        <th style="background-color:white; font-size:30pt; width:33%">
+            <FunctionButton PanelDisabled="@this.PanelDisabled" Execution="Del" CustomStyle="width:70%; height:95%; font-size: 28pt; background-color:lightblue; border: 5px solid black;" Title="DEL" />
+        </th>
+    </tr>
+    <tr>
+        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="1" /></td>
+        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="2" /></td>
+        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="3" /></td>
+    </tr>
+
+    <tr align="center">
+        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="4" /></td>
+        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="5" /></td>
+        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="6" /></td>
+    </tr>
+    <tr align="center">
+        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="7" /></td>
+        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="8" /></td>
+        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="9" /></td>
+    </tr>
+    <tr align="center">
+        <td></td>
+        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="0" /></td>
+        <td><FunctionButton Execution="NotObserved" PanelDisabled="PanelDisabled" Title="NO" /></td>
+    </tr>
+
+</table>
+

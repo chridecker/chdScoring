@@ -1,0 +1,8 @@
+﻿<button class="@_buttonCss" id="p1" @onclick="()=>Calc(this.Value)">@this.Value.ToString("n0")</button>
+@code {
+    [Parameter] public bool PanelDisabled { get; set; }
+    [Parameter] public decimal Value { get; set; }
+    [Parameter] public Func<decimal, Task> Calc { get; set; }
+
+    private string _buttonCss => this.PanelDisabled ? "grey" : "";
+}

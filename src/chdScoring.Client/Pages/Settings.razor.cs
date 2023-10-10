@@ -28,6 +28,7 @@ namespace chdScoring.Client.Pages
         private string _baseAddress = string.Empty;
         private int _judge = 0;
 
+
         protected override async Task OnInitializedAsync()
         {
             this._baseAddress = await this._settingManager.MainUrl;
@@ -38,6 +39,12 @@ namespace chdScoring.Client.Pages
             await base.OnInitializedAsync();
         }
 
+
+
+        private void Focused(Microsoft.AspNetCore.Components.Web.FocusEventArgs eventArgs)
+        {
+
+        }
         private Task UpdateMainUrl(string setting, ChangeEventArgs e) => this._settingManager.UpdateMainUrl((string)e.Value);
 
         private Task UpdateJudge(string setting, ChangeEventArgs e) => this._settingManager.UpdateJudge(int.Parse((string)e.Value));

@@ -4,6 +4,7 @@ using Android.Runtime;
 namespace chdScoring.Client
 {
     [Application]
+    [assembly: UsesPermission(Android.Manifest.Permission.Vibrate)]
     public class MainApplication : MauiApplication
     {
         public MainApplication(IntPtr handle, JniHandleOwnership ownership)

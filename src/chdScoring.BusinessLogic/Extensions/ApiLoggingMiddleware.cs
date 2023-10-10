@@ -1,10 +1,14 @@
 ﻿using chdScoring.BusinessLogic.Services;
+using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Dtos;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -21,15 +25,7 @@ namespace chdScoring.BusinessLogic.Extensions
         public async Task InvokeAsync(HttpContext context, IApiLogger logger)
         {
             var time = DateTime.Now;
-            string body = string.Empty;
-            if (context.Request.Method == HttpMethods.Post
-                && context.Request.Path.Value.EndsWith("score/save"))
-            {
-                var score = await JsonSerializer.DeserializeAsync<SaveScoreDto>(context.Request.Body);
-            }
-
-            await logger.Log($"{time}: {context.Request.Method} {context.Request.Path}" +
-                $"{string.Join(",", context.Request.Query.Select(s => $"{s.Key}->{s.Value}"))} {body}");
+            await logger.Log($"{time}: {context.Request.Host} {context.Request.Method} {context.Request.Path}");
             await this._next(context);
         }
     }

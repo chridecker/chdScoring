@@ -38,6 +38,7 @@
             this.tabPage1 = new TabPage();
             this.tabPage2 = new TabPage();
             this.textBoxWebLog = new TextBox();
+            this.button1 = new Button();
             this.contextMenuStripSysTray.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -100,6 +101,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.button1);
             this.tabPage2.Controls.Add(this.textBoxWebLog);
             this.tabPage2.Location = new Point(4, 24);
             this.tabPage2.Margin = new Padding(2);
@@ -116,8 +118,19 @@
             this.textBoxWebLog.Margin = new Padding(2);
             this.textBoxWebLog.Multiline = true;
             this.textBoxWebLog.Name = "textBoxWebLog";
-            this.textBoxWebLog.Size = new Size(845, 436);
+            this.textBoxWebLog.ScrollBars = ScrollBars.Vertical;
+            this.textBoxWebLog.Size = new Size(941, 519);
             this.textBoxWebLog.TabIndex = 0;
+            // 
+            // button1
+            // 
+            this.button1.Location = new Point(950, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Clear";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += this.button1_Click;
             // 
             // MainForm
             // 
@@ -146,5 +159,6 @@
         private TabPage tabPage1;
         private TabPage tabPage2;
         private TextBox textBoxWebLog;
+        private Button button1;
     }
 }

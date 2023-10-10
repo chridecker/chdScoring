@@ -1,7 +1,7 @@
 ﻿using Blazored.LocalStorage;
+using chdScoring.Client.Handler;
+using chdScoring.Client.Helper;
 using chdScoring.Client.Services;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -17,6 +17,10 @@ namespace chdScoring.Client.Extensions
              {
              });
             services.AddHttpClient<MainService>();
+
+            services.AddSingleton<IDialogHelper, DialogHelper>();
+            services.AddSingleton<IKeyHandler, KeyHandler>();
+            services.AddSingleton<IVibrationHelper, VibrationHelper>();
 
             services.AddScoped<ISettingManager, SettingManager>();
             services.AddTransient<IMainService, MainService>();

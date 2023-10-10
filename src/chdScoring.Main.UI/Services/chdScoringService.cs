@@ -17,12 +17,10 @@ namespace chdScoring.Main.UI.Services
     public class chdScoringService : BackgroundService
     {
         private readonly IFlightCacheService _flightCacheService;
-        private readonly ITBLCalculationService _tBLCalculationService;
 
-        public chdScoringService(IFlightCacheService flightCacheService, ITBLCalculationService tBLCalculationService)
+        public chdScoringService(IFlightCacheService flightCacheService)
         {
             this._flightCacheService = flightCacheService;
-            this._tBLCalculationService = tBLCalculationService;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -30,7 +28,7 @@ namespace chdScoring.Main.UI.Services
             while (!stoppingToken.IsCancellationRequested)
             {
 
-                Task.WaitAll(this._flightCacheService.Update(stoppingToken), this._tBLCalculationService.Calc(stoppingToken));
+                Task.WaitAll(this._flightCacheService.Update(stoppingToken));
 
                 await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
             }

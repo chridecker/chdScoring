@@ -1,74 +1,17 @@
 ﻿@page "/"
+@using chdScoring.Client.Pages.Components
 @if (this._dto != null)
 {
     <table class="judge">
         <tr class="name">
-            <th id="judge_name">@this.Judge?.Name</th>
-            <th>
-               
-            </th>
+            <th colspan="2">@this.Judge?.Name</th>
         </tr>
         <tr>
             <td class="left">
-                <table class='wertungen'>
-                    <tr>
-                        <th class='headline'>#</th>
-                        <th class='headline'>Manoeuvre</th>
-                        <th class='headline'>Score</th>
-                    </tr>
-                    @foreach (var man in this.Maneouvres.OrderBy(o => o.Id))
-                    {
-                        <tr>
-                            <td>@man.Id.ToString("D2")</td>
-                            <td style="@_cssFigur(man)">@man.Name</td>
-                            <td>@man.Score</td>
-                        </tr>
-                    }
-                </table>
+                <FigurTable Maneouvres="this.Maneouvres" />
             </td>
-            <td class="right" id="right">
-                <table class="panel">
-                    <tr>
-                        <th colspan="3" class="teilnehmer" id="teilnehmer">@this._dto.Pilot.Id @this._dto.Pilot.Name</th>
-                    </tr>
-                    <tr>
-                        <th colspan="3" class="figur" id="recent_figur">#@this.Maneouvres.FirstOrDefault(x => x.Current).Id @this.Maneouvres.FirstOrDefault(x => x.Current).Name</th>
-                    </tr>
-                    <tr style="text-align:center;">
-
-                        <th style="background-color:white; font-size:30pt; width:33%">
-                            <button class="@_buttonCss" id="pOk" @onclick="()=>Save()" style="width:70%; height:95%; font-size: 28pt; background-color:lightblue; border: 5px solid black;">OK</button>
-                        </th>
-
-                        <th style="background-color:white; font-size:40pt; width:33%" id="recent_value">@_scoreValueText</th>
-
-                        <th style="background-color:white; font-size:30pt; width:33%">
-                            <button class="@_buttonCss" id="pDel" @onclick="()=>Del()" style=" width:70%; height:95%; font-size: 28pt; background-color:lightblue; border: 5px solid black;">DEL</button>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td><button class="@_buttonCss" id="p1" @onclick="()=>Calc(1)">1</button></td>
-                        <td><button class="@_buttonCss" id="p2" @onclick="()=>Calc(2)">2</button></td>
-                        <td><button class="@_buttonCss" id="p3" @onclick="()=>Calc(3)">3</button></td>
-                    </tr>
-
-                    <tr align="center">
-                        <td><button class="@_buttonCss" id="p4" @onclick="()=>Calc(4)">4</button></td>
-                        <td><button class="@_buttonCss" id="p5" @onclick="()=>Calc(5)">5</button></td>
-                        <td><button class="@_buttonCss" id="p6" @onclick="()=>Calc(6)">6</button></td>
-                    </tr>
-                    <tr align="center">
-                        <td><button class="@_buttonCss" id="p7" @onclick="()=>Calc(7)">7</button></td>
-                        <td><button class="@_buttonCss" id="p8" @onclick="()=>Calc(8)">8</button></td>
-                        <td><button class="@_buttonCss" id="p9" @onclick="()=>Calc(9)">9</button></td>
-                    </tr>
-                    <tr align="center">
-                        <td><button class="@_buttonCss" id="p10">&nbsp;.</button></td>
-                        <td><button class="@_buttonCss" id="p0" @onclick="()=>Calc(0)">0</button></td>
-                        <td><button class="@_buttonCss" id="pno" @onclick="()=>NotObserved()">NO</button></td>
-                    </tr>
-
-                </table>
+            <td class="right">
+                <ScorePanel CancellationToken="this._cts.Token" Judge="this.Judge" Pilot="this._dto.Pilot" PanelDisabled="this._panelDisabled" Round="this._dto.Round" Maneouvre="this.Maneouvres.FirstOrDefault(x => x.Current)" />
             </td>
         </tr>
     </table>
