@@ -37,8 +37,8 @@
             this.tabControl1 = new TabControl();
             this.tabPage1 = new TabPage();
             this.tabPage2 = new TabPage();
-            this.textBoxWebLog = new TextBox();
             this.button1 = new Button();
+            this.textBoxWebLog = new TextBox();
             this.contextMenuStripSysTray.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -52,7 +52,6 @@
             this.notifyIconMain.ContextMenuStrip = this.contextMenuStripSysTray;
             this.notifyIconMain.Icon = (Icon)resources.GetObject("notifyIconMain.Icon");
             this.notifyIconMain.Text = "chdScoring";
-            this.notifyIconMain.Visible = true;
             this.notifyIconMain.MouseDoubleClick += this.notifyIconMain_MouseDoubleClick;
             // 
             // contextMenuStripSysTray
@@ -60,19 +59,20 @@
             this.contextMenuStripSysTray.ImageScalingSize = new Size(28, 28);
             this.contextMenuStripSysTray.Items.AddRange(new ToolStripItem[] { this.öffnenToolStripMenuItem, this.schließenToolStripMenuItem });
             this.contextMenuStripSysTray.Name = "contextMenuStripSysTray";
-            this.contextMenuStripSysTray.Size = new Size(126, 48);
+            this.contextMenuStripSysTray.Size = new Size(181, 70);
             // 
             // öffnenToolStripMenuItem
             // 
             this.öffnenToolStripMenuItem.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             this.öffnenToolStripMenuItem.Name = "öffnenToolStripMenuItem";
-            this.öffnenToolStripMenuItem.Size = new Size(125, 22);
+            this.öffnenToolStripMenuItem.Size = new Size(180, 22);
             this.öffnenToolStripMenuItem.Text = "Öffnen";
+            this.öffnenToolStripMenuItem.Click += this.öffnenToolStripMenuItem_Click;
             // 
             // schließenToolStripMenuItem
             // 
             this.schließenToolStripMenuItem.Name = "schließenToolStripMenuItem";
-            this.schließenToolStripMenuItem.Size = new Size(125, 22);
+            this.schließenToolStripMenuItem.Size = new Size(180, 22);
             this.schließenToolStripMenuItem.Text = "Schließen";
             this.schließenToolStripMenuItem.Click += this.schließenToolStripMenuItem_Click;
             // 
@@ -112,16 +112,6 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // textBoxWebLog
-            // 
-            this.textBoxWebLog.Location = new Point(4, 3);
-            this.textBoxWebLog.Margin = new Padding(2);
-            this.textBoxWebLog.Multiline = true;
-            this.textBoxWebLog.Name = "textBoxWebLog";
-            this.textBoxWebLog.ScrollBars = ScrollBars.Vertical;
-            this.textBoxWebLog.Size = new Size(941, 519);
-            this.textBoxWebLog.TabIndex = 0;
-            // 
             // button1
             // 
             this.button1.Location = new Point(950, 3);
@@ -131,6 +121,16 @@
             this.button1.Text = "Clear";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += this.button1_Click;
+            // 
+            // textBoxWebLog
+            // 
+            this.textBoxWebLog.Location = new Point(4, 3);
+            this.textBoxWebLog.Margin = new Padding(2);
+            this.textBoxWebLog.Multiline = true;
+            this.textBoxWebLog.Name = "textBoxWebLog";
+            this.textBoxWebLog.ScrollBars = ScrollBars.Vertical;
+            this.textBoxWebLog.Size = new Size(941, 519);
+            this.textBoxWebLog.TabIndex = 0;
             // 
             // MainForm
             // 

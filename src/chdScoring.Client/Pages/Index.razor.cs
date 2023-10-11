@@ -24,7 +24,7 @@ namespace chdScoring.Client.Pages
         private CancellationTokenSource _cts;
         private CurrentFlight _dto;
         private JudgeDto Judge => this._dto?.Judges.FirstOrDefault(x => x.Id == this._judge);
-        private bool _panelDisabled => this._dto?.LeftTime.HasValue ?? false ? this._dto.LeftTime <= TimeSpan.Zero : !this.Maneouvres.Any(x => x.Current);
+        private bool _panelDisabled => !this._dto.LeftTime.HasValue ? true : !this.Maneouvres.Any(x => x.Current);  
 
         private IEnumerable<ManeouvreDto> Maneouvres
         {

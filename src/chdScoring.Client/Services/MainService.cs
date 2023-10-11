@@ -32,7 +32,7 @@ namespace chdScoring.Client.Services
             try
             {
                 var uri = new UriBuilder(await this._settingManager.MainUrl).Uri;
-                return await this._client.GetFromJsonAsync<IEnumerable<JudgeDto>>($"{uri}{EndpointConstants.ROUTE_judge}/", cancellationToken);
+                return await this._client.GetFromJsonAsync<IEnumerable<JudgeDto>>($"{uri}{EndpointConstants.ROUTE_Judge}/", cancellationToken);
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace chdScoring.Client.Services
             try
             {
                 var uri = new UriBuilder(await this._settingManager.MainUrl).Uri;
-                return await this._client.GetFromJsonAsync<CurrentFlight>($"{uri}{EndpointConstants.ROUTE_judge}/{EndpointConstants.GET_Flight}", cancellationToken);
+                return await this._client.GetFromJsonAsync<CurrentFlight>($"{uri}{EndpointConstants.ROUTE_Judge}/{EndpointConstants.GET_Flight}", cancellationToken);
             }
             catch (Exception ex)
             {
