@@ -39,6 +39,7 @@ namespace chdScoring.BusinessLogic.Extensions
             services.AddSingleton<IApiLogger, ApiLogger>();
             services.AddSingleton<IFlightCacheService, FlightCacheService>();
 
+            services.AddTransient<ITimerService, TimerService>();
             services.AddTransient<IScoreService, ScoreService>();
             services.AddTransient<ITBLCalculationService, TBLCalculationService>();
 

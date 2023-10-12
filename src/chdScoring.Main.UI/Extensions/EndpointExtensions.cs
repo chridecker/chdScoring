@@ -22,11 +22,17 @@ namespace chdScoring.Main.UI.Extensions
         {
             var mainGroup = app.MapGroup(endpoint).WithName(endpoint).WithDisplayName(endpoint).WithOpenApi();
 
+            var control = mainGroup.MapGroup(EndpointConstants.ROUTE_Control).WithDisplayName("Control");
+
             var scoring = mainGroup.MapGroup(EndpointConstants.ROUTE_Scoring).WithDisplayName("Scoring");
-            var judges = mainGroup.MapGroup(EndpointConstants.ROUTE_judge).WithDisplayName("Judges");
+            var judges = mainGroup.MapGroup(EndpointConstants.ROUTE_Judge).WithDisplayName("Judges");
 
             mainGroup.MapGet(EndpointConstants.GET_Test_Connection, () => Results.Ok())
                 .WithName(EndpointConstants.GET_Test_Connection);
+
+            control.MapPost(EndpointConstants.POST_TimerOperation, async (TimerOperationDto dto, ITimerService service, CancellationToken cancellationToken)
+                => Results.Ok(await service.HandleOperation(dto, cancellationToken)))
+                .WithName(EndpointConstants.POST_TimerOperation);
 
 
             judges.MapGet($"{EndpointConstants.GET_Flight}", (IFlightCacheService flightCacheService) => Results.Ok(flightCacheService.GetCurrentFlight()))

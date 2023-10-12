@@ -10,7 +10,6 @@ namespace chdScoring.Main.UI
     public partial class MainForm : Form
     {
         private readonly IApiLogger _apiLogger;
-        private volatile bool _closing = true;
         public MainForm(IApiLogger apiLogger)
         {
             InitializeComponent();
@@ -25,41 +24,32 @@ namespace chdScoring.Main.UI
             this.textBoxWebLog.Text = this._apiLogger.Text;
         }
 
-        private void MainForm_Resize(object? sender, EventArgs e)
-        {
-            if (this.WindowState == FormWindowState.Minimized)
-            {
-                this.Hide();
-                this.notifyIconMain.ShowBalloonTip(2000);
-            }
-        }
-
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            e.Cancel = this._closing;
-            this.Hide();
-            this.WindowState = FormWindowState.Minimized;
-
-            base.OnFormClosing(e);
-        }
+        private void MainForm_Resize(object? sender, EventArgs e) => this.ShowHide(this.WindowState == FormWindowState.Minimized);
 
         private void schließenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this._closing = false;
-            this.Close();
-            Application.Exit();
-        }
+        => this.Close();
 
-        private void notifyIconMain_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            this.Show();
-            this.WindowState = FormWindowState.Maximized;
-
-        }
+        private void notifyIconMain_MouseDoubleClick(object sender, MouseEventArgs e) => this.ShowHide(false);
 
         private void button1_Click(object sender, EventArgs e)
         {
             this._apiLogger.Clear();
+        }
+
+        private void öffnenToolStripMenuItem_Click(object sender, EventArgs e) => this.ShowHide(false);
+        private void ShowHide(bool hide)
+        {
+            this.notifyIconMain.Visible = hide;
+            if (hide)
+            {
+                this.Hide();
+                this.notifyIconMain.ShowBalloonTip(2000, "chdScoring", "Webserver im Hintergrund", ToolTipIcon.Info);
+            }
+            else
+            {
+                this.Show();
+                this.WindowState = FormWindowState.Normal;
+            }
         }
     }
 }

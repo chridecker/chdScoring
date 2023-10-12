@@ -11,5 +11,6 @@ namespace chdScoring.DataAccess.Contracts.Repositories
     public interface IWettkampfLeitungRepository : IBaseEntityRepository<Wettkampf_Leitung>
     {
         Task<IEnumerable<Wettkampf_Leitung>> CurrentRoundSet(CancellationToken token);
+        Task<Wettkampf_Leitung> GetActiveOnAirfield(int airfield, CancellationToken cancellationToken);
     }
 }

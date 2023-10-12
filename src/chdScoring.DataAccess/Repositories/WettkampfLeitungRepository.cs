@@ -27,5 +27,8 @@ namespace chdScoring.DataAccess.Repositories
             return await this._context.Wettkampf_Leitung.Where(x => x.Durchgang == currentRound).ToListAsync(cancellationToken: token);
         }
 
+        public async Task<Wettkampf_Leitung> GetActiveOnAirfield(int airfield, CancellationToken cancellationToken)
+        => await this._context.Wettkampf_Leitung.Where(x => x.Status == (int)EFlightState.OnAir).FirstOrDefaultAsync(cancellationToken: cancellationToken);
+
     }
 }
