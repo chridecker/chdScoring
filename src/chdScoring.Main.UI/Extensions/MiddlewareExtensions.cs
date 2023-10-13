@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace chdScoring.BusinessLogic.Extensions
+namespace chdScoring.Main.UI.Extensions
 {
     public static class MiddlewareExtensions
     {

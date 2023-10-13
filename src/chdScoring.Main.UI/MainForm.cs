@@ -21,7 +21,14 @@ namespace chdScoring.Main.UI
 
         private void _apiLogger_LogAdded(object? sender, EventArgs e)
         {
-            this.textBoxWebLog.Text = this._apiLogger.Text;
+            if (this.InvokeRequired)
+            {
+                this.Invoke(() => this.textBoxWebLog.Text = this._apiLogger.Text);
+            }
+            else
+            {
+                this.textBoxWebLog.Text = this._apiLogger.Text;
+            }
         }
 
         private void MainForm_Resize(object? sender, EventArgs e) => this.ShowHide(this.WindowState == FormWindowState.Minimized);

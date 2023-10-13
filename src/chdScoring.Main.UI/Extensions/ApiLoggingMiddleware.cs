@@ -14,7 +14,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using ZstdSharp.Unsafe;
 
-namespace chdScoring.BusinessLogic.Extensions
+namespace chdScoring.Main.UI.Extensions
 {
     public class ApiLoggingMiddleware
     {

@@ -3,7 +3,7 @@ using Android.Runtime;
 
 namespace chdScoring.Client
 {
-    [Application]
+    [Application(UsesCleartextTraffic=true)]
     [assembly: UsesPermission(Android.Manifest.Permission.Vibrate)]
     public class MainApplication : MauiApplication
     {
