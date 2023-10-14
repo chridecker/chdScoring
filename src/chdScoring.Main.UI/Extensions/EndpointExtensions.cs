@@ -18,6 +18,7 @@ namespace chdScoring.Main.UI.Extensions
 {
     public static class EndpointExtensions
     {
+
         public static IEndpointRouteBuilder MapChdScoring(this IEndpointRouteBuilder app, string endpoint)
         {
             var mainGroup = app.MapGroup(endpoint).WithName(endpoint).WithDisplayName(endpoint).WithOpenApi();

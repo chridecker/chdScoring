@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.Main.UI.Extensions;
 using NLog.LayoutRenderers;
+using chdScoring.Main.UI.Hubs;
 
 Thread.CurrentThread.SetApartmentState(ApartmentState.Unknown);
 Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
@@ -48,6 +49,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.AddApiLogger();
+app.MapHub<FlightHub>("/chdScoring/flight-hub");
+
 app.MapChdScoring("chdScoring");
 app.Run();
 
