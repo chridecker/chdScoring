@@ -16,7 +16,7 @@
         <ApplicationTitle>chdScoring.Client</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.companyname.chdscoring.client</ApplicationId>
+        <ApplicationId>com.chdscoring.client</ApplicationId>
         <ApplicationIdGuid>600BA14A-31C2-4303-8AFE-7CD1323D09D9</ApplicationIdGuid>
 
         <!-- Versions -->
