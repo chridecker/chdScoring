@@ -1,6 +1,7 @@
 ﻿using chdScoring.BusinessLogic.Extensions;
 using chdScoring.BusinessLogic.Services;
 using chdScoring.Contracts.Interfaces;
+using chdScoring.Contracts.Settings;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
 using chdScoring.Main.UI.Hubs;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using NLog.LayoutRenderers;
 using System;
 using System.Collections.Generic;
@@ -22,25 +24,32 @@ namespace chdScoring.Main.UI.Services
     {
         private readonly IFlightCacheService _flightCacheService;
         private readonly IServiceProvider _serviceProvider;
+        private readonly IOptionsMonitor<AppSettings> _optionsMonitor;
 
-        public chdScoringService(IFlightCacheService flightCacheService, IServiceProvider serviceProvider)
+        public chdScoringService(IOptionsMonitor<AppSettings> optionsMonitor, IFlightCacheService flightCacheService, IServiceProvider serviceProvider)
         {
+            this._optionsMonitor = optionsMonitor;
             this._flightCacheService = flightCacheService;
             this._serviceProvider = serviceProvider;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            this.ExecuteSend(stoppingToken);
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 await this._flightCacheService.Update(stoppingToken);
-                using var scope = this._serviceProvider.CreateScope();
-
-                    await scope.ServiceProvider.GetService<IHubContext<FlightHub,IFlightHub>>().Clients.All.ReceiveFlightData(this._flightCacheService.GetCurrentFlight());
-
-
-                await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+                await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken);
             }
         }
+        private void ExecuteSend(CancellationToken cancellationToken) => Task.Run(async () =>
+        {
+            using var scope = this._serviceProvider.CreateScope();
+
+            await scope.ServiceProvider.GetService<IHubContext<FlightHub, IFlightHub>>().Clients.All.ReceiveFlightData(this._flightCacheService.GetCurrentFlight());
+
+            await Task.Delay(this._optionsMonitor.CurrentValue.RefreshInterval, cancellationToken);
+        }, cancellationToken);
     }
 }

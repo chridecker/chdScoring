@@ -33,6 +33,8 @@ namespace chdScoring.BusinessLogic.Extensions
     {
         public static IServiceCollection AddchdScoringDataAccess(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));
+
             services.Configure<DBSettings>(nameof(EDBConnection.MySql), configuration.GetSection($"{nameof(DBSettings)}:{nameof(EDBConnection.MySql)}"));
             services.Configure<DBSettings>(nameof(EDBConnection.SQLite), configuration.GetSection($"{nameof(DBSettings)}:{nameof(EDBConnection.SQLite)}"));
 

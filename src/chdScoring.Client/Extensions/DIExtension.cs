@@ -24,6 +24,8 @@ namespace chdScoring.Client.Extensions
 
             services.AddScoped<ISettingManager, SettingManager>();
             services.AddTransient<IMainService, MainService>();
+            services.AddSingleton<IJudgeHubClient, JudgeHubClient>();
+            services.AddSingleton<IJudgeDataCache, JudgeDataCache>();
 
             return services;
         }

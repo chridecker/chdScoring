@@ -1,11 +1,14 @@
 ﻿using chdScoring.BusinessLogic.Services;
 using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Dtos;
+using chdScoring.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.Repositories;
+using chdScoring.Main.UI.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.SignalR;
 using MySqlX.XDevAPI.Common;
 using System;
 using System.Collections.Generic;
@@ -46,9 +49,14 @@ namespace chdScoring.Main.UI.Extensions
             }).WithName(string.Empty);
 
 
-            scoring.MapPost(EndpointConstants.POST_Save, async (SaveScoreDto dto, IScoreService service, CancellationToken cancellationToken) =>
+            scoring.MapPost(EndpointConstants.POST_Save, async (SaveScoreDto dto, IScoreService service, IFlightCacheService cache, IHubContext<FlightHub, IFlightHub> hub, CancellationToken cancellationToken) =>
             {
-                return Results.Ok(await service.SaveScore(dto, cancellationToken));
+                if (await service.SaveScore(dto, cancellationToken))
+                {
+                    await hub.Clients.Group($"judge{dto.Judge}").ReceiveFlightData(cache.GetCurrentFlight());
+                    return Results.Ok();
+                }
+                return Results.BadRequest();
             }).WithName(EndpointConstants.POST_Save);
 
 

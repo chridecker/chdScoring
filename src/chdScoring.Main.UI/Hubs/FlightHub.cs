@@ -1,4 +1,5 @@
-﻿using chdScoring.Contracts.Interfaces;
+﻿using chdScoring.BusinessLogic.Services;
+using chdScoring.Contracts.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -10,18 +11,22 @@ namespace chdScoring.Main.UI.Hubs
 {
     public class FlightHub : Hub<IFlightHub>
     {
-        public FlightHub()
+        private readonly IFlightCacheService _flightCacheService;
+        public FlightHub(IFlightCacheService flightCacheService)
         {
-
+            this._flightCacheService = flightCacheService;
         }
+        public async override Task OnConnectedAsync()
+        {
+            var data = this._flightCacheService.GetCurrentFlight();
+            await this.Clients.Caller.ReceiveFlightData(data);
+            await base.OnConnectedAsync();
+        }
+
         public async Task<bool> RegisterAsJudge(int judge, CancellationToken cancellationToken = default)
         {
             await this.Groups.AddToGroupAsync(this.Context.ConnectionId, $"judge{judge}", cancellationToken);
             return true;
         }
-
-
-
-
     }
 }
