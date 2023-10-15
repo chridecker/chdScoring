@@ -24,7 +24,7 @@ namespace chdScoring.Client.Pages
         private CancellationTokenSource _cts;
         private CurrentFlight _dto;
         private JudgeDto Judge => this._dto?.Judges.FirstOrDefault(x => x.Id == this._judge);
-        private bool _panelDisabled => !this._dto.LeftTime.HasValue ? true : !this.Maneouvres.Any(x => x.Current);  
+        private bool _panelDisabled => !this._dto.LeftTime.HasValue ? true : !this.Maneouvres.Any(x => x.Current);
 
         private IEnumerable<ManeouvreDto> Maneouvres
         {
@@ -42,14 +42,24 @@ namespace chdScoring.Client.Pages
 
         [Inject] private IMainService _mainService { get; set; }
         [Inject] private ISettingManager _settingManager { get; set; }
-
+        [Inject] private IJudgeHubClient _judgeHubClient { get; set; }
+        [Inject] private IJudgeDataCache _judgeDataCache { get; set; }
         protected override async Task OnInitializedAsync()
         {
             this._cts = new();
             this._judge = await this._settingManager.Judge;
-            this._dto = await this._mainService.GetCurrentFlight(this._cts.Token);
-            this.Reload(this._cts.Token);
+            await this._judgeHubClient.Register(this._judge, this._cts.Token);
+            this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
+            //this._dto = await this._mainService.GetCurrentFlight(this._cts.Token);
+            this._dto = this._judgeDataCache.Data;
+            //this.Reload(this._cts.Token);
             await base.OnInitializedAsync();
+        }
+
+        private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)
+        {
+            this._dto = e;
+            await this.InvokeAsync(this.StateHasChanged);
         }
 
         private void Reload(CancellationToken cancellationToken) => Task.Run(async () =>

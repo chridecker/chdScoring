@@ -38,6 +38,7 @@ builder.Host.UseWindowsFormsLifetime<MainForm>();
 builder.Services.AddchdScoringDataAccess(builder.Configuration);
 builder.Services.AddHostedService<chdScoringService>();
 
+builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
