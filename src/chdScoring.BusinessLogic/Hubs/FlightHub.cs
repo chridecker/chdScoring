@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace chdScoring.Main.UI.Hubs
+namespace chdScoring.BusinessLogic.Hubs
 {
     public class FlightHub : Hub<IFlightHub>
     {
@@ -26,6 +26,11 @@ namespace chdScoring.Main.UI.Hubs
         public async Task<bool> RegisterAsJudge(int judge)
         {
             await this.Groups.AddToGroupAsync(this.Context.ConnectionId, $"judge{judge}", this.Context.ConnectionAborted);
+            return true;
+        }
+        public async Task<bool> RegisterAsControlCenter()
+        {
+            await this.Groups.AddToGroupAsync(this.Context.ConnectionId, $"controlcenter", this.Context.ConnectionAborted);
             return true;
         }
     }

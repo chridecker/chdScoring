@@ -15,6 +15,7 @@ namespace chdScoring.App.Services
         private readonly ILocalStorageService _localStorageService;
         private string _mainUrl;
         private int? _judge;
+        private bool? _isControlCenter;
 
 
         public SettingManager(ILocalStorageService localStorageService)
@@ -39,6 +40,15 @@ namespace chdScoring.App.Services
            return this._judge.Value;
        });
 
+        public Task<bool> IsControlCenter => Task.Run(async () =>
+       {
+           if (!this._isControlCenter.HasValue)
+           {
+               this._isControlCenter = await this.GetSettingLocal<bool>(SettingConstants.ControlCenter);
+           }
+           return this._isControlCenter.Value;
+       });
+
         public async Task UpdateMainUrl(string url)
         {
             this._mainUrl = url;
@@ -48,6 +58,12 @@ namespace chdScoring.App.Services
         {
             this._judge = judge;
             await this.StoreSettingLocal<int>(SettingConstants.Judge, judge);
+        }
+
+        public async Task UpdateControlCenter(bool isControlCenter)
+        {
+            this._isControlCenter = isControlCenter;
+            await this.StoreSettingLocal<bool>(SettingConstants.ControlCenter, isControlCenter);
         }
 
 
@@ -83,8 +99,10 @@ namespace chdScoring.App.Services
         Task UpdateMainUrl(string url);
         Task UpdateJudge(int judge);
         Task<int> Judge { get; }
+        Task<bool> IsControlCenter { get; }
 
         Task StoreSettingLocal(string key, string value);
         Task StoreSettingLocal<T>(string key, T value);
+        Task UpdateControlCenter(bool isControlCenter);
     }
 }

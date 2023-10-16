@@ -27,6 +27,10 @@ namespace chdScoring.App.Pages
 
         private string _baseAddress = string.Empty;
         private int _judge = 0;
+        private bool _isControlCenter = false;
+
+        private bool? isTestSuccess;
+        private string testStatusCss => !isTestSuccess.HasValue ? "background-color:grey;" : !isTestSuccess.Value ? "background-color:red;" : "background-color:green;";
 
 
         protected override async Task OnInitializedAsync()
@@ -35,21 +39,16 @@ namespace chdScoring.App.Pages
             this._judgeDtos = await this._mainService.GetJudges(this._cts.Token);
 
             this._judge = await this._settingManager.Judge;
+            this._isControlCenter = await this._settingManager.IsControlCenter;
 
             await base.OnInitializedAsync();
-        }
-
-
-
-        private void Focused(Microsoft.AspNetCore.Components.Web.FocusEventArgs eventArgs)
-        {
-
         }
         private Task UpdateMainUrl(string setting, ChangeEventArgs e) => this._settingManager.UpdateMainUrl((string)e.Value);
 
         private Task UpdateJudge(string setting, ChangeEventArgs e) => this._settingManager.UpdateJudge(int.Parse((string)e.Value));
+        private Task UpdateIsControlCenter(string setting, ChangeEventArgs e) => this._settingManager.UpdateControlCenter((bool)e.Value);
 
-        private async Task TestConnection() => await this._mainService.TestConnection(this._cts.Token);
+        private async Task TestConnection() => isTestSuccess = await this._mainService.TestConnection(this._cts.Token);
 
     }
 }

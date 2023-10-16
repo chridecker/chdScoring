@@ -4,7 +4,6 @@ using chdScoring.Contracts.Interfaces;
 using chdScoring.Contracts.Settings;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
-using chdScoring.Main.UI.Hubs;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.SignalR;
@@ -48,7 +47,7 @@ namespace chdScoring.Main.UI.Services
             while (!cancellationToken.IsCancellationRequested)
             {
                 using var scope = this._serviceProvider.CreateScope();
-                await scope.ServiceProvider.GetService<IHubContext<FlightHub, IFlightHub>>().Clients.All.ReceiveFlightData(this._flightCacheService.GetCurrentFlight());
+                await scope.ServiceProvider.GetService<IHubDataService>().SendAll(cancellationToken);
                 await Task.Delay(this._optionsMonitor.CurrentValue.RefreshInterval, cancellationToken);
             }
         }, cancellationToken);

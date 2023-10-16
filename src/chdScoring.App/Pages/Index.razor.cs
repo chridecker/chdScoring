@@ -39,7 +39,6 @@ namespace chdScoring.App.Pages
 
         private int _judge;
 
-        [Inject] private IMainService _mainService { get; set; }
         [Inject] private ISettingManager _settingManager { get; set; }
         [Inject] private IJudgeHubClient _judgeHubClient { get; set; }
         [Inject] private IJudgeDataCache _judgeDataCache { get; set; }
@@ -50,9 +49,7 @@ namespace chdScoring.App.Pages
             await this._judgeHubClient.Initialize(this._cts.Token);
             await this._judgeHubClient.Register(this._judge, this._cts.Token);
             this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
-            //this._dto = await this._mainService.GetCurrentFlight(this._cts.Token);
             this._dto = this._judgeDataCache.Data;
-            //this.Reload(this._cts.Token);
             await base.OnInitializedAsync();
         }
 
@@ -62,15 +59,6 @@ namespace chdScoring.App.Pages
             await this.InvokeAsync(this.StateHasChanged);
         }
 
-        private void Reload(CancellationToken cancellationToken) => Task.Run(async () =>
-        {
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                this._dto = await this._mainService.GetCurrentFlight(cancellationToken);
-                await this.InvokeAsync(this.StateHasChanged);
-                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-            }
-        }, cancellationToken);
 
         public void Dispose()
         {

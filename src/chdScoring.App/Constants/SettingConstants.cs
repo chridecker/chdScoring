@@ -10,5 +10,6 @@ namespace chdScoring.App.Constants
     {
         public const string BaseAddress = "SETTING_BaseAddress";
         public const string Judge = "SETTING_Judge";
+        public const string ControlCenter = "SETTING_ControlCenter";
     }
 }

@@ -1,4 +1,7 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using chdScoring.App.Services;
+@inject ISettingManager settingManager
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <button class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="chdScoringToggler"></span>
@@ -10,21 +13,38 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                <span class="oi oi-people" aria-hidden="true"></span> Home
             </NavLink>
         </div>
+        @if (_controlCodeCenterAvailable)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="controlcenter">
+                    <span class="oi oi-calculator" aria-hidden="true"></span> Control Center
+                </NavLink>
+            </div>
+        }
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="settings">
-                <span class="oi oi-plus" aria-hidden="true"></span> Setting
+                <span class="oi oi-cog" aria-hidden="true"></span> Setting
             </NavLink>
         </div>
+
     </nav>
 </div>
 
 @code {
     private bool collapseNavMenu = true;
+    private bool _controlCodeCenterAvailable = false;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    protected override async Task OnAfterRenderAsync(bool first)
+    {
+        this._controlCodeCenterAvailable = await settingManager.IsControlCenter;
+
+        await base.OnAfterRenderAsync(first);
+    }
 
     private void ToggleNavMenu()
     {

@@ -3,7 +3,6 @@ using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.Repositories;
-using chdScoring.Main.UI.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,13 +33,13 @@ namespace chdScoring.Main.UI.Extensions
             mainGroup.MapGet(EndpointConstants.GET_Test_Connection, () => Results.Ok())
                 .WithName(EndpointConstants.GET_Test_Connection);
 
-            control.MapPost(EndpointConstants.POST_TimerOperation, async (TimerOperationDto dto, IFlightCacheService cache, ITimerService service, IHubContext<FlightHub, IFlightHub> hub, CancellationToken cancellationToken)
+            control.MapPost(EndpointConstants.POST_TimerOperation, async (TimerOperationDto dto, IFlightCacheService cache, ITimerService service, IHubDataService hub, CancellationToken cancellationToken)
                 =>
             {
                 if (await service.HandleOperation(dto, cancellationToken))
                 {
                     await cache.Update(cancellationToken);
-                    await hub.Clients.All.ReceiveFlightData(cache.GetCurrentFlight(), cancellationToken);
+                    await hub.SendAll(cancellationToken);
                     Results.Ok(true);
                 }
                 return Results.Ok(false);
@@ -58,12 +57,12 @@ namespace chdScoring.Main.UI.Extensions
             }).WithName(string.Empty);
 
 
-            scoring.MapPost(EndpointConstants.POST_Save, async (SaveScoreDto dto, IScoreService service, IFlightCacheService cache, IHubContext<FlightHub, IFlightHub> hub, CancellationToken cancellationToken) =>
+            scoring.MapPost(EndpointConstants.POST_Save, async (SaveScoreDto dto, IScoreService service, IFlightCacheService cache, IHubDataService hub, CancellationToken cancellationToken) =>
             {
                 if (await service.SaveScore(dto, cancellationToken))
                 {
                     cache.UpdateScore(dto);
-                    await hub.Clients.Group($"judge{dto.Judge}").ReceiveFlightData(cache.GetCurrentFlight(), cancellationToken);
+                    await hub.SendJudge(dto.Judge, cancellationToken);
                     return Results.Ok();
                 }
                 return Results.BadRequest();

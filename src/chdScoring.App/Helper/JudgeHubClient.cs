@@ -12,9 +12,8 @@ using System.Threading.Tasks;
 
 namespace chdScoring.App.Helper
 {
-    public class JudgeHubClient : IJudgeHubClient
+    public class JudgeHubClient : HubClient<IFlightHub>, IJudgeHubClient
     {
-        private HubConnection? _hubConnection;
         private readonly IJudgeDataCache _judgeDataCache;
         private readonly ISettingManager _settingManager;
 
@@ -27,55 +26,42 @@ namespace chdScoring.App.Helper
 
         public event EventHandler<CurrentFlight> DataReceived;
 
-        public async Task Initialize(CancellationToken cancellationToken = default)
+        protected override Task<Uri> BaseAddress
+        => Task.Run(async () =>
         {
-            if (this._hubConnection == null || this._hubConnection.State != HubConnectionState.Connected)
-            {
-                try
-                {
+            var baseAddress = await this._settingManager.MainUrl;
+            return new UriBuilder($"{baseAddress}flight-hub").Uri;
+        });
 
-                    var baseAddress = await this._settingManager.MainUrl;
-                    var uri = new UriBuilder($"{baseAddress}flight-hub").Uri;
-
-                    this._hubConnection = new HubConnectionBuilder()
-                        .WithUrl(uri)
-                        .Build();
-
-                    _hubConnection.On<CurrentFlight>(nameof(IFlightHub.ReceiveFlightData), (dto) =>
-                    {
-                        this._judgeDataCache.Update(dto);
-                        this.DataReceived?.Invoke(this, dto);
-                    });
-                    await _hubConnection.StartAsync();
-                }
-                catch { }
-            }
+        protected override void OnInvokeHub(HubConnection hubConnection)
+        {
+            hubConnection.On<CurrentFlight>(nameof(IFlightHub.ReceiveFlightData), (dto) =>
+                   {
+                       this._judgeDataCache.Update(dto);
+                       this.DataReceived?.Invoke(this, dto);
+                   });
         }
 
-        public async Task Register(int judge, CancellationToken cancellationToken = default)
-        {
-            if (_hubConnection is not null && this._hubConnection.State == HubConnectionState.Connected)
-            {
-                await _hubConnection.SendAsync(nameof(IFlightHub.RegisterAsJudge), judge, cancellationToken);
-            }
-        }
+        public Task Register(int judge, CancellationToken cancellationToken = default)
+        => base.SendAsync(async (conn) =>
+             {
+                 await conn.SendAsync(nameof(IFlightHub.RegisterAsJudge), judge, cancellationToken);
+             }, cancellationToken);
 
-        public bool IsConnected =>
-            _hubConnection?.State == HubConnectionState.Connected;
-
-        public async ValueTask DisposeAsync()
-        {
-            if (_hubConnection is not null)
+        public Task RegisterControlCenter(CancellationToken cancellationToken = default)
+        => this.SendAsync(async (conn) =>
             {
-                await _hubConnection.DisposeAsync();
-            }
-        }
+                await conn.SendAsync(nameof(IFlightHub.RegisterAsControlCenter), cancellationToken);
+            }, cancellationToken);
+
+
+
+
     }
-    public interface IJudgeHubClient
+    public interface IJudgeHubClient : IHubClient<IFlightHub>
     {
         event EventHandler<CurrentFlight> DataReceived;
-
-        Task Initialize(CancellationToken cancellationToken = default);
         Task Register(int judge, CancellationToken cancellationToken = default);
+        Task RegisterControlCenter(CancellationToken cancellationToken = default);
     }
 }
