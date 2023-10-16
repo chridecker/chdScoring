@@ -34,8 +34,17 @@ namespace chdScoring.Main.UI.Extensions
             mainGroup.MapGet(EndpointConstants.GET_Test_Connection, () => Results.Ok())
                 .WithName(EndpointConstants.GET_Test_Connection);
 
-            control.MapPost(EndpointConstants.POST_TimerOperation, async (TimerOperationDto dto, ITimerService service, CancellationToken cancellationToken)
-                => Results.Ok(await service.HandleOperation(dto, cancellationToken)))
+            control.MapPost(EndpointConstants.POST_TimerOperation, async (TimerOperationDto dto, IFlightCacheService cache, ITimerService service, IHubContext<FlightHub, IFlightHub> hub, CancellationToken cancellationToken)
+                =>
+            {
+                if (await service.HandleOperation(dto, cancellationToken))
+                {
+                    await cache.Update(cancellationToken);
+                    await hub.Clients.All.ReceiveFlightData(cache.GetCurrentFlight(), cancellationToken);
+                    Results.Ok(true);
+                }
+                return Results.Ok(false);
+            })
                 .WithName(EndpointConstants.POST_TimerOperation);
 
 
@@ -53,7 +62,8 @@ namespace chdScoring.Main.UI.Extensions
             {
                 if (await service.SaveScore(dto, cancellationToken))
                 {
-                    await hub.Clients.Group($"judge{dto.Judge}").ReceiveFlightData(cache.GetCurrentFlight());
+                    cache.UpdateScore(dto);
+                    await hub.Clients.Group($"judge{dto.Judge}").ReceiveFlightData(cache.GetCurrentFlight(), cancellationToken);
                     return Results.Ok();
                 }
                 return Results.BadRequest();

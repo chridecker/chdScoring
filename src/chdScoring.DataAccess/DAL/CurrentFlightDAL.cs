@@ -44,7 +44,7 @@ namespace chdScoring.DataAccess.DAL
                     dto = new CurrentFlight()
                     {
                         Round = round,
-                        LeftTime = time,
+                        LeftTime = time<TimeSpan.Zero ? null : time,
                         Pilot = new PilotDto { Id = pilot.Id, Name = $"{pilot.Vorname} {pilot.Nachname.ToLower()}" },
                         Judges = judges.Select(judge => new JudgeDto { Id = judge.Id, Name = $"{judge.Vorname} {judge.Name.ToUpper()}" }),
                     };

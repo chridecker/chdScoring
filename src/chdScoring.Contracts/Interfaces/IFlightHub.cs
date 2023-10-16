@@ -9,7 +9,7 @@ namespace chdScoring.Contracts.Interfaces
 {
     public interface IFlightHub
     {
-        Task ReceiveFlightData(CurrentFlight dto);
-        Task<bool> RegisterAsJudge(int judge, CancellationToken cancellationToken = default);
+        Task ReceiveFlightData(CurrentFlight dto, CancellationToken cancellationToken = default);
+        Task<bool> RegisterAsJudge(int judge);
     }
 }

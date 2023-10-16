@@ -19,13 +19,13 @@ namespace chdScoring.Main.UI.Hubs
         public async override Task OnConnectedAsync()
         {
             var data = this._flightCacheService.GetCurrentFlight();
-            await this.Clients.Caller.ReceiveFlightData(data);
+            await this.Clients.Caller.ReceiveFlightData(data, this.Context.ConnectionAborted);
             await base.OnConnectedAsync();
         }
 
-        public async Task<bool> RegisterAsJudge(int judge, CancellationToken cancellationToken = default)
+        public async Task<bool> RegisterAsJudge(int judge)
         {
-            await this.Groups.AddToGroupAsync(this.Context.ConnectionId, $"judge{judge}", cancellationToken);
+            await this.Groups.AddToGroupAsync(this.Context.ConnectionId, $"judge{judge}", this.Context.ConnectionAborted);
             return true;
         }
     }

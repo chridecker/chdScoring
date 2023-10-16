@@ -45,11 +45,12 @@ namespace chdScoring.Main.UI.Services
         }
         private void ExecuteSend(CancellationToken cancellationToken) => Task.Run(async () =>
         {
-            using var scope = this._serviceProvider.CreateScope();
-
-            await scope.ServiceProvider.GetService<IHubContext<FlightHub, IFlightHub>>().Clients.All.ReceiveFlightData(this._flightCacheService.GetCurrentFlight());
-
-            await Task.Delay(this._optionsMonitor.CurrentValue.RefreshInterval, cancellationToken);
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                using var scope = this._serviceProvider.CreateScope();
+                await scope.ServiceProvider.GetService<IHubContext<FlightHub, IFlightHub>>().Clients.All.ReceiveFlightData(this._flightCacheService.GetCurrentFlight());
+                await Task.Delay(this._optionsMonitor.CurrentValue.RefreshInterval, cancellationToken);
+            }
         }, cancellationToken);
     }
 }
