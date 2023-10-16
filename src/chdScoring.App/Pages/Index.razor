@@ -11,7 +11,7 @@
                 <FigurTable Maneouvres="this.Maneouvres" />
             </td>
             <td class="right">
-                <ScorePanel CancellationToken="this._cts.Token" Judge="this.Judge" Pilot="this._dto.Pilot" PanelDisabled="this._panelDisabled" Round="this._dto.Round" Maneouvre="this.Maneouvres.FirstOrDefault(x => x.Current)" />
+                <ScorePanel CancellationToken="this._cts.Token" Judge="this.Judge" Pilot="this._dto.Pilot" PanelDisabled="this._panelDisabled" Round="this._dto.Round.Id" Maneouvre="this.Maneouvres.FirstOrDefault(x => x.Current)" />
             </td>
         </tr>
     </table>
