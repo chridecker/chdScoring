@@ -24,6 +24,7 @@ namespace chdScoring.App.Pages
         private CurrentFlight _dto;
         [Inject] IJudgeHubClient _judgeHubClient { get; set; }
         [Inject] IJudgeDataCache _judgeDataCache { get; set; }
+        [Inject] IMainService _mainService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -41,6 +42,10 @@ namespace chdScoring.App.Pages
             this._dto = e;
             await this.InvokeAsync(this.StateHasChanged);
         }
+
+        private  Task StartStop()
+        => _mainService.StartStop(this._dto.LeftTime.HasValue ? Contracts.Enums.ETimerOperation.Stop : Contracts.Enums.ETimerOperation.Start, this._cts.Token);
+
 
         public void Dispose()
         {

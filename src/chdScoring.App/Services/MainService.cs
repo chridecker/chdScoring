@@ -1,6 +1,7 @@
 ﻿using chdScoring.App.Extensions;
 using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Dtos;
+using chdScoring.Contracts.Enums;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections;
@@ -88,6 +89,24 @@ namespace chdScoring.App.Services
                 return false;
             }
         }
+        
+        public async Task<bool> StartStop(ETimerOperation timerOperation, CancellationToken token)
+        {
+            try
+            {
+                var dto = new TimerOperationDto
+                {
+                    Operation = timerOperation
+                };
+                var uri = new UriBuilder(await this._settingManager.MainUrl).Uri;
+                var res  = await this._client.PostAsJsonAsync($"{uri}{EndpointConstants.ROUTE_Control}/{EndpointConstants.POST_TimerOperation}", dto, cancellationToken: token);
+                return res.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
     public interface IMainService
     {
@@ -95,5 +114,6 @@ namespace chdScoring.App.Services
         Task<IEnumerable<JudgeDto>> GetJudges(CancellationToken cancellationToken);
         Task<CurrentFlight> GetCurrentFlight(CancellationToken cancellationToken);
         Task<bool> SaveScore(int id, int figur, int judge, int round, decimal value, CancellationToken token);
+        Task<bool> StartStop(ETimerOperation timerOperation, CancellationToken token);
     }
 }

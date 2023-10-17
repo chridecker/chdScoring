@@ -6,9 +6,8 @@ table {
 }
 
 th.teilnehmer {
-    font-size: 60pt;
-    padding: 5px;
-    text-align: right;
+    font-size: 1.5rem;
+    text-align: left;
 }
 
 tr.header th.judges {
@@ -16,8 +15,7 @@ tr.header th.judges {
 }
 
 td {
-    font-size: 20pt;
-    padding: 5px;
+    font-size: 1rem;
 }
 
 .figur {
@@ -28,7 +26,7 @@ td {
 }
 
 tr.header th {
-    font-size: 20pt;
+    font-size: 1rem;
     border-bottom: 1px solid black;
     text-align: left;
 }
@@ -38,11 +36,10 @@ tr.gerade td {
 }
 
 tr.total th {
-    padding-top: 20px;
     text-align: right;
-    font-size: 50pt;
+    font-size: 1.5rem;
 }
 
 th.gesamt {
-    font-size: 40pt;
+    font-size: 1.5rem;
 }
