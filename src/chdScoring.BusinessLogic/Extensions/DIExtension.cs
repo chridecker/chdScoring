@@ -1,5 +1,6 @@
 ﻿using chdScoring.BusinessLogic.Services;
 using chdScoring.Contracts.Enums;
+using chdScoring.Contracts.Interfaces;
 using chdScoring.Contracts.Settings;
 using chdScoring.DataAccess.Contracts.DAL;
 using chdScoring.DataAccess.Contracts.DAL.Base;
@@ -42,7 +43,8 @@ namespace chdScoring.BusinessLogic.Extensions
             services.AddSingleton<IFlightCacheService, FlightCacheService>();
 
             services.AddTransient<ITimerService, TimerService>();
-            services.AddTransient<IScoreService, ScoreService>();
+            services.AddTransient<IJudgeService, JudgeService>();
+            services.AddTransient<IScoringService, ScoringService>();
             services.AddTransient<ITBLCalculationService, TBLCalculationService>();
 
             services.AddchdScoringContext();

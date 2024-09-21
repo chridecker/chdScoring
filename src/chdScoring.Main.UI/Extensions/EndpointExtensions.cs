@@ -16,52 +16,43 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using static chdScoring.Contracts.Constants.EndpointConstants;
 
 namespace chdScoring.Main.UI.Extensions
 {
     public static class EndpointExtensions
     {
 
-        public static IEndpointRouteBuilder MapChdScoring(this IEndpointRouteBuilder app, string endpoint)
+        public static IEndpointRouteBuilder MapChdScoring(this IEndpointRouteBuilder app)
         {
-            var mainGroup = app.MapGroup(endpoint).WithName(endpoint).WithDisplayName(endpoint).WithOpenApi();
+            var mainGroup = app.MapGroup(ROOT).WithTags(ROOT);
 
-            var control = mainGroup.MapGroup(EndpointConstants.ROUTE_Control).WithDisplayName("Control");
+            var control = mainGroup.MapGroup(EndpointConstants.Control.ROUTE).WithTags(EndpointConstants.Control.ROUTE);
 
-            var scoring = mainGroup.MapGroup(EndpointConstants.ROUTE_Scoring).WithDisplayName("Scoring");
-            var judges = mainGroup.MapGroup(EndpointConstants.ROUTE_Judge).WithDisplayName("Judges");
+            var scoring = mainGroup.MapGroup(Scoring.ROUTE).WithTags(Scoring.ROUTE);
+            var judges = mainGroup.MapGroup(Judge.ROUTE).WithDisplayName(Judge.ROUTE);
 
-            mainGroup.MapGet(EndpointConstants.GET_Test_Connection, () => Results.Ok())
-                .WithName(EndpointConstants.GET_Test_Connection);
+            control.MapGet(EndpointConstants.Control.GET_Test_Connection, () => Results.Ok());
 
-            control.MapPost(EndpointConstants.POST_TimerOperation, async (TimerOperationDto dto, ITimerService service, CancellationToken cancellationToken)
-                => Results.Ok(await service.HandleOperation(dto, cancellationToken)))
-                .WithName(EndpointConstants.POST_TimerOperation);
+            control.MapPost(EndpointConstants.Control.POST_TIMER, async (TimerOperationDto dto, ITimerService service, CancellationToken cancellationToken)
+                => await service.HandleOperation(dto, cancellationToken));
 
 
-            judges.MapGet($"{EndpointConstants.GET_Flight}", (IFlightCacheService flightCacheService) => Results.Ok(flightCacheService.GetCurrentFlight()))
-                .WithName(EndpointConstants.GET_Flight);
+            judges.MapGet(Judge.GET_Flight, (IJudgeService judgesService) => Results.Ok(judgesService.GetCurrentFlight()));
 
-            judges.MapGet(string.Empty, async (IJudgeRepository judgeRepo, CancellationToken cancellationToken) =>
-            {
-                var judges = await judgeRepo.FindAll(cancellationToken);
-                return judges.Select(s => new JudgeDto { Id = s.Id, Name = $"{s.Vorname} {s.Name}" });
-            }).WithName(string.Empty);
+            judges.MapGet(string.Empty, async (IJudgeService judgeService, CancellationToken cancellationToken)
+                => await judgeService.GetJudges());
 
 
-            scoring.MapPost(EndpointConstants.POST_Save, async (SaveScoreDto dto, IScoreService service, IFlightCacheService cache, IHubContext<FlightHub, IFlightHub> hub, CancellationToken cancellationToken) =>
+            scoring.MapPost(Scoring.POST_Save, async (SaveScoreDto dto, IScoringService service, IFlightCacheService cache, IHubContext<FlightHub, IFlightHub> hub, CancellationToken cancellationToken) =>
             {
                 if (await service.SaveScore(dto, cancellationToken))
                 {
                     await hub.Clients.Group($"judge{dto.Judge}").ReceiveFlightData(cache.GetCurrentFlight());
-                    return Results.Ok();
+                    return true;
                 }
-                return Results.BadRequest();
-            }).WithName(EndpointConstants.POST_Save);
-
-
-
-
+                return false;
+            });
             return app;
         }
     }

@@ -4,15 +4,29 @@ using System.Text;
 
 namespace chdScoring.Contracts.Constants
 {
-    public class EndpointConstants
+    public static class EndpointConstants
     {
-        public const string ROUTE_Scoring = "score";
-        public const string ROUTE_Judge = "judge";
-        public const string ROUTE_Control = "control";
+        public const string ROOT = "chdScoring";
+        public class Judge
+        {
+            public const string ROUTE = "judge";
+            public const string GET_Flight = "flight";
 
-        public const string GET_Test_Connection = "TestConnection";
-        public const string GET_Flight = "flight";
-        public const string POST_Save = "savescore";
-        public const string POST_TimerOperation = "timer";
+        }
+        public class Scoring
+        {
+            public const string ROUTE = "score";
+            public const string POST_Save = "savescore";
+
+        }
+        public class Control
+        {
+            public const string ROUTE = "control";
+
+            public const string POST_TIMER = "timer";
+            public const string GET_Test_Connection = "TestConnection";
+
+        }
+
     }
 }

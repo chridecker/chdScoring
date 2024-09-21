@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "chdScoring.DataAccess.EFCor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{4404AE52-6864-44D0-8D44-0C8CA7B1EEB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chdScoring.Client", "src\chdScoring.Client\chdScoring.Client.csproj", "{C1B466F9-C8B5-4BFB-A6FD-DE07A099D96E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "chdScoring.Client", "src\chdScoring.Client\chdScoring.Client.csproj", "{C1B466F9-C8B5-4BFB-A6FD-DE07A099D96E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chdScoring.Main.Client", "src\chdScoring.Main.Client\chdScoring.Main.Client.csproj", "{C92D9466-301A-411E-9ED8-F6CEDA8F1381}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{C1B466F9-C8B5-4BFB-A6FD-DE07A099D96E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1B466F9-C8B5-4BFB-A6FD-DE07A099D96E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C1B466F9-C8B5-4BFB-A6FD-DE07A099D96E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{C92D9466-301A-411E-9ED8-F6CEDA8F1381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C92D9466-301A-411E-9ED8-F6CEDA8F1381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C92D9466-301A-411E-9ED8-F6CEDA8F1381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C92D9466-301A-411E-9ED8-F6CEDA8F1381}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +78,7 @@ Global
 		{90401F96-6DD6-428A-A437-22849E1319F7} = {F6396EAD-C7F8-4D84-8FF0-96F57D7B42AD}
 		{4404AE52-6864-44D0-8D44-0C8CA7B1EEB6} = {F6396EAD-C7F8-4D84-8FF0-96F57D7B42AD}
 		{C1B466F9-C8B5-4BFB-A6FD-DE07A099D96E} = {4404AE52-6864-44D0-8D44-0C8CA7B1EEB6}
+		{C92D9466-301A-411E-9ED8-F6CEDA8F1381} = {F6396EAD-C7F8-4D84-8FF0-96F57D7B42AD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E89D853-FC91-4C18-A26F-2AB54FDF4EE0}

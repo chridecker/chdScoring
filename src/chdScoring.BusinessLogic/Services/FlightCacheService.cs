@@ -39,9 +39,5 @@ namespace chdScoring.BusinessLogic.Services
         public CurrentFlight GetCurrentFlight() => this._currentFlight;
     }
 
-    public interface IFlightCacheService
-    {
-        Task Update(CancellationToken cancellationToken);
-        CurrentFlight GetCurrentFlight();
-    }
+    
 }

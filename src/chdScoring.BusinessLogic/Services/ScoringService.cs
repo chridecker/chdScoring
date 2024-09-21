@@ -1,4 +1,5 @@
 ﻿using chdScoring.Contracts.Dtos;
+using chdScoring.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
 using Microsoft.Extensions.Logging;
@@ -11,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace chdScoring.BusinessLogic.Services
 {
-    public class ScoreService : IScoreService
+    public class ScoringService : IScoringService
     {
-        private readonly ILogger<ScoreService> _logger;
+        private readonly ILogger<ScoringService> _logger;
         private readonly IWertungRepository _wertungRepository;
 
-        public ScoreService(ILogger<ScoreService> logger, IWertungRepository wertungRepository)
+        public ScoringService(ILogger<ScoringService> logger, IWertungRepository wertungRepository)
         {
             this._logger = logger;
             this._wertungRepository = wertungRepository;
@@ -51,9 +52,5 @@ namespace chdScoring.BusinessLogic.Services
             }
             return saved;
         }
-    }
-    public interface IScoreService
-    {
-        Task<bool> SaveScore(SaveScoreDto saveScoreDto, CancellationToken cancellationToken);
     }
 }
