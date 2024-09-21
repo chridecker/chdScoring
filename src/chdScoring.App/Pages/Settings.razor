@@ -1,0 +1,39 @@
+﻿@page "/settings"
+
+<h3>Settings</h3>
+<p>
+    Basis Adresse:
+    <input type="text" value="@this._baseAddress" @onchange="(e)=>this.UpdateMainUrl(SettingConstants.BaseAddress, e)" />
+    <button @onclick="TestConnection" style="@testStatusCss">Test</button>
+</p>
+@if (this._judgeDtos != null && this._judgeDtos.Any())
+{
+    <p>
+        Judge:
+        <select @onchange="(e)=>this.UpdateJudge(SettingConstants.Judge,e)">
+            <option value="0">Keine Auswahl</option>
+            @foreach (var judge in this._judgeDtos.OrderBy(o => o.Id))
+            {
+                if (this._judge == judge.Id)
+                {
+                    <option selected value="@judge.Id">@judge.Name</option>
+                }
+                else
+                {
+                    <option value="@judge.Id">@judge.Name</option>
+                }
+            }
+        </select>
+    </p>
+}
+<p>
+    Als ControlCenter verwenden:
+    @if (this._isControlCenter)
+    {
+        <input type="checkbox" checked @onchange="(e)=>this.UpdateIsControlCenter(SettingConstants.BaseAddress, e)" />
+    }
+    else
+    {
+        <input type="checkbox" @onchange="(e)=>this.UpdateIsControlCenter(SettingConstants.BaseAddress, e)" />
+    }
+</p>

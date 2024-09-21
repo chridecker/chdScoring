@@ -1,0 +1,46 @@
+﻿@page "/controlcenter"
+<div class="timer">@this._dto.LeftTime</div>
+<div class="control">
+    <button @onclick="this.StartStop">
+        @(this._dto.LeftTime.HasValue ? "Stop" : "Start")
+    </button>
+</div>
+<table class="live">
+    <tr>
+        <th colspan="@(3+this._dto.Judges.Count())" style="" class="teilnehmer">
+            &#8470; @this._dto.Pilot.Id - @this._dto.Pilot.Name - Round @this._dto.Round.Id - @this._dto.Round.Program
+        </th>
+    </tr>
+    <tr class="header">
+        <th>#</th>
+        <th>Manoeuvre</th>
+        <th>K</th>
+        @foreach (var judge in this._dto.Judges)
+        {
+            <th class="jugdes">Judge @judge.Id</th>
+        }
+        <th>Total</th>
+    </tr>
+    @foreach (var maneouvre in this._dto.ManeouvreLst.FirstOrDefault().Value.OrderBy(o => o.Id))
+    {
+        <tr class="@(maneouvre.Id % 2 ==0? "gerade " : "")">
+            <td>@maneouvre.Id.ToString("D2")</td>
+            <td class="figur">@maneouvre.Name</td>
+            <td align='center'>@maneouvre.Value</td>
+            @foreach (var judge in this._dto.Judges.OrderBy(o => o.Id))
+            {
+                var score = this._dto.ManeouvreLst[judge.Id].FirstOrDefault(x => x.Id == maneouvre.Id).Score;
+                <td align='center'>@score</td>
+            }
+            <td></td>
+        </tr>
+    }
+    <tr>
+        <td colspan="3"></td>
+        @foreach (var judge in this._dto.Judges.OrderBy(o => o.Id))
+        {
+            <td class="gesamt">@this._dto.ManeouvreLst[judge.Id].Select(s => s.Value * (s.Score ?? 0)).Sum()</td>
+        }
+        <th>@this._dto.ManeouvreLst.Values.Select(s => s.Select(x =>x.Value * (x.Score ?? 0)).Sum()).Average()</th>
+    </tr>
+</table>

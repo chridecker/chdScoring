@@ -36,7 +36,17 @@ namespace chdScoring.BusinessLogic.Services
             var dal = scope.ServiceProvider.GetRequiredService<ICurrentFlightDAL>();
             this._currentFlight = await dal.GetCurrentFlightData(cancellationToken);
         }
+
+
         public CurrentFlight GetCurrentFlight() => this._currentFlight;
+
+        public void UpdateScore(SaveScoreDto dto)
+        {
+            if(this._currentFlight != null && this._currentFlight.ManeouvreLst.ContainsKey(dto.Judge))
+            {
+                this._currentFlight.ManeouvreLst[dto.Judge].FirstOrDefault(x => x.Id == dto.Figur).Score = dto.Value;
+            }
+        }
     }
 
     

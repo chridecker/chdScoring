@@ -32,7 +32,7 @@ namespace chdScoring.DataAccess.DAL
                 {
                     var klasse = await this._klasseRepository.GetCurrentKlasse(cancellationToken);
                     var round = currentPilot.Durchgang;
-                    
+
                     var pilot = await this._teilnehmerRepository.FindById(currentPilot.Teilnehmer, cancellationToken);
                     var judges = await this._judgeRepository.GetRoundPanel(round, cancellationToken);
                     var maneouvreLst = (await this._figurRepository.GetProgramToRound(round, cancellationToken)).OrderBy(o => o.Id);
@@ -43,8 +43,8 @@ namespace chdScoring.DataAccess.DAL
 
                     dto = new CurrentFlight()
                     {
-                        Round = round,
-                        LeftTime = time,
+                        Round = new RoundDto { Id = round, Program = program.Title },
+                        LeftTime = time < TimeSpan.Zero ? null : time,
                         Pilot = new PilotDto { Id = pilot.Id, Name = $"{pilot.Vorname} {pilot.Nachname.ToLower()}" },
                         Judges = judges.Select(judge => new JudgeDto { Id = judge.Id, Name = $"{judge.Vorname} {judge.Name.ToUpper()}" }),
                     };
