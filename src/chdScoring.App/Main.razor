@@ -4,7 +4,7 @@
             <CascadingBlazoredModal Position="ModalPosition.Middle" AnimationType="ModalAnimationType.None" Size="ModalSize.Automatic" HideCloseButton="false">
                 <Router AppAssembly="@typeof(Main).Assembly">
                     <Found Context="routeData">
-                        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)">
+                        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(chdScoring.App.Shared.MainLayout)">
                             <NotAuthorized>
                                 <RedirectToHome Text="Keine Berechtigung" Delay="3" />
                             </NotAuthorized>
@@ -12,7 +12,7 @@
                         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
                     </Found>
                     <NotFound>
-                        <LayoutView Layout="@typeof(MainLayout)">
+                        <LayoutView Layout="@typeof(chdScoring.App.Shared.MainLayout)">
                             <p role="alert">Sorry, there's nothing at this address.</p>
                         </LayoutView>
                     </NotFound>

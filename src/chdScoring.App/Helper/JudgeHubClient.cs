@@ -2,14 +2,8 @@
 using chdScoring.App.Services;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace chdScoring.App.Helper

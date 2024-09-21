@@ -1,11 +1,6 @@
 ﻿using chd.UI.Base.Client.Implementations.Authorization;
 using chd.UI.Base.Contracts.Dtos.Authentication;
 using chdScoring.Contracts.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace chdScoring.App.Services
 {

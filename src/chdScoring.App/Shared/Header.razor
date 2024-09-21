@@ -11,10 +11,6 @@
             <div class="networkBox">
                 <div class="liquid @GetStateCss()"></div>
             </div>
-
-            <div class="deviceBox">
-            </div>
-            <div class="ipBox">@_currentIP</div>
         </RightChildContent>
     </HeaderBase>
 </div>
@@ -23,7 +19,6 @@
     [Parameter]
     public string PageTitle { get; set; }
 
-    private string _currentIP = "127.0.0.1";
 
     protected override async Task OnInitializedAsync()
     {
@@ -35,9 +30,6 @@
       {
           while (true)
           {
-              this._currentIP = await clientSettingManager.CurrentIP();
-              if (this._currentIP == "::1") { this._currentIP = "127.0.0.1"; }
-
               var user = this.profileService.User;
               if (user != null && user.LogOffTimer.HasValue)
               {

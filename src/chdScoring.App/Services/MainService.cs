@@ -1,17 +1,7 @@
-﻿using chdScoring.App.Extensions;
-using chdScoring.Contracts.Constants;
-using chdScoring.Contracts.Dtos;
+﻿using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Enums;
 using chdScoring.Contracts.Interfaces;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Formats.Asn1;
-using System.Linq;
-using System.Net.Http.Json;
-using System.Text;
-using System.Threading;
 
 namespace chdScoring.App.Services
 {

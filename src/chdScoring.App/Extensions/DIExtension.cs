@@ -1,13 +1,8 @@
 ﻿using chd.UI.Base.Client.Extensions;
-using chd.UI.Base.Contracts.Interfaces.Services;
 using chdScoring.App.Handler;
 using chdScoring.App.Helper;
 using chdScoring.App.Services;
 using chdScoring.Main.Client.Extensions;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace chdScoring.App.Extensions
 {

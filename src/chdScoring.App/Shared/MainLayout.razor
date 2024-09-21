@@ -1,5 +1,9 @@
 ﻿@inherits PageComponentBase<int,int>
+@using Blazored.Toast.Configuration
+@using chd.UI.Base.Client.Implementations.Services
 @inject ISettingManager clientSettings
+@inject IScrollInfoService scrollInfoService
+
 
 
 <div class="page">
@@ -38,7 +42,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _ = await clientSettings.AppId;
         this._autocollapseNav = await clientSettings.GetSettingLocal<bool>(SettingConstants.AutoCollapseNavbar_Key);
         this._navCollapsed = true;
         await base.OnInitializedAsync();

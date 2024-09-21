@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace chdScoring.App.Helper
+﻿namespace chdScoring.App.Helper
 {
     public class DialogHelper : IDialogHelper
     {

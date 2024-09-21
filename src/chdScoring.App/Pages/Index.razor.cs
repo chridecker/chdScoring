@@ -1,18 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using System.Net.Http;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.Web.Virtualization;
-using Microsoft.JSInterop;
-using chdScoring.App;
 using chdScoring.App.Services;
 using chdScoring.Contracts.Dtos;
-using chdScoring.App.Handler;
 using chdScoring.App.Helper;
 
 namespace chdScoring.App.Pages
@@ -46,7 +34,7 @@ namespace chdScoring.App.Pages
         {
             this._cts = new();
             this._judge = await this._settingManager.Judge;
-            await this._judgeHubClient.StartAsync(this._cts.Token);
+            if (!this._judgeHubClient.IsConnected) { await this._judgeHubClient.StartAsync(this._cts.Token); }
             await this._judgeHubClient.Register(this._judge, this._cts.Token);
             this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
             this._dto = this._judgeDataCache.Data;

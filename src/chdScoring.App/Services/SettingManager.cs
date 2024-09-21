@@ -1,16 +1,9 @@
-﻿using Blazored.LocalStorage;
-using chd.UI.Base.Client.Implementations.Services.Base;
+﻿using chd.UI.Base.Client.Implementations.Services.Base;
 using chd.UI.Base.Contracts.Interfaces.Services;
+using chd.UI.Base.Contracts.Interfaces.Services.Base;
 using chdScoring.App.Constants;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace chdScoring.App.Services
 {
@@ -68,7 +61,7 @@ namespace chdScoring.App.Services
             await this.StoreSettingLocal<bool>(SettingConstants.ControlCenter, isControlCenter);
         }
     }
-    public interface ISettingManager
+    public interface ISettingManager : IBaseClientSettingManager
     {
         Task<string> MainUrl { get; }
         Task UpdateMainUrl(string url);
