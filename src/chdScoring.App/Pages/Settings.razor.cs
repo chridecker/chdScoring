@@ -47,8 +47,5 @@ namespace chdScoring.App.Pages
 
         private Task UpdateJudge(string setting, ChangeEventArgs e) => this._settingManager.UpdateJudge(int.Parse((string)e.Value));
         private Task UpdateIsControlCenter(string setting, ChangeEventArgs e) => this._settingManager.UpdateControlCenter((bool)e.Value);
-
-        private async Task TestConnection() => isTestSuccess = await this._mainService.TestConnection(this._cts.Token);
-
     }
 }

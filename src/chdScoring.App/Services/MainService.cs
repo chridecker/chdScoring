@@ -2,6 +2,7 @@
 using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Enums;
+using chdScoring.Contracts.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections;
@@ -16,57 +17,35 @@ namespace chdScoring.App.Services
 {
     public class MainService : IMainService
     {
-        private readonly HttpClient _client;
         private readonly ILogger<MainService> _logger;
+        private readonly IJudgeService _judgeService;
+        private readonly ITimerService _timerService;
+        private readonly IScoringService _scoringService;
         private readonly ISettingManager _settingManager;
 
-        public MainService(ILogger<MainService> logger, IHttpClientFactory httpClientFactory, ISettingManager settingManager)
+        public MainService(ILogger<MainService> logger, IJudgeService judgeService, ITimerService timerService, IScoringService scoringService, ISettingManager settingManager)
         {
             this._logger = logger;
+            this._judgeService = judgeService;
+            this._timerService = timerService;
+            this._scoringService = scoringService;
             this._settingManager = settingManager;
-            this._client = httpClientFactory.CreateClient<MainService>();
-            this._client.DefaultRequestHeaders.Accept.Clear();
-            this._client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
         public async Task<IEnumerable<JudgeDto>> GetJudges(CancellationToken cancellationToken)
         {
             try
             {
-                var uri = new UriBuilder(await this._settingManager.MainUrl).Uri;
-                return await this._client.GetFromJsonAsync<IEnumerable<JudgeDto>>($"{uri}{EndpointConstants.ROUTE_Judge}/", cancellationToken);
+                return await this._judgeService.GetJudges(cancellationToken);
             }
-            catch (Exception ex)
+            catch
             {
-                return Enumerable.Empty<JudgeDto>();
+
             }
+            return Enumerable.Empty<JudgeDto>();
         }
 
-        public async Task<bool> TestConnection(CancellationToken cancellationToken)
-        {
-            try
-            {
-                var uri = new UriBuilder(await this._settingManager.MainUrl).Uri;
-                var res = await this._client.GetAsync($"{uri}{EndpointConstants.GET_Test_Connection}/", cancellationToken);
-                return res.IsSuccessStatusCode;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-
-        public async Task<CurrentFlight> GetCurrentFlight(CancellationToken cancellationToken)
-        {
-            try
-            {
-                var uri = new UriBuilder(await this._settingManager.MainUrl).Uri;
-                return await this._client.GetFromJsonAsync<CurrentFlight>($"{uri}{EndpointConstants.ROUTE_Judge}/{EndpointConstants.GET_Flight}", cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
+        public Task<CurrentFlight> GetCurrentFlight(CancellationToken cancellationToken)
+        => this._judgeService.GetCurrentFlight(cancellationToken);
 
         public async Task<bool> SaveScore(int id, int figur, int judge, int round, decimal value, CancellationToken token)
         {
@@ -80,16 +59,15 @@ namespace chdScoring.App.Services
                     Round = round,
                     Value = value
                 };
-                var uri = new UriBuilder(await this._settingManager.MainUrl).Uri;
-                var res  = await this._client.PostAsJsonAsync($"{uri}{EndpointConstants.ROUTE_Scoring}/{EndpointConstants.POST_Save}", dto, cancellationToken: token);
-                return res.IsSuccessStatusCode;
+
+                return await this._scoringService.SaveScore(dto, token);
             }
             catch (Exception ex)
             {
                 return false;
             }
         }
-        
+
         public async Task<bool> StartStop(ETimerOperation timerOperation, CancellationToken token)
         {
             try
@@ -98,9 +76,7 @@ namespace chdScoring.App.Services
                 {
                     Operation = timerOperation
                 };
-                var uri = new UriBuilder(await this._settingManager.MainUrl).Uri;
-                var res  = await this._client.PostAsJsonAsync($"{uri}{EndpointConstants.ROUTE_Control}/{EndpointConstants.POST_TimerOperation}", dto, cancellationToken: token);
-                return res.IsSuccessStatusCode;
+                return await this._timerService.HandleOperation(dto, token);
             }
             catch (Exception ex)
             {
@@ -110,7 +86,6 @@ namespace chdScoring.App.Services
     }
     public interface IMainService
     {
-        Task<bool> TestConnection(CancellationToken cancellationToken);
         Task<IEnumerable<JudgeDto>> GetJudges(CancellationToken cancellationToken);
         Task<CurrentFlight> GetCurrentFlight(CancellationToken cancellationToken);
         Task<bool> SaveScore(int id, int figur, int judge, int round, decimal value, CancellationToken token);

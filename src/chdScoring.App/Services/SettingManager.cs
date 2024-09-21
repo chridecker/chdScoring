@@ -1,5 +1,9 @@
 ﻿using Blazored.LocalStorage;
+using chd.UI.Base.Client.Implementations.Services.Base;
+using chd.UI.Base.Contracts.Interfaces.Services;
 using chdScoring.App.Constants;
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +14,17 @@ using System.Threading.Tasks;
 
 namespace chdScoring.App.Services
 {
-    public class SettingManager : ISettingManager
+    public class SettingManager : BaseClientSettingManager<int, int>, ISettingManager
     {
-        private readonly ILocalStorageService _localStorageService;
         private string _mainUrl;
         private int? _judge;
         private bool? _isControlCenter;
 
-
-        public SettingManager(ILocalStorageService localStorageService)
+        public SettingManager(ILogger<SettingManager> logger,
+            IProtecedLocalStorageHandler protecedLocalStorageHandler,
+            NavigationManager navigationManager) : base(logger, protecedLocalStorageHandler, navigationManager)
         {
-            this._localStorageService = localStorageService;
         }
-
         public Task<string> MainUrl => Task.Run(async () =>
         {
             if (string.IsNullOrWhiteSpace(this._mainUrl))
@@ -65,33 +67,6 @@ namespace chdScoring.App.Services
             this._isControlCenter = isControlCenter;
             await this.StoreSettingLocal<bool>(SettingConstants.ControlCenter, isControlCenter);
         }
-
-
-
-        public async Task<T> GetSettingLocal<T>(string key)
-        {
-            try
-            {
-                return JsonSerializer.Deserialize<T>(await this.GetItemAsync(key), SerializationConstants.JsonOptions);
-            }
-            catch (Exception e)
-            {
-                return default(T);
-            }
-        }
-        public async Task<string> GetSettingLocal(string key)
-        {
-            try { return await this.GetItemAsync(key); }
-            catch { return string.Empty; }
-        }
-        public async Task StoreSettingLocal(string key, string value) => await this.SetItemAsync(key, value);
-        public async Task StoreSettingLocal<T>(string key, T value) => await this.SetItemAsync(key, JsonSerializer.Serialize<T>(value, SerializationConstants.JsonOptions));
-
-        private ValueTask SetItemAsync(string key, string value) => this._localStorageService.SetItemAsStringAsync(key, value);
-        private ValueTask SetItemObject<T>(string key, T value) => this._localStorageService.SetItemAsync(key, value);
-        private ValueTask<T> GetItemObject<T>(string key) => this._localStorageService.GetItemAsync<T>(key);
-        private ValueTask<string> GetItemAsync(string key) => this._localStorageService.GetItemAsStringAsync(key);
-        private ValueTask<IEnumerable<string>> GetKeys() => this._localStorageService.KeysAsync();
     }
     public interface ISettingManager
     {
@@ -101,8 +76,6 @@ namespace chdScoring.App.Services
         Task<int> Judge { get; }
         Task<bool> IsControlCenter { get; }
 
-        Task StoreSettingLocal(string key, string value);
-        Task StoreSettingLocal<T>(string key, T value);
         Task UpdateControlCenter(bool isControlCenter);
     }
 }

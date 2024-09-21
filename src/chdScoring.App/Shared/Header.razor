@@ -1,0 +1,53 @@
+@using System.Globalization
+@inject ISettingManager clientSettingManager
+@inject IProfileService<int,int> profileService
+@inject ITimeoutHandler timeoutHandler
+@inject IJudgeHubClient apiClient
+@inherits LayoutComponentBase
+
+<div class="header-panel">
+    <HeaderBase TUserId="int" TRightId="int" PageTitle="@this.PageTitle" ShowVersion="true" ShowDateInfo="true">
+        <RightChildContent>
+            <div class="networkBox">
+                <div class="liquid @GetStateCss()"></div>
+            </div>
+
+            <div class="deviceBox">
+            </div>
+            <div class="ipBox">@_currentIP</div>
+        </RightChildContent>
+    </HeaderBase>
+</div>
+
+@code {
+    [Parameter]
+    public string PageTitle { get; set; }
+
+    private string _currentIP = "127.0.0.1";
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.StartRefresh();
+        await base.OnInitializedAsync();
+    }
+
+    private void StartRefresh() => Task.Run(async () =>
+      {
+          while (true)
+          {
+              this._currentIP = await clientSettingManager.CurrentIP();
+              if (this._currentIP == "::1") { this._currentIP = "127.0.0.1"; }
+
+              var user = this.profileService.User;
+              if (user != null && user.LogOffTimer.HasValue)
+              {
+                  this.timeoutHandler.CalculateDifferences(user.LogOffTimer);
+              }
+
+              await this.InvokeAsync(StateHasChanged);
+              await Task.Delay(TimeSpan.FromSeconds(5));
+          }
+      });
+
+    private string GetStateCss() => apiClient?.IsConnected ?? false ? "online" : "offline";
+}

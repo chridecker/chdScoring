@@ -46,7 +46,7 @@ namespace chdScoring.App.Pages
         {
             this._cts = new();
             this._judge = await this._settingManager.Judge;
-            await this._judgeHubClient.Initialize(this._cts.Token);
+            await this._judgeHubClient.StartAsync(this._cts.Token);
             await this._judgeHubClient.Register(this._judge, this._cts.Token);
             this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
             this._dto = this._judgeDataCache.Data;

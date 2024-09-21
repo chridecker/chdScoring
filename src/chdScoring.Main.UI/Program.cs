@@ -17,8 +17,8 @@ using Microsoft.AspNetCore.Http;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.Main.UI.Extensions;
 using NLog.LayoutRenderers;
-using chdScoring.Main.UI.Hubs;
 using chd.Api.Base.Extensions;
+using chdScoring.BusinessLogic.Hubs;
 
 Thread.CurrentThread.SetApartmentState(ApartmentState.Unknown);
 Thread.CurrentThread.SetApartmentState(ApartmentState.STA);

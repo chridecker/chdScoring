@@ -1,9 +1,9 @@
-﻿using chdScoring.BusinessLogic.Services;
+﻿using chdScoring.BusinessLogic.Hubs;
+using chdScoring.BusinessLogic.Services;
 using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.Repositories;
-using chdScoring.Main.UI.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,8 +31,6 @@ namespace chdScoring.Main.UI.Extensions
 
             var scoring = mainGroup.MapGroup(Scoring.ROUTE).WithTags(Scoring.ROUTE);
             var judges = mainGroup.MapGroup(Judge.ROUTE).WithDisplayName(Judge.ROUTE);
-
-            control.MapGet(EndpointConstants.Control.GET_Test_Connection, () => Results.Ok());
 
             control.MapPost(EndpointConstants.Control.POST_TIMER, async (TimerOperationDto dto, ITimerService service, CancellationToken cancellationToken)
                 => await service.HandleOperation(dto, cancellationToken));

@@ -4,7 +4,6 @@
 <p>
     Basis Adresse:
     <input type="text" value="@this._baseAddress" @onchange="(e)=>this.UpdateMainUrl(SettingConstants.BaseAddress, e)" />
-    <button @onclick="TestConnection" style="@testStatusCss">Test</button>
 </p>
 @if (this._judgeDtos != null && this._judgeDtos.Any())
 {
