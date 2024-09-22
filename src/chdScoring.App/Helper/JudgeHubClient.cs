@@ -25,11 +25,11 @@ namespace chdScoring.App.Helper
         protected override Uri LoadUri()
         {
             var baseAddress = this._settingManager.MainUrl.Result;
-            return new UriBuilder($"{baseAddress}flight-hub").Uri;
+            return new UriBuilder($"{baseAddress}chdscoring/flight-hub").Uri;
         }
 
         protected override async Task<bool> ShouldInitialize(CancellationToken cancellationToken)
-            => !string.IsNullOrWhiteSpace(await this._settingManager.MainUrl);
+            => !string.IsNullOrWhiteSpace((await this._settingManager.MainUrl));
 
         protected override Task DoInvokations(HubConnection connection, CancellationToken cancellationToken)
         {

@@ -1,17 +1,15 @@
 ﻿@using chdScoring.Contracts.Dtos;
-<table class='wertungen'>
-    <tr>
-        <th class='headline'>#</th>
-        <th class='headline'>Manoeuvre</th>
-        <th class='headline'>Score</th>
-    </tr>
-    @foreach (var man in this.Maneouvres.OrderBy(o => o.Id))
-    {
-        <tr class="@this._cssClass(man)">
-            <td>@man.Id.ToString("D2")</td>
-            <td style="@_cssFigur(man)">@man.Name</td>
-            <td>@man.Score</td>
-        </tr>
-    }
-</table>
 
+<Table Items="this.Maneouvres.OrderBy(o => o.Id)">
+
+    <HeaderContent>
+        <TableHead>#</TableHead>
+        <TableHead>Manoevre</TableHead>
+        <TableHead>Score</TableHead>
+    </HeaderContent>
+    <RowTemplate Context="man">
+        <TableData>@man.Id.ToString("D2")</TableData>
+        <TableData>@man.Name</TableData>
+        <TableData>@man.Score</TableData>
+    </RowTemplate>
+</Table>

@@ -17,6 +17,7 @@ main {
 
 article {
     position: relative;
+    padding:0 !important;
 }
 
     article ::deep * {
