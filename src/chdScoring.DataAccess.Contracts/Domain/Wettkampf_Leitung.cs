@@ -11,6 +11,6 @@ namespace chdScoring.DataAccess.Contracts.Domain
         public int Teilnehmer { get; set; }
         public int Durchgang { get; set; }
         public int Status { get; set; }
-        public DateTime Start_Time { get; set; }
+        public TimeSpan Start_Time { get; set; }
     }
 }

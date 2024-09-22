@@ -36,7 +36,7 @@ namespace chdScoring.Main.UI.Extensions
                 => await service.HandleOperation(dto, cancellationToken));
 
 
-            judges.MapGet(Judge.GET_Flight, (IJudgeService judgesService) => Results.Ok(judgesService.GetCurrentFlight()));
+            judges.MapGet(Judge.GET_Flight, async(IJudgeService judgesService) => await judgesService.GetCurrentFlight());
 
             judges.MapGet(string.Empty, async (IJudgeService judgeService, CancellationToken cancellationToken)
                 => await judgeService.GetJudges());
