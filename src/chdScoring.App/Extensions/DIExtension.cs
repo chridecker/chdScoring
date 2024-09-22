@@ -1,4 +1,6 @@
 ﻿using chd.UI.Base.Client.Extensions;
+using chd.UI.Base.Components.Helper;
+using chd.UI.Base.Contracts.Interfaces.Services;
 using chdScoring.App.Handler;
 using chdScoring.App.Helper;
 using chdScoring.App.Services;
@@ -10,11 +12,16 @@ namespace chdScoring.App.Extensions
     {
         public static IServiceCollection AddChdScoringApp(this IServiceCollection services)
         {
+            services.AddHttpClient();
+
+            services.AddOptions();
+            services.AddAuthorizationCore();
+
             services.AddSingleton<IDialogHelper, DialogHelper>();
             services.AddSingleton<IKeyHandler, KeyHandler>();
             services.AddSingleton<IVibrationHelper, VibrationHelper>();
 
-            services.AddUtilities<chdScoringProfileService, int, int>();
+            services.AddUtilities<chdScoringProfileService, int, int, SettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, UpdateService, BaseFilterHelper>();
 
             services.AddScoped<ISettingManager, SettingManager>();
             services.AddTransient<IMainService, MainService>();
