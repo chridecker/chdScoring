@@ -2,17 +2,18 @@
 @using chdScoring.App.Services;
 @inject ISettingManager settingManager
 
-
-<NavMenuBase Visible="this.Visible">
-    <MenuContent>
-        <NavItem href="" Match="NavLinkMatch.All" IconFAClass="house" Title="Home" />
-        @if (this._controlCodeCenterAvailable)
-        {
-            <NavItem href="controlcenter" IconFAClass="calculator" Title="Control Center" />
-        }
-    </MenuContent>
-    <BottomContent>
-        <AuthorizedNavItem TUserId="int" TRightId="int" Style="EIconStyle.Regular" href="settings" IconFAClass="fa-gear" Title="Settings" />
-        <LoginNavItem TUserId="int" TRightId="int" Style="EIconStyle.Regular" />
-    </BottomContent>
-</NavMenuBase>
+<div class="nav-menu">
+    <NavMenuBase Visible="this.Visible">
+        <MenuContent>
+            <NavItem href="" Match="NavLinkMatch.All" IconFAClass="house" Title="Home" />
+            @if (this._controlCodeCenterAvailable)
+            {
+                <NavItem href="controlcenter" IconFAClass="calculator" Title="Control Center" />
+            }
+        </MenuContent>
+        <BottomContent>
+            <AuthorizedNavItem TUserId="int" TRightId="int" Style="EIconStyle.Regular" href="settings" IconFAClass="fa-gear" Title="Settings" />
+            <LoginNavItem TUserId="int" TRightId="int" Style="EIconStyle.Regular" />
+        </BottomContent>
+    </NavMenuBase>
+</div>

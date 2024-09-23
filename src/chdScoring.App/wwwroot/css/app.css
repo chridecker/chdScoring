@@ -6,6 +6,14 @@
     --chd-device-height: 1024px;
     --dg-device-width: 1024px;
     --dg-device-height: 1280px;
+
+    --sidebar-width-small: 3rem !important;
+
+    --top-header-height: 2.5rem !important;
+
+    --main-article-padding-lr: 0 !important;
+    --main-article-height:100% !important;
+    --main-article-available-height:100% !important;
 }
 
     *::-webkit-scrollbar {
@@ -14,4 +22,12 @@
 
 .search-container input[type=text] {
     display: none;
+}
+
+
+@media (min-width: 768px)
+{
+    .top-row{
+        display:none !important;
+    }
 }

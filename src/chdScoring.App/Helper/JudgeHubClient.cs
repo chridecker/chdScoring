@@ -38,7 +38,7 @@ namespace chdScoring.App.Helper
 
         protected override void SpecificReinitialize(HubConnection connection)
         {
-            connection.Remove(nameof(IFlightHub.ReceiveFlightData));
+            connection?.Remove(nameof(IFlightHub.ReceiveFlightData));
         }
 
         protected override void HookIncomingCalls(HubConnection connection)
