@@ -26,14 +26,6 @@ namespace chdScoring.App.Services
             }
             return this._mainUrl;
         });
-        public Task<int> Judge => Task.Run(async () =>
-       {
-           if (!this._judge.HasValue)
-           {
-               this._judge = await this.GetSettingLocal<int>(SettingConstants.Judge);
-           }
-           return this._judge.Value;
-       });
 
         public Task<bool> IsControlCenter => Task.Run(async () =>
        {
@@ -49,11 +41,6 @@ namespace chdScoring.App.Services
             this._mainUrl = url;
             await this.StoreSettingLocal<string>(SettingConstants.BaseAddress, url);
         }
-        public async Task UpdateJudge(int judge)
-        {
-            this._judge = judge;
-            await this.StoreSettingLocal<int>(SettingConstants.Judge, judge);
-        }
 
         public async Task UpdateControlCenter(bool isControlCenter)
         {
@@ -65,8 +52,6 @@ namespace chdScoring.App.Services
     {
         Task<string> MainUrl { get; }
         Task UpdateMainUrl(string url);
-        Task UpdateJudge(int judge);
-        Task<int> Judge { get; }
         Task<bool> IsControlCenter { get; }
 
         Task UpdateControlCenter(bool isControlCenter);

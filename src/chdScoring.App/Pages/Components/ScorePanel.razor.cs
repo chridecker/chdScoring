@@ -6,41 +6,34 @@ using chdScoring.App.Services;
 using chdScoring.Contracts.Dtos;
 using chdScoring.App.Handler;
 using Blazorise.DeepCloner;
+using chdScoring.Contracts.Interfaces;
 
 namespace chdScoring.App.Pages.Components
 {
-    public partial class ScorePanel : IAsyncDisposable
+    public partial class ScorePanel : ComponentBase, IAsyncDisposable
     {
-        [Inject]
-        private IMainService _mainService { get; set; }
-        [Inject]
-        private IKeyHandler _keyHandler { get; set; }
+        [Inject] private IKeyHandler _keyHandler { get; set; }
 
-        [Inject]
-        private IVibrationHelper _vibrationHelper { get; set; }
+        [Inject] private IScoringService _scoringService { get; set; }
 
-        [Inject]
-        private IJSRuntime _jsRuntime { get; set; }
+        [Inject] private IVibrationHelper _vibrationHelper { get; set; }
 
-        [Parameter]
-        public int Round { get; set; }
+        [Inject] private IJSRuntime _jsRuntime { get; set; }
 
-        [Parameter]
-        public PilotDto Pilot { get; set; }
 
-        [Parameter]
-        public JudgeDto Judge { get; set; }
+        [Parameter] public int Round { get; set; }
 
-        [Parameter]
-        public ManeouvreDto Maneouvre { get; set; }
+        [Parameter] public PilotDto Pilot { get; set; }
 
-        [Parameter]
-        public bool PanelDisabled { get; set; }
+        [Parameter] public JudgeDto Judge { get; set; }
 
-        [Parameter]
-        public CancellationToken CancellationToken { get; set; }
+        [Parameter] public ManeouvreDto Maneouvre { get; set; }
 
-        private string _scoreValueText => this._scoreValue.HasValue ? this._scoreValue.Value < 0 ? "NO" :  this._scoreValue.Value.ToString("#.#") : "";
+        [Parameter] public bool PanelDisabled { get; set; }
+
+        [Parameter] public CancellationToken CancellationToken { get; set; }
+
+        private string _scoreValueText => this._scoreValue.HasValue ? this._scoreValue.Value < 0 ? "NO" : this._scoreValue.Value.ToString("#.#") : "";
         private decimal? _scoreValue;
 
 
@@ -91,7 +84,7 @@ namespace chdScoring.App.Pages.Components
         {
             if (this._scoreValue.HasValue)
             {
-                if (!(await this._mainService.SaveScore(this.Pilot.Id, this.Maneouvre.Id, this.Judge.Id, this.Round, this._scoreValue.Value, this.CancellationToken)))
+                if (!(await this.SaveScore(this.Pilot.Id, this.Maneouvre.Id, this.Judge.Id, this.Round, this._scoreValue.Value, this.CancellationToken)))
                 {
                     var duration = TimeSpan.FromMilliseconds(200);
                     await this._vibrationHelper.Vibrate(4, duration, this.CancellationToken);
@@ -103,6 +96,26 @@ namespace chdScoring.App.Pages.Components
                 }
             }
             await this.InvokeAsync(this.StateHasChanged);
+        }
+        public async Task<bool> SaveScore(int id, int figur, int judge, int round, decimal value, CancellationToken token)
+        {
+            try
+            {
+                var dto = new SaveScoreDto
+                {
+                    Pilot = id,
+                    Figur = figur,
+                    Judge = judge,
+                    Round = round,
+                    Value = value
+                };
+
+                return await this._scoringService.SaveScore(dto, token);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         private async Task NotObserved()

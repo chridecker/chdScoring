@@ -60,12 +60,24 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
-		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.8" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\chdScoring.Contracts\chdScoring.Contracts.csproj" />
       <ProjectReference Include="..\chdScoring.Main.Client\chdScoring.Main.Client.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.90" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.Maui.Controls" Version="8.0.90" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.90" />
     </ItemGroup>
 
 </Project>

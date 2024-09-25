@@ -3,7 +3,7 @@ using chdScoring.Contracts.Dtos;
 
 namespace chdScoring.App.Pages.Components
 {
-    public partial class FigurTable
+    public partial class FigurTable : ComponentBase
     {
         [Parameter]
         public IEnumerable<ManeouvreDto> Maneouvres { get; set; }

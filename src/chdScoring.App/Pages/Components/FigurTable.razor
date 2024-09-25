@@ -10,7 +10,7 @@
     <RowTemplate Context="man">
         <TableData AllOtherAttributes="@(new Dictionary<string,object>(){{"class",this._cssFigur(man)}})">@man.Id.ToString("D2")</TableData>
         <TableData>@man.Name</TableData>
-            <TableData AllOtherAttributes="@(new Dictionary<string,object>(){{"class","score"}})">@man.Score</TableData>
+            <TableData AllOtherAttributes="@(new Dictionary<string,object>(){{"class","score"}})">@man.Score.ToString("n2")</TableData>
     </RowTemplate>
 </Table>
 </div>

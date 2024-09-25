@@ -8,7 +8,6 @@ namespace chdScoring.App.Pages
     public partial class Settings
     {
         [Inject] private ISettingManager _settingManager { get; set; }
-        [Inject] private IMainService _mainService { get; set; }
 
         private CancellationTokenSource _cts = new CancellationTokenSource();
 

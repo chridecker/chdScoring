@@ -26,9 +26,9 @@ namespace chdScoring.BusinessLogic.Services
             await this._hub.Clients.All.ReceiveFlightData(this._cacheService.GetCurrentFlight(), cancellationToken);
         }
 
-        public Task SendJudge(int judge, CancellationToken cancellationToken)
+        public async Task SendJudge(int judge, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await this._hub.Clients.Group($"judge{judge}").ReceiveFlightData(this._cacheService.GetCurrentFlight(), cancellationToken);
         }
     }
     public interface IHubDataService

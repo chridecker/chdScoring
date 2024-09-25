@@ -16,11 +16,15 @@ namespace chdScoring.BusinessLogic.Services
     {
         private readonly ILogger<ScoringService> _logger;
         private readonly IWertungRepository _wertungRepository;
+        private readonly IFlightCacheService _flightCacheService;
+        private readonly IHubDataService _hubDataService;
 
-        public ScoringService(ILogger<ScoringService> logger, IWertungRepository wertungRepository)
+        public ScoringService(ILogger<ScoringService> logger, IWertungRepository wertungRepository, IFlightCacheService flightCacheService, IHubDataService hubDataService)
         {
             this._logger = logger;
             this._wertungRepository = wertungRepository;
+            this._flightCacheService = flightCacheService;
+            this._hubDataService = hubDataService;
         }
 
         public async Task<bool> SaveScore(SaveScoreDto dto, CancellationToken cancellationToken)
@@ -31,7 +35,7 @@ namespace chdScoring.BusinessLogic.Services
                 return false;
             }
 
-            this._wertungRepository.CreateTransaction(cancellationToken);
+            await this._wertungRepository.CreateTransaction(cancellationToken);
             try
             {
                 saved = await this._wertungRepository.SaveAsync(new Wertung()
@@ -42,11 +46,14 @@ namespace chdScoring.BusinessLogic.Services
                     Teilnehmer = dto.Pilot,
                     Wert = dto.Value
                 }, cancellationToken);
-                this._wertungRepository.Commit(cancellationToken);
+                await this._wertungRepository.Commit(cancellationToken);
+                await this._flightCacheService.Update(cancellationToken);
+                await this._hubDataService.SendJudge(dto.Judge, cancellationToken);
+
             }
             catch (Exception ex)
             {
-                this._wertungRepository.Rollback(cancellationToken);
+                await this._wertungRepository.Rollback(cancellationToken);
                 this._logger?.LogError(ex, ex.Message);
                 saved = false;
             }

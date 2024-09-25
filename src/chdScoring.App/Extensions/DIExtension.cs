@@ -24,7 +24,6 @@ namespace chdScoring.App.Extensions
             services.AddUtilities<chdScoringProfileService, int, int, SettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, UpdateService, BaseFilterHelper>();
 
             services.AddScoped<ISettingManager, SettingManager>();
-            services.AddTransient<IMainService, MainService>();
             services.AddScoped<IJudgeHubClient, JudgeHubClient>();
             services.AddSingleton<IJudgeDataCache, JudgeDataCache>();
 
