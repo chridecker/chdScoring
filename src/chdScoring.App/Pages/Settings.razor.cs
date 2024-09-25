@@ -26,9 +26,22 @@ namespace chdScoring.App.Pages
 
             await base.OnInitializedAsync();
         }
-        private Task UpdateMainUrl(ChangeEventArgs e) => this._settingManager.UpdateMainUrl((string)e.Value);
+        private async Task UpdateMainUrl(ChangeEventArgs e)
+        {
+            await this._settingManager.UpdateMainUrl((string)e.Value);
+            await this.InvokeAsync(this.StateHasChanged);
+        }
 
-        private Task UpdateAutoCollapeseNavBar(ChangeEventArgs e) => this._settingManager.StoreSettingLocal<bool>(SettingConstants.AutoCollapseNavbar_Key, (bool)e.Value);
-        private Task UpdateIsControlCenter(ChangeEventArgs e) => this._settingManager.UpdateControlCenter((bool)e.Value);
+        private async Task UpdateAutoCollapeseNavBar(ChangeEventArgs e)
+        {
+            await this._settingManager.StoreSettingLocal<bool>(SettingConstants.AutoCollapseNavbar_Key, (bool)e.Value);
+            await this.InvokeAsync(this.StateHasChanged);
+        }
+
+        private async Task UpdateIsControlCenter(ChangeEventArgs e)
+        {
+            await this._settingManager.UpdateControlCenter((bool)e.Value);
+            await this.InvokeAsync(this.StateHasChanged);
+        }
     }
 }

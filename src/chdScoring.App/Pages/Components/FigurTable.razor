@@ -1,15 +1,16 @@
 ﻿@using chdScoring.Contracts.Dtos;
 
+<div class="figure-table">
 <Table Items="this.Maneouvres.OrderBy(o => o.Id)">
-
     <HeaderContent>
         <TableHead>#</TableHead>
         <TableHead>Manoevre</TableHead>
         <TableHead>Score</TableHead>
     </HeaderContent>
     <RowTemplate Context="man">
-        <TableData>@man.Id.ToString("D2")</TableData>
+        <TableData AllOtherAttributes="@(new Dictionary<string,object>(){{"class",this._cssFigur(man)}})">@man.Id.ToString("D2")</TableData>
         <TableData>@man.Name</TableData>
-        <TableData>@man.Score</TableData>
+            <TableData AllOtherAttributes="@(new Dictionary<string,object>(){{"class","score"}})">@man.Score</TableData>
     </RowTemplate>
 </Table>
+</div>

@@ -2,10 +2,8 @@
 @using chdScoring.App.Pages.Components
 @if (this._dto != null)
 {
-    <div class="figur-table">
-        <FigurTable Maneouvres="this.Maneouvres" />
-    </div>
-    <div class="score-panel">
-        <ScorePanel CancellationToken="this._cts.Token" Judge="this.Judge" Pilot="this._dto.Pilot" PanelDisabled="this._panelDisabled" Round="this._dto.Round.Id" Maneouvre="this.Maneouvres.FirstOrDefault(x => x.Current)" />
-    </div>
+        <div class="scoring">
+            <FigurTable Maneouvres="this.Maneouvres" />
+            <ScorePanel CancellationToken="this._cts.Token" Judge="this.Judge" Pilot="this._dto.Pilot" PanelDisabled="this._panelDisabled" Round="this._dto.Round.Id" Maneouvre="this.Maneouvres.FirstOrDefault(x => x.Current)" />
+        </div>
 }

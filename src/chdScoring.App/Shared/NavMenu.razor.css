@@ -8,29 +8,29 @@
         .nav-menu ::deep .sidebar.collapsed header .image {
         }
 
-            .nav-menu ::deep .sidebar.collapsed header .image .logo {
-                padding: 0.3rem;
-            }
+    .nav-menu ::deep .sidebar header .image .logo {
+        padding: 0.3rem;
+    }
 
-                .nav-menu ::deep .sidebar.collapsed header .image .logo.test {
-                    background-color: green;
-                }
-
-                .nav-menu ::deep .sidebar.collapsed header .image .logo svg {
-                    height: 1.7rem;
-                    width: 1.7rem;
-                }
-
-        .nav-menu ::deep .sidebar.collapsed .menu-bar {
-            height: calc(100% - var(--top-header-height) / 1);
+        .nav-menu ::deep .sidebar header .image .logo.test {
+            background-color: var(--chd-main-color-theme);
         }
 
-            .nav-menu ::deep .sidebar.collapsed .menu-bar .menu .nav-item {
+        .nav-menu ::deep .sidebar header .image .logo svg {
+            height: 1.7rem;
+            width: 1.7rem;
+        }
+
+    .nav-menu ::deep .sidebar.collapsed .menu-bar {
+        height: calc(100% - var(--top-header-height) / 1);
+    }
+
+        .nav-menu ::deep .sidebar.collapsed .menu-bar .menu .nav-item {
+        }
+
+            .nav-menu ::deep .sidebar.collapsed .menu-bar .menu .nav-item .nav-link {
             }
 
-                .nav-menu ::deep .sidebar.collapsed .menu-bar .menu .nav-item .nav-link {
+                .nav-menu ::deep .sidebar.collapsed .menu-bar .menu .nav-item .nav-link svg {
+                    height: 95%;
                 }
-
-                    .nav-menu ::deep .sidebar.collapsed .menu-bar .menu .nav-item .nav-link svg {
-                        height: 95%;
-                    }

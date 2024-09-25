@@ -6,14 +6,12 @@
     --chd-device-height: 1024px;
     --dg-device-width: 1024px;
     --dg-device-height: 1280px;
-
     --sidebar-width-small: 3rem !important;
-
     --top-header-height: 2.5rem !important;
-
     --main-article-padding-lr: 0 !important;
-    --main-article-height:100% !important;
-    --main-article-available-height:100% !important;
+    --main-article-height: calc(100% - var(--top-header-height)) !important;
+    --main-article-available-height: 100% !important;
+    --chd-lightblue: lightblue;
 }
 
     *::-webkit-scrollbar {
@@ -25,9 +23,14 @@
 }
 
 
-@media (min-width: 768px)
-{
-    .top-row{
-        display:none !important;
+@media (min-width: 768px) {
+    * {
+        --top-header-padding-tb: 0 !important;
+        --top-header-height: 1.5rem !important;
+    }
+
+    .top-row {
+        flex-direction: row;
+        justify-content: flex-start !important;
     }
 }

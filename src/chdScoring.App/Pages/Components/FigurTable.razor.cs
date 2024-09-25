@@ -8,7 +8,6 @@ namespace chdScoring.App.Pages.Components
         [Parameter]
         public IEnumerable<ManeouvreDto> Maneouvres { get; set; }
 
-        private string _cssFigur(ManeouvreDto dto) => dto.Current ? "background-color: darkgreen;color:white;" : "";
-        private string _cssClass(ManeouvreDto dto) => dto.Id % 2 == 0 ? "grey" : "";
+        private string _cssFigur(ManeouvreDto dto) => dto.Current ? " current " : "";
     }
 }

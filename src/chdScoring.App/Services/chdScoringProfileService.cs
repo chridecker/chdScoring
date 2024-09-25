@@ -1,5 +1,6 @@
 ﻿using chd.UI.Base.Client.Implementations.Authorization;
 using chd.UI.Base.Contracts.Dtos.Authentication;
+using chdScoring.App.Constants;
 using chdScoring.Contracts.Interfaces;
 
 namespace chdScoring.App.Services
@@ -14,11 +15,11 @@ namespace chdScoring.App.Services
         }
         protected override async Task<UserPermissionDto<int>> GetPermissions(UserDto<int, int> dto, CancellationToken cancellationToken = default)
         {
-            if (dto.Id == -1)
+            if (dto.Id == RightConstants.AdminId)
             {
                 return new UserPermissionDto<int>()
                 {
-                    UserRightLst = new List<UserRightDto<int>> { new() { Id = 1 } },
+                    UserRightLst = new List<UserRightDto<int>> { new() { Id = RightConstants.Setting, Name = "Einstellungen" } },
                 };
             }
             return new UserPermissionDto<int>();

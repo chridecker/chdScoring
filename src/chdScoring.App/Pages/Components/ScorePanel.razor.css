@@ -1,25 +1,66 @@
-﻿
-table.panel {
-    border-collapse: collapse;
-    width: 100%;
-    height: 100%;
-    border-left: 1px solid black;
+﻿.score-panel {
 }
-    table.panel th.figur {
-        font-size: 20pt;
-        padding-bottom: 5px;
+
+    .score-panel ::deep .custom-table thead tr th.custom-table-head.pilot {
+        text-align: center;
+    }
+
+    .score-panel ::deep .custom-table tbody tr.figur {
+        font-size: 2rem;
         font-style: italic;
-        border-bottom: double;
-        background-color: transparent;
     }
 
-    table.panel th.teilnehmer {
-        font-size: 18pt;
-        background-color: lightblue;
-        border-bottom: 1px solid;
+    .score-panel ::deep .custom-table tbody tr.control {
+        text-align: center;
+        height: 5rem;
     }
 
-    table.panel th {
-        background-color: lightblue;
-        border-bottom: 1px solid;
+        .score-panel ::deep .custom-table tbody tr.control td.control-value {
+            font-size: 40pt;
+            width: 33%
+        }
+
+        .score-panel ::deep .custom-table tbody tr.control td.control-button {
+            display: grid;
+            justify-content: center;
+        }
+
+            .score-panel ::deep .custom-table tbody tr.control td.control-button .btn {
+                height: 5rem;
+                width: max-content;
+                border-radius: 1rem;
+                padding: 1rem;
+            }
+
+                .score-panel ::deep .custom-table tbody tr.control td.control-button .btn svg {
+                    height: max-content;
+                    margin: 0.5rem;
+                }
+
+    .score-panel ::deep .custom-table tbody tr.score-buttons {
+        text-align: center;
+        height: 5rem;
+    }
+
+        .score-panel ::deep .custom-table tbody tr.score-buttons td {
+        }
+
+            .score-panel ::deep .custom-table tbody tr.score-buttons td .btn {
+                height: 5.5rem;
+                width: 6.5rem;
+                border-radius: 1rem;
+                margin: auto;
+            }
+
+                .score-panel ::deep .custom-table tbody tr.score-buttons td .btn svg {
+                    height: max-content;
+                    margin: 0.5rem;
+                }
+
+    .score-panel.panel-disabled ::deep .custom-table tbody tr.control td.control-button .btn {
+        background-color: var(--chd-grey);
+    }
+
+    .score-panel.panel-disabled ::deep .custom-table tbody tr.score-buttons td .btn {
+        background-color: var(--chd-grey);
     }

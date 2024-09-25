@@ -1,0 +1,32 @@
+﻿
+@media(min-width: 768px) {
+    .header-panel {
+        width:100%;
+    }
+    .header-panel .smartui-header {
+        width:100%;
+    }
+
+    .header-panel ::deep .smartui-header .pageTitle {
+        display: none
+    }
+
+    .header-panel ::deep .smartui-header .currentdatetime {
+        display: none;
+    }
+
+    .header-panel ::deep .smartui-header .right-content {
+        right: 2rem;
+
+    }
+
+        .header-panel ::deep .smartui-header .right-content .userBox{
+            width: max-content;
+            height: var(--top-header-height);
+
+        }
+        .header-panel ::deep .smartui-header .right-content .versionBox,
+        .header-panel ::deep .smartui-header .right-content .networkBox {
+            display: none;
+        }
+}

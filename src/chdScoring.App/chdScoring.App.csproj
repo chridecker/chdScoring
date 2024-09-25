@@ -53,13 +53,10 @@
       <None Remove="Platforms\iOS\**" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Compile Remove="Helper\HubClient.cs" />
-    </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="chd.UI.Base.Components" Version="1.0.24266.24" />
-        <PackageReference Include="chd.Hub.Base.Client" Version="1.0.24266.24" />
+        <PackageReference Include="chd.UI.Base.Components" Version="1.0.24267.26" />
+        <PackageReference Include="chd.Hub.Base.Client" Version="1.0.24267.26" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />

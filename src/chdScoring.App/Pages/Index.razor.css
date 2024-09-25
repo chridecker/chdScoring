@@ -1,7 +1,23 @@
-﻿.figur-table{
-    width:50%;
+﻿.scoring {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding-top: 0.5rem;
+    height: calc(var(--main-article-height));
+    overflow:hidden;
 }
 
-.score-panel {
-    width:50%;
-}
+    .scoring ::deep div {
+        width:50%;
+
+    }
+
+        .scoring ::deep div.figure-table {
+            width: 50%;
+            overflow: scroll;
+            overflow-y:scroll;
+            overflow-x:scroll;
+            height: auto;
+
+        }
