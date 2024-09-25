@@ -7,8 +7,14 @@
 
     .score-panel ::deep .custom-table tbody tr.figur {
         font-size: 2rem;
-        font-style: italic;
+        text-align: center;
+        line-height: 1;
     }
+
+        .score-panel ::deep .custom-table tbody tr.figur td {
+            border: 1px solid red;
+            height:45px;
+        }
 
     .score-panel ::deep .custom-table tbody tr.control {
         text-align: center;
@@ -54,7 +60,7 @@
 
                 .score-panel ::deep .custom-table tbody tr.score-buttons td .btn svg {
                     height: max-content;
-                    margin: 0.5rem;
+                    margin: 0.6rem;
                 }
 
     .score-panel.panel-disabled ::deep .custom-table tbody tr.control td.control-button .btn {

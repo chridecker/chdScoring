@@ -5,19 +5,20 @@
     gap: 1rem;
     padding-top: 0.5rem;
     height: calc(var(--main-article-height));
-    overflow:hidden;
+    overflow: hidden;
 }
 
     .scoring ::deep div {
-        width:50%;
-
     }
 
         .scoring ::deep div.figure-table {
-            width: 50%;
+            width: 60%;
             overflow: scroll;
-            overflow-y:scroll;
-            overflow-x:scroll;
+            overflow-y: scroll;
+            overflow-x: scroll;
             height: auto;
+        }
 
+        .scoring ::deep div.score-panel {
+            width: 40%;
         }

@@ -33,7 +33,7 @@ namespace chdScoring.App.Pages.Components
 
         [Parameter] public CancellationToken CancellationToken { get; set; }
 
-        private string _scoreValueText => this._scoreValue.HasValue ? this._scoreValue.Value < 0 ? "NO" : this._scoreValue.Value.ToString("#.#") : "";
+        private string _scoreValueText => !this._scoreValue.HasValue ? "" : this._scoreValue.Value < 0 ? "NO" : this._scoreValue.Value == 0 ? "0" : this._scoreValue.Value.ToString("#.#");
         private decimal? _scoreValue;
 
 
