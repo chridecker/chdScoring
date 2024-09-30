@@ -1,32 +1,100 @@
 ﻿
 @media(min-width: 768px) {
     .header-panel {
-        width:100%;
-    }
-    .header-panel .smartui-header {
-        width:100%;
+        width: 100%;
     }
 
-    .header-panel ::deep .smartui-header .pageTitle {
-        display: none
-    }
-
-    .header-panel ::deep .smartui-header .currentdatetime {
-        display: none;
-    }
-
-    .header-panel ::deep .smartui-header .right-content {
-        right: 2rem;
-
-    }
-
-        .header-panel ::deep .smartui-header .right-content .userBox{
-            width: max-content;
-            height: var(--top-header-height);
-
+        .header-panel .smartui-header {
+            width: 100%;
         }
-        .header-panel ::deep .smartui-header .right-content .versionBox,
-        .header-panel ::deep .smartui-header .right-content .networkBox {
-            display: none;
+
+        .header-panel ::deep .smartui-header .pageTitle {
+            display: none
         }
+
+        .header-panel ::deep .smartui-header .right-content {
+            right: 2.5rem;
+        }
+
+            .header-panel ::deep .smartui-header .right-content .userBox {
+                width: max-content;
+                height: var(--top-header-height);
+            }
+
+        .header-panel ::deep .smartui-header > .right-content > .networkBox {
+            position:  absolute;
+            border-radius: 50%;
+            width: 1.5rem;
+            top:0rem;
+            right: 1.3 rem;
+            aspect-ratio: 1/1;
+            background-color: var(--chd-bg-lighter);
+            border: 0.1rem solid transparent;
+            animation: bowl-animation 5s linear infinite;
+            transform-origin: bottom center;
+        }
+
+            .header-panel ::deep .smartui-header > .right-content > .networkBox::before {
+                content: '';
+                position: absolute;
+                top: -0.1rem;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 50%;
+                height: 10%;
+                border: 0.1rem solid #444;
+                border-radius: 50%;
+                box-shadow: 0 0.1rem #222;
+            }
+
+            .header-panel ::deep .smartui-header > .right-content > .networkBox::after {
+                content: '';
+                position: absolute;
+                top: 35%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 30%;
+                height: 20%;
+                background-color: rgba(255,255,255,0.05);
+                border-radius: 50%;
+            }
+
+            .header-panel ::deep .smartui-header > .right-content > .networkBox > .liquid {
+                position: absolute;
+                top: 50%;
+                left: 0.01rem;
+                right: 0.01rem;
+                bottom: 0.01rem;
+                border-bottom-left-radius: 1.5rem;
+                border-bottom-right-radius: 1.5rem;
+                animation: liquid-animation 5s linear infinite;
+                transform-origin: top center;
+            }
+
+                .header-panel ::deep .smartui-header > .right-content > .networkBox > .liquid::before {
+                    content: '';
+                    position: absolute;
+                    top: -0.1rem;
+                    width: 100%;
+                    height: 0.2rem;
+                    border-radius: 50%;
+                }
+
+                .header-panel ::deep .smartui-header > .right-content > .networkBox > .liquid.online {
+                    background-color: green;
+                    filter: drop-shadow(0 0 0.5rem green);
+                }
+
+                .header-panel ::deep .smartui-header > .right-content > .networkBox > .liquid.offline {
+                    background-color: red;
+                    filter: drop-shadow(0 0 0.5rem red);
+                }
+
+                .header-panel ::deep .smartui-header > .right-content > .networkBox > .liquid.online::before {
+                    background-color: #007000;
+                }
+
+                .header-panel ::deep .smartui-header > .right-content > .networkBox > .liquid.offline::before {
+                    background-color: #AA0000;
+                }
 }

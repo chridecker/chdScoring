@@ -25,7 +25,7 @@ namespace chdScoring.BusinessLogic.Services
         public async Task<IEnumerable<JudgeDto>> GetJudges(CancellationToken cancellationToken = default)
         {
             var judges = await _judgeRepository.FindAll(cancellationToken);
-            return judges.Select(s => new JudgeDto { Id = s.Id, Name = $"{s.Vorname} {s.Name}" });
+            return judges.Select(s => new JudgeDto { Id = s.Id, Name = $"{s.Vorname} {s.Name}", Password = s.Pin.ToString("D4") });
         }
     }
 }

@@ -23,7 +23,8 @@ namespace chdScoring.App.Extensions
 
             services.AddUtilities<chdScoringProfileService, int, int, SettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, UpdateService, BaseFilterHelper>();
 
-            services.AddScoped<ISettingManager, SettingManager>();
+            services.AddTransient<IPasswordHashService, PasswordHashService>();
+
             services.AddScoped<IJudgeHubClient, JudgeHubClient>();
             services.AddSingleton<IJudgeDataCache, JudgeDataCache>();
 
@@ -35,7 +36,7 @@ namespace chdScoring.App.Extensions
                     return new Uri(url);
                 }
                 catch { }
-                return new Uri("http://127.0.0.1:8081/");
+                return new Uri("http://localhost:8081/");
             });
 
             return services;
