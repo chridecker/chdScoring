@@ -1,5 +1,6 @@
 ﻿using chd.UI.Base.Client.Extensions;
 using chd.UI.Base.Components.Helper;
+using chd.UI.Base.Contracts.Interfaces.Authentication;
 using chd.UI.Base.Contracts.Interfaces.Services;
 using chdScoring.App.Handler;
 using chdScoring.App.Helper;
@@ -21,7 +22,9 @@ namespace chdScoring.App.Extensions
             services.AddSingleton<IKeyHandler, KeyHandler>();
             services.AddSingleton<IVibrationHelper, VibrationHelper>();
 
-            services.AddUtilities<chdScoringProfileService, int, int, SettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, UpdateService, BaseFilterHelper>();
+            services.AddUtilities<chdScoringProfileService, int, int,HandleUserIdLogin, SettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, UpdateService, BaseFilterHelper>();
+
+            services.AddSingleton<IchdScoringProfileService>(sp => sp.GetRequiredService<chdScoringProfileService>());
 
             services.AddTransient<IPasswordHashService, PasswordHashService>();
 

@@ -31,7 +31,7 @@ namespace chdScoring.App.Pages
 
         private int _judge;
         [Inject] private IModalService _modal { get; set; }
-        [Inject] private IProfileService<int, int> _profileService { get; set; }
+        [Inject] private IchdScoringProfileService _profileService { get; set; }
         [Inject] private IJudgeHubClient _judgeHubClient { get; set; }
         [Inject] private IJudgeService _judgeService { get; set; }
         [Inject] private IJudgeDataCache _judgeDataCache { get; set; }
@@ -58,7 +58,7 @@ namespace chdScoring.App.Pages
 
         private async Task LoadData()
         {
-            this._judge = this._profileService.User.Id.Value;
+            this._judge = this._profileService.User.Id;
             if (!this._judgeHubClient.IsConnected) { await this._judgeHubClient.StartAsync(this._cts.Token); }
             await this._judgeHubClient.Register(this._judge, this._cts.Token);
             this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;

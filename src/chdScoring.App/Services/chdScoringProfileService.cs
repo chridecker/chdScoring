@@ -1,17 +1,19 @@
 ﻿using chd.UI.Base.Client.Implementations.Authorization;
 using chd.UI.Base.Contracts.Dtos.Authentication;
+using chd.UI.Base.Contracts.Interfaces.Authentication;
 using chdScoring.App.Constants;
 using chdScoring.Contracts.Interfaces;
 using System.Security.Cryptography;
 
 namespace chdScoring.App.Services
 {
-    public class chdScoringProfileService : ProfileService<int, int>
+    public class chdScoringProfileService : ProfileService<int, int>, IchdScoringProfileService
     {
         private readonly IJudgeService _judgeService;
         private readonly IPasswordHashService _passwordHashService;
 
-        public chdScoringProfileService(IJudgeService judgeService, IPasswordHashService passwordHashService)
+        public chdScoringProfileService(IHandleUserIdLogin<int> handleUserIdLogin, IJudgeService judgeService, IPasswordHashService passwordHashService)
+            : base(handleUserIdLogin)
         {
             this._judgeService = judgeService;
             this._passwordHashService = passwordHashService;
@@ -30,13 +32,23 @@ namespace chdScoring.App.Services
 
         protected override async Task<UserDto<int, int>> GetUser(LoginDto<int> dto, CancellationToken cancellationToken = default)
         {
-            if (dto.Username.ToLower().StartsWith($"judge"))
+            if (dto.Id.HasValue)
+            {
+                var judge = (await this._judgeService.GetJudges(cancellationToken)).FirstOrDefault(x => x.Id == dto.Id);
+                return new UserDto<int, int>
+                {
+                    Id = dto.Id.Value,
+                    FirstName = judge.Name.Split(' ')[1],
+                    LastName = judge.Name.Split(' ')[0],
+                };
+            }
+            else if (dto.Username.ToLower().StartsWith($"judge"))
             {
                 dto.Id = int.TryParse(dto.Username.Substring(dto.Username.Length - 1, 1), out var id) ? id : 0;
                 var judge = (await this._judgeService.GetJudges(cancellationToken)).FirstOrDefault(x => x.Id == dto.Id && x.Password == dto.Password);
                 return new UserDto<int, int>
                 {
-                    Id = dto.Id,
+                    Id = dto.Id.Value,
                     FirstName = judge.Name.Split(' ')[1],
                     LastName = judge.Name.Split(' ')[0],
                 };
@@ -54,4 +66,5 @@ namespace chdScoring.App.Services
         }
 
     }
+    public interface IchdScoringProfileService : IProfileService<int, int> { }
 }

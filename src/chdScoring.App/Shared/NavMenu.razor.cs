@@ -12,7 +12,7 @@ namespace chdScoring.App.Shared
 {
     public partial class NavMenu : IDisposable
     {
-        [Inject] private IProfileService<int, int> _profileService { get; set; }
+        [Inject] private IchdScoringProfileService _profileService { get; set; }
         [Inject] private ITimeoutHandler _timeoutHandler { get; set; }
         [Inject] private ISettingManager _settingManager { get; set; }
         [Inject] private IJudgeHubClient _judgeHubClient { get; set; }
