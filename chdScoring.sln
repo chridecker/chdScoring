@@ -23,7 +23,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{4404AE52-686
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "chdScoring.App", "src\chdScoring.App\chdScoring.App.csproj", "{2BDD3301-727E-445D-88CE-7F5C508B9991}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chdScoring.PrintService", "src\chdScoring.PrintService\chdScoring.PrintService.csproj", "{9B175743-2A44-4650-9CE4-7FC496814C52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "chdScoring.PrintService", "src\chdScoring.PrintService\chdScoring.PrintService.csproj", "{9B175743-2A44-4650-9CE4-7FC496814C52}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "chdScoring.Main.Contracts", "src\chdScoring.Main.Contracts\chdScoring.Main.Contracts.csproj", "{AE92FB7A-35A0-4A00-A64D-251766335E51}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "chdScoring.Main.Client", "src\chdScoring.Main.Client\chdScoring.Main.Client.csproj", "{F4D817C3-7C0D-4613-BC52-4A8D5F22D0DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +69,14 @@ Global
 		{9B175743-2A44-4650-9CE4-7FC496814C52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B175743-2A44-4650-9CE4-7FC496814C52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B175743-2A44-4650-9CE4-7FC496814C52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE92FB7A-35A0-4A00-A64D-251766335E51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE92FB7A-35A0-4A00-A64D-251766335E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE92FB7A-35A0-4A00-A64D-251766335E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE92FB7A-35A0-4A00-A64D-251766335E51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4D817C3-7C0D-4613-BC52-4A8D5F22D0DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4D817C3-7C0D-4613-BC52-4A8D5F22D0DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4D817C3-7C0D-4613-BC52-4A8D5F22D0DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4D817C3-7C0D-4613-BC52-4A8D5F22D0DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +91,8 @@ Global
 		{4404AE52-6864-44D0-8D44-0C8CA7B1EEB6} = {F6396EAD-C7F8-4D84-8FF0-96F57D7B42AD}
 		{2BDD3301-727E-445D-88CE-7F5C508B9991} = {4404AE52-6864-44D0-8D44-0C8CA7B1EEB6}
 		{9B175743-2A44-4650-9CE4-7FC496814C52} = {F6396EAD-C7F8-4D84-8FF0-96F57D7B42AD}
+		{AE92FB7A-35A0-4A00-A64D-251766335E51} = {F6396EAD-C7F8-4D84-8FF0-96F57D7B42AD}
+		{F4D817C3-7C0D-4613-BC52-4A8D5F22D0DC} = {F6396EAD-C7F8-4D84-8FF0-96F57D7B42AD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E89D853-FC91-4C18-A26F-2AB54FDF4EE0}
