@@ -1,69 +1,81 @@
 ﻿.score-panel {
 }
 
-    .score-panel ::deep .custom-table thead tr th.custom-table-head.pilot {
+    .score-panel .pilot {
         text-align: center;
+        font-size: 14pt;
+        font-weight: bold;
+        border-bottom: 0.1rem solid var(--chd-font-color);
     }
 
-    .score-panel ::deep .custom-table tbody tr.figur {
-        font-size: 2rem;
+    .score-panel .maneouvre {
+        height: 7rem;
+        font-size: 22pt;
         text-align: center;
         line-height: 1;
+        overflow: scroll;
     }
 
-        
-
-    .score-panel ::deep .custom-table tbody tr.control {
-        text-align: center;
-        height: 5rem;
+    .score-panel .score-pad {
+        margin-top: 0.2rem;
+        display:grid;
+        align-items:center;
+        justify-items:center;
     }
 
-        .score-panel ::deep .custom-table tbody tr.control td.control-value {
-            font-size: 40pt;
-            width: 33%
-        }
-
-        .score-panel ::deep .custom-table tbody tr.control td.control-button {
+        .score-panel .score-pad .score-control {
+            width: 100%;
             display: grid;
-            justify-content: center;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 1rem;
+            text-align: center;
         }
 
-            .score-panel ::deep .custom-table tbody tr.control td.control-button .btn {
-                height: 5rem;
-                width: max-content;
-                border-radius: 1rem;
-                padding: 1rem;
+            .score-panel .score-pad .score-control .score-control-value {
+                font-size: 40pt;
             }
 
-                .score-panel ::deep .custom-table tbody tr.control td.control-button .btn svg {
-                    height: max-content;
-                    margin: 0.5rem;
+            .score-panel .score-pad .score-control .score-control-button {
+                display: grid;
+                justify-content: center;
+            }
+
+                .score-panel .score-pad .score-control .score-control-button ::deep .btn {
+                    height: 5rem;
+                    width: max-content;
+                    border-radius: 1rem;
+                    padding: 1rem;
                 }
 
-    .score-panel ::deep .custom-table tbody tr.score-buttons {
-        text-align: center;
-        height: 5rem;
-    }
+                    .score-panel .score-pad .score-control .score-control-button ::deep .btn svg {
+                        height: max-content;
+                        margin: 0.5rem;
+                    }
 
-        .score-panel ::deep .custom-table tbody tr.score-buttons td {
+        .score-panel .score-pad .score-numpad {
+            margin-top: 1rem;
+            display: grid;
+            grid-gap: 1rem;
+            grid-template-columns: repeat(3, 1fr);
+            width:80%;
         }
 
-            .score-panel ::deep .custom-table tbody tr.score-buttons td .btn {
-                height: 5.5rem;
-                width: 6.5rem;
+            .score-panel .score-pad .score-numpad ::deep .btn {
+                height: 6rem;
+                width: 6rem;
                 border-radius: 1rem;
                 margin: auto;
             }
 
-                .score-panel ::deep .custom-table tbody tr.score-buttons td .btn svg {
+                .score-panel .score-pad .score-numpad ::deep .btn svg {
                     height: max-content;
                     margin: 0.6rem;
                 }
 
-    .score-panel.panel-disabled ::deep .custom-table tbody tr.control td.control-button .btn {
+    .score-panel.panel-disabled .score-pad .score-control .score-control-button ::deep .btn {
         background-color: var(--chd-grey);
     }
 
-    .score-panel.panel-disabled ::deep .custom-table tbody tr.score-buttons td .btn {
+    .score-panel.panel-disabled .score-pad .score-numpad ::deep .btn {
         background-color: var(--chd-grey);
     }

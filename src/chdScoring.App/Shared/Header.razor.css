@@ -13,7 +13,7 @@
         }
 
         .header-panel ::deep .smartui-header .right-content {
-            right: 2.5rem;
+            right: 4.5rem;
         }
 
             .header-panel ::deep .smartui-header .right-content .userBox {
@@ -24,9 +24,9 @@
         .header-panel ::deep .smartui-header > .right-content > .networkBox {
             position:  absolute;
             border-radius: 50%;
-            width: 1.5rem;
-            top:0rem;
-            right: 1.3 rem;
+            width: 1.2rem;
+            top:0.2rem;
+            right: -4rem;
             aspect-ratio: 1/1;
             background-color: var(--chd-bg-lighter);
             border: 0.1rem solid transparent;
