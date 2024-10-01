@@ -11,10 +11,7 @@
         line-height: 1;
     }
 
-        .score-panel ::deep .custom-table tbody tr.figur td {
-            border: 1px solid red;
-            height:45px;
-        }
+        
 
     .score-panel ::deep .custom-table tbody tr.control {
         text-align: center;

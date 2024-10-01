@@ -12,8 +12,7 @@ namespace chdScoring.App.Services
         private readonly IJudgeService _judgeService;
         private readonly IPasswordHashService _passwordHashService;
 
-        public chdScoringProfileService(IHandleUserIdLogin<int> handleUserIdLogin, IJudgeService judgeService, IPasswordHashService passwordHashService)
-            : base(handleUserIdLogin)
+        public chdScoringProfileService(IJudgeService judgeService, IPasswordHashService passwordHashService)
         {
             this._judgeService = judgeService;
             this._passwordHashService = passwordHashService;

@@ -3,6 +3,8 @@
 @using chd.UI.Base.Client.Implementations.Services
 @inject ISettingManager clientSettings
 @inject IScrollInfoService scrollInfoService
+@inject IchdScoringProfileService profileService
+@inject IHandleUserIdLogin<int> handleUserIdLogin
 
 
 
@@ -39,11 +41,25 @@
 @code {
     private bool _autocollapseNav = false;
     private bool _navCollapsed = false;
-
+        
     protected override async Task OnInitializedAsync()
     {
         this._autocollapseNav = await clientSettings.GetSettingLocal<bool>(SettingConstants.AutoCollapseNavbar_Key);
         this._navCollapsed = true;
+
+        if (await handleUserIdLogin.IsEnabled)
+            {
+                var id = await handleUserIdLogin.GetIdAsync();
+                if (id.HasValue)
+                {
+                    await profileService.LoginAsync(new()
+                    {
+                        Id = id,
+                        StayLoggedIn = true,
+                    });
+                }
+            }
+
         await base.OnInitializedAsync();
     }
 }

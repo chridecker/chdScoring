@@ -38,14 +38,6 @@ namespace chdScoring.App.Pages
         protected override async Task OnInitializedAsync()
         {
             this._profileService.UserChanged += this._profileService_UserChanged;
-            if (this._profileService.User?.Id is null)
-            {
-                await this._modal.ShowDialog("Kein Benutzer angemeldet", chd.UI.Base.Contracts.Enum.EDialogButtons.OK);
-            }
-            else
-            {
-                await this.LoadData();
-            }
             await base.OnInitializedAsync();
         }
 
@@ -58,6 +50,10 @@ namespace chdScoring.App.Pages
 
         private async Task LoadData()
         {
+            if (this._profileService.User?.Id is null)
+            {
+                return;
+            }
             this._judge = this._profileService.User.Id;
             if (!this._judgeHubClient.IsConnected) { await this._judgeHubClient.StartAsync(this._cts.Token); }
             await this._judgeHubClient.Register(this._judge, this._cts.Token);
