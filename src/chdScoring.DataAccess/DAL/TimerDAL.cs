@@ -33,7 +33,7 @@ namespace chdScoring.DataAccess.DAL
             var wl = await this._wettkampfLeitungRepository.GetActiveOnAirfield(dto.Airfield, cancellationToken);
             if (wl != null)
             {
-                wl.Start_Time = DateTime.Now;
+                wl.Start_Time = DateTime.Now.TimeOfDay;
                 return await this._wettkampfLeitungRepository.UpdateAsync(wl, cancellationToken);
             }
             return false;
@@ -44,7 +44,7 @@ namespace chdScoring.DataAccess.DAL
             var wl = await this._wettkampfLeitungRepository.GetActiveOnAirfield(dto.Airfield, cancellationToken);
             if (wl != null)
             {
-                wl.Start_Time = DateTime.Today;
+                wl.Start_Time = DateTime.Today.TimeOfDay;
                 return await this._wettkampfLeitungRepository.UpdateAsync(wl, cancellationToken);
             }
             return false;

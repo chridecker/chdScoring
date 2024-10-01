@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.Main.UI.Extensions;
+using NLog.LayoutRenderers;
+using chd.Api.Base.Extensions;
 using chdScoring.BusinessLogic.Hubs;
 
 Thread.CurrentThread.SetApartmentState(ApartmentState.Unknown);
@@ -37,21 +39,18 @@ builder.Host.UseWindowsFormsLifetime<MainForm>();
 builder.Services.AddchdScoringDataAccess(builder.Configuration);
 builder.Services.AddHostedService<chdScoringService>();
 
+builder.Services.AddBaseApi("SmartUIHub");
+
 builder.Services.AddSignalR();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+app.UseBaseApi();
 
 app.AddApiLogger();
 app.MapHub<FlightHub>("/chdScoring/flight-hub");
 
-app.MapChdScoring("chdScoring");
+app.MapChdScoring();
 app.Run();
 
 

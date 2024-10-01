@@ -1,34 +1,33 @@
-﻿table.wertungen {
-    border-collapse: collapse;
-    width: 100%;
-    height: 100%;
-    border-right: 1px solid black;
+﻿.figure-table {
 }
 
-    table.wertungen th.headline {
-        font-size: 15pt;
-        background-color: lightblue;
-        border-bottom: 1px solid;
-        text-align: center;
-        padding-bottom: 3px;
+    .figure-table ::deep .custom-table {
     }
 
-    table.wertungen tr.header th {
-        font-size: 14pt;
-        border-bottom: 1px solid;
-        text-align: center;
-    }
-
-    table.wertungen td {
-        font-size: 15pt;
-    }
-
-        table.wertungen td.score {
-            font-size: 15pt;
-            font-weight: bold;
-            text-align: center;
+        .figure-table ::deep .custom-table thead {
         }
 
-    table.wertungen tr.grey td {
-        background-color: lightgrey;
-    }
+        .figure-table ::deep .custom-table tbody {
+        }
+
+            .figure-table ::deep .custom-table tbody tr {
+            }
+
+                .figure-table ::deep .custom-table tbody tr td {
+                    font-size: 1.2rem;
+                }
+
+                    .figure-table ::deep .custom-table tbody tr td.custom-table-data {
+                        padding: 0 0.1rem;
+                    }
+
+                        .figure-table ::deep .custom-table tbody tr td.custom-table-data.score {
+                            text-align: right;
+                            padding-right: 0.5rem;
+                            font-size: 1.3rem;
+                            font-weight: bold;
+                        }
+
+                        .figure-table ::deep .custom-table tbody tr td.custom-table-data.current {
+                            background-color: var(--chd-green);
+                        }

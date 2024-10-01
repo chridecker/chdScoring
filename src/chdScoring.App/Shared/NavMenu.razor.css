@@ -1,67 +1,36 @@
-.navbar-toggler {
-    background-color: rgba(255, 255, 255, 0.1);
+.nav-menu ::deep .sidebar {
+    padding: 0.2rem;
 }
 
-.top-row {
-    height: 2.5rem;
-    background-color: lightblue;
-}
-
-.navbar-brand {
-    font-size: 0.5rem;
-}
-
-chdScoringToggler{
-    width: 0.5rem;
-    height: 0.5rem;
-}
-
-.oi {
-    width: 2rem;
-    font-size: 1.1rem;
-    vertical-align: text-top;
-    top: -2px;
-}
-
-.nav-item {
-    font-size: 0.9rem;
-    padding-bottom: 0.5rem;
-}
-
-    .nav-item:first-of-type {
-        padding-top: 1rem;
+    .nav-menu ::deep .sidebar.collapsed {
     }
 
-    .nav-item:last-of-type {
-        padding-bottom: 1rem;
-    }
-
-    .nav-item ::deep a {
-        color: black;
-        border-radius: 4px;
-        height: 2rem;
-        display: flex;
-        align-items: center;
-        line-height: 3rem;
-    }
-
-.nav-item ::deep a.active {
-    background-color: lightgrey;
-    color: white;
-}
-
-        .nav-item ::deep a:hover {
-            background-color: lightblue;
-            color: black;
+        .nav-menu ::deep .sidebar.collapsed header .image {
         }
 
-@media (min-width: 5000rem) {
-    .navbar-toggler {
-        display: none;
+    .nav-menu ::deep .sidebar header .image .logo {
+        padding: 0.3rem;
     }
 
-    .collapse {
-        /* Never collapse the sidebar for wide screens */
-        display: block;
+        .nav-menu ::deep .sidebar header .image .logo.test {
+            background-color: var(--chd-main-color-theme);
+        }
+
+        .nav-menu ::deep .sidebar header .image .logo svg {
+            height: 1.7rem;
+            width: 1.7rem;
+        }
+
+    .nav-menu ::deep .sidebar.collapsed .menu-bar {
+        height: calc(100% - var(--top-header-height) / 1);
     }
-}
+
+        .nav-menu ::deep .sidebar.collapsed .menu-bar .menu .nav-item {
+        }
+
+            .nav-menu ::deep .sidebar.collapsed .menu-bar .menu .nav-item .nav-link {
+            }
+
+                .nav-menu ::deep .sidebar.collapsed .menu-bar .menu .nav-item .nav-link svg {
+                    height: 95%;
+                }

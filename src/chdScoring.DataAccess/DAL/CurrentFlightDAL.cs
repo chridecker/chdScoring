@@ -39,7 +39,7 @@ namespace chdScoring.DataAccess.DAL
                     var scores = await this._wertungRepository.GetScoresToPilotInRound(pilot.Id, round, cancellationToken);
                     var program = await this._programmRepository.GetProgramToRound(round, cancellationToken);
 
-                    TimeSpan? time = currentPilot.Start_Time == DateTime.Today ? null : TimeSpan.FromMinutes(klasse.Zeit) - (DateTime.Now - currentPilot.Start_Time);
+                    TimeSpan? time = DateTime.Today.Add(currentPilot.Start_Time) == DateTime.Today ? null : TimeSpan.FromMinutes(klasse.Zeit) - (DateTime.Now - DateTime.Today.Add(currentPilot.Start_Time));
 
                     dto = new CurrentFlight()
                     {

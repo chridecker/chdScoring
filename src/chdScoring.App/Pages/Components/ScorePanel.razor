@@ -1,46 +1,75 @@
 ﻿@using chdScoring.App.Helper;
 @using chdScoring.App.Services;
 @using chdScoring.Contracts.Dtos;
-<table class="panel">
-    <tr>
-        <th colspan="3" class="teilnehmer" id="teilnehmer">@this.Pilot?.Id @this.Pilot?.Name</th>
-    </tr>
-    <tr>
-        <th colspan="3" class="figur" id="recent_figur">#@this.Maneouvre?.Id @this.Maneouvre?.Name</th>
-    </tr>
-    <tr style="text-align:center;">
 
-        <th style="background-color:white; font-size:30pt; width:33%">
-            <FunctionButton PanelDisabled="@PanelDisabled" Execution="Save" CustomStyle="width:70%; height:95%; font-size: 28pt; background-color:lightblue; border: 5px solid black;" Title="OK" />
-        </th>
-
-        <th style="background-color:white; font-size:40pt; width:33%" id="recent_value">@_scoreValueText</th>
-
-        <th style="background-color:white; font-size:30pt; width:33%">
-            <FunctionButton PanelDisabled="@this.PanelDisabled" Execution="Del" CustomStyle="width:70%; height:95%; font-size: 28pt; background-color:lightblue; border: 5px solid black;" Title="DEL" />
-        </th>
-    </tr>
-    <tr>
-        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="1" /></td>
-        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="2" /></td>
-        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="3" /></td>
-    </tr>
-
-    <tr align="center">
-        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="4" /></td>
-        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="5" /></td>
-        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="6" /></td>
-    </tr>
-    <tr align="center">
-        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="7" /></td>
-        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="8" /></td>
-        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="9" /></td>
-    </tr>
-    <tr align="center">
-        <td></td>
-        <td><ScoreButton Calc="Calc" PanelDisabled="this.PanelDisabled" Value="0" /></td>
-        <td><FunctionButton Execution="NotObserved" PanelDisabled="PanelDisabled" Title="NO" /></td>
-    </tr>
-
-</table>
-
+<div class="score-panel @(this.PanelDisabled ? "panel-disabled" : "")">
+    <Table T="int">
+        <HeaderContent>
+            <TableHead AllOtherAttributes="@(new Dictionary<string,object>(){{"colspan",3},{"class","pilot"}})">
+                @this.Pilot?.Id @this.Pilot?.Name
+            </TableHead>
+        </HeaderContent>
+        <CustomBody>
+            <tr class="figur">
+                <TableData AllOtherAttributes="@(new Dictionary<string,object>(){{"colspan",3}})">
+                    #@this.Maneouvre?.Id @this.Maneouvre?.Name
+                </TableData>
+            </tr>
+            <tr class="control">
+                <TableData AllOtherAttributes="@(new Dictionary<string,object>(){{"class","control-button"}})">
+                    <IconButton FAClass="floppy-disk" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" OnClick="Save" />
+                </TableData>
+                <TableData AllOtherAttributes="@(new Dictionary<string,object>(){{"class","control-value"}})">
+                    @_scoreValueText
+                </TableData>
+                <TableData AllOtherAttributes="@(new Dictionary<string,object>(){{"class","control-button"}})">
+                    <IconButton FAClass="delete-left" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" OnClick="Delete" />
+                </TableData>
+            </tr>
+            <tr class="score-buttons">
+                <TableData>
+                    <IconButton FAClass="1" OnClick="async (x) => await this.Calc(1)" />
+                </TableData>
+                <TableData>
+                    <IconButton FAClass="2" OnClick="async (x) => await this.Calc(2)" />
+                </TableData>
+                <TableData>
+                    <IconButton FAClass="3" OnClick="async (x) => await this.Calc(3)" />
+                </TableData>
+            </tr>
+            <tr class="score-buttons">
+                <TableData>
+                    <IconButton FAClass="4" OnClick="async (x) => await this.Calc(4)" />
+                </TableData>
+                <TableData>
+                    <IconButton FAClass="5" OnClick="async (x) => await this.Calc(5)" />
+                </TableData>
+                <TableData>
+                    <IconButton FAClass="6" OnClick="async (x) => await this.Calc(6)" />
+                </TableData>
+            </tr>
+            <tr class="score-buttons">
+                <TableData>
+                    <IconButton FAClass="7" OnClick="async (x) => await this.Calc(7)" />
+                </TableData>
+                <TableData>
+                    <IconButton FAClass="8" OnClick="async (x) => await this.Calc(8)" />
+                </TableData>
+                <TableData>
+                    <IconButton FAClass="9" OnClick="async (x) => await this.Calc(9)" />
+                </TableData>
+            </tr>
+            <tr class="score-buttons">
+                <TableData>
+                    <IconButton FAClass="0" OnClick="async (x) => await this.Calc(0)" />
+                </TableData>
+                <TableData>
+                    <IconButton FAClass="comma" OnClick="async (x) => await Task.CompletedTask" />
+                </TableData>
+                <TableData>
+                    <IconButton FAClass="eye-slash" OnClick="async (x) => await this.NotObserved()" />
+                </TableData>
+            </tr>
+        </CustomBody>
+    </Table>
+</div>

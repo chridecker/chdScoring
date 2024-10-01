@@ -49,10 +49,5 @@ namespace chdScoring.BusinessLogic.Services
         }
     }
 
-    public interface IFlightCacheService
-    {
-        Task Update(CancellationToken cancellationToken);
-        CurrentFlight GetCurrentFlight();
-        void UpdateScore(SaveScoreDto dto);
-    }
+    
 }

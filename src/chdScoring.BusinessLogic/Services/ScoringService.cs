@@ -1,4 +1,5 @@
 ﻿using chdScoring.Contracts.Dtos;
+using chdScoring.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
 using Microsoft.Extensions.Logging;
@@ -11,15 +12,19 @@ using System.Threading.Tasks;
 
 namespace chdScoring.BusinessLogic.Services
 {
-    public class ScoreService : IScoreService
+    public class ScoringService : IScoringService
     {
-        private readonly ILogger<ScoreService> _logger;
+        private readonly ILogger<ScoringService> _logger;
         private readonly IWertungRepository _wertungRepository;
+        private readonly IFlightCacheService _flightCacheService;
+        private readonly IHubDataService _hubDataService;
 
-        public ScoreService(ILogger<ScoreService> logger, IWertungRepository wertungRepository)
+        public ScoringService(ILogger<ScoringService> logger, IWertungRepository wertungRepository, IFlightCacheService flightCacheService, IHubDataService hubDataService)
         {
             this._logger = logger;
             this._wertungRepository = wertungRepository;
+            this._flightCacheService = flightCacheService;
+            this._hubDataService = hubDataService;
         }
 
         public async Task<bool> SaveScore(SaveScoreDto dto, CancellationToken cancellationToken)
@@ -30,7 +35,7 @@ namespace chdScoring.BusinessLogic.Services
                 return false;
             }
 
-            this._wertungRepository.CreateTransaction(cancellationToken);
+            await this._wertungRepository.CreateTransaction(cancellationToken);
             try
             {
                 saved = await this._wertungRepository.SaveAsync(new Wertung()
@@ -41,19 +46,18 @@ namespace chdScoring.BusinessLogic.Services
                     Teilnehmer = dto.Pilot,
                     Wert = dto.Value
                 }, cancellationToken);
-                this._wertungRepository.Commit(cancellationToken);
+                await this._wertungRepository.Commit(cancellationToken);
+                await this._flightCacheService.Update(cancellationToken);
+                await this._hubDataService.SendJudge(dto.Judge, cancellationToken);
+
             }
             catch (Exception ex)
             {
-                this._wertungRepository.Rollback(cancellationToken);
+                await this._wertungRepository.Rollback(cancellationToken);
                 this._logger?.LogError(ex, ex.Message);
                 saved = false;
             }
             return saved;
         }
-    }
-    public interface IScoreService
-    {
-        Task<bool> SaveScore(SaveScoreDto saveScoreDto, CancellationToken cancellationToken);
     }
 }

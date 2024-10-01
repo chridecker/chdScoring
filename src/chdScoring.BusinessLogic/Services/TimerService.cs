@@ -1,5 +1,6 @@
 ﻿using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Enums;
+using chdScoring.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.DAL;
 using System;
 using System.Collections.Generic;
@@ -26,8 +27,5 @@ namespace chdScoring.BusinessLogic.Services
             _=> Task.FromResult(false),
         };
     }
-    public interface ITimerService
-    {
-        Task<bool> HandleOperation(TimerOperationDto dto, CancellationToken cancellationToken);
-    }
+   
 }
