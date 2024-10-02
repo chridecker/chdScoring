@@ -7,7 +7,7 @@ using chdScoring.Contracts.Interfaces;
 
 namespace chdScoring.App.Pages
 {
-    public partial class Control : ComponentBase,IDisposable
+    public partial class Control : ComponentBase, IDisposable
     {
         private CancellationTokenSource _cts = new CancellationTokenSource();
         private CurrentFlight _dto;
@@ -30,6 +30,10 @@ namespace chdScoring.App.Pages
 
             await base.OnInitializedAsync();
         }
+        private string _leftTime => (this._dto?.LeftTime.HasValue ?? false) && this._dto.LeftTime.Value <= this._dto.Round.Time ? 
+            this._dto.LeftTime.Value > TimeSpan.Zero ? this._dto.LeftTime.Value.ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : this._dto.Round.Time.ToString("mm\\:ss");
+        private string _faStartStop => (this._dto?.LeftTime.HasValue ?? false) ? "circle-stop" : "circle-play";
+
         private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)
         {
             this._dto = e;
@@ -42,6 +46,7 @@ namespace chdScoring.App.Pages
             {
                 var dto = new TimerOperationDto
                 {
+                    Airfield = 1,
                     Operation = this._dto.LeftTime.HasValue ? Contracts.Enums.ETimerOperation.Stop : Contracts.Enums.ETimerOperation.Start
                 };
                 await this._timerService.HandleOperation(dto, this._cts.Token);

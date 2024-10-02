@@ -31,6 +31,7 @@ namespace chdScoring.BusinessLogic.Hubs
         public async Task<bool> RegisterAsControlCenter()
         {
             await this.Groups.AddToGroupAsync(this.Context.ConnectionId, $"controlcenter", this.Context.ConnectionAborted);
+            await this.Clients.Caller.ReceiveFlightData(this._flightCacheService.GetCurrentFlight(), this.Context.ConnectionAborted);
             return true;
         }
     }

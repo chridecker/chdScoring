@@ -8,5 +8,6 @@ namespace chdScoring.Contracts.Dtos
     {
         public int Id { get; set; }
         public string Program { get; set; }
+        public TimeSpan Time { get; set; }
     }
 }

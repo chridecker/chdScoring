@@ -23,7 +23,9 @@ namespace chdScoring.App.Services
             {
                 return new UserPermissionDto<int>()
                 {
-                    UserRightLst = new List<UserRightDto<int>> { new() { Id = RightConstants.Setting, Name = "Einstellungen" } },
+                    UserRightLst = new List<UserRightDto<int>> {
+                        new() { Id = RightConstants.Setting, Name = "Einstellungen" },
+                    new() { Id = RightConstants.ControlBoard, Name = "Scorboard" } },
                 };
             }
             return new UserPermissionDto<int>();

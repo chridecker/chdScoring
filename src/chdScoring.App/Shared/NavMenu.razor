@@ -8,7 +8,7 @@
             <NavItem href="" Match="NavLinkMatch.All" IconFAClass="house" Title="Home" />
             @if (this._controlCodeCenterAvailable)
             {
-                <NavItem href="controlcenter" IconFAClass="calculator" Title="Control Center" />
+                <AuthorizedNavItem TUserId="int" TRightId="int" FunctionalRights="new int[]{RightConstants.ControlBoard}" href="controlcenter" IconFAClass="calculator" Title="Control Center" />
             }
         </MenuContent>
         <BottomContent>

@@ -53,6 +53,7 @@ namespace chdScoring.App.Helper
         public Task Register(int judge, CancellationToken cancellationToken = default)
         => base.SendAsync(async (conn) =>
              {
+
                  await conn.SendAsync(nameof(IFlightHub.RegisterAsJudge), judge, cancellationToken);
              });
 

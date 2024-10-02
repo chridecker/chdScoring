@@ -11,7 +11,12 @@
     --main-article-padding-lr: 0 !important;
     --main-article-height: calc(100% - var(--top-header-height)) !important;
     --main-article-available-height: 100% !important;
-    --chd-lightblue: lightblue;
+
+    --chd-main-color-theme: var(--chd-lightblue);
+    --chd-main-color-theme-transparent: var(--chd-lightblue-transparent);
+    --chd-main-color-theme-gradient: linear-gradient(to right, transparent 0%, var(--chd-main-color-theme-transparent) 10%, var(--chd-main-color-theme) 90%);
+    --chd-main-color-theme-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-main-color-theme-transparent) 10%, var(--chd-main-color-theme) 90%);
+    --chd-main-color-theme-semi-transparent: var(--chd-lightblue-semi-transparent);
 }
 
     *::-webkit-scrollbar {

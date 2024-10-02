@@ -9,6 +9,7 @@
     }
 
     .score-panel .maneouvre {
+        margin-top:0.5rem;
         height: 7rem;
         font-size: 22pt;
         text-align: center;

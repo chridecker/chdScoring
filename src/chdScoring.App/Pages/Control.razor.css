@@ -1,45 +1,80 @@
 ﻿
-table {
-    font-family: Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+.control-center {
+    padding: 0.2rem;
 }
 
-th.teilnehmer {
-    font-size: 1.5rem;
-    text-align: left;
-}
+    .control-center .timer {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        font-size: 40pt;
+    }
 
-tr.header th.judges {
-    text-align: center;
-}
+        .control-center .timer .pilot {
+        }
 
-td {
-    font-size: 1rem;
-}
+        .control-center .timer .time {
+            font-weight: bold;
+        }
 
-.figur {
-    max-width: 800px;
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-}
+        .control-center .timer .control {
+        }
 
-tr.header th {
-    font-size: 1rem;
-    border-bottom: 1px solid black;
-    text-align: left;
-}
+            .control-center .timer .control ::deep .btn {
+                border-radius: 1rem;
+            }
 
-tr.gerade td {
-    background-color: lightgrey;
-}
+                .control-center .timer .control ::deep .btn svg {
+                    height: 3rem;
+                }
 
-tr.total th {
-    text-align: right;
-    font-size: 1.5rem;
-}
+    .control-center .live {
+        display: grid;
+        grid-template: 1fr;
+        grid-gap: 0.2rem;
+    }
 
-th.gesamt {
-    font-size: 1.5rem;
-}
+        .control-center .live .maneouvres {
+        }
+
+            .control-center .live .maneouvres .maneouvre {
+                display: flex;
+            }
+
+                .control-center .live .maneouvres .maneouvre .empty {
+                    min-width: 3rem;
+                }
+
+                .control-center .live .maneouvres .maneouvre .figur {
+                    width: 75%;
+                    overflow: hidden;
+                    height: 1.5rem;
+                }
+
+                .control-center .live .maneouvres .maneouvre .judges {
+                    display: flex;
+                    flex-direction: row;
+                }
+
+                    .control-center .live .maneouvres .maneouvre .judges .judge-score {
+                        min-width: 3rem;
+                        text-align: right;
+                    }
+
+        .control-center .live .results {
+            display: flex;
+        }
+
+            .control-center .live .results .empty {
+                width: 75%;
+            }
+
+            .control-center .live .results .judge-result {
+                text-align: right;
+                min-width: 3rem;
+            }
+
+            .control-center .live .results .total-result {
+                text-align: right;
+                min-width: 3rem;
+            }

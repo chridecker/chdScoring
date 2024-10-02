@@ -52,6 +52,7 @@ namespace chdScoring.App.Pages
         {
             if (this._profileService.User?.Id is null)
             {
+                this._dto = null;
                 return;
             }
             this._judge = this._profileService.User.Id;
