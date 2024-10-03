@@ -11,6 +11,8 @@ using chdScoring.App.Constants;
 using chd.UI.Base.Client.Implementations.Services;
 using System.Collections.Concurrent;
 using chd.UI.Base.Contracts.Extensions;
+using chd.UI.Base.Contracts.Enum;
+using chdScoring.App.Pages.Components;
 
 namespace chdScoring.App.Pages
 {
@@ -41,6 +43,7 @@ namespace chdScoring.App.Pages
 
         private BlockingCollection<SaveScoreDto> _unsavedScores = new BlockingCollection<SaveScoreDto>();
 
+        [Inject] private IModalService _modal { get; set; }
         [Inject] private IJudgeHubClient _judgeHubClient { get; set; }
         [Inject] private IJudgeService _judgeService { get; set; }
         [Inject] private IScoringService _scoringService { get; set; }
@@ -68,6 +71,20 @@ namespace chdScoring.App.Pages
             await this.InvokeAsync(this.StateHasChanged);
         }
 
+        private async Task OpenEditScoreModal(ManeouvreDto dto)
+        {
+            RenderFragment frag = (__builder) =>
+            {
+                __builder.OpenComponent<EditScore>(1);
+                __builder.AddComponentParameter(2, nameof(EditScore.Dto), dto);
+                __builder.CloseComponent();
+            };
+            var change = await this._modal.ShowDialog("Wertung ändern", EDialogButtons.OKCancel, frag);
+            if(change == EDialogResult.OK)
+            {
+
+            }
+        }
 
         private async Task LoadData()
         {

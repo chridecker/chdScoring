@@ -25,11 +25,21 @@
                             text-align: right;
                             padding-right: 0.5rem;
                             font-size: 1.3rem;
+                            display: flex;
+                            gap: 0.2rem;
                         }
 
                             .figure-table ::deep .custom-table tbody tr td.custom-table-data.score.saved {
                                 font-weight: bold;
                             }
+
+                            .figure-table ::deep .custom-table tbody tr td.custom-table-data.score .btn {
+                                height: 1.7rem;
+                                padding: 0.2rem;
+                            }
+
+                                .figure-table ::deep .custom-table tbody tr td.custom-table-data.score .btn svg {
+                                }
 
                         .figure-table ::deep .custom-table tbody tr td.custom-table-data.current {
                             background-color: var(--chd-green);

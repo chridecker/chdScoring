@@ -135,7 +135,7 @@
         }
 
         .header-panel ::deep .ui-header > .right-content > .theme-mode {
-            margin-right: 0.2rem;
+            margin-right: 0.5rem;
         }
 
             .header-panel ::deep .ui-header > .right-content > .theme-mode .btn {

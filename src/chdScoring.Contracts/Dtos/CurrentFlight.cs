@@ -6,6 +6,7 @@ namespace chdScoring.Contracts.Dtos
 {
     public class CurrentFlight
     {
+        public bool EditScoreEnabled { get; set; }
         public RoundDto Round { get; set; }
         public TimeSpan? LeftTime { get; set; }
         public PilotDto Pilot { get; set; }

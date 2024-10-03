@@ -15,7 +15,6 @@ namespace chdScoring.App.Shared
         [Inject] private IchdScoringProfileService _profileService { get; set; }
         [Inject] private ITimeoutHandler _timeoutHandler { get; set; }
         [Inject] private ISettingManager _settingManager { get; set; }
-        [Inject] private IJudgeHubClient _judgeHubClient { get; set; }
         [Inject] private IToastService _toastService { get; set; }
         [Inject] private IBaseUIComponentHandler _uiHandler { get; set; }
         [Inject] private NavigationManager _navManager { get; set; }

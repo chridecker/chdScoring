@@ -6,7 +6,7 @@
         @if (this._dto != null)
         {
             <div class="scoring">
-                <FigurTable Maneouvres="this.Maneouvres" Current="this._current" />
+                <FigurTable Maneouvres="this.Maneouvres" Current="this._current" EditManeouvre="this.OpenEditScoreModal" EditManeouvreEnabled="this._dto.EditScoreEnabled" />
                 <ScorePanel ScoreSaved="this.ScoreSaved" CancellationToken="this._cts.Token" Judge="this.Judge" Pilot="this._dto.Pilot" PanelDisabled="this._panelDisabled" Round="this._dto.Round.Id" Maneouvre="this._current" />
             </div>
         }

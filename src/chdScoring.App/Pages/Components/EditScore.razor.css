@@ -1,0 +1,31 @@
+﻿.score-edit {
+    margin: 2rem;
+    display:flex;
+    flex-direction:column;
+    gap:2rem;
+}
+
+    .score-edit .score-title {
+        text-align: center;
+        font-size: 15pt;
+    }
+
+    .score-edit .change-value {
+        display: flex;
+        gap: 0.5rem;
+        font-size: 40pt;
+        align-content: center;
+        align-items: center;
+        justify-content:center;
+    }
+
+        .score-edit .change-value ::deep .btn {
+            height: 6rem;
+            width: 6rem;
+            border-radius: 50%;
+            font-size: 22pt;
+        }
+
+            .score-edit .change-value ::deep .btn svg {
+                height: 1rem;
+            }

@@ -39,3 +39,12 @@
         justify-content: flex-start !important;
     }
 }
+
+
+
+.blazored-modal {
+}
+
+    .blazored-modal .blazored-modal-content {
+        overflow: auto;
+    }

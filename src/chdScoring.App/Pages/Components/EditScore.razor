@@ -1,0 +1,29 @@
+@using chdScoring.Contracts.Dtos
+
+<div class="score-edit">
+    <div class="score-title">
+        #@this.Dto.Id-@this.Dto.Name
+    </div>
+    <div class="change-value">
+        <IconButton FAClass="minus" OnClick="()=>this.AlterScore(-1)">1</IconButton>
+        <IconButton FAClass="minus" OnClick="()=>this.AlterScore(-0.5m)">0.5</IconButton>
+        @this._scoreValue
+        <IconButton FAClass="plus" OnClick="()=>this.AlterScore(0.5m)">0.5</IconButton>
+        <IconButton FAClass="plus" OnClick="()=>this.AlterScore(1)">1</IconButton>
+    </div>
+</div>
+
+@code {
+    [Parameter] public ManeouvreDto Dto { get; set; }
+
+    private string _scoreValue => this.Dto.Score.Value < 0 ? "NO" : this.Dto.Score.Value.ToString("n1");
+
+    private void AlterScore(decimal val)
+    {
+        if (!(this.Dto.Score.Value + val > 10
+            || this.Dto.Score.Value + val < 0))
+        {
+            this.Dto.Score = this.Dto.Score.Value + val;
+        }
+    }
+}
