@@ -39,7 +39,7 @@ namespace chdScoring.App.Extensions
                     return new Uri(url);
                 }
                 catch { }
-                return new Uri("http://localhost:8081/");
+                return new Uri("http://chd-pc:8081/");
             });
 
             return services;
