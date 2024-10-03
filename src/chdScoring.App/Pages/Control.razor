@@ -1,5 +1,6 @@
 ﻿@using chd.UI.Base.Client.Implementations.Authorization
 @using chd.UI.Base.Contracts.Enum
+@inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
 @page "/controlcenter"
 @attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.ControlBoard })]
 

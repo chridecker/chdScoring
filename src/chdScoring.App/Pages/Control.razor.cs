@@ -4,19 +4,23 @@ using chdScoring.Contracts.Dtos;
 using chdScoring.App.Services;
 using chdScoring.Contracts.Enums;
 using chdScoring.Contracts.Interfaces;
+using chdScoring.App.Constants;
+using chd.UI.Base.Components.Base;
 
 namespace chdScoring.App.Pages
 {
-    public partial class Control : ComponentBase, IDisposable
+    public partial class Control : PageComponentBase<int,int>, IDisposable
     {
         private CancellationTokenSource _cts = new CancellationTokenSource();
         private CurrentFlight _dto;
+
         [Inject] IJudgeHubClient _judgeHubClient { get; set; }
         [Inject] IJudgeDataCache _judgeDataCache { get; set; }
         [Inject] ITimerService _timerService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
+            this.Title = PageTitleConstants.ControlCenter;
             this._cts = new();
             this._dto = this._judgeDataCache.Data;
             if (!this._judgeHubClient.IsConnected)

@@ -1,9 +1,17 @@
 ﻿@page "/"
 @using chdScoring.App.Pages.Components
-@if (this._dto != null)
-{
-        <div class="scoring">
-            <FigurTable Maneouvres="this.Maneouvres" />
-            <ScorePanel CancellationToken="this._cts.Token" Judge="this.Judge" Pilot="this._dto.Pilot" PanelDisabled="this._panelDisabled" Round="this._dto.Round.Id" Maneouvre="this.Maneouvres.FirstOrDefault(x => x.Current)" />
-        </div>
-}
+@inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
+<ChdAuthorizeView TRightId="int" TUserId="int" Rights="new int[]{}">
+    <Authorized>
+        @if (this._dto != null)
+        {
+            <div class="scoring">
+                <FigurTable Maneouvres="this.Maneouvres" />
+                <ScorePanel CancellationToken="this._cts.Token" Judge="this.Judge" Pilot="this._dto.Pilot" PanelDisabled="this._panelDisabled" Round="this._dto.Round.Id" Maneouvre="this.Maneouvres.FirstOrDefault(x => x.Current)" />
+            </div>
+        }
+    </Authorized>
+    <NotAuthorized>
+        Bitte anmelden
+    </NotAuthorized>
+</ChdAuthorizeView>

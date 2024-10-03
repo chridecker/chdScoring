@@ -8,11 +8,11 @@
             <NavItem href="" Match="NavLinkMatch.All" IconFAClass="house" Title="Home" />
             @if (this._controlCodeCenterAvailable)
             {
-                <AuthorizedNavItem TUserId="int" TRightId="int" FunctionalRights="new int[]{RightConstants.ControlBoard}" href="controlcenter" IconFAClass="calculator" Title="Control Center" />
+                <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[]{RightConstants.ControlBoard}" href="controlcenter" IconFAClass="calculator" Title="Control Center" />
             }
         </MenuContent>
         <BottomContent>
-            <AuthorizedNavItem FunctionalRights="new int[]{RightConstants.Setting}" TUserId="int" TRightId="int" Style="EIconStyle.Regular" href="settings" IconFAClass="fa-gear" Title="Settings" />
+            <AuthorizedNavItem Rights="new int[]{RightConstants.Setting}" TUserId="int" TRightId="int" Style="EIconStyle.Regular" href="settings" IconFAClass="fa-gear" Title="Settings" />
             <LoginNavItem TUserId="int" TRightId="int" Style="EIconStyle.Regular" />
         </BottomContent>
     </NavMenuBase>

@@ -2,10 +2,11 @@ using Microsoft.AspNetCore.Components;
 using chdScoring.App.Services;
 using chdScoring.Contracts.Dtos;
 using chdScoring.App.Constants;
+using chd.UI.Base.Components.Base;
 
 namespace chdScoring.App.Pages
 {
-    public partial class Settings
+    public partial class Settings : PageComponentBase<int, int>
     {
         [Inject] private ISettingManager _settingManager { get; set; }
 
@@ -18,6 +19,8 @@ namespace chdScoring.App.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            this.Title = PageTitleConstants.Settings;
+
             this._baseAddress = await this._settingManager.MainUrl;
 
             this._autocollapseNav = await this._settingManager.GetSettingLocal<bool>(SettingConstants.AutoCollapseNavbar_Key); ;

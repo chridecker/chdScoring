@@ -3,14 +3,16 @@ using chdScoring.App.Services;
 using chdScoring.Contracts.Dtos;
 using chdScoring.App.Helper;
 using chdScoring.Contracts.Interfaces;
-using chd.UI.Base.Contracts.Interfaces.Authentication;
 using Blazored.Modal.Services;
 using chd.UI.Base.Components.Extensions;
+using chd.UI.Base.Contracts.Dtos.Authentication;
+using chd.UI.Base.Components.Base;
+using chdScoring.App.Constants;
 
 namespace chdScoring.App.Pages
 {
 
-    public partial class Index : ComponentBase, IDisposable
+    public partial class Index : PageComponentBase<int,int>, IDisposable
     {
         private CancellationTokenSource _cts = new();
         private CurrentFlight _dto;
@@ -30,18 +32,18 @@ namespace chdScoring.App.Pages
         }
 
         private int _judge;
-        [Inject] private IModalService _modal { get; set; }
-        [Inject] private IchdScoringProfileService _profileService { get; set; }
         [Inject] private IJudgeHubClient _judgeHubClient { get; set; }
         [Inject] private IJudgeService _judgeService { get; set; }
         [Inject] private IJudgeDataCache _judgeDataCache { get; set; }
         protected override async Task OnInitializedAsync()
         {
+            this.Title = PageTitleConstants.Index;
+
             this._profileService.UserChanged += this._profileService_UserChanged;
             await base.OnInitializedAsync();
         }
 
-        private async void _profileService_UserChanged(object sender, chd.UI.Base.Contracts.Dtos.Authentication.UserDto<int, int> e)
+        private async void _profileService_UserChanged(object sender, UserDto<int, int> e)
         {
             await this.LoadData();
             await this.InvokeAsync(this.StateHasChanged);
@@ -72,7 +74,7 @@ namespace chdScoring.App.Pages
         public void Dispose()
         {
             this._cts.Cancel();
+            this._profileService.UserChanged -= this._profileService_UserChanged;
         }
-
     }
 }
