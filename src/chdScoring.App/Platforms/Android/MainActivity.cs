@@ -11,7 +11,7 @@ namespace chdScoring.App
     public class MainActivity : MauiAppCompatActivity
     {
         private readonly IAppInfoService _appInfoService;
-        public MainActivity(IPlatformApplication platformApplication)
+        public MainActivity()
         {
             this._appInfoService = IPlatformApplication.Current.Services.GetService<IAppInfoService>();
         }

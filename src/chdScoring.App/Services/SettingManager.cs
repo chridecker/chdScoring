@@ -13,6 +13,9 @@ namespace chdScoring.App.Services
         private int? _judge;
         private bool? _isControlCenter;
 
+        public event EventHandler<string> AutoRedirectToChanged;
+
+
         public SettingManager(ILogger<SettingManager> logger,
             IProtecedLocalStorageHandler protecedLocalStorageHandler,
             NavigationManager navigationManager) : base(logger, protecedLocalStorageHandler, navigationManager)
@@ -47,6 +50,15 @@ namespace chdScoring.App.Services
             this._isControlCenter = isControlCenter;
             await this.StoreSettingLocal<bool>(SettingConstants.ControlCenter, isControlCenter);
         }
+
+        public Task<string> GetAutoRedirectTo() => this.GetSettingLocal(SettingConstants.AutoRedirectTo);
+
+        public async Task SetAutoRedirectTo(string value)
+        {
+            await this.StoreSettingLocal(SettingConstants.AutoRedirectTo, value);
+            this.AutoRedirectToChanged?.Invoke(this, value);
+        }
+
     }
     public interface ISettingManager : IBaseClientSettingManager
     {
@@ -55,5 +67,10 @@ namespace chdScoring.App.Services
         Task<bool> IsControlCenter { get; }
 
         Task UpdateControlCenter(bool isControlCenter);
+
+        event EventHandler<string> AutoRedirectToChanged;
+
+        Task<string> GetAutoRedirectTo();
+        Task SetAutoRedirectTo(string value);
     }
 }

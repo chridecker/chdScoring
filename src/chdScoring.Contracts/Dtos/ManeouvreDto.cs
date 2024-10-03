@@ -10,8 +10,6 @@ namespace chdScoring.Contracts.Dtos
         public int Value { get; set; }
         public string Name { get; set; }
         public decimal? Score { get; set; }
-        public bool Current { get; set; }
-        public bool Saved => this.Score.HasValue;
-
+        public bool Saved { get; set; }
     }
 }

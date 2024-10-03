@@ -8,16 +8,22 @@ using chd.UI.Base.Components.Extensions;
 using chd.UI.Base.Contracts.Dtos.Authentication;
 using chd.UI.Base.Components.Base;
 using chdScoring.App.Constants;
+using chd.UI.Base.Client.Implementations.Services;
+using System.Collections.Concurrent;
+using chd.UI.Base.Contracts.Extensions;
 
 namespace chdScoring.App.Pages
 {
 
-    public partial class Index : PageComponentBase<int,int>, IDisposable
+    public partial class Index : PageComponentBase<int, int>, IDisposable
     {
         private CancellationTokenSource _cts = new();
         private CurrentFlight _dto;
+        private ManeouvreDto _current => this.Maneouvres.Where(x => !x.Score.HasValue).OrderBy(o => o.Id).FirstOrDefault();
+
         private JudgeDto Judge => this._dto?.Judges.FirstOrDefault(x => x.Id == this._judge);
-        private bool _panelDisabled => !this._dto.LeftTime.HasValue ? true : !this.Maneouvres.Any(x => x.Current);
+        private bool _panelDisabled => !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero ? true : this._current is null;
+        private bool _scrolledManually = false;
 
         private IEnumerable<ManeouvreDto> Maneouvres
         {
@@ -32,15 +38,28 @@ namespace chdScoring.App.Pages
         }
 
         private int _judge;
+
+        private BlockingCollection<SaveScoreDto> _unsavedScores = new BlockingCollection<SaveScoreDto>();
+
         [Inject] private IJudgeHubClient _judgeHubClient { get; set; }
         [Inject] private IJudgeService _judgeService { get; set; }
+        [Inject] private IScoringService _scoringService { get; set; }
         [Inject] private IJudgeDataCache _judgeDataCache { get; set; }
+        [Inject] private IScrollInfoService _scrollInfoService { get; set; }
         protected override async Task OnInitializedAsync()
         {
             this.Title = PageTitleConstants.Index;
-
+            this._scrollInfoService.OnScroll += this._scrollInfoService_OnScroll;
             this._profileService.UserChanged += this._profileService_UserChanged;
+
+            this.ResendUnsavedScore(this._cts.Token);
+
             await base.OnInitializedAsync();
+        }
+
+        private void _scrollInfoService_OnScroll(object sender, int e)
+        {
+            this._scrolledManually = true;
         }
 
         private async void _profileService_UserChanged(object sender, UserDto<int, int> e)
@@ -66,15 +85,58 @@ namespace chdScoring.App.Pages
 
         private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)
         {
+            if (this._dto.Pilot != e.Pilot || this._dto.Round.Id != e.Round.Id)
+            {
+                while (this._unsavedScores.TryTake(out _)) { }
+            }
             this._dto = e;
             await this.InvokeAsync(this.StateHasChanged);
         }
 
+        private async Task<bool> ScoreSaved(SaveScoreDto dto)
+        {
+            try
+            {
+                this._scrolledManually = false;
+                this._unsavedScores.Add(dto);
+                this.Maneouvres.FirstOrDefault(x => x.Id == dto.Figur).Score = dto.Value;
+
+                await this._scrollInfoService.ScrolltoElement("figure-table");
+                this._scrolledManually = false;
+
+                await this.InvokeAsync(this.StateHasChanged);
+                return true;
+            }
+            catch { }
+            return false;
+        }
+
+
+        private void ResendUnsavedScore(CancellationToken cancellationToken) => Task.Run(async () =>
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                if (!this._unsavedScores.Any())
+                {
+                    var dto = this._unsavedScores.Take(cancellationToken);
+                    try
+                    {
+                        await this._scoringService.SaveScore(dto, cancellationToken);
+                    }
+                    catch { this._unsavedScores.Add(dto); }
+                }
+                else
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+                }
+            }
+        }, cancellationToken);
 
         public void Dispose()
         {
-            this._cts.Cancel();
             this._profileService.UserChanged -= this._profileService_UserChanged;
+            this._scrollInfoService.OnScroll -= this._scrollInfoService_OnScroll;
+            this._cts.Cancel();
         }
     }
 }

@@ -7,7 +7,6 @@
 @inject IHandleUserIdLogin<int> handleUserIdLogin
 
 
-
 <div class="page">
     @if (this._autocollapseNav)
     {
@@ -41,24 +40,24 @@
 @code {
     private bool _autocollapseNav = false;
     private bool _navCollapsed = false;
-        
+
     protected override async Task OnInitializedAsync()
     {
         this._autocollapseNav = await clientSettings.GetSettingLocal<bool>(SettingConstants.AutoCollapseNavbar_Key);
         this._navCollapsed = true;
 
         if (await handleUserIdLogin.IsEnabled)
+        {
+            var id = await handleUserIdLogin.GetIdAsync();
+            if (id.HasValue)
             {
-                var id = await handleUserIdLogin.GetIdAsync();
-                if (id.HasValue)
-                {
-                    await profileService.LoginAsync(new()
+                await profileService.LoginAsync(new()
                     {
                         Id = id,
                         StayLoggedIn = true,
                     });
-                }
             }
+        }
 
         await base.OnInitializedAsync();
     }

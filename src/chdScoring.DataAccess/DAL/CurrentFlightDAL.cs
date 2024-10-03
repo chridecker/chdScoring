@@ -63,7 +63,7 @@ namespace chdScoring.DataAccess.DAL
                                 Name = element.Name,
                                 Value = element.Wert,
                                 Score = judgeScores.FirstOrDefault(x => x.Figur == i)?.Wert,
-                                Current = i == judgeScores.Count() + 1,
+                                Saved = judgeScores.Any(x => x.Figur == i),
                             });
                         }
                         dto.ManeouvreLst[judge.Id] = figurs;

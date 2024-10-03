@@ -6,11 +6,14 @@
     Basis Adresse:
     <input type="text" value="@this._baseAddress" @onchange="async (e)=>await this.UpdateMainUrl(e)" />
 </p>
-<div class="container view-container">
-    <div class="setting-header">Filter Views</div>
-    <SettingCheckbox SettingText="Navigation automatisch ausblenden" Checked="@this._autocollapseNav" OnChange="async (e)=> await UpdateAutoCollapeseNavBar(e)" />
-</div>
-<p>
-    Als ControlCenter verwenden:
-        <input type="checkbox" checked="@this._isControlCenter" @onchange="async (e)=> await this.UpdateIsControlCenter(e)" />
-</p>
+
+<SettingCheckbox SettingText="Als ControlCenter verwenden" Checked="@this._isControlCenter" OnChange="async (e)=> await UpdateIsControlCenter(e)" />
+<SettingCheckbox SettingText="Navigation automatisch ausblenden" Checked="@this._autocollapseNav" OnChange="async (e)=> await UpdateAutoCollapeseNavBar(e)" />
+
+
+<select class="form-control" @onchange="this.OnAutoRedirectChanged">
+    @foreach (var redirectOption in this._redirectOptions)
+    {
+        <option value="@redirectOption.Key" selected="@(redirectOption.Key == this._autoRedirect)">@redirectOption.Value</option>
+    }
+</select>

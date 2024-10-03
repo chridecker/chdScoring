@@ -14,13 +14,13 @@ namespace chdScoring.App.Pages.Components
     {
         [Inject] private IKeyHandler _keyHandler { get; set; }
 
-        [Inject] private IScoringService _scoringService { get; set; }
-
         [Inject] private IVibrationHelper _vibrationHelper { get; set; }
 
         [Inject] private IJSRuntime _jsRuntime { get; set; }
 
 
+
+        [Parameter] public Func<SaveScoreDto, Task<bool>> ScoreSaved { get; set; }
         [Parameter] public int Round { get; set; }
 
         [Parameter] public PilotDto Pilot { get; set; }
@@ -36,6 +36,7 @@ namespace chdScoring.App.Pages.Components
         private string _scoreValueText => !this._scoreValue.HasValue ? "" : this._scoreValue.Value < 0 ? "NO" : this._scoreValue.Value == 0 ? "0" : this._scoreValue.Value.ToString("#.#");
         private decimal? _scoreValue;
 
+        private string _maneouvreText => this.Maneouvre is not null ? $"#{this.Maneouvre?.Id} {this.Maneouvre?.Name}" : " ";
 
         protected override async Task OnInitializedAsync()
         {
@@ -86,36 +87,27 @@ namespace chdScoring.App.Pages.Components
             {
                 if (!(await this.SaveScore(this.Pilot.Id, this.Maneouvre.Id, this.Judge.Id, this.Round, this._scoreValue.Value, this.CancellationToken)))
                 {
-                    var duration = TimeSpan.FromMilliseconds(200);
-                    await this._vibrationHelper.Vibrate(4, duration, this.CancellationToken);
+                    await this._vibrationHelper.Vibrate(4, TimeSpan.FromMilliseconds(200), this.CancellationToken);
                 }
                 else
                 {
                     this._vibrationHelper.Vibrate(TimeSpan.FromMilliseconds(500));
-                    this._scoreValue = null;
                 }
+                this._scoreValue = null;
             }
             await this.InvokeAsync(this.StateHasChanged);
         }
         public async Task<bool> SaveScore(int id, int figur, int judge, int round, decimal value, CancellationToken token)
         {
-            try
+            var dto = new SaveScoreDto
             {
-                var dto = new SaveScoreDto
-                {
-                    Pilot = id,
-                    Figur = figur,
-                    Judge = judge,
-                    Round = round,
-                    Value = value
-                };
-
-                return await this._scoringService.SaveScore(dto, token);
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+                Pilot = id,
+                Figur = figur,
+                Judge = judge,
+                Round = round,
+                Value = value
+            };
+            return await this.ScoreSaved?.Invoke(dto);
         }
 
         private async Task NotObserved()

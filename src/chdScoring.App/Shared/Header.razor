@@ -3,6 +3,7 @@
 @inject IchdScoringProfileService profileService
 @inject ITimeoutHandler timeoutHandler
 @inject IJudgeHubClient apiClient
+@inject IBaseUIComponentHandler uiHandler
 @inherits LayoutComponentBase
 
 <div class="header-panel">
@@ -11,19 +12,31 @@
             <div class="networkBox">
                 <div class="liquid @GetStateCss()"></div>
             </div>
+            <div class="theme-mode">
+                <IconButton FAClass="@_themeModeIcon" OnClick="async ()=>await this.ChangeTheme()" />
+            </div>
         </RightChildContent>
     </HeaderBase>
 </div>
 
 @code {
-    [Parameter]
-    public string PageTitle { get; set; }
+    [Parameter] public string PageTitle { get; set; }
 
+    private string _themeModeIcon;
 
     protected override async Task OnInitializedAsync()
     {
+        this._themeModeIcon = uiHandler.IsDarkMode ? "sun-bright" : "moon";
         this.StartRefresh();
         await base.OnInitializedAsync();
+    }
+
+    private async Task ChangeTheme()
+    {
+        var darkMode = this.uiHandler.IsDarkMode;
+        await this.uiHandler.SetDarkMode(!darkMode);
+        this._themeModeIcon = darkMode ? "moon" : "sun-bright";
+        // await this.InvokeAsync(this.StateHasChanged);
     }
 
     private void StartRefresh() => Task.Run(async () =>

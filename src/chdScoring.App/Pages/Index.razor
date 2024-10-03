@@ -6,8 +6,8 @@
         @if (this._dto != null)
         {
             <div class="scoring">
-                <FigurTable Maneouvres="this.Maneouvres" />
-                <ScorePanel CancellationToken="this._cts.Token" Judge="this.Judge" Pilot="this._dto.Pilot" PanelDisabled="this._panelDisabled" Round="this._dto.Round.Id" Maneouvre="this.Maneouvres.FirstOrDefault(x => x.Current)" />
+                <FigurTable Maneouvres="this.Maneouvres" Current="this._current" />
+                <ScorePanel ScoreSaved="this.ScoreSaved" CancellationToken="this._cts.Token" Judge="this.Judge" Pilot="this._dto.Pilot" PanelDisabled="this._panelDisabled" Round="this._dto.Round.Id" Maneouvre="this._current" />
             </div>
         }
     </Authorized>
