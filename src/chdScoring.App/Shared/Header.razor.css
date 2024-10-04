@@ -146,6 +146,6 @@
             }
 
                 .header-panel ::deep .ui-header > .right-content > .theme-mode .btn svg {
-                    height: 1rem;
+                    height: 0.8rem;
                 }
 }
