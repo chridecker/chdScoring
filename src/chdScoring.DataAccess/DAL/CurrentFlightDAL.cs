@@ -44,11 +44,14 @@ namespace chdScoring.DataAccess.DAL
                     var scores = await this._wertungRepository.GetScoresToPilotInRound(pilot.Id, round, cancellationToken);
                     var program = await this._programmRepository.GetProgramToRound(round, cancellationToken);
 
-                    TimeSpan? time = DateTime.Today.Add(currentPilot.Start_Time) == DateTime.Today ? null : TimeSpan.FromMinutes(klasse.Zeit) - (DateTime.Now - DateTime.Today.Add(currentPilot.Start_Time));
+                    var currentTime = DateTime.Now.TimeOfDay;
+
+                    TimeSpan? time = currentPilot.Start_Time == TimeSpan.Zero || currentTime > currentPilot.Start_Time ? null : TimeSpan.FromMinutes(klasse.Zeit) - (currentTime - currentPilot.Start_Time);
 
                     dto = new CurrentFlight()
                     {
                         EditScoreEnabled = stammdaten.FirstOrDefault()?.Edit ?? false,
+                        StartTime = currentPilot.Start_Time,
                         Round = new RoundDto { Id = round, Program = program.Title, Time = TimeSpan.FromMinutes(klasse.Zeit) },
                         LeftTime = time.HasValue && time.Value < TimeSpan.Zero ? TimeSpan.Zero : time,
                         Pilot = new PilotDto { Id = pilot.Id, Name = $"{pilot.Vorname} {pilot.Nachname.ToLower()}" },

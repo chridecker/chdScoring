@@ -5,14 +5,12 @@
 <div class="nav-menu">
     <NavMenuBase Visible="this.Visible">
         <ImageContent>
-           <CustomIcon FAClass="plane" />
+            <CustomIcon FAClass="plane" />
         </ImageContent>
         <MenuContent>
             <NavItem href="" Match="NavLinkMatch.All" IconFAClass="house" Title="Home" />
-            @if (this._controlCodeCenterAvailable)
-            {
-                <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[]{RightConstants.ControlBoard}" href="controlcenter" IconFAClass="calculator" Title="Control Center" />
-            }
+            <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[]{RightConstants.ControlBoard}" href="controlcenter" IconFAClass="calculator" Title="Control Center" />
+            <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[]{RightConstants.CompMgmt}" href="competitionmanagement" IconFAClass="stopwatch" Title="Competition Management" />
         </MenuContent>
         <BottomContent>
             <AuthorizedNavItem Rights="new int[]{RightConstants.Setting}" TUserId="int" TRightId="int" Style="EIconStyle.Regular" href="settings" IconFAClass="fa-gear" Title="Settings" />

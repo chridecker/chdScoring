@@ -7,16 +7,6 @@
 @if (this._dto is not null)
 {
     <div class="control-center">
-        <div class="timer">
-            <div class="pilot">
-                &#8470; @this._dto.Pilot.Id - @this._dto.Pilot.Name - Round @this._dto.Round.Id - @this._dto.Round.Program
-            </div>
-            <div class="time">@_leftTime</div>
-            <div class="control">
-                <IconButton Style="EIconStyle.Regular" FAClass="@this._faStartStop" OnClick="this.StartStop" />
-            </div>
-
-        </div>
         <div class="live">
             <div class="maneouvres">
                 @foreach (var maneouvre in this._dto.ManeouvreLst.FirstOrDefault().Value.OrderBy(o => o.Id))

@@ -1,0 +1,31 @@
+@using chd.UI.Base.Client.Implementations.Authorization
+@using chd.UI.Base.Contracts.Enum
+@using chdScoring.App.Pages.Components
+@inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
+@page "/competitionmanagement"
+@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.CompMgmt })]
+
+
+@if (this._dto is not null)
+{
+    <Timer CancellationToken="this._cts.Token" Dto="this._dto" Airfield="1" />
+}
+
+
+<SideWidgetContainer>
+    <SideWidget>Test1</SideWidget>
+    <SideWidget>Test2</SideWidget>
+</SideWidgetContainer>
+
+<FloatingActionNavigation>
+    <FloatingActionButton FAClass="floppy-disk"
+                          OnClick="async () => await this.ShowOk()"
+                          Title="Save Round"
+                          CssClass="dot-btn-save large" />
+
+    <FloatingActionButton FAClass="xmark"
+                          OnClick="async () => await this.ShowOk()"
+                          Title="NOT OK "
+                          CssClass="dot-btn-clear-planned large" />
+</FloatingActionNavigation>
+

@@ -1,0 +1,59 @@
+@using chd.UI.Base.Contracts.Enum
+@using chdScoring.Contracts.Dtos
+@using chdScoring.Contracts.Interfaces
+@inject ITimerService timerService
+
+<div class="timer">
+    <div class="pilot">
+        &#8470; @this.Dto.Pilot.Id - @this.Dto.Pilot.Name - Round @this.Dto.Round.Id - @this.Dto.Round.Program
+    </div>
+    <div class="time">@_leftTime</div>
+    <div class="control">
+        <IconButton Style="EIconStyle.Regular" FAClass="@this._faStartStop" OnClick="this.StartStop" />
+    </div>
+</div>
+
+@code {
+
+
+    [Parameter] public CancellationToken CancellationToken { get; set; }
+    [Parameter] public CurrentFlight Dto { get; set; }
+    [Parameter] public int Airfield { get; set; }
+
+    private string _leftTime => (this.Dto?.LeftTime.HasValue ?? false) && this.Dto.LeftTime.Value <= this.Dto.Round.Time ?
+            this.Dto.LeftTime.Value > TimeSpan.Zero ? this.Dto.LeftTime.Value.ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : this.Dto.Round.Time.ToString("mm\\:ss");
+    private string _faStartStop => (this.Dto?.LeftTime.HasValue ?? false) ? "circle-stop" : "circle-play";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.RenderTask();
+
+        await base.OnInitializedAsync();
+    }
+
+    private void RenderTask() => Task.Run(async () =>
+    {
+        while (!this.CancellationToken.IsCancellationRequested)
+        {
+            await this.InvokeAsync(this.StateHasChanged);
+            await Task.Delay(TimeSpan.FromSeconds(1), this.CancellationToken);
+        }
+    }, this.CancellationToken);
+
+    private async Task StartStop()
+    {
+        try
+        {
+            var dto = new TimerOperationDto
+                {
+                    Airfield = this.Airfield,
+                    Operation = this.Dto.LeftTime.HasValue ? Contracts.Enums.ETimerOperation.Stop : Contracts.Enums.ETimerOperation.Start
+                };
+            await this.timerService.HandleOperation(dto, this.CancellationToken);
+        }
+        catch
+        {
+        }
+    }
+}

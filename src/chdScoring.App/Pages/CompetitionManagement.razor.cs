@@ -1,15 +1,14 @@
-using global::Microsoft.AspNetCore.Components;
-using chdScoring.App.Helper;
-using chdScoring.Contracts.Dtos;
-using chdScoring.App.Services;
-using chdScoring.Contracts.Enums;
-using chdScoring.Contracts.Interfaces;
-using chdScoring.App.Constants;
 using chd.UI.Base.Components.Base;
+using chdScoring.App.Constants;
+using chdScoring.App.Helper;
+using chdScoring.App.Services;
+using chdScoring.Contracts.Dtos;
+using chdScoring.Contracts.Interfaces;
+using Microsoft.AspNetCore.Components;
 
 namespace chdScoring.App.Pages
 {
-    public partial class Control : PageComponentBase<int,int>, IDisposable
+    public partial class CompetitionManagement : PageComponentBase<int, int>, IDisposable
     {
         private CancellationTokenSource _cts = new CancellationTokenSource();
         private CurrentFlight _dto;
@@ -20,7 +19,7 @@ namespace chdScoring.App.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            this.Title = PageTitleConstants.ControlCenter;
+            this.Title = PageTitleConstants.CompetitionManagement;
             this._cts = new();
             this._dto = this._judgeDataCache.Data;
             if (!this._judgeHubClient.IsConnected)
@@ -34,13 +33,19 @@ namespace chdScoring.App.Pages
 
             await base.OnInitializedAsync();
         }
+        
+
+        private async Task SaveRound()
+        {
+
+        }
+
         private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)
         {
             this._dto = e;
             await this.InvokeAsync(this.StateHasChanged);
         }
-
-
+        
         public void Dispose()
         {
             this._judgeHubClient.DataReceived -= this._judgeHubClient_DataReceived;
