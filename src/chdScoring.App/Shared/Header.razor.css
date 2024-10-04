@@ -140,12 +140,12 @@
 
             .header-panel ::deep .ui-header > .right-content > .theme-mode .btn {
                 height: 1.2rem;
-                width: max-content;
+                width: 1.2rem;
                 border-radius: 50%;
                 padding: 0.2rem;
             }
 
                 .header-panel ::deep .ui-header > .right-content > .theme-mode .btn svg {
-                    height: max-content;
+                    height: 1rem;
                 }
 }
