@@ -28,5 +28,8 @@ namespace chdScoring.DataAccess.Repositories
 
         public Task<bool> Exists(int pilot, int round, int figur, int judge, CancellationToken cancellationToken)
             => this._context.Wertung.AnyAsync(a => a.Teilnehmer == pilot && a.Durchgang == round && a.Figur == figur && a.Judge == judge, cancellationToken);
+
+        public async Task<Wertung> Find(int pilot, int round, int figur, int judge, CancellationToken cancellationToken)
+            => await this._context.Wertung.FindAsync(judge, round, figur, pilot, cancellationToken);
     }
 }

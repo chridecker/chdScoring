@@ -51,6 +51,16 @@ namespace chdScoring.Main.UI.Extensions
                 }
                 return false;
             });
+            
+            scoring.MapPost(Scoring.POST_Update, async (SaveScoreDto dto, IScoringService service, IFlightCacheService cache, IHubContext<FlightHub, IFlightHub> hub, CancellationToken cancellationToken) =>
+            {
+                if (await service.UpdateScore(dto, cancellationToken))
+                {
+                    await hub.Clients.Group($"judge{dto.Judge}").ReceiveFlightData(cache.GetCurrentFlight());
+                    return true;
+                }
+                return false;
+            });
             return app;
         }
     }

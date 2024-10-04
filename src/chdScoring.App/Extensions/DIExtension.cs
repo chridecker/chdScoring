@@ -1,47 +1,55 @@
-﻿using chd.UI.Base.Client.Extensions;
+﻿using Blazored.Modal.Services;
+using chd.Api.Base.Client.Extensions;
+using chd.UI.Base.Client.Extensions;
+using chd.UI.Base.Client.Implementations.Services;
 using chd.UI.Base.Components.Helper;
 using chd.UI.Base.Contracts.Interfaces.Authentication;
 using chd.UI.Base.Contracts.Interfaces.Services;
+using chdScoring.App.Auth;
 using chdScoring.App.Handler;
 using chdScoring.App.Helper;
 using chdScoring.App.Services;
 using chdScoring.Main.Client.Extensions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace chdScoring.App.Extensions
 {
     public static class DIExtension
     {
-        public static IServiceCollection AddChdScoringApp(this IServiceCollection services)
+        public static IServiceCollection AddChdScoringApp(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHttpClient();
-
-            services.AddOptions();
             services.AddAuthorizationCore();
+
+            services.AddUtilities<chdScoringProfileService, int, int, HandleUserIdLogin, SettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, UpdateService, BaseFilterHelper>();
+
+            services.AddMauiModalHandler();
 
             services.AddSingleton<IDialogHelper, DialogHelper>();
             services.AddSingleton<IKeyHandler, KeyHandler>();
             services.AddSingleton<IVibrationHelper, VibrationHelper>();
 
-            services.AddUtilities<chdScoringProfileService, int, int,HandleUserIdLogin, SettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, UpdateService, BaseFilterHelper>();
+            services.AddSingleton<IAppInfoService, AppInfoService>();
 
             services.AddSingleton<IchdScoringProfileService>(sp => sp.GetRequiredService<chdScoringProfileService>());
+
+
+            /* State Container Singletons */
+            services.AddSingleton<INavigationHistoryStateContainer, NavigationHistoryStateContainer>();
+
+            /* Scoped */
+            services.AddScoped<INavigationHandler, NavigationHandler<int, int>>();
 
             services.AddTransient<IPasswordHashService, PasswordHashService>();
 
             services.AddScoped<IJudgeHubClient, JudgeHubClient>();
             services.AddSingleton<IJudgeDataCache, JudgeDataCache>();
 
-            services.AddChdScoringClient((sp) =>
-            {
-                try
-                {
-                    var url = sp.GetRequiredService<ISettingManager>().MainUrl.Result;
-                    return new Uri(url);
-                }
-                catch { }
-                return new Uri("http://localhost:8081/");
-            });
-
+#if ANDROID
+            services.ConfigureHttpClientDefaults(builder => builder.ConfigurePrimaryHttpMessageHandler(HttpsClientHandlerService.GetPlatformMessageHandler));
+#endif
+            
+            services.AddChdScoringClient((sp) => configuration.GetApiKey("chdScoringApi"));
             return services;
         }
     }

@@ -80,9 +80,16 @@ namespace chdScoring.App.Pages
                 __builder.CloseComponent();
             };
             var change = await this._modal.ShowDialog("Wertung ändern", EDialogButtons.OKCancel, frag);
-            if(change == EDialogResult.OK)
+            if (change == EDialogResult.OK)
             {
-
+                await this._scoringService.UpdateScore(new SaveScoreDto()
+                {
+                    Pilot = this._dto.Pilot.Id,
+                    Figur = dto.Id,
+                    Judge = this._judge,
+                    Round = this._dto.Round.Id,
+                    Value = dto.Score.Value
+                }, this._cts.Token);
             }
         }
 
