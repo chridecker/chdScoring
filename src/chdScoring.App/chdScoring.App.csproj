@@ -24,6 +24,27 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<PackageIcon>android-chrome-192x192_wh.png</PackageIcon>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
+	  <ApplicationTitle>chdScoring</ApplicationTitle>
+	  <ApplicationId>com.chdscoring.mobile.app</ApplicationId>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
+	  <ApplicationTitle>chdScoring</ApplicationTitle>
+	  <ApplicationId>com.chdscoring.mobile.app</ApplicationId>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
+	  <ApplicationTitle>chdScoring</ApplicationTitle>
+	  <ApplicationId>com.chdscoring.mobile.app</ApplicationId>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
+	  <ApplicationTitle>chdScoring</ApplicationTitle>
+	  <ApplicationId>com.chdscoring.mobile.app</ApplicationId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -31,7 +52,7 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\logo_small.svg" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\logo_small.svg"  BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\logo_small.svg" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -47,20 +68,23 @@
 	<ItemGroup>
 	  <Content Remove="appsettings.json" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiImage Remove="Resources\Images\logo_small.svg" />
-	</ItemGroup>
-
 	<ItemGroup>
 	  <EmbeddedResource Include="appsettings.json" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Include="..\..\logo\android-chrome-192x192_wh.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
 
 	<ItemGroup>
-		<PackageReference Include="chd.UI.Base.Components" Version="1.0.24278.50" />
-		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.24278.50" />
-		<PackageReference Include="CommunityToolkit.Maui" Version="6.0.0" />
+		<PackageReference Include="chd.UI.Base.Components" Version="1.0.24278.51" />
+		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.24278.51" />
+		<PackageReference Include="chd.UI.Base.Contracts" Version="1.0.24278.51" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />

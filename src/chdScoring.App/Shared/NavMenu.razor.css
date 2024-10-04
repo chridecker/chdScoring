@@ -9,16 +9,16 @@
         }
 
     .nav-menu ::deep .sidebar header .image .logo {
-        padding: 0.3rem;
+        padding: 0.2rem;
+        background-color: var(--chd-main-color-theme);
+        height: 2.2rem;
     }
 
         .nav-menu ::deep .sidebar header .image .logo.test {
-            background-color: var(--chd-main-color-theme);
         }
 
         .nav-menu ::deep .sidebar header .image .logo svg {
-            height: 1.7rem;
-            width: 1.7rem;
+            height: 100%;
         }
 
     .nav-menu ::deep .sidebar.collapsed .menu-bar {
