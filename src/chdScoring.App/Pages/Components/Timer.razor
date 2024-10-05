@@ -1,6 +1,7 @@
 @using chd.UI.Base.Contracts.Enum
 @using chdScoring.Contracts.Dtos
 @using chdScoring.Contracts.Interfaces
+@using chdScoring.Contracts.Enums
 @inject ITimerService timerService
 
 <div class="timer">
@@ -9,7 +10,14 @@
     </div>
     <div class="time">@_leftTime</div>
     <div class="control">
-        <IconButton Style="EIconStyle.Regular" FAClass="@this._faStartStop" OnClick="this.StartStop" />
+        @if (this.Dto.LeftTime.HasValue)
+        {
+            <IconButton FAClass="circle-stop" OnClick="async ()=>await this.StartStop(ETimerOperation.Stop)" />
+        }
+        else
+        {
+            <IconButton FAClass="circle-play" OnClick="async ()=> await this.StartStop(ETimerOperation.Start)" />
+        }
     </div>
 </div>
 
@@ -22,8 +30,6 @@
 
     private string _leftTime => (this.Dto?.LeftTime.HasValue ?? false) && this.Dto.LeftTime.Value <= this.Dto.Round.Time ?
             this.Dto.LeftTime.Value > TimeSpan.Zero ? this.Dto.LeftTime.Value.ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : this.Dto.Round.Time.ToString("mm\\:ss");
-    private string _faStartStop => (this.Dto?.LeftTime.HasValue ?? false) ? "circle-stop" : "circle-play";
-
 
     protected override async Task OnInitializedAsync()
     {
@@ -41,14 +47,14 @@
         }
     }, this.CancellationToken);
 
-    private async Task StartStop()
+    private async Task StartStop(ETimerOperation operaetion)
     {
         try
         {
             var dto = new TimerOperationDto
                 {
                     Airfield = this.Airfield,
-                    Operation = this.Dto.LeftTime.HasValue ? Contracts.Enums.ETimerOperation.Stop : Contracts.Enums.ETimerOperation.Start
+                    Operation = operaetion
                 };
             await this.timerService.HandleOperation(dto, this.CancellationToken);
         }

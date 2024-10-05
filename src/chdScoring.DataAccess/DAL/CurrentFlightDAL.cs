@@ -46,7 +46,7 @@ namespace chdScoring.DataAccess.DAL
 
                     var currentTime = DateTime.Now.TimeOfDay;
 
-                    TimeSpan? time = currentPilot.Start_Time == TimeSpan.Zero || currentTime > currentPilot.Start_Time ? null : TimeSpan.FromMinutes(klasse.Zeit) - (currentTime - currentPilot.Start_Time);
+                    TimeSpan? time = currentPilot.Start_Time == TimeSpan.Zero || currentTime < currentPilot.Start_Time ? null : TimeSpan.FromMinutes(klasse.Zeit) - (currentTime - currentPilot.Start_Time);
 
                     dto = new CurrentFlight()
                     {

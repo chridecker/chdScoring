@@ -1,1 +1,38 @@
-﻿
+﻿.timer {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+    .timer .pilot {
+        font-size: 14pt;
+    }
+
+    .timer .time {
+        text-align: center;
+        font-size: 35pt;
+    }
+
+    .timer .control {
+        height: 5rem;
+    }
+
+        .timer .control ::deep .btn {
+            height: 3rem;
+            border-radius: 30%;
+        }
+        .timer .control ::deep .btn svg {
+            height: max-content;
+        }
+
+            .timer .control ::deep .btn.icon-button-circle-play {
+            }
+
+            .timer .control ::deep .btn.icon-button-circle-stop  {
+            }
+
+        

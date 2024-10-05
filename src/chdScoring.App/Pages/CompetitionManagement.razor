@@ -10,7 +10,9 @@
 
 @if (this._dto is not null)
 {
-    <Timer CancellationToken="this._cts.Token" Dto="this._dto" Airfield="1" />
+    <div class="timer-control">
+        <Timer CancellationToken="this._cts.Token" Dto="this._dto" Airfield="1" />
+    </div>
 }
 
 
