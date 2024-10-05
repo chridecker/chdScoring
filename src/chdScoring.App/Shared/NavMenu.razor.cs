@@ -28,7 +28,6 @@ namespace chdScoring.App.Shared
         private bool _small = true;
 
         private bool collapseNavMenu = true;
-        private bool _controlCodeCenterAvailable = false;
 
         private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
@@ -41,7 +40,6 @@ namespace chdScoring.App.Shared
         protected override async Task OnAfterRenderAsync(bool first)
         {
             await this.CheckWindowSize();
-            this._controlCodeCenterAvailable = await settingManager.IsControlCenter;
 
             await base.OnAfterRenderAsync(first);
         }

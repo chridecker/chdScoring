@@ -14,7 +14,7 @@
             }
 
                 .figure-table ::deep .custom-table tbody tr td {
-                    font-size: 1.2rem;
+                    font-size: 1rem;
                 }
 
                     .figure-table ::deep .custom-table tbody tr td.custom-table-data {
@@ -23,7 +23,7 @@
 
                         .figure-table ::deep .custom-table tbody tr td.custom-table-data.score {
                             padding-right: 0.5rem;
-                            font-size: 1.3rem;
+                            font-size: 1.1rem;
                             display: flex;
                             flex-direction:row-reverse;
                             gap: 0.2rem;
@@ -35,7 +35,7 @@
                             }
 
                             .figure-table ::deep .custom-table tbody tr td.custom-table-data.score .btn {
-                                height: 1.7rem;
+                                height: 1.5rem;
                                 padding: 0.2rem;
                             }
 

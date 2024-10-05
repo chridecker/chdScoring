@@ -40,6 +40,8 @@ namespace chdScoring.App.Pages
 
         }
 
+
+
         private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)
         {
             this._dto = e;

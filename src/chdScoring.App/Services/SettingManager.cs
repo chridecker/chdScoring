@@ -1,8 +1,10 @@
-﻿using chd.UI.Base.Client.Implementations.Services.Base;
+﻿using chd.Api.Base.Client.Extensions;
+using chd.UI.Base.Client.Implementations.Services.Base;
 using chd.UI.Base.Contracts.Interfaces.Services;
 using chd.UI.Base.Contracts.Interfaces.Services.Base;
 using chdScoring.App.Constants;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace chdScoring.App.Services
@@ -11,44 +13,33 @@ namespace chdScoring.App.Services
     {
         private string _mainUrl;
         private int? _judge;
-        private bool? _isControlCenter;
+        private readonly IConfiguration _configuration;
 
         public event EventHandler<string> AutoRedirectToChanged;
 
 
-        public SettingManager(ILogger<SettingManager> logger,
+        public SettingManager(ILogger<SettingManager> logger, IConfiguration configuration,
             IProtecedLocalStorageHandler protecedLocalStorageHandler,
             NavigationManager navigationManager) : base(logger, protecedLocalStorageHandler, navigationManager)
         {
+            this._configuration = configuration;
         }
         public Task<string> MainUrl => Task.Run(async () =>
         {
             if (string.IsNullOrWhiteSpace(this._mainUrl))
             {
-                this._mainUrl = await this.GetSettingLocal<string>(SettingConstants.BaseAddress);
+                this._mainUrl = await this.GetSettingLocal<string>(SettingConstants.BaseAddress) ?? 
+                this._configuration.GetApiKey("chdScoringApi").ToString();
             }
             return this._mainUrl;
         });
 
-        public Task<bool> IsControlCenter => Task.Run(async () =>
-       {
-           if (!this._isControlCenter.HasValue)
-           {
-               this._isControlCenter = await this.GetSettingLocal<bool>(SettingConstants.ControlCenter);
-           }
-           return this._isControlCenter.Value;
-       });
+
 
         public async Task UpdateMainUrl(string url)
         {
             this._mainUrl = url;
             await this.StoreSettingLocal<string>(SettingConstants.BaseAddress, url);
-        }
-
-        public async Task UpdateControlCenter(bool isControlCenter)
-        {
-            this._isControlCenter = isControlCenter;
-            await this.StoreSettingLocal<bool>(SettingConstants.ControlCenter, isControlCenter);
         }
 
         public Task<string> GetAutoRedirectTo() => this.GetSettingLocal(SettingConstants.AutoRedirectTo);
@@ -64,9 +55,6 @@ namespace chdScoring.App.Services
     {
         Task<string> MainUrl { get; }
         Task UpdateMainUrl(string url);
-        Task<bool> IsControlCenter { get; }
-
-        Task UpdateControlCenter(bool isControlCenter);
 
         event EventHandler<string> AutoRedirectToChanged;
 

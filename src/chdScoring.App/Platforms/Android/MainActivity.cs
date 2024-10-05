@@ -44,7 +44,7 @@ namespace chdScoring.App
                 {
                     var service = IPlatformApplication.Current.Services.GetService<IAppInfoService>();
 
-                    service.BackButtonPressed.Invoke(this, EventArgs.Empty);
+                    service.BackButtonPressed?.Invoke(this, EventArgs.Empty);
                 }
             }
         }

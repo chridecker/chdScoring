@@ -14,7 +14,6 @@ namespace chdScoring.App.Pages
 
         private string _baseAddress = string.Empty;
         private bool _autocollapseNav = false;
-        private bool _isControlCenter = false;
         private string _autoRedirect;
 
         private Dictionary<string, string> _redirectOptions = new()
@@ -30,7 +29,6 @@ namespace chdScoring.App.Pages
             this._baseAddress = await this._settingManager.MainUrl;
 
             this._autocollapseNav = await this._settingManager.GetSettingLocal<bool>(SettingConstants.AutoCollapseNavbar_Key); ;
-            this._isControlCenter = await this._settingManager.IsControlCenter;
             this._autoRedirect = await this._settingManager.GetSettingLocal(SettingConstants.AutoRedirectTo);
 
             await base.OnInitializedAsync();
@@ -47,11 +45,6 @@ namespace chdScoring.App.Pages
             await this.InvokeAsync(this.StateHasChanged);
         }
 
-        private async Task UpdateIsControlCenter(ChangeEventArgs e)
-        {
-            await this._settingManager.UpdateControlCenter((bool)e.Value);
-            await this.InvokeAsync(this.StateHasChanged);
-        }
 
         private async Task OnAutoRedirectChanged(ChangeEventArgs e)
         {

@@ -7,7 +7,6 @@
     <input type="text" value="@this._baseAddress" @onchange="async (e)=>await this.UpdateMainUrl(e)" />
 </p>
 
-<SettingCheckbox SettingText="Als ControlCenter verwenden" Checked="@this._isControlCenter" OnChange="async (e)=> await UpdateIsControlCenter(e)" />
 <SettingCheckbox SettingText="Navigation automatisch ausblenden" Checked="@this._autocollapseNav" OnChange="async (e)=> await UpdateAutoCollapeseNavBar(e)" />
 
 

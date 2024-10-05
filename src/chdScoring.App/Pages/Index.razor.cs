@@ -24,7 +24,7 @@ namespace chdScoring.App.Pages
         private ManeouvreDto _current => this.Maneouvres.Where(x => !x.Score.HasValue).OrderBy(o => o.Id).FirstOrDefault();
 
         private JudgeDto Judge => this._dto?.Judges.FirstOrDefault(x => x.Id == this._judge);
-        private bool _panelDisabled => !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero ? true : this._current is null;
+        private bool _panelDisabled =>  this._dto is null || !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero ? true : this._current is null;
         private bool _scrolledManually = false;
 
         private IEnumerable<ManeouvreDto> Maneouvres
@@ -55,6 +55,7 @@ namespace chdScoring.App.Pages
             this._scrollInfoService.OnScroll += this._scrollInfoService_OnScroll;
             this._profileService.UserChanged += this._profileService_UserChanged;
 
+            await this.LoadData();
             this.ResendUnsavedScore(this._cts.Token);
 
             await base.OnInitializedAsync();
@@ -97,7 +98,6 @@ namespace chdScoring.App.Pages
         {
             if (this._profileService.User?.Id is null)
             {
-                this._dto = null;
                 return;
             }
             this._judge = this._profileService.User.Id;
