@@ -36,7 +36,6 @@
         var darkMode = this.uiHandler.IsDarkMode;
         await this.uiHandler.SetDarkMode(!darkMode);
         this._themeModeIcon = darkMode ? "moon" : "sun-bright";
-        // await this.InvokeAsync(this.StateHasChanged);
     }
 
     private void StartRefresh() => Task.Run(async () =>

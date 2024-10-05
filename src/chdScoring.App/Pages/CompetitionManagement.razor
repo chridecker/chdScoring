@@ -1,4 +1,6 @@
 @using chd.UI.Base.Client.Implementations.Authorization
+@using chd.UI.Base.Components.General
+@using chd.UI.Base.Components.General.Pagination
 @using chd.UI.Base.Contracts.Enum
 @using chdScoring.App.Pages.Components
 @inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
@@ -13,14 +15,23 @@
 
 
 <SideWidgetContainer>
-    <SideWidget>Test1</SideWidget>
-    <SideWidget>Test2</SideWidget>
+    <SideWidget FAClass="whistle">
+        @if (this._dto is not null)
+        {
+            // Check for Judges sum points zero etc
+        }
+    </SideWidget>
 </SideWidgetContainer>
 
 <FloatingActionNavigation>
     <FloatingActionButton FAClass="floppy-disk"
                           OnClick="async () => await this.SaveRound()"
                           Title="Save Round"
+                          CssClass="dot-btn-save large" />
+
+    <FloatingActionButton FAClass="floppy-disk"
+                          OnClick="async () => await this.SaveRound()"
+                          Title="Load Pilot"
                           CssClass="dot-btn-save large" />
 </FloatingActionNavigation>
 
