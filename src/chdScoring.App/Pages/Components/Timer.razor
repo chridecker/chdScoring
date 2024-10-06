@@ -29,7 +29,7 @@
     [Parameter] public int Airfield { get; set; }
 
     private string _leftTime => (this.Dto?.LeftTime.HasValue ?? false) && this.Dto.LeftTime.Value <= this.Dto.Round.Time ?
-            this.Dto.LeftTime.Value > TimeSpan.Zero ? this.Dto.LeftTime.Value.ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : this.Dto.Round.Time.ToString("mm\\:ss");
+            this.Dto.LeftTime.Value > TimeSpan.Zero ? (DateTime.Now.TimeOfDay - (this.Dto.StartTime ?? TimeSpan.Zero)).ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : this.Dto.Round.Time.ToString("mm\\:ss");
 
     protected override async Task OnInitializedAsync()
     {

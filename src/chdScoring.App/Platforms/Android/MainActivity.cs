@@ -2,7 +2,9 @@
 using Android.Content.PM;
 using Android.OS;
 using Android.Util;
+using Android.Views;
 using AndroidX.Activity;
+using AndroidX.Core.View;
 using chd.UI.Base.Contracts.Interfaces.Services;
 
 namespace chdScoring.App
@@ -16,15 +18,20 @@ namespace chdScoring.App
             this._appInfoService = IPlatformApplication.Current.Services.GetService<IAppInfoService>();
         }
 
-        protected override void OnPause()
-        {
-            base.OnPause();
-        }
+    
 
         protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             this.OnBackPressedDispatcher.AddCallback(this, new BackPress());
+
+            this.Window?.AddFlags(WindowManagerFlags.Fullscreen);
+
+            WindowCompat.SetDecorFitsSystemWindows(this.Window, false);
+            WindowInsetsControllerCompat windowInsetsController = new WindowInsetsControllerCompat(this.Window, this.Window.DecorView);
+            // Hide system bars
+            windowInsetsController.Hide(WindowInsetsCompat.Type.SystemBars());
+            windowInsetsController.SystemBarsBehavior = WindowInsetsControllerCompat.BehaviorShowTransientBarsBySwipe;
         }
 
         class BackPress : OnBackPressedCallback

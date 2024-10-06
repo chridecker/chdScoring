@@ -11,7 +11,6 @@
     --main-article-padding-lr: 0 !important;
     --main-article-height: calc(100% - var(--top-header-height)) !important;
     --main-article-available-height: 100% !important;
-
     --chd-main-color-theme: var(--chd-lightblue);
     --chd-main-color-theme-transparent: var(--chd-lightblue-transparent);
     --chd-main-color-theme-gradient: linear-gradient(to right, transparent 0%, var(--chd-main-color-theme-transparent) 10%, var(--chd-main-color-theme) 90%);
@@ -27,6 +26,10 @@
     display: none;
 }
 
+.side-widget-container .side-widget {
+    top: calc(var(--topheader-height) * 2);
+}
+
 
 @media (min-width: 768px) {
     * {
@@ -40,6 +43,57 @@
     }
 }
 
+
+@media (min-width: 360px) {
+    * {
+        --nav-toggle-height: 1.2rem !important;
+        --top-header-padding-tb: 0.2 !important;
+        --top-header-height: 1.5rem !important;
+        --main-article-height: calc(100vh - calc(var(--top-header-height) * 2)) !important;
+
+        --widget-width: 15rem !important;
+    }
+
+    .side-widget-container .side-widget {
+        top: calc(var(--top-header-height)*2) !important;
+    }
+
+    .top-row:not(.auth) {
+        display: flex !important;
+    }
+
+    .top-row .header-panel {
+    }
+
+        .top-row .header-panel .ui-header {
+        }
+
+            .top-row .header-panel .ui-header .pageTitle {
+                display: none;
+            }
+
+            .top-row .header-panel .ui-header .right-content {
+                position: relative !important;
+                display: flex !important;
+                flex-direction: row;
+            }
+
+                .top-row .header-panel .ui-header .right-content .userBox {
+                    flex: 0 0 40% !important;
+                    font-size: 12pt !important;
+                    height: var(--top-header-height);
+                    width: 10rem !important;
+                    margin-left: 0.5rem;
+                }
+
+                .top-row .header-panel .ui-header .right-content .networkBox {
+                    width: 1.4rem !important;
+                }
+
+                .top-row .header-panel .ui-header .right-content .theme-mode {
+                    display: none;
+                }
+}
 
 
 .blazored-modal {

@@ -2,7 +2,6 @@
 using chd.Api.Base.Client.Extensions;
 using chd.UI.Base.Client.Extensions;
 using chd.UI.Base.Client.Implementations.Services;
-using chd.UI.Base.Components.Helper;
 using chd.UI.Base.Contracts.Interfaces.Authentication;
 using chd.UI.Base.Contracts.Interfaces.Services;
 using chdScoring.App.Auth;
@@ -21,7 +20,7 @@ namespace chdScoring.App.Extensions
         {
             services.AddAuthorizationCore();
 
-            services.AddUtilities<chdScoringProfileService, int, int, HandleUserIdLogin, SettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, UpdateService, BaseFilterHelper>();
+            services.AddUtilities<chdScoringProfileService, int, int, HandleUserIdLogin, SettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, UpdateService>();
 
             services.AddMauiModalHandler();
 

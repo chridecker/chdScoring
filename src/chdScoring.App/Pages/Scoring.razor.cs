@@ -17,14 +17,14 @@ using chdScoring.App.Pages.Components;
 namespace chdScoring.App.Pages
 {
 
-    public partial class Index : PageComponentBase<int, int>, IDisposable
+    public partial class Scoring : PageComponentBase<int, int>, IDisposable
     {
         private CancellationTokenSource _cts = new();
         private CurrentFlight _dto;
         private ManeouvreDto _current => this.Maneouvres.Where(x => !x.Score.HasValue).OrderBy(o => o.Id).FirstOrDefault();
 
         private JudgeDto Judge => this._dto?.Judges.FirstOrDefault(x => x.Id == this._judge);
-        private bool _panelDisabled =>  this._dto is null || !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero ? true : this._current is null;
+        private bool _panelDisabled => this._dto is null || !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero ? true : this._current is null;
         private bool _scrolledManually = false;
 
         private IEnumerable<ManeouvreDto> Maneouvres
@@ -51,7 +51,7 @@ namespace chdScoring.App.Pages
         [Inject] private IScrollInfoService _scrollInfoService { get; set; }
         protected override async Task OnInitializedAsync()
         {
-            this.Title = PageTitleConstants.Index;
+            this.Title = PageTitleConstants.Scoring;
             this._scrollInfoService.OnScroll += this._scrollInfoService_OnScroll;
             this._profileService.UserChanged += this._profileService_UserChanged;
 

@@ -18,6 +18,7 @@ namespace chdScoring.App.Shared
         [Inject] private IToastService _toastService { get; set; }
         [Inject] private IBaseUIComponentHandler _uiHandler { get; set; }
         [Inject] private NavigationManager _navManager { get; set; }
+        [Inject] private INavigationHandler _navigationHandler { get; set; }
         [Inject] private IServiceProvider _serviceProvider { get; set; }
 
         [CascadingParameter] public IModalService Modal { get; set; }
@@ -42,6 +43,11 @@ namespace chdScoring.App.Shared
             await this.CheckWindowSize();
 
             await base.OnAfterRenderAsync(first);
+        }
+
+        private void GoHome()
+        {
+            this._navigationHandler.NavigateToRoot();
         }
 
         private void RegisterEvents()

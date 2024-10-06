@@ -5,10 +5,11 @@
 <div class="nav-menu">
     <NavMenuBase Visible="this.Visible">
         <ImageContent>
-            <CustomIcon FAClass="plane" />
+            <IconButton FAClass="plane" OnClick="()=>this.GoHome()" />
         </ImageContent>
         <MenuContent>
             <NavItem href="" Match="NavLinkMatch.All" IconFAClass="house" Title="Home" />
+            <AuthorizedNavItem TRightId="int" TUserId="int" Rights="new int[]{RightConstants.Scoring}" href="scoring" Match="NavLinkMatch.All" IconFAClass="whistle" Title="@PageTitleConstants.Scoring" />
             <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[]{RightConstants.ControlBoard}" href="controlcenter" IconFAClass="calculator" Title="Control Center" />
             <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[]{RightConstants.CompMgmt}" href="competitionmanagement" IconFAClass="stopwatch" Title="Competition Management" />
         </MenuContent>

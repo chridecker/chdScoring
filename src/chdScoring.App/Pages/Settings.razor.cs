@@ -20,6 +20,8 @@ namespace chdScoring.App.Pages
         {
             {"", PageTitleConstants.Index},
             {"controlcenter", PageTitleConstants.ControlCenter },
+            {"scoring", PageTitleConstants.Scoring },
+            {"competitionmanagement", PageTitleConstants.CompetitionManagement },
         };
 
         protected override async Task OnInitializedAsync()
