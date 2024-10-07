@@ -23,17 +23,22 @@ jobs:
     - name: Set Datetime
       id: date
       run: |
-        echo "year=$(date +%y%j)" >> $GITHUB_OUTPUT
-        echo "hour=$(date +%H%M)" >> $GITHUB_OUTPUT
+        $YEAR=& Get-Date -format yyMMdd
+        echo "year=$YEAR" >> $GITHUB_OUTPUT
+        $HOUR=& Get-Date -format HHmm
+        echo "hour=$HOUR" >> $GITHUB_OUTPUT
         
     - name: Install Maui
       run: dotnet workload install maui 
+      
     - name: Define Date Var
       run: echo "DATEVERSION=2.2.${{ steps.date.outputs.year }}.${{ github.run_number }}" >> $GITHUB_ENV
+      
     - name: Write Version
       run: |
         echo ${{env.DATEVERSION}}
         echo "VERSION=${{env.DATEVERSION}}" >> $GITHUB_ENV
+        
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
