@@ -38,8 +38,18 @@ namespace chdScoring.BusinessLogic.Services
         }
 
 
-        public CurrentFlight GetCurrentFlight() => this._currentFlight;
+
+
+        public CurrentFlight GetCurrentFlight(DateTime currentDateTime)
+        {
+            if (this._currentFlight is null) { return null; }
+            var currentTime = currentDateTime.TimeOfDay;
+
+            TimeSpan? time = this._currentFlight.StartTime == TimeSpan.Zero || currentTime < this._currentFlight.StartTime ? null : this._currentFlight.Round.Time - (currentTime - this._currentFlight.StartTime);
+            this._currentFlight.LeftTime = time.HasValue && time.Value < TimeSpan.Zero ? TimeSpan.Zero : time;
+            return this._currentFlight;
+        }
     }
 
-    
+
 }

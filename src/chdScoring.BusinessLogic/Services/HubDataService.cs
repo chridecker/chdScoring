@@ -23,22 +23,17 @@ namespace chdScoring.BusinessLogic.Services
 
         public async Task SendAll(CancellationToken cancellationToken)
         {
-            await this._hub.Clients.All.ReceiveFlightData(this._cacheService.GetCurrentFlight(), cancellationToken);
+            await this._hub.Clients.All.ReceiveFlightData(this._cacheService.GetCurrentFlight(DateTime.Now), cancellationToken);
         }
 
         public async Task SendJudge(int judge, CancellationToken cancellationToken)
         {
-            await this._hub.Clients.Group($"judge{judge}").ReceiveFlightData(this._cacheService.GetCurrentFlight(), cancellationToken);
-        }
-        public async Task SendControlCenter(CancellationToken cancellationToken)
-        {
-            await this._hub.Clients.Group("controlcenter").ReceiveFlightData(this._cacheService.GetCurrentFlight(), cancellationToken);
+            await this._hub.Clients.Group($"judge{judge}").ReceiveFlightData(this._cacheService.GetCurrentFlight(DateTime.Now), cancellationToken);
         }
     }
     public interface IHubDataService
     {
         Task SendAll(CancellationToken cancellationToken);
-        Task SendControlCenter(CancellationToken cancellationToken);
         Task SendJudge(int judge, CancellationToken cancellationToken);
     }
 }

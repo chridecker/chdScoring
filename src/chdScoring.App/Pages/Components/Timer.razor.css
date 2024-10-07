@@ -10,7 +10,7 @@
 
     .timer .pilot {
         font-size: 14pt;
-        width: 15rem;
+        width: 10rem;
     }
 
     .timer .time {
@@ -23,11 +23,11 @@
     }
 
         .timer .control ::deep .btn {
-            height: 5em;
+            height: 7em;
             border-radius: 30%;
         }
         .timer .control ::deep .btn svg {
-            height: max-content;
+            height: 80%;
         }
 
             .timer .control ::deep .btn.icon-button-circle-play {

@@ -1,7 +1,9 @@
 ﻿@inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
 @page "/settings"
-
-<h3>Settings</h3>
+@using chdScoring.App.Pages.Components
+<p>
+    <ThemeMode />
+</p>
 <p>
     Basis Adresse:
     <input type="text" value="@this._baseAddress" @onchange="async (e)=>await this.UpdateMainUrl(e)" />

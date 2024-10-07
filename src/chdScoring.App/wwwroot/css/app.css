@@ -50,12 +50,11 @@
         --top-header-padding-tb: 0.2 !important;
         --top-header-height: 1.5rem !important;
         --main-article-height: calc(100vh - calc(var(--top-header-height) * 2)) !important;
-
         --widget-width: 15rem !important;
     }
 
     .side-widget-container .side-widget {
-        top: calc(var(--top-header-height)*2) !important;
+        top: calc(var(--top-header-height)*4) !important;
     }
 
     .top-row:not(.auth) {
@@ -93,6 +92,10 @@
                 .top-row .header-panel .ui-header .right-content .theme-mode {
                     display: none;
                 }
+
+    .outer input {
+        width: 13rem;
+    }
 }
 
 

@@ -134,18 +134,18 @@
             width: 1.2rem;
         }
 
-        .header-panel ::deep .ui-header > .right-content > .theme-mode {
+        .header-panel ::deep .ui-header > .right-content > ::deep .theme-mode {
             margin-right: 0.5rem;
         }
 
-            .header-panel ::deep .ui-header > .right-content > .theme-mode .btn {
+            .header-panel ::deep .ui-header > .right-content > ::deep .theme-mode .btn {
                 height: 1.2rem;
                 width: 1.2rem;
                 border-radius: 50%;
                 padding: 0.2rem;
             }
 
-                .header-panel ::deep .ui-header > .right-content > .theme-mode .btn svg {
+                .header-panel ::deep .ui-header > .right-content > ::deep .theme-mode .btn svg {
                     height: 0.8rem;
                 }
 }

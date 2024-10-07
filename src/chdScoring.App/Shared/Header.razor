@@ -1,9 +1,9 @@
 @using System.Globalization
+@using chdScoring.App.Pages.Components
 @inject ISettingManager clientSettingManager
 @inject IchdScoringProfileService profileService
 @inject ITimeoutHandler timeoutHandler
 @inject IJudgeHubClient apiClient
-@inject IBaseUIComponentHandler uiHandler
 @inherits LayoutComponentBase
 
 <div class="header-panel">
@@ -12,9 +12,7 @@
             <div class="networkBox">
                 <div class="liquid @GetStateCss()"></div>
             </div>
-            <div class="theme-mode">
-                <IconButton FAClass="@_themeModeIcon" OnClick="async ()=>await this.ChangeTheme()" />
-            </div>
+            <ThemeMode />
         </RightChildContent>
     </HeaderBase>
 </div>
@@ -26,16 +24,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        this._themeModeIcon = uiHandler.IsDarkMode ? "sun-bright" : "moon";
+        
         this.StartRefresh();
         await base.OnInitializedAsync();
-    }
-
-    private async Task ChangeTheme()
-    {
-        var darkMode = this.uiHandler.IsDarkMode;
-        await this.uiHandler.SetDarkMode(!darkMode);
-        this._themeModeIcon = darkMode ? "moon" : "sun-bright";
     }
 
     private void StartRefresh() => Task.Run(async () =>

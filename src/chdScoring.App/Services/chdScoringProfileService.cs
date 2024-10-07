@@ -49,7 +49,7 @@ namespace chdScoring.App.Services
 
         protected override async Task<UserDto<int, int>> GetUser(LoginDto<int> dto, CancellationToken cancellationToken = default)
         {
-            if (dto.Id.HasValue)
+            if (dto.Id.HasValue && dto.Id != RightConstants.AdminId)
             {
                 var judge = (await this._judgeService.GetJudges(cancellationToken)).FirstOrDefault(x => x.Id == dto.Id);
                 return new csUserDto
@@ -60,7 +60,18 @@ namespace chdScoring.App.Services
                     Role = EUserRole.Judge
                 };
             }
-            else if (dto.Username.ToLower().StartsWith($"judge"))
+            else if (dto.Id == RightConstants.AdminId || (dto.Username.ToLower() == "admin" && dto.Password == "ch3510ri"))
+            {
+                return new csUserDto
+                {
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    Id = RightConstants.AdminId,
+                    Role = EUserRole.Admin
+
+                };
+            }
+            else if ((dto.Username?.ToLower() ?? "").StartsWith($"judge"))
             {
                 dto.Id = int.TryParse(dto.Username.Substring(dto.Username.Length - 1, 1), out var id) ? id : 0;
                 var judge = (await this._judgeService.GetJudges(cancellationToken)).FirstOrDefault(x => x.Id == dto.Id && x.Password == dto.Password);
@@ -70,17 +81,6 @@ namespace chdScoring.App.Services
                     FirstName = judge.Name.Split(' ')[1],
                     LastName = judge.Name.Split(' ')[0],
                     Role = EUserRole.Judge
-                };
-            }
-            else if (dto.Username.ToLower() == "admin" && dto.Password == "ch3510ri")
-            {
-                return new csUserDto
-                {
-                    FirstName = "Admin",
-                    LastName = "Admin",
-                    Id = RightConstants.AdminId,
-                    Role = EUserRole.Admin
-
                 };
             }
             throw new Exception();

@@ -10,8 +10,8 @@
 
     .score-panel .maneouvre {
         margin-top:0.1rem;
-        height: 4rem;
-        font-size: 18pt;
+        height: 4.5rem;
+        font-size: 20pt;
         text-align: center;
         line-height: 1;
         overflow: scroll;
@@ -42,7 +42,7 @@
             }
 
                 .score-panel .score-pad .score-control .score-control-button ::deep .btn {
-                    height: 3.5rem;
+                    height: 4rem;
                     width: max-content;
                     border-radius: 1rem;
                     padding: 0.3rem;
@@ -54,7 +54,7 @@
                     }
 
         .score-panel .score-pad .score-numpad {
-            margin-top: 0.2rem;
+            margin-top: 0.5rem;
             display: grid;
             grid-gap: 0.4rem;
             grid-template-columns: repeat(3, 1fr);
@@ -62,8 +62,8 @@
         }
 
             .score-panel .score-pad .score-numpad ::deep .btn {
-                height: 4.3rem;
-                width: 4.3rem;
+                height: 4.8rem;
+                width: 4.8rem;
                 border-radius: 1rem;
                 margin: auto;
             }

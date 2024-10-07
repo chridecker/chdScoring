@@ -10,6 +10,6 @@ namespace chdScoring.Contracts.Interfaces
     public interface IFlightCacheService
     {
         Task Update(CancellationToken cancellationToken);
-        CurrentFlight GetCurrentFlight();
+        CurrentFlight GetCurrentFlight(DateTime currentDateTime);
     }
 }

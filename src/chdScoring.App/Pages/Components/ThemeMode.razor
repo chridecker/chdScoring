@@ -1,0 +1,26 @@
+﻿@inject IBaseUIComponentHandler uiHandler
+
+<div class="theme-mode">
+    <IconButton FAClass="@_themeModeIcon" OnClick="async ()=>await this.ChangeTheme()" />
+</div>
+
+@code {
+    [Parameter] public string DarkThemeIcon { get; set; } = "moon";
+    [Parameter] public string LightThemeIcon { get; set; } = "sun-bright";
+
+    private string _themeModeIcon;
+
+    protected override async Task OnInitializedAsync()
+    {
+        this._themeModeIcon = uiHandler.IsDarkMode ? this.LightThemeIcon : this.DarkThemeIcon;
+        await base.OnInitializedAsync();
+    }
+
+
+    private async Task ChangeTheme()
+    {
+        var darkMode = this.uiHandler.IsDarkMode;
+        await this.uiHandler.SetDarkMode(!darkMode);
+        this._themeModeIcon = darkMode ? "moon" : "sun-bright";
+    }
+}

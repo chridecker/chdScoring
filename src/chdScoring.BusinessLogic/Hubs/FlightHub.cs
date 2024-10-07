@@ -19,20 +19,20 @@ namespace chdScoring.BusinessLogic.Hubs
         }
         public async override Task OnConnectedAsync()
         {
-            await this.Clients.Caller.ReceiveFlightData(this._flightCacheService.GetCurrentFlight(), this.Context.ConnectionAborted);
+            await this.Clients.Caller.ReceiveFlightData(this._flightCacheService.GetCurrentFlight(DateTime.Now), this.Context.ConnectionAborted);
             await base.OnConnectedAsync();
         }
 
         public async Task<bool> RegisterAsJudge(int judge)
         {
             await this.Groups.AddToGroupAsync(this.Context.ConnectionId, $"judge{judge}", this.Context.ConnectionAborted);
-            await this.Clients.Caller.ReceiveFlightData(this._flightCacheService.GetCurrentFlight(), this.Context.ConnectionAborted);
+            await this.Clients.Caller.ReceiveFlightData(this._flightCacheService.GetCurrentFlight(DateTime.Now), this.Context.ConnectionAborted);
             return true;
         }
         public async Task<bool> RegisterAsControlCenter()
         {
             await this.Groups.AddToGroupAsync(this.Context.ConnectionId, $"controlcenter", this.Context.ConnectionAborted);
-            await this.Clients.Caller.ReceiveFlightData(this._flightCacheService.GetCurrentFlight(), this.Context.ConnectionAborted);
+            await this.Clients.Caller.ReceiveFlightData(this._flightCacheService.GetCurrentFlight(DateTime.Now), this.Context.ConnectionAborted);
             return true;
         }
     }

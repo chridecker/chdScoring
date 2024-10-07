@@ -20,7 +20,7 @@ namespace chdScoring.BusinessLogic.Services
             this._judgeRepository = judgeRepository;
             this._flightCacheService = flightCacheService;
         }
-        public Task<CurrentFlight> GetCurrentFlight(CancellationToken cancellationToken) => Task.FromResult(this._flightCacheService.GetCurrentFlight());
+        public Task<CurrentFlight> GetCurrentFlight(CancellationToken cancellationToken) => Task.FromResult(this._flightCacheService.GetCurrentFlight(DateTime.Now));
 
         public async Task<IEnumerable<JudgeDto>> GetJudges(CancellationToken cancellationToken = default)
         {

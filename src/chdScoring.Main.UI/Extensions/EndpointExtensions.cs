@@ -36,7 +36,7 @@ namespace chdScoring.Main.UI.Extensions
                 => await service.HandleOperation(dto, cancellationToken));
 
 
-            judges.MapGet(Judge.GET_Flight, async(IJudgeService judgesService) => await judgesService.GetCurrentFlight());
+            judges.MapGet(Judge.GET_Flight, async (IJudgeService judgesService) => await judgesService.GetCurrentFlight());
 
             judges.MapGet(string.Empty, async (IJudgeService judgeService, CancellationToken cancellationToken)
                 => await judgeService.GetJudges());
@@ -46,17 +46,17 @@ namespace chdScoring.Main.UI.Extensions
             {
                 if (await service.SaveScore(dto, cancellationToken))
                 {
-                    await hub.Clients.Group($"judge{dto.Judge}").ReceiveFlightData(cache.GetCurrentFlight());
+                    await hub.Clients.Group($"judge{dto.Judge}").ReceiveFlightData(cache.GetCurrentFlight(DateTime.Now));
                     return true;
                 }
                 return false;
             });
-            
+
             scoring.MapPost(Scoring.POST_Update, async (SaveScoreDto dto, IScoringService service, IFlightCacheService cache, IHubContext<FlightHub, IFlightHub> hub, CancellationToken cancellationToken) =>
             {
                 if (await service.UpdateScore(dto, cancellationToken))
                 {
-                    await hub.Clients.Group($"judge{dto.Judge}").ReceiveFlightData(cache.GetCurrentFlight());
+                    await hub.Clients.Group($"judge{dto.Judge}").ReceiveFlightData(cache.GetCurrentFlight(DateTime.Now));
                     return true;
                 }
                 return false;

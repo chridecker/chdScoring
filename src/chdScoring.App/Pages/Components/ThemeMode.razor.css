@@ -1,0 +1,14 @@
+﻿.theme-mode {
+    margin-right: 0.5rem;
+}
+
+    .theme-mode ::deep .btn {
+        height: 1.2rem;
+        width: 1.2rem;
+        border-radius: 50%;
+        padding: 0.2rem;
+    }
+
+        .theme-mode ::deep.btn svg {
+            height: 0.8rem;
+        }

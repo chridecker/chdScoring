@@ -35,6 +35,7 @@ namespace chdScoring.BusinessLogic.Services
         {
             if (await this._dAL.HandleStart(dto, cancellationToken))
             {
+                await Task.Delay(500, cancellationToken);
                 await this._flightCacheService.Update(cancellationToken);
                 await this._hubDataService.SendAll(cancellationToken);
                 return true;

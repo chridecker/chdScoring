@@ -29,23 +29,7 @@
     [Parameter] public int Airfield { get; set; }
 
     private string _leftTime => (this.Dto?.LeftTime.HasValue ?? false) && this.Dto.LeftTime.Value <= this.Dto.Round.Time ?
-            this.Dto.LeftTime.Value > TimeSpan.Zero ? (DateTime.Now.TimeOfDay - (this.Dto.StartTime ?? TimeSpan.Zero)).ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : this.Dto.Round.Time.ToString("mm\\:ss");
-
-    protected override async Task OnInitializedAsync()
-    {
-        this.RenderTask();
-
-        await base.OnInitializedAsync();
-    }
-
-    private void RenderTask() => Task.Run(async () =>
-    {
-        while (!this.CancellationToken.IsCancellationRequested)
-        {
-            await this.InvokeAsync(this.StateHasChanged);
-            await Task.Delay(TimeSpan.FromSeconds(1), this.CancellationToken);
-        }
-    }, this.CancellationToken);
+            this.Dto.LeftTime.Value > TimeSpan.Zero ? this.Dto.LeftTime.Value.ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : this.Dto.Round.Time.ToString("mm\\:ss");
 
     private async Task StartStop(ETimerOperation operaetion)
     {
