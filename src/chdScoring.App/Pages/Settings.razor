@@ -4,6 +4,7 @@
 
 <div class="settings">
     <div class="setting">
+        Theme: 
         <ThemeMode />
     </div>
     <div class="setting">
@@ -14,7 +15,7 @@
         <SettingCheckbox SettingText="Navigation automatisch ausblenden" Checked="@this._autocollapseNav" OnChange="async (e)=> await UpdateAutoCollapeseNavBar(e)" />
     </div>
     <div class="setting">
+        Auto Redirect:
         <Selection Values="@this._redirectOptions" @bind-SelectedValue="this.SelectedAutoRedirect" />
-       
     </div>
 </div>

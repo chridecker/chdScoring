@@ -114,6 +114,8 @@
                     }
 
             .header-panel ::deep .ui-header > .right-content > .theme-mode {
+                margin-right: 1rem;
+
             }
 
 @media(min-width: 768px) {

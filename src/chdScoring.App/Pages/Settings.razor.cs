@@ -78,6 +78,7 @@ namespace chdScoring.App.Pages
         private async Task SelectedAutoRedirectChanged(KeyValuePair<string, RenderFragment>? val)
         {
             this._selectedAutoRedirect = val;
+            await this._settingManager.StoreSettingLocal(SettingConstants.AutoRedirectTo, val.Value.Key);
             await this.InvokeAsync(this.StateHasChanged);
         }
 
