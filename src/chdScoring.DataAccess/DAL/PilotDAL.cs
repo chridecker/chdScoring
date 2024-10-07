@@ -30,27 +30,34 @@ namespace chdScoring.DataAccess.DAL
 
             var retValue = new List<OpenRoundDto>();
             var lst = await this._wettkampfLeitungRepository.Where(x => x.Durchgang == round.Value && x.Status == (int)EFlightState.Loaded)
-                .Include(i => i.Pilot).ThenInclude(i => i.Country_Image)
-                .Include(i => i.Pilot).ThenInclude(i => i.Image)
+                .Include(i => i.Pilot)
+                .AsSplitQuery()
                 .ToListAsync();
-            return lst.OrderBy(o => o.Start).Select(s => new OpenRoundDto
+
+            foreach (var wl in lst)
             {
-                StartNumber = s.Start,
-                Round = round.Value,
-                Pilot = new PilotDto
+                var country = await this._countryImageRepository.FirstOrDefaultAsync(x => x.Img_Id == wl.Pilot.Land);
+                var dto = new OpenRoundDto
                 {
-                    Id = s.Teilnehmer,
-                    Name = $"{s.Pilot.Vorname} {s.Pilot.Nachname.ToUpper()}",
-                    Club = s.Pilot.Club,
-                    Country = s.Pilot.Country_Image.Name,
-                    CountryCode = s.Pilot.Country_Image.Short,
-                    CountryImage = new ImageDto
+                    StartNumber = wl.Start,
+                    Round = round.Value,
+                    Pilot = new PilotDto
                     {
-                        Data = s.Pilot.Country_Image.Img_Data,
-                        Type = s.Pilot.Country_Image.Img_Type
+                        Id = wl.Teilnehmer,
+                        Name = $"{wl.Pilot.Vorname} {wl.Pilot.Nachname.ToUpper()}",
+                        Club = wl.Pilot.Club,
+                        Country = country.Name,
+                        CountryCode = country.Short,
+                        CountryImage = new ImageDto
+                        {
+                            Data = country.Img_Data,
+                            Type = country.Img_Type
+                        }
                     }
-                }
-            });
+                };
+                retValue.Add(dto);
+            }
+            return retValue.OrderBy(o => o.StartNumber);
         }
 
         public async Task<bool> SetPilotActive(LoadPilotDto dto, CancellationToken cancellationToken)
@@ -60,13 +67,13 @@ namespace chdScoring.DataAccess.DAL
             {
                 active.Status = (int)EFlightState.Loaded;
                 active.Start_Time = TimeSpan.Zero;
-                await this._wettkampfLeitungRepository.SaveAsync(active, cancellationToken);
+                await this._wettkampfLeitungRepository.UpdateAsync(active, cancellationToken);
             }
             var wl = await this._wettkampfLeitungRepository.FirstOrDefaultAsync(x => x.Teilnehmer == dto.Pilot && x.Durchgang == dto.Round);
             if (wl != null)
             {
                 wl.Status = (int)EFlightState.OnAir;
-                return await this._wettkampfLeitungRepository.SaveAsync(wl, cancellationToken);
+                return await this._wettkampfLeitungRepository.UpdateAsync(wl, cancellationToken);
             }
             return false;
         }

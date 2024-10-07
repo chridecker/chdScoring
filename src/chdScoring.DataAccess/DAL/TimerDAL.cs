@@ -53,7 +53,7 @@ namespace chdScoring.DataAccess.DAL
                 if (wl != null)
                 {
                     wl.Status = (int)EFlightState.Saved;
-                    await this._wettkampfLeitungRepository.SaveAsync(wl, cancellationToken);
+                    await this._wettkampfLeitungRepository.UpdateAsync(wl, cancellationToken);
                 }
 
                 return true;

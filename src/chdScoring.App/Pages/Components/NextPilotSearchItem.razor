@@ -1,7 +1,7 @@
 @using chdScoring.Contracts.Dtos
 
 <div class="search-pilot">
-    <CustomImage Class="pilot-image" Data="this.Dto.Pilot.CountryImage.Data" Type="this.Dto.Pilot.CountryImage.Type"  />
+    <CustomImage Class="pilot-image" Data="this.Dto.Pilot.CountryImage.Data" Type="@this.Dto.Pilot.CountryImage.Type" />
     <div class="pilot-name">
         @this.Dto.StartNumber - @this.Dto.Pilot.Name
     </div>

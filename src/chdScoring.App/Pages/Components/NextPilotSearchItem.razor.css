@@ -1,11 +1,18 @@
 ﻿.search-pilot {
-    display:flex;
+    display: flex;
 }
 
     .search-pilot ::deep .custom-image.pilot-image {
-        height: 2rem;
+        padding:0;
+        height:1rem;
+        max-width: 1.5rem;
+    }
+
+    .search-pilot ::deep .custom-image.pilot-image img{
+        width: 100%;    
+        height:100%;
     }
 
     .search-pilot .pilot-name {
-
+        margin-left: 0.2rem;
     }
