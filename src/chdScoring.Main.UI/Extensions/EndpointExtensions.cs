@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static chdScoring.Contracts.Constants.EndpointConstants;
 
@@ -31,9 +32,16 @@ namespace chdScoring.Main.UI.Extensions
 
             var scoring = mainGroup.MapGroup(Scoring.ROUTE).WithTags(Scoring.ROUTE);
             var judges = mainGroup.MapGroup(Judge.ROUTE).WithDisplayName(Judge.ROUTE);
+            var pilot = mainGroup.MapGroup(Pilot.ROUTE).WithDisplayName(Pilot.ROUTE);
+
+            pilot.MapGet(EndpointConstants.Pilot.GET_OpenRound, async (int round, IPilotService service, CancellationToken cancellationToken)
+                => await service.GetOpenRound(round, cancellationToken));
 
             control.MapPost(EndpointConstants.Control.POST_TIMER, async (TimerOperationDto dto, ITimerService service, CancellationToken cancellationToken)
                 => await service.HandleOperation(dto, cancellationToken));
+
+            control.MapPost(EndpointConstants.Control.POST_SaveRound, async (SaveRoundDto dto, ITimerService service, CancellationToken cancellationToken)
+                => await service.SaveRound(dto, cancellationToken));
 
 
             judges.MapGet(Judge.GET_Flight, async (IJudgeService judgesService) => await judgesService.GetCurrentFlight());

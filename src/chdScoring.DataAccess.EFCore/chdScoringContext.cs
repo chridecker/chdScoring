@@ -39,7 +39,17 @@ namespace chdScoring.DataAccess.EFCore
             modelBuilder.Entity<Country_Images>().HasKey(x => x.Img_Id);
             modelBuilder.Entity<Images>().HasKey(x => x.Img_Id);
             modelBuilder.Entity<Klassen>().HasKey(x => x.Id);
-            modelBuilder.Entity<Wettkampf_Leitung>().ToTable("wettkampf_leitung").HasKey(x => new { x.Teilnehmer, x.Durchgang });
+            modelBuilder.Entity<Teilnehmer>(builder =>
+            {
+                builder.HasKey(x => x.Id);
+                builder.HasOne(x => x.Country_Image).WithOne().HasForeignKey<Teilnehmer>(f => f.Land);
+                builder.HasOne(x => x.Image).WithOne().HasForeignKey<Teilnehmer>(f => f.Bild);
+            });
+            modelBuilder.Entity<Wettkampf_Leitung>(builder =>
+            {
+                builder.ToTable("wettkampf_leitung").HasKey(x => new { x.Teilnehmer, x.Durchgang });
+                builder.HasOne(x => x.Pilot).WithOne().HasForeignKey<Wettkampf_Leitung>(f => f.Teilnehmer);
+            });
 
             base.OnModelCreating(modelBuilder);
         }

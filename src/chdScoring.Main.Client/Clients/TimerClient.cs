@@ -19,5 +19,8 @@ namespace chdScoring.Main.Client.Clients
 
         public Task<bool> HandleOperation(TimerOperationDto dto, CancellationToken cancellationToken)
        => base.Post<bool>(EndpointConstants.Control.POST_TIMER, dto, cancellationToken);
+
+        public Task<bool> SaveRound(SaveRoundDto dto, CancellationToken cancellation)
+        => base.Post<bool>(EndpointConstants.Control.POST_SaveRound, dto, cancellation);
     }
 }

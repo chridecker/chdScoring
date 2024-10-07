@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,6 +32,9 @@ namespace chdScoring.DataAccess.Repositories.Base
         public Task Rollback(CancellationToken cancellationToken) => this._context.Database.RollbackTransactionAsync(cancellationToken);
         public async Task SetTransaction(DbTransaction transaction, CancellationToken cancellationToken)
         => this._currentTransaction = await this._context.Database.UseTransactionAsync(transaction, cancellationToken);
+
+        public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> expression) => this._context.Set<TEntity>().Where(expression);
+        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression) => await this._context.Set<TEntity>().FirstOrDefaultAsync(expression);
 
 
         public async Task<DbTransaction> CreateTransaction(CancellationToken cancellationToken)

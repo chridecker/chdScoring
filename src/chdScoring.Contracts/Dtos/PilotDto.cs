@@ -10,5 +10,8 @@ namespace chdScoring.Contracts.Dtos
         public string Name { get; set; }
         public string Club { get; set; }
         public string Country { get; set; }
+        public string CountryCode { get; set; }
+        public byte[] Image{ get; set; }
+        public byte[] CountryImage { get; set; }
     }
 }

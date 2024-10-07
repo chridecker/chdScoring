@@ -4,7 +4,7 @@ using System.Text;
 
 namespace chdScoring.DataAccess.Contracts.Domain
 {
-    public class Teilnehmer 
+    public class Teilnehmer
     {
         public int Id { get; set; }
         public string Vorname { get; set; }
@@ -19,5 +19,8 @@ namespace chdScoring.DataAccess.Contracts.Domain
         public string Plz { get; set; }
         public int Bild { get; set; }
         public string Info { get; set; }
+
+        public virtual Country_Images Country_Image { get; set; }
+        public virtual Images Image { get; set; }
     }
 }

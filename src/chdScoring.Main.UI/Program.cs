@@ -39,7 +39,7 @@ builder.Host.UseWindowsFormsLifetime<MainForm>();
 builder.Services.AddchdScoringDataAccess(builder.Configuration);
 builder.Services.AddHostedService<chdScoringService>();
 
-builder.Services.AddBaseApi("SmartUIHub");
+builder.Services.AddBaseApi("chdScoringAPI");
 
 builder.Services.AddSignalR();
 

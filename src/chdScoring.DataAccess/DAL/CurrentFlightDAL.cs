@@ -54,7 +54,7 @@ namespace chdScoring.DataAccess.DAL
                         StartTime = currentPilot.Start_Time,
                         Round = new RoundDto { Id = round, Program = program.Title, Time = TimeSpan.FromMinutes(klasse.Zeit) },
                         LeftTime = time.HasValue && time.Value < TimeSpan.Zero ? TimeSpan.Zero : time,
-                        Pilot = new PilotDto { Id = pilot.Id, Name = $"{pilot.Vorname} {pilot.Nachname.ToLower()}" },
+                        Pilot = new PilotDto { Id = pilot.Id, Name = $"{pilot.Vorname} {pilot.Nachname.ToUpper()}" },
                         Judges = judges.Select(judge => new JudgeDto { Id = judge.Id, Name = $"{judge.Vorname} {judge.Name.ToUpper()}" }),
                     };
 

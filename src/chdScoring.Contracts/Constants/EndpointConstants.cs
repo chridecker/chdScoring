@@ -7,6 +7,12 @@ namespace chdScoring.Contracts.Constants
     public static class EndpointConstants
     {
         public const string ROOT = "chdScoring";
+
+        public class Pilot
+        {
+            public const string ROUTE = "pilot";
+            public const string GET_OpenRound = "openround";
+        }
         public class Judge
         {
             public const string ROUTE = "judge";
@@ -25,7 +31,7 @@ namespace chdScoring.Contracts.Constants
             public const string ROUTE = "control";
 
             public const string POST_TIMER = "timer";
-            public const string GET_Test_Connection = "TestConnection";
+            public const string POST_SaveRound = "saveround";
 
         }
 

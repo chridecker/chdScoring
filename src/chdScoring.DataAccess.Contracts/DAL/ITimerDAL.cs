@@ -12,5 +12,6 @@ namespace chdScoring.DataAccess.Contracts.DAL
     {
         Task<bool> HandleStart(TimerOperationDto dto, CancellationToken cancellationToken);
         Task<bool>HandleStop(TimerOperationDto dto, CancellationToken cancellationToken);
+        Task<bool> SaveRound(SaveRoundDto dto, CancellationToken cancellationToken);
     }
 }

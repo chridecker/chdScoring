@@ -12,5 +12,7 @@ namespace chdScoring.DataAccess.Contracts.Domain
         public int Durchgang { get; set; }
         public int Status { get; set; }
         public TimeSpan Start_Time { get; set; }
+
+        public virtual Teilnehmer Pilot { get; set; }
     }
 }

@@ -25,6 +25,9 @@ namespace chdScoring.Main.Client.Extensions
 
             services.AddHttpClient<ScoringClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointConstants.Scoring.ROUTE));
             services.AddTransient<IScoringService, ScoringClient>();
+            
+            services.AddHttpClient<PilotClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointConstants.Pilot.ROUTE));
+            services.AddTransient<IPilotService, PilotClient>();
             return services;
         }
     }

@@ -31,6 +31,20 @@ namespace chdScoring.BusinessLogic.Services
             _ => Task.FromResult(false),
         };
 
+        public async Task<bool> SaveRound(SaveRoundDto dto, CancellationToken cancellation)
+        {
+            var returnVal = await this._dAL.SaveRound(dto, cancellation);
+            if (dto.StopTimer)
+            {
+                return returnVal && await this.Stop(new TimerOperationDto
+                {
+                    Airfield = 1,
+                    Operation = ETimerOperation.Stop
+                }, cancellation);
+            }
+            return returnVal;
+        }
+
         private async Task<bool> Start(TimerOperationDto dto, CancellationToken cancellationToken)
         {
             if (await this._dAL.HandleStart(dto, cancellationToken))
