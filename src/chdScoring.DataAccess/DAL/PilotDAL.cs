@@ -44,7 +44,11 @@ namespace chdScoring.DataAccess.DAL
                     Club = s.Pilot.Club,
                     Country = s.Pilot.Country_Image.Name,
                     CountryCode = s.Pilot.Country_Image.Short,
-                    CountryImage = s.Pilot.Country_Image.Img_Data
+                    CountryImage = new ImageDto
+                    {
+                        Data = s.Pilot.Country_Image.Img_Data,
+                        Type = s.Pilot.Country_Image.Img_Type
+                    }
                 }
             });
         }
