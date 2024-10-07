@@ -39,5 +39,5 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
+    - name: Publish
+      run: dotnet publish chdScoring.App.csproj --no-restore --configuration ${{ env.BUILD_CONFIG }} --framework net8.0-android --p:Version=${{ env.VERSION }}
