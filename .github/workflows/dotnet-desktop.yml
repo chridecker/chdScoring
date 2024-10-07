@@ -26,6 +26,8 @@ jobs:
         echo "year=$(date +%y%j)" >> $GITHUB_OUTPUT
         echo "hour=$(date +%H%M)" >> $GITHUB_OUTPUT
         
+    - name: Install Maui
+      run: dotnet workload install maui 
     - name: Define Date Var
       run: echo "DATEVERSION=2.2.${{ steps.date.outputs.year }}.${{ github.run_number }}" >> $GITHUB_ENV
     - name: Write Version
