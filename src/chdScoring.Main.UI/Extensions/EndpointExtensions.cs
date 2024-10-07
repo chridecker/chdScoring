@@ -34,8 +34,11 @@ namespace chdScoring.Main.UI.Extensions
             var judges = mainGroup.MapGroup(Judge.ROUTE).WithDisplayName(Judge.ROUTE);
             var pilot = mainGroup.MapGroup(Pilot.ROUTE).WithDisplayName(Pilot.ROUTE);
 
-            pilot.MapGet(EndpointConstants.Pilot.GET_OpenRound, async (int round, IPilotService service, CancellationToken cancellationToken)
+            pilot.MapGet(EndpointConstants.Pilot.GET_OpenRound, async (int? round, IPilotService service, CancellationToken cancellationToken)
                 => await service.GetOpenRound(round, cancellationToken));
+
+            pilot.MapPost(EndpointConstants.Pilot.POST_SetPilotActive, async (LoadPilotDto dto, IPilotService service, CancellationToken cancellationToken)
+                => await service.SetPilotActive(dto, cancellationToken));
 
             control.MapPost(EndpointConstants.Control.POST_TIMER, async (TimerOperationDto dto, ITimerService service, CancellationToken cancellationToken)
                 => await service.HandleOperation(dto, cancellationToken));

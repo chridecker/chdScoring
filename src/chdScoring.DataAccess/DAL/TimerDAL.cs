@@ -1,4 +1,5 @@
 ﻿using chdScoring.Contracts.Dtos;
+using chdScoring.Contracts.Enums;
 using chdScoring.DataAccess.Contracts.DAL;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
@@ -25,7 +26,9 @@ namespace chdScoring.DataAccess.DAL
             IWertungRepository wertungRepository,
             IKlasseRepository klasseRepository,
             ICountryImageRepository countryImageRepository,
-            IImageRepository imageRepository, IDurchgangPanelRepository durchgangPanelRepository, IDurchgangProgramRepository durchgangProgramRepository, IFigurProgrammRepository figurProgrammRepository, IJudgePanelRepository judgePanelRepository, IStammDatenRepository stammDatenRepository, IBebwerbRepository bebwerbRepository, IDurchgangRepository durchgangRepository, ITeilnehmerBewerbRepository teilnehmerBewerbRepository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, figurProgrammRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
+            IImageRepository imageRepository, IDurchgangPanelRepository durchgangPanelRepository,
+            IDurchgangProgramRepository durchgangProgramRepository, IFigurProgrammRepository figurProgrammRepository,
+            IJudgePanelRepository judgePanelRepository, IStammDatenRepository stammDatenRepository, IBebwerbRepository bebwerbRepository, IDurchgangRepository durchgangRepository, ITeilnehmerBewerbRepository teilnehmerBewerbRepository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, figurProgrammRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
         {
         }
 
@@ -40,10 +43,19 @@ namespace chdScoring.DataAccess.DAL
                     Duration = (int)dto.Duration.TotalSeconds,
 
                 };
-                var normBase = (await this.GetNormalizationBase(dto.Round, cancellationToken)) ?? dto.Score;
-                round.Wert_prom = (double)Math.Round(((dto.Score / normBase) * 1000), 2);
                 round.Wert_abs = dto.Score;
                 await this._durchgangRepository.SaveAsync(round, cancellationToken);
+
+                var normBase = (await this.GetNormalizationBase(dto.Round, cancellationToken)) ?? dto.Score;
+                await this._durchgangRepository.NoramlizeRound(dto.Round, normBase, cancellationToken);
+
+                var wl = await this._wettkampfLeitungRepository.FirstOrDefaultAsync(x => x.Teilnehmer == dto.Pilot && x.Durchgang == dto.Round && x.Status == (int)EFlightState.OnAir);
+                if (wl != null)
+                {
+                    wl.Status = (int)EFlightState.Saved;
+                    await this._wettkampfLeitungRepository.SaveAsync(wl, cancellationToken);
+                }
+
                 return true;
             }
             catch

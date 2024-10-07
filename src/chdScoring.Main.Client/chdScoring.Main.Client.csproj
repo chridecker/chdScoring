@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="chd.Api.Base.Client" Version="1.0.24280.52" />
+    <PackageReference Include="chd.Api.Base.Client" Version="1.0.24281.60" />
   </ItemGroup>
 
   <ItemGroup>

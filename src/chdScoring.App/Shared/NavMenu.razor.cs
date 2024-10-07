@@ -1,6 +1,7 @@
 using Blazored.Modal.Services;
 using Blazored.Toast.Configuration;
 using Blazored.Toast.Services;
+using chd.UI.Base.Client.Implementations.Services;
 using chd.UI.Base.Contracts.Dtos.Authentication;
 using chd.UI.Base.Contracts.Interfaces.Authentication;
 using chd.UI.Base.Contracts.Interfaces.Services;
@@ -20,8 +21,6 @@ namespace chdScoring.App.Shared
         [Inject] private NavigationManager _navManager { get; set; }
         [Inject] private INavigationHandler _navigationHandler { get; set; }
         [Inject] private IServiceProvider _serviceProvider { get; set; }
-
-        [CascadingParameter] public IModalService Modal { get; set; }
 
         [Parameter] public bool Visible { get; set; } = true;
 

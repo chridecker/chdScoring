@@ -10,6 +10,7 @@ namespace chdScoring.DataAccess.Contracts.DAL
 {
     public interface IPilotDAL : IBaseDAL
     {
-        Task<IEnumerable<OpenRoundDto>> LoadOpenPilots(int round, CancellationToken cancellationToken);
+        Task<IEnumerable<OpenRoundDto>> LoadOpenPilots(int? round, CancellationToken cancellationToken);
+        Task<bool> SetPilotActive(LoadPilotDto dto, CancellationToken cancellationToken);
     }
 }

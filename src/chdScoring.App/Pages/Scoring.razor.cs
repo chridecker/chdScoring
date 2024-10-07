@@ -43,7 +43,7 @@ namespace chdScoring.App.Pages
 
         private BlockingCollection<SaveScoreDto> _unsavedScores = new BlockingCollection<SaveScoreDto>();
 
-        [Inject] private IModalService _modal { get; set; }
+        [Inject] private IModalHandler _modal { get; set; }
         [Inject] private IJudgeHubClient _judgeHubClient { get; set; }
         [Inject] private IJudgeService _judgeService { get; set; }
         [Inject] private IScoringService _scoringService { get; set; }
@@ -109,7 +109,7 @@ namespace chdScoring.App.Pages
 
         private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)
         {
-            if (this._dto.Pilot != e.Pilot || this._dto.Round.Id != e.Round.Id)
+            if (this._dto?.Pilot != e?.Pilot || this._dto?.Round.Id != e?.Round.Id)
             {
                 while (this._unsavedScores.TryTake(out _)) { }
             }

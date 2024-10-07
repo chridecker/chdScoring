@@ -1,6 +1,7 @@
 ﻿@inherits PageComponentBase<int,int>
 @using Blazored.Toast.Configuration
 @using chd.UI.Base.Client.Implementations.Services
+@using chd.UI.Base.Contracts.Enum
 @inject ISettingManager clientSettings
 @inject IScrollInfoService scrollInfoService
 @inject IchdScoringProfileService profileService
@@ -10,7 +11,10 @@
 <div class="page">
     @if (this._autocollapseNav)
     {
-        <div class="sidebar-hover-toggle @(this._navCollapsed ? "auto-collapse": "")" @onmouseover="() => this._navCollapsed = false"></div>
+        <SwipeArea PixelToSwipe="10" OnSwipe="this.OnLabelSwiped">
+            <div class="sidebar-hover-toggle @(this._navCollapsed ? "auto-collapse": "")" @onmouseover="() => this._navCollapsed = false">
+            </div>
+        </SwipeArea>
     }
 
     <NavMenu Visible="!(this._autocollapseNav && this._navCollapsed)" />
@@ -60,5 +64,16 @@
         }
 
         await base.OnInitializedAsync();
+    }
+
+
+
+    private async Task OnLabelSwiped(ESwipeDirection e)
+    {
+        if (e == ESwipeDirection.LeftToRight)
+        {
+            this._navCollapsed = false;
+            await this.InvokeAsync(this.StateHasChanged);
+        }
     }
 }

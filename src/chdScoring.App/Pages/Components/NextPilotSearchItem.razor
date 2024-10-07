@@ -1,0 +1,11 @@
+@using chdScoring.Contracts.Dtos
+
+<div class="search-pilot">
+    <CustomImage Class="pilot-image" Data="this.Dto.Pilot.CountryImage" />
+    <div class="pilot-name">
+        @this.Dto.StartNumber - @this.Dto.Pilot.Name
+    </div>
+</div>
+@code {
+    [Parameter] public OpenRoundDto Dto { get; set; }
+}

@@ -1,0 +1,11 @@
+﻿.search-pilot {
+    display:flex;
+}
+
+    .search-pilot ::deep .custom-image.pilot-image {
+        height: 2rem;
+    }
+
+    .search-pilot .pilot-name {
+
+    }

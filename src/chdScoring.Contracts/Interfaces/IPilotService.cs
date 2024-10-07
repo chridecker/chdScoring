@@ -9,6 +9,7 @@ namespace chdScoring.Contracts.Interfaces
 {
     public interface IPilotService 
     {
-        Task<IEnumerable<OpenRoundDto>> GetOpenRound(int round, CancellationToken cancellationToken);
+        Task<IEnumerable<OpenRoundDto>> GetOpenRound(int? round, CancellationToken cancellationToken);
+        Task<bool> SetPilotActive(LoadPilotDto dto, CancellationToken cancellationToken);
     }
 }

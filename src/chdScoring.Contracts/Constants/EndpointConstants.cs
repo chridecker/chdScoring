@@ -12,6 +12,7 @@ namespace chdScoring.Contracts.Constants
         {
             public const string ROUTE = "pilot";
             public const string GET_OpenRound = "openround";
+            public const string POST_SetPilotActive = "setpilotactive";
         }
         public class Judge
         {

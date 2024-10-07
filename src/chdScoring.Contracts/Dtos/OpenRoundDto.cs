@@ -5,5 +5,6 @@ namespace chdScoring.Contracts.Dtos
     {
         public PilotDto Pilot { get; set; }
         public int StartNumber { get; set; }
+        public int Round { get; set; }
     }
 }
