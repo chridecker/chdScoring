@@ -23,7 +23,7 @@ jobs:
     - name: Set Datetime
       id: date
       run: |
-        $YEAR=& Get-Date -format yyMMdd
+        $YEAR=& Get-Date -UFormat "%y%j"
         echo "year=$YEAR" >> $GITHUB_OUTPUT
         $HOUR=& Get-Date -format HHmm
         echo "hour=$HOUR" >> $GITHUB_OUTPUT
