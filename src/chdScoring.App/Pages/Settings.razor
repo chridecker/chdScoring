@@ -1,20 +1,20 @@
 ﻿@inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
 @page "/settings"
 @using chdScoring.App.Pages.Components
-<p>
-    <ThemeMode />
-</p>
-<p>
-    Basis Adresse:
-    <input type="text" value="@this._baseAddress" @onchange="async (e)=>await this.UpdateMainUrl(e)" />
-</p>
 
-<SettingCheckbox SettingText="Navigation automatisch ausblenden" Checked="@this._autocollapseNav" OnChange="async (e)=> await UpdateAutoCollapeseNavBar(e)" />
-
-
-<select class="form-control" @onchange="this.OnAutoRedirectChanged">
-    @foreach (var redirectOption in this._redirectOptions)
-    {
-        <option value="@redirectOption.Key" selected="@(redirectOption.Key == this._autoRedirect)">@redirectOption.Value</option>
-    }
-</select>
+<div class="settings">
+    <div class="setting">
+        <ThemeMode />
+    </div>
+    <div class="setting">
+        Basis Adresse:
+        <input type="text" value="@this._baseAddress" @onchange="async (e)=>await this.UpdateMainUrl(e)" />
+    </div>
+    <div class="setting">
+        <SettingCheckbox SettingText="Navigation automatisch ausblenden" Checked="@this._autocollapseNav" OnChange="async (e)=> await UpdateAutoCollapeseNavBar(e)" />
+    </div>
+    <div class="setting">
+        <Selection Values="@this._redirectOptions" @bind-SelectedValue="this.SelectedAutoRedirect" />
+       
+    </div>
+</div>

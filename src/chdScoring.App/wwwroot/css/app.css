@@ -44,7 +44,7 @@
 }
 
 
-@media (min-width: 360px) {
+@media (max-width: 360px) {
     * {
         --nav-toggle-height: 1.2rem !important;
         --top-header-padding-tb: 0.2 !important;

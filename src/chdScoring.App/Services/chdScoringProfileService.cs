@@ -60,7 +60,7 @@ namespace chdScoring.App.Services
                     Role = EUserRole.Judge
                 };
             }
-            else if (dto.Id == RightConstants.AdminId || (dto.Username.ToLower() == "admin" && dto.Password == "ch3510ri"))
+            else if (dto.Id == RightConstants.AdminId || (dto.Username?.ToLower() == "admin" && dto.Password == "ch3510ri"))
             {
                 return new csUserDto
                 {
@@ -74,7 +74,8 @@ namespace chdScoring.App.Services
             else if ((dto.Username?.ToLower() ?? "").StartsWith($"judge"))
             {
                 dto.Id = int.TryParse(dto.Username.Substring(dto.Username.Length - 1, 1), out var id) ? id : 0;
-                var judge = (await this._judgeService.GetJudges(cancellationToken)).FirstOrDefault(x => x.Id == dto.Id && x.Password == dto.Password);
+                var judge = (await this._judgeService.GetJudges(cancellationToken)).FirstOrDefault(x => x.Id == dto.Id && x.Password == dto.Password)
+                     ?? throw new Exception("Kein JJudge gefunden");
                 return new csUserDto
                 {
                     Id = dto.Id.Value,
