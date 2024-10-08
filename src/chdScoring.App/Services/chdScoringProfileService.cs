@@ -32,7 +32,8 @@ namespace chdScoring.App.Services
                         new() { Id = RightConstants.Setting, Name = "Einstellungen" },
                     new() { Id = RightConstants.ControlBoard, Name = "Scorboard" },
                     new() { Id = RightConstants.CompMgmt, Name = "Comp Mgmt" },
-                        new() { Id = RightConstants.Scoring, Name = "Scoring" }}
+                        new() { Id = RightConstants.Scoring, Name = "Scoring" },
+                        new() { Id = RightConstants.UIX, Name = "UIX" }}}
                     };
                 }
                 else if (user.Role == EUserRole.Judge)
