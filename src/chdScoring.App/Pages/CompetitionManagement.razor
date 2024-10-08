@@ -20,7 +20,15 @@
     <SideWidget FAClass="whistle">
         @if (this._dto is not null)
         {
-            // Check for Judges sum points zero etc
+            <div class="round-result-compact">
+                @foreach (var judge in this._dto.Judges.OrderBy(o => o.Id))
+                {
+                    <JudgeResultCompact Judge="judge" Maneouvres="this._dto.ManeouvreLst[judge.Id]" />
+                }
+                <div class="round-result">
+                    @((this._currentAvgScore ?? 0).ToString("n1"))
+                </div>
+            </div>
         }
     </SideWidget>
 </SideWidgetContainer>

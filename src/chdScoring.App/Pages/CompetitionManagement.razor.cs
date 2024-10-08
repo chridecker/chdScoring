@@ -11,13 +11,13 @@ using chdScoring.App.Services;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using Microsoft.AspNetCore.Components;
+using System.Linq;
 
 namespace chdScoring.App.Pages
 {
     public partial class CompetitionManagement : PageComponentBase<int, int>, IDisposable
     {
         private CancellationTokenSource _cts = new CancellationTokenSource();
-        private CurrentFlight _dto;
 
         [Inject] IModalHandler _modal { get; set; }
         [Inject] IVibrationHelper _vibrationHelper { get; set; }
@@ -25,6 +25,11 @@ namespace chdScoring.App.Pages
         [Inject] IJudgeDataCache _judgeDataCache { get; set; }
         [Inject] IPilotService _pilotService { get; set; }
         [Inject] ITimerService _timerService { get; set; }
+
+
+        private CurrentFlight _dto;
+
+        private decimal? _currentAvgScore => this._dto?.ManeouvreLst.Values.Select(s => s.Select(ss => ss.Value * (ss.Score ?? 0)).Sum()).Average();
 
         protected override async Task OnInitializedAsync()
         {
@@ -46,8 +51,25 @@ namespace chdScoring.App.Pages
 
         private async Task SaveRound()
         {
+
+            TimeSpan? duration = this._dto?.Round.Time - this._dto?.LeftTime;
+
+            if (this._dto.ManeouvreLst.Values.Any(a => a.Any(aa => !aa.Score.HasValue)) || !this._currentAvgScore.HasValue)
+            {
+                await this._vibrationHelper.Vibrate(3, TimeSpan.FromMilliseconds(400), this._cts.Token);
+                if (await this._modal.ShowDialog("Nicht alle Judges habe alle Figuren gewertet!", EDialogButtons.OKCancel) != EDialogResult.OK)
+                {
+                    return;
+                }
+            }
+
             if (await this._timerService.SaveRound(new SaveRoundDto
             {
+                Score = this._currentAvgScore.Value,
+                StopTimer = true,
+                Pilot = this._dto.Pilot.Id,
+                Round = this._dto.Round.Id,
+                Duration = duration.Value
 
             }, this._cts.Token))
             {
@@ -55,10 +77,11 @@ namespace chdScoring.App.Pages
             }
             else
             {
-                await this._vibrationHelper.Vibrate(3, TimeSpan.FromSeconds(0.3), this._cts.Token);
+                await this._vibrationHelper.Vibrate(3, TimeSpan.FromSeconds(0.4), this._cts.Token);
                 await this._modal.ShowDialog("Beim Speichern der Runde ist ein Fehler aufgetreten!", chd.UI.Base.Contracts.Enum.EDialogButtons.OK);
             }
         }
+
 
         private async Task LoadNextPilot()
         {
@@ -71,7 +94,7 @@ namespace chdScoring.App.Pages
                     var parameters = new ModalParameters
                      {
                          { nameof(SearchModalComponent<OpenRoundDto, int>.Items), pilots },
-                            
+
                          { nameof(SearchModalComponent<OpenRoundDto, int>.RenderType),typeof(NextPilotSearchItem) },
                          { nameof(SearchModalComponent<OpenRoundDto, int>.RenderParameterDict),(OpenRoundDto dto)=> SearchModalComponent<OpenRoundDto,int>.CreateRenderParameterDict(dto,((x)=> nameof(NextPilotSearchItem.Dto),(x)=>x))},
                          { nameof(SearchModalComponent<OpenRoundDto, int>.DisableOrder), true },

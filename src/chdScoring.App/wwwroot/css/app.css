@@ -51,6 +51,7 @@
         --top-header-height: 1.5rem !important;
         --main-article-height: calc(100vh - calc(var(--top-header-height) * 2)) !important;
         --widget-width: 15rem !important;
+        --widget-height: 33rem !important;
     }
 
     .side-widget-container .side-widget {

@@ -21,6 +21,6 @@
     {
         var darkMode = this.uiHandler.IsDarkMode;
         await this.uiHandler.SetDarkMode(!darkMode);
-        this._themeModeIcon = darkMode ? "moon" : "sun-bright";
+        this._themeModeIcon = darkMode ? this.DarkThemeIcon : this.LightThemeIcon;
     }
 }

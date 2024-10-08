@@ -1,0 +1,19 @@
+﻿.judge-result-compact {
+    display: flex;
+    flex-direction: column;
+    align-content: end;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-right: 0.3rem;
+    border-bottom: 1px dashed var(--chd-font-color);
+}
+
+    .judge-result-compact .judge-data {
+        text-decoration: underline;
+    }
+
+    .judge-result-compact .judge-result {
+    }
+
+    .judge-result-compact .judge-result-count {
+    }
