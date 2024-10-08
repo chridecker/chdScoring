@@ -30,6 +30,9 @@
 .side-widget-container .side-widget {
     top: calc(var(--top-header-height) * 2 + var(--child-index) * calc(var(--widget-button-total-size) + var(--widget-button-padding))) !important;
 }
+.side-widget-container .side-widget.active {
+    top: calc(var(--top-header-height) * 2) !important;
+}
 
 
 
