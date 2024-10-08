@@ -26,6 +26,9 @@ namespace chdScoring.BusinessLogic.Services
         public Task<IEnumerable<OpenRoundDto>> GetOpenRound(int? round, CancellationToken cancellationToken)
         => this._dal.LoadOpenPilots(round, cancellationToken);
 
+        public Task<IEnumerable<RoundResultDto>> GetRoundResult(int? round, CancellationToken cancellationToken)
+       => this._dal.LoadRoundResults(round, cancellationToken);
+
         public async Task<bool> SetPilotActive(LoadPilotDto dto, CancellationToken cancellationToken)
         {
             if (await this._dal.SetPilotActive(dto, cancellationToken))

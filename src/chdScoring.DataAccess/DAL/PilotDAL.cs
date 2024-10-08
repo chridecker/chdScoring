@@ -60,6 +60,50 @@ namespace chdScoring.DataAccess.DAL
             return retValue.OrderBy(o => o.StartNumber);
         }
 
+        public async Task<IEnumerable<RoundResultDto>> LoadRoundResults(int? round, CancellationToken cancellationToken)
+        {
+            if (!round.HasValue)
+            {
+                round = (await this._wettkampfLeitungRepository.Where(x => x.Status == (int)EFlightState.Loaded).OrderBy(o => o.Durchgang).FirstOrDefaultAsync())?.Durchgang ?? 0;
+            }
+
+            var retValue = new List<RoundResultDto>();
+            var lst = await this._wettkampfLeitungRepository.Where(x => x.Durchgang == round.Value && x.Status == (int)EFlightState.Saved)
+                .Include(i => i.Pilot)
+                .Include(i => i.Round)
+                .AsSplitQuery()
+                .ToListAsync();
+
+            var rank = 1;
+            foreach (var wl in lst.OrderByDescending(o => o.Round.Wert_abs))
+            {
+                var country = await this._countryImageRepository.FirstOrDefaultAsync(x => x.Img_Id == wl.Pilot.Land);
+                var dto = new RoundResultDto
+                {
+                    StartNumber = wl.Start,
+                    Round = round.Value,
+                    Score = wl.Round.Wert_abs,
+                    ScoreProm = (decimal)wl.Round.Wert_prom,
+                    Rank = rank++,
+                    Pilot = new PilotDto
+                    {
+                        Id = wl.Teilnehmer,
+                        Name = $"{wl.Pilot.Vorname} {wl.Pilot.Nachname.ToUpper()}",
+                        Club = wl.Pilot.Club,
+                        Country = country.Name,
+                        CountryCode = country.Short,
+                        CountryImage = new ImageDto
+                        {
+                            Data = country.Img_Data,
+                            Type = country.Img_Type
+                        }
+                    }
+                };
+                retValue.Add(dto);
+            }
+            return retValue.OrderBy(o => o.StartNumber);
+        }
+
         public async Task<bool> SetPilotActive(LoadPilotDto dto, CancellationToken cancellationToken)
         {
             var active = await this._wettkampfLeitungRepository.FirstOrDefaultAsync(x => x.Status == (int)EFlightState.OnAir);

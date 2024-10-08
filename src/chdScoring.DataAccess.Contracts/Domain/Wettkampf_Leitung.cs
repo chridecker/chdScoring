@@ -14,5 +14,6 @@ namespace chdScoring.DataAccess.Contracts.Domain
         public TimeSpan Start_Time { get; set; }
 
         public virtual Teilnehmer Pilot { get; set; }
+        public virtual Round Round { get; set; }
     }
 }

@@ -54,6 +54,7 @@ namespace chdScoring.DataAccess.EFCore
             {
                 builder.ToTable("wettkampf_leitung").HasKey(x => new { x.Teilnehmer, x.Durchgang });
                 builder.HasOne(x => x.Pilot).WithOne().HasForeignKey<Wettkampf_Leitung>(f => f.Teilnehmer);
+                builder.HasOne(x => x.Round).WithOne().HasForeignKey<Wettkampf_Leitung>(f => f.Durchgang);
             });
 
             base.OnModelCreating(modelBuilder);

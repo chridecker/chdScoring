@@ -37,9 +37,12 @@ namespace chdScoring.Main.UI.Extensions
             pilot.MapGet(EndpointConstants.Pilot.GET_OpenRound, async (int? round, IPilotService service, CancellationToken cancellationToken)
                 => await service.GetOpenRound(round, cancellationToken));
 
+            pilot.MapGet(EndpointConstants.Pilot.GET_RoundResult, async (int? round, IPilotService service, CancellationToken cancellationToken)
+                => await service.GetRoundResult(round, cancellationToken));
+
             pilot.MapPost(EndpointConstants.Pilot.POST_SetPilotActive, async (LoadPilotDto dto, IPilotService service, CancellationToken cancellationToken)
                 => await service.SetPilotActive(dto, cancellationToken));
-            
+
             pilot.MapPost(EndpointConstants.Pilot.POST_UnloadPilot, async (LoadPilotDto dto, IPilotService service, CancellationToken cancellationToken)
                 => await service.UnLoadPilot(dto, cancellationToken));
 
