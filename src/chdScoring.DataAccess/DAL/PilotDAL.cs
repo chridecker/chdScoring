@@ -67,13 +67,25 @@ namespace chdScoring.DataAccess.DAL
             {
                 active.Status = (int)EFlightState.Loaded;
                 active.Start_Time = TimeSpan.Zero;
-                await this._wettkampfLeitungRepository.UpdateAsync(active, cancellationToken);
+                await this._wettkampfLeitungRepository.SaveAsync(active, cancellationToken);
             }
             var wl = await this._wettkampfLeitungRepository.FirstOrDefaultAsync(x => x.Teilnehmer == dto.Pilot && x.Durchgang == dto.Round);
             if (wl != null)
             {
                 wl.Status = (int)EFlightState.OnAir;
-                return await this._wettkampfLeitungRepository.UpdateAsync(wl, cancellationToken);
+                return await this._wettkampfLeitungRepository.SaveAsync(wl, cancellationToken);
+            }
+            return false;
+        }
+
+        public async Task<bool> UnLoadPilot(LoadPilotDto dto, CancellationToken cancellationToken)
+        {
+            var wl = await this._wettkampfLeitungRepository.FirstOrDefaultAsync(x => x.Teilnehmer == dto.Pilot && x.Durchgang == dto.Round);
+            if (wl != null)
+            {
+                wl.Status = (int)EFlightState.Loaded;
+                wl.Start_Time = TimeSpan.Zero;
+                return await this._wettkampfLeitungRepository.SaveAsync(wl, cancellationToken);
             }
             return false;
         }

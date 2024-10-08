@@ -14,8 +14,6 @@
         <Timer CancellationToken="this._cts.Token" Dto="this._dto" Airfield="1" />
     </div>
 }
-
-
 <SideWidgetContainer>
     <SideWidget FAClass="whistle">
         @if (this._dto is not null)
@@ -31,13 +29,24 @@
             </div>
         }
     </SideWidget>
+    <SideWidget FAClass="ranking-star">
+      
+    </SideWidget>
 </SideWidgetContainer>
 
 <FloatingActionNavigation>
-    <FloatingActionButton FAClass="floppy-disk"
-                          OnClick="async () => await this.SaveRound()"
-                          Title="Save Round"
-                          CssClass="dot-btn-save large" />
+    @if (this._dto is not null)
+    {
+        <FloatingActionButton FAClass="floppy-disk"
+                              OnClick="async () => await this.SaveRound()"
+                              Title="Save Round"
+                              CssClass="dot-btn-save large" />
+
+        <FloatingActionButton FAClass="pause"
+                              OnClick="async () => await this.SetBreak()"
+                              Title="Break"
+                              CssClass="dot-btn-save large" />
+    }
 
     <FloatingActionButton FAClass="forward"
                           OnClick="async () => await this.LoadNextPilot()"

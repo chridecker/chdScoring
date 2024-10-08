@@ -34,35 +34,26 @@ namespace chdScoring.DataAccess.DAL
 
         public async Task<bool> SaveRound(SaveRoundDto dto, CancellationToken cancellationToken)
         {
-            try
+            var round = (await this._durchgangRepository.FirstOrDefaultAsync(x => x.Teilnehmer == dto.Pilot && x.Durchgang == dto.Round)) ?? new Round()
             {
-                var round = (await this._durchgangRepository.FirstOrDefaultAsync(x => x.Teilnehmer == dto.Pilot && x.Id == dto.Round)) ?? new Durchgang()
-                {
-                    Id = dto.Round,
-                    Teilnehmer = dto.Pilot,
-                    Duration = (int)dto.Duration.TotalSeconds,
+                Durchgang = dto.Round,
+                Teilnehmer = dto.Pilot,
+                Duration = (int)dto.Duration.TotalSeconds,
 
-                };
-                round.Wert_abs = dto.Score;
-                await this._durchgangRepository.SaveAsync(round, cancellationToken);
+            };
+            round.Wert_abs = dto.Score;
+            await this._durchgangRepository.SaveAsync(round, cancellationToken);
 
-                var normBase = (await this.GetNormalizationBase(dto.Round, cancellationToken)) ?? dto.Score;
-                await this._durchgangRepository.NoramlizeRound(dto.Round, normBase, cancellationToken);
+            var normBase = (await this.GetNormalizationBase(dto.Round, cancellationToken)) ?? dto.Score;
+            await this._durchgangRepository.NoramlizeRound(dto.Round, normBase, cancellationToken);
 
-                var wl = await this._wettkampfLeitungRepository.FirstOrDefaultAsync(x => x.Teilnehmer == dto.Pilot && x.Durchgang == dto.Round && x.Status == (int)EFlightState.OnAir);
-                if (wl != null)
-                {
-                    wl.Status = (int)EFlightState.Saved;
-                    await this._wettkampfLeitungRepository.UpdateAsync(wl, cancellationToken);
-                }
-
-                return true;
-            }
-            catch
+            var wl = await this._wettkampfLeitungRepository.FirstOrDefaultAsync(x => x.Teilnehmer == dto.Pilot && x.Durchgang == dto.Round && x.Status == (int)EFlightState.OnAir);
+            if (wl != null)
             {
-
+                wl.Status = (int)EFlightState.Saved;
+                await this._wettkampfLeitungRepository.SaveAsync(wl, cancellationToken);
             }
-            return false;
+            return true;
         }
 
         public async Task<bool> HandleStart(TimerOperationDto dto, CancellationToken cancellationToken)
@@ -71,7 +62,7 @@ namespace chdScoring.DataAccess.DAL
             if (wl != null)
             {
                 wl.Start_Time = DateTime.Now.TimeOfDay;
-                return await this._wettkampfLeitungRepository.UpdateAsync(wl, cancellationToken);
+                return await this._wettkampfLeitungRepository.SaveAsync(wl, cancellationToken);
             }
             return false;
         }
@@ -81,15 +72,15 @@ namespace chdScoring.DataAccess.DAL
             var wl = await this._wettkampfLeitungRepository.GetActiveOnAirfield(dto.Airfield, cancellationToken);
             if (wl != null)
             {
-                wl.Start_Time = DateTime.Today.TimeOfDay;
-                return await this._wettkampfLeitungRepository.UpdateAsync(wl, cancellationToken);
+                wl.Status = (int)EFlightState.Saved;
+                return await this._wettkampfLeitungRepository.SaveAsync(wl, cancellationToken);
             }
             return false;
         }
 
         private async Task<decimal?> GetNormalizationBase(int round, CancellationToken cancellationToken)
         {
-            var lst = await this._durchgangRepository.Where(x => x.Id == round).ToListAsync();
+            var lst = await this._durchgangRepository.Where(x => x.Durchgang == round).ToListAsync();
             return lst.Any() ? lst.Max(m => m.Wert_abs) : null;
         }
     }

@@ -14,21 +14,23 @@ using System.Threading.Tasks;
 
 namespace chdScoring.DataAccess.Repositories
 {
-    public class DurchgangRepository : BaseRepository<Durchgang>, IDurchgangRepository
+    public class DurchgangRepository : BaseRepository<Round>, IDurchgangRepository
     {
         public DurchgangRepository(ILogger<DurchgangRepository> logger, chdScoringContext context) : base(logger, context)
         {
         }
 
-        public async Task<bool> NoramlizeRound(int round, decimal normalizationCore, CancellationToken cancellationToken)
+        public async Task<bool> NoramlizeRound(int round, decimal normalization, CancellationToken cancellationToken)
         {
-            object[] paramItems = new object[]
+            foreach (var dg in await this.Where(x => x.Durchgang == round).ToListAsync(cancellationToken))
             {
-                new SqlParameter("@norm", normalizationCore),
-                new SqlParameter("@round", round),
-            };
-            var x = await this._context.Database.ExecuteSqlRawAsync($"UPDATE durchgang SET wert_prom = ROUND((wert_abs / @norm * 1000),2) WHERE durchgang = @round", paramItems, cancellationToken);
-            return x == 1;
+                dg.Wert_prom = (double)Math.Round(dg.Wert_abs / normalization, 4) * 1000;
+                if (!await this.SaveAsync(dg, cancellationToken))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
     }

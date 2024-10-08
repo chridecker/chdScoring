@@ -46,15 +46,17 @@ namespace chdScoring.DataAccess.Repositories.Base
             return this._currentTransaction.GetDbTransaction();
         }
 
-        public async Task<bool> UpdateAsync(TEntity entity, CancellationToken cancellationToken)
-        {
-            this._context.Update<TEntity>(entity);
-            return (await this._context.SaveChangesAsync(cancellationToken)) == 1;
-        }
-
         public async Task<bool> SaveAsync(TEntity entity, CancellationToken cancellationToken)
         {
-            await this._context.AddAsync<TEntity>(entity, cancellationToken);
+            if (this._context.Entry<TEntity>(entity).State == EntityState.Detached)
+            {
+                await this._context.AddAsync<TEntity>(entity, cancellationToken);
+            }
+            else
+            {
+                this._context.Update<TEntity>(entity);
+            }
+
             return (await this._context.SaveChangesAsync(cancellationToken)) == 1;
         }
         public async Task<IEnumerable<TEntity>> FindAll(CancellationToken cancellationToken) => await this._context.Set<TEntity>().ToListAsync(cancellationToken);

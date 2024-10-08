@@ -17,12 +17,20 @@ main {
 
 article {
     position: relative;
-    padding:0 !important;
+    padding: 0 !important;
 }
 
     article ::deep * {
         max-width: var(--main-article-available-width);
     }
+
+.page ::deep .swipe-area {
+    padding: 0;
+    position: fixed;
+    height: 100%;
+    width: 2rem;
+    z-index: 900;
+}
 
 .sidebar-hover-toggle {
     position: fixed;

@@ -11,5 +11,6 @@ namespace chdScoring.Contracts.Interfaces
     {
         Task<IEnumerable<OpenRoundDto>> GetOpenRound(int? round, CancellationToken cancellationToken);
         Task<bool> SetPilotActive(LoadPilotDto dto, CancellationToken cancellationToken);
+        Task<bool> UnLoadPilot(LoadPilotDto dto, CancellationToken cancellationToken);
     }
 }

@@ -12,11 +12,11 @@
     <div class="control">
         @if (this.Dto.LeftTime.HasValue)
         {
-            <IconButton FAClass="circle-stop" OnClick="async ()=>await this.StartStop(ETimerOperation.Stop)" />
+            <IconButton FAClass="stop" OnClick="async ()=>await this.StartStop(ETimerOperation.Stop)" />
         }
         else
         {
-            <IconButton FAClass="circle-play" OnClick="async ()=> await this.StartStop(ETimerOperation.Start)" />
+            <IconButton FAClass="play-pause" OnClick="async ()=> await this.StartStop(ETimerOperation.Start)" />
         }
     </div>
 </div>

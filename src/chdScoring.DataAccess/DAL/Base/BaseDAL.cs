@@ -86,6 +86,7 @@ namespace chdScoring.DataAccess.DAL.Base
             if (this._currentTransaction == null)
             {
                 this._currentTransaction = await this._bebwerbRepository.CreateTransaction(cancellationToken);
+                await this.SetTransaction(this._currentTransaction,cancellationToken);
             }
         }
 

@@ -13,7 +13,6 @@ namespace chdScoring.DataAccess.Contracts.Repositories.Base
     {
         Task<IEnumerable<TEntity>> FindAll(CancellationToken cancellationToken);
         Task<bool> SaveAsync(TEntity entity, CancellationToken cancellationToken);
-        Task<bool> UpdateAsync(TEntity entity, CancellationToken cancellationToken);
         IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> expression);
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression);
     }

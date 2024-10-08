@@ -14,6 +14,7 @@ namespace chdScoring.DataAccess.EFCore
         public DbSet<Durchgang_Panel> Durchgang_Panel { get; set; }
         public DbSet<Figur> Figur { get; set; }
         public DbSet<Figur_Programm> Figur_Programm { get; set; }
+        public DbSet<Round> Durchgang { get; set; }
         public DbSet<Programm> Programm { get; set; }
         public DbSet<Durchgang_Programm> Durchgang_Programm { get; set; }
         public DbSet<Wertung> Wertung { get; set; }
@@ -31,6 +32,10 @@ namespace chdScoring.DataAccess.EFCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Round>(builder =>
+            {
+                builder.ToTable("durchgang").HasKey(x => x.Durchgang);
+            });
             modelBuilder.Entity<Durchgang_Panel>().HasKey(x => new { x.Panel, x.Durchgang });
             modelBuilder.Entity<Durchgang_Programm>().HasKey(x => new { x.Programm, x.Durchgang });
             modelBuilder.Entity<Figur_Programm>().HasKey(x => new { x.Programm, x.Figur });

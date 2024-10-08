@@ -61,7 +61,7 @@ namespace chdScoring.DataAccess.DAL
                 if (score != null)
                 {
                     score.Wert = dto.Value;
-                    await this._wertungRepository.UpdateAsync(score, cancellationToken);
+                    await this._wertungRepository.SaveAsync(score, cancellationToken);
                     return true;
                 }
             }

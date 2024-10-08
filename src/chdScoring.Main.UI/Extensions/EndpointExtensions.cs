@@ -39,6 +39,9 @@ namespace chdScoring.Main.UI.Extensions
 
             pilot.MapPost(EndpointConstants.Pilot.POST_SetPilotActive, async (LoadPilotDto dto, IPilotService service, CancellationToken cancellationToken)
                 => await service.SetPilotActive(dto, cancellationToken));
+            
+            pilot.MapPost(EndpointConstants.Pilot.POST_UnloadPilot, async (LoadPilotDto dto, IPilotService service, CancellationToken cancellationToken)
+                => await service.UnLoadPilot(dto, cancellationToken));
 
             control.MapPost(EndpointConstants.Control.POST_TIMER, async (TimerOperationDto dto, ITimerService service, CancellationToken cancellationToken)
                 => await service.HandleOperation(dto, cancellationToken));

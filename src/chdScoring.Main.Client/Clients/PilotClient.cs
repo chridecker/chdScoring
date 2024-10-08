@@ -21,7 +21,7 @@ namespace chdScoring.Main.Client.Clients
         public Task<IEnumerable<OpenRoundDto>> GetOpenRound(int? round, CancellationToken cancellationToken)
              => base.Get<IEnumerable<OpenRoundDto>>(round.HasValue ? EndpointConstants.Pilot.GET_OpenRound.SetUrlParameters(("round", 1)) : EndpointConstants.Pilot.GET_OpenRound, cancellationToken);
 
-        public Task<bool> SetPilotActive(LoadPilotDto dto, CancellationToken cancellationToken)
-        => base.Post<bool>(EndpointConstants.Pilot.POST_SetPilotActive, dto, cancellationToken);
+        public Task<bool> SetPilotActive(LoadPilotDto dto, CancellationToken cancellationToken) => base.Post<bool>(EndpointConstants.Pilot.POST_SetPilotActive, dto, cancellationToken);
+        public Task<bool> UnLoadPilot(LoadPilotDto dto, CancellationToken cancellationToken) => base.Post<bool>(EndpointConstants.Pilot.POST_UnloadPilot, dto, cancellationToken);
     }
 }

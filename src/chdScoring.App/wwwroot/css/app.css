@@ -16,6 +16,7 @@
     --chd-main-color-theme-gradient: linear-gradient(to right, transparent 0%, var(--chd-main-color-theme-transparent) 10%, var(--chd-main-color-theme) 90%);
     --chd-main-color-theme-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-main-color-theme-transparent) 10%, var(--chd-main-color-theme) 90%);
     --chd-main-color-theme-semi-transparent: var(--chd-lightblue-semi-transparent);
+    --widget-height: 38rem !important;
 }
 
     *::-webkit-scrollbar {
@@ -27,8 +28,9 @@
 }
 
 .side-widget-container .side-widget {
-    top: calc(var(--topheader-height) * 2);
+    top: calc(var(--top-header-height) * 2 + var(--child-index) * calc(var(--widget-button-total-size) + var(--widget-button-padding))) !important;
 }
+
 
 
 @media (min-width: 768px) {

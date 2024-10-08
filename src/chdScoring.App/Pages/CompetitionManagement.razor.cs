@@ -48,11 +48,30 @@ namespace chdScoring.App.Pages
             await base.OnInitializedAsync();
         }
 
+        private async Task SetBreak()
+        {
+            if ((this._dto?.LeftTime.HasValue ?? false)
+                && (await this._modal.ShowDialog("Ein Teilnehmer ist derzeit aktiv! Fortfahren?", EDialogButtons.YesNo) != EDialogResult.Yes))
+            {
+                return;
+            }
+            try
+            {
+                await this._pilotService.UnLoadPilot(new LoadPilotDto
+                {
+                    Pilot = this._dto.Pilot.Id,
+                    Round = this._dto.Round.Id
+                }, this._cts.Token);
+            }
+            catch (Exception ex)
+            {
+                await this._modal.ShowDialog(ex.Message, EDialogButtons.OK);
+            }
+        }
 
         private async Task SaveRound()
         {
-
-            TimeSpan? duration = this._dto?.Round.Time - this._dto?.LeftTime;
+            var duration = this._dto?.Round.Time - this._dto?.LeftTime ?? TimeSpan.Zero;
 
             if (this._dto.ManeouvreLst.Values.Any(a => a.Any(aa => !aa.Score.HasValue)) || !this._currentAvgScore.HasValue)
             {
@@ -62,14 +81,12 @@ namespace chdScoring.App.Pages
                     return;
                 }
             }
-
             if (await this._timerService.SaveRound(new SaveRoundDto
             {
                 Score = this._currentAvgScore.Value,
-                StopTimer = true,
                 Pilot = this._dto.Pilot.Id,
                 Round = this._dto.Round.Id,
-                Duration = duration.Value
+                Duration = duration
 
             }, this._cts.Token))
             {

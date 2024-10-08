@@ -36,5 +36,15 @@ namespace chdScoring.BusinessLogic.Services
             }
             return false;
         }
+        public async Task<bool> UnLoadPilot(LoadPilotDto dto, CancellationToken cancellationToken)
+        {
+            if (await this._dal.UnLoadPilot(dto, cancellationToken))
+            {
+                await this._flightCacheService.Update(cancellationToken);
+                await this._hubDataService.SendAll(cancellationToken);
+                return true;
+            }
+            return false;
+        }
     }
 }
