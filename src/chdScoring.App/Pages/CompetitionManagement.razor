@@ -29,8 +29,22 @@
             </div>
         }
     </SideWidget>
-    <SideWidget FAClass="ranking-star">
-      
+    <SideWidget OnClick="this.LoadRoundResult" FAClass="ranking-star">
+        @if (this._results is null)
+        {
+            <LoadingControl />
+        }
+        else
+        {
+            <div class="round-result-list">
+                @foreach (var res in this._results.OrderBy(o => o.Rank))
+                {
+                    <div class="round-result">
+                        @(res.Rank). @res.Pilot.Name (@res.Score.ToString("n2"))
+                    </div>
+                }
+            </div>
+        }
     </SideWidget>
 </SideWidgetContainer>
 
@@ -48,9 +62,14 @@
                               CssClass="dot-btn-save large" />
     }
 
+    <FloatingActionButton FAClass="forward-step"
+                          OnClick="async () => await this.LoadNextPilot(true)"
+                          Title="Next Pilot"
+                          CssClass="dot-btn-save large" />
+
     <FloatingActionButton FAClass="forward"
                           OnClick="async () => await this.LoadNextPilot()"
-                          Title="Load Pilot"
+                          Title="Choose Pilot"
                           CssClass="dot-btn-save large" />
 </FloatingActionNavigation>
 

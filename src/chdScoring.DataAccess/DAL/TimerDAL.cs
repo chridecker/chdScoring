@@ -72,7 +72,7 @@ namespace chdScoring.DataAccess.DAL
             var wl = await this._wettkampfLeitungRepository.GetActiveOnAirfield(dto.Airfield, cancellationToken);
             if (wl != null)
             {
-                wl.Status = (int)EFlightState.Saved;
+                wl.Start_Time = TimeSpan.Zero;
                 return await this._wettkampfLeitungRepository.SaveAsync(wl, cancellationToken);
             }
             return false;

@@ -56,9 +56,7 @@
         --widget-height: 33rem !important;
     }
 
-    .side-widget-container .side-widget {
-        top: calc(var(--top-header-height)*4) !important;
-    }
+    
 
     .top-row:not(.auth) {
         display: flex !important;

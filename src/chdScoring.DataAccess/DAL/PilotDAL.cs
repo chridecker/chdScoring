@@ -101,7 +101,7 @@ namespace chdScoring.DataAccess.DAL
                 };
                 retValue.Add(dto);
             }
-            return retValue.OrderBy(o => o.StartNumber);
+            return retValue.OrderBy(o => o.Rank);
         }
 
         public async Task<bool> SetPilotActive(LoadPilotDto dto, CancellationToken cancellationToken)

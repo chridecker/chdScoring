@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="chd.UI.Base.Contracts" Version="1.0.24282.64" />
+    <PackageReference Include="chd.UI.Base.Contracts" Version="1.0.24282.65" />
   </ItemGroup>
 
 </Project>

@@ -34,7 +34,7 @@ namespace chdScoring.DataAccess.EFCore
         {
             modelBuilder.Entity<Round>(builder =>
             {
-                builder.ToTable("durchgang").HasKey(x => x.Durchgang);
+                builder.ToTable("durchgang").HasKey(x => new { x.Teilnehmer, x.Durchgang });
             });
             modelBuilder.Entity<Durchgang_Panel>().HasKey(x => new { x.Panel, x.Durchgang });
             modelBuilder.Entity<Durchgang_Programm>().HasKey(x => new { x.Programm, x.Durchgang });
@@ -54,7 +54,7 @@ namespace chdScoring.DataAccess.EFCore
             {
                 builder.ToTable("wettkampf_leitung").HasKey(x => new { x.Teilnehmer, x.Durchgang });
                 builder.HasOne(x => x.Pilot).WithOne().HasForeignKey<Wettkampf_Leitung>(f => f.Teilnehmer);
-                builder.HasOne(x => x.Round).WithOne().HasForeignKey<Wettkampf_Leitung>(f => f.Durchgang);
+                builder.HasOne(x => x.Round).WithOne().HasForeignKey<Wettkampf_Leitung>(f => new { f.Teilnehmer, f.Durchgang });
             });
 
             base.OnModelCreating(modelBuilder);
