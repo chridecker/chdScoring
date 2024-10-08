@@ -20,3 +20,4 @@ namespace chdScoring.App.Platforms.Android
             }
         }
     }
+}
