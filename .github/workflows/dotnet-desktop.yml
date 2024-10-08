@@ -14,22 +14,12 @@ jobs:
     env:
       BUILD_CONFIG: 'Release'
       SOLUTION: 'chdscoring.sln'
-      #VERSION: '1.0.0.0'
       
     runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set Datetime
-      id: date
-      run: |
-        $MAJOR=2
-        $MINOR=2
-        $YEAR=& Get-Date -UFormat "%y%j"
-        $HOUR=& Get-Date -format HHmm
-        $VERSION="$MAJOR.$MINOR.$YEAR.$HOUR"
-        echo ("VERSION=$VERSION") >> $GITHUB_ENV
-        
+   
     - name: Install Maui
       run: dotnet workload install maui 
         
