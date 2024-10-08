@@ -1,4 +1,5 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Util;
@@ -6,10 +7,11 @@ using Android.Views;
 using AndroidX.Activity;
 using AndroidX.Core.View;
 using chd.UI.Base.Contracts.Interfaces.Services;
+using chdScoring.App.Interfaces;
 
 namespace chdScoring.App
 {
-    [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
+    [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density, LaunchMode = LaunchMode.SingleTop)]
     public class MainActivity : MauiAppCompatActivity
     {
         private readonly IAppInfoService _appInfoService;
@@ -18,11 +20,13 @@ namespace chdScoring.App
             this._appInfoService = IPlatformApplication.Current.Services.GetService<IAppInfoService>();
         }
 
-    
+
 
         protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            CreateNotificationFromIntent(Intent);
+
             this.OnBackPressedDispatcher.AddCallback(this, new BackPress());
 
             this.Window?.AddFlags(WindowManagerFlags.Fullscreen);
@@ -32,6 +36,25 @@ namespace chdScoring.App
             // Hide system bars
             windowInsetsController.Hide(WindowInsetsCompat.Type.SystemBars());
             windowInsetsController.SystemBarsBehavior = WindowInsetsControllerCompat.BehaviorShowTransientBarsBySwipe;
+        }
+
+        protected override void OnNewIntent(Intent? intent)
+        {
+            base.OnNewIntent(intent);
+
+            CreateNotificationFromIntent(intent);
+        }
+
+        static void CreateNotificationFromIntent(Intent intent)
+        {
+            if (intent?.Extras != null)
+            {
+                string title = intent.GetStringExtra(Platforms.Android.NotificationManagerService.TitleKey);
+                string message = intent.GetStringExtra(Platforms.Android.NotificationManagerService.MessageKey);
+
+                var service = IPlatformApplication.Current.Services.GetService<INotificationManagerService>();
+                service.ReceiveNotification(title, message);
+            }
         }
 
         class BackPress : OnBackPressedCallback

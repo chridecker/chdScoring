@@ -24,6 +24,7 @@ namespace chdScoring.App
             builder.Configuration.AddConfiguration(appsetting);
             builder.AddServices();
 
+
             return builder.Build();
         }
         private static IConfiguration GetAppSettingsConfig()
@@ -57,8 +58,6 @@ namespace chdScoring.App
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddBlazoredModal();
             builder.Services.AddBlazorWebViewDeveloperTools();
-
-
             builder.Services.AddChdScoringApp(builder.Configuration);
         }
     }

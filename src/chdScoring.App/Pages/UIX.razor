@@ -1,0 +1,14 @@
+@page "/uix"
+@using chd.UI.Base.Client.Implementations.Authorization
+@using chdScoring.App.Interfaces
+@inject INotificationManagerService notificationService
+
+@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.UIX })]
+
+
+    @code {
+    private async Task Alert()
+    {
+        this.notificationService.SendNotification("Test", "TestTEst", DateTime.Now);
+    }
+    }

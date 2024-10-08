@@ -7,6 +7,7 @@ using chd.UI.Base.Contracts.Interfaces.Services;
 using chdScoring.App.Auth;
 using chdScoring.App.Handler;
 using chdScoring.App.Helper;
+using chdScoring.App.Interfaces;
 using chdScoring.App.Services;
 using chdScoring.Main.Client.Extensions;
 using Microsoft.Extensions.Configuration;
@@ -47,8 +48,20 @@ namespace chdScoring.App.Extensions
 #if ANDROID
             services.ConfigureHttpClientDefaults(builder => builder.ConfigurePrimaryHttpMessageHandler(HttpsClientHandlerService.GetPlatformMessageHandler));
 #endif
-            
+
             services.AddChdScoringClient((sp) => configuration.GetApiKey("chdScoringApi"));
+            return services;
+        }
+
+        private static IServiceCollection AddNotification(this IServiceCollection services)
+        {
+#if ANDROID
+            services.AddTransient<INotificationManagerService, Platforms.Android.NotificationManagerService>();
+#endif        
+#if WINDOWS
+            services.AddTransient<INotificationManagerService, Platforms.Windows.NotificationManagerService>();
+#endif
+
             return services;
         }
     }

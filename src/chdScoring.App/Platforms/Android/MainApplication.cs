@@ -12,6 +12,7 @@ namespace chdScoring.App
         {
         }
 
+
         protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
     }
 }
