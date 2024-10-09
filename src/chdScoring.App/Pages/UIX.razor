@@ -1,7 +1,12 @@
 @page "/uix"
+@inherits PageComponentBase<int,int>
+@implements IDisposable
+@using Blazored.Modal.Services
 @using chd.UI.Base.Client.Implementations.Authorization
+@using chd.UI.Base.Client.Implementations.Services
 @using chdScoring.App.Interfaces
 @inject INotificationManagerService notificationService
+@inject IModalService modal
 
 @attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.UIX })]
 
@@ -18,13 +23,30 @@
     <IconButton FAClass="comment" OnClick="this.Alert" />
 </div>
 
-    @code
-    {
+@code
+{
     private string _title;
     private string _message;
     private DateTime? _time;
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.notificationService.NotificationReceived += this.NotificationReceived;
+        await base.OnInitializedAsync();
+    }
+
     private async Task Alert()
     {
         this.notificationService.SendNotification(this._title, this._message, this._time);
     }
+
+    private  async void NotificationReceived(object sender, NotificationEventArgs e)
+    {
+        await this.modal.ShowDialog(e.Message, chd.UI.Base.Contracts.Enum.EDialogButtons.OK);
     }
+
+    public void Dispose()
+    {
+        this.notificationService.NotificationReceived -= this.NotificationReceived;
+    }
+}

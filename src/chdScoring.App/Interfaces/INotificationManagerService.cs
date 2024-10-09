@@ -8,7 +8,7 @@ namespace chdScoring.App.Interfaces
 {
     public interface INotificationManagerService
     {
-        event EventHandler NotificationReceived;
+        event EventHandler<NotificationEventArgs> NotificationReceived;
         void SendNotification(string title, string message, DateTime? notifyTime = null);
         void ReceiveNotification(string title, string message);
     }
