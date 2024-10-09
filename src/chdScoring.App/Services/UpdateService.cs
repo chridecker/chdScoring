@@ -19,5 +19,7 @@ namespace chdScoring.App.Services
             throw new NotImplementedException();
         }
 
+        public override Task<Version> CurrentVersion() => Task.FromResult(AppInfo.Version);
+
     }
 }

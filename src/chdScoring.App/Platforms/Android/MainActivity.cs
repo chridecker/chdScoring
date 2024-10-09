@@ -18,9 +18,8 @@ namespace chdScoring.App
         public MainActivity()
         {
             this._appInfoService = IPlatformApplication.Current.Services.GetService<IAppInfoService>();
+
         }
-
-
 
         protected override void OnCreate(Bundle? savedInstanceState)
         {

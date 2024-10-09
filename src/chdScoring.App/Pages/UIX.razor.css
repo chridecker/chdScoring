@@ -1,0 +1,20 @@
+﻿.notifications {
+    margin: 1rem;
+    display: grid;
+    width: max-content;
+    grid-template-columns: repeat(2,1fr);
+    grid-gap: 0.5rem;
+}
+
+    .notifications label {
+        width: max-content;
+    }
+
+    .notifications input {
+    }
+
+    .notifications ::deep .btn {
+        height: 2rem;
+        width: 100%;
+        grid-column: 2;
+    }

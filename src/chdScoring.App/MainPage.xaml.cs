@@ -23,6 +23,19 @@ namespace chdScoring.App
             }
         }
 
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await this.CheckPermissions();
+        }
+
+        private async Task CheckPermissions()
+        {
+#if ANDROID
+            PermissionStatus status = await Permissions.RequestAsync<NotificationPermission>();
+#endif
+        }
+
         private partial void BlazorWebViewInitializing(object? sender, BlazorWebViewInitializingEventArgs e);
         private partial void BlazorWebViewInitialized(object? sender, BlazorWebViewInitializedEventArgs e);
 

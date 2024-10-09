@@ -5,11 +5,26 @@
 
 @attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.UIX })]
 
-    <IconButton FAClass="comment" OnClick="this.Alert" />
 
-    @code {
+<div class="notifications">
+    <label>Title:</label>
+    <input type="text" @bind-value="this._title" />
+
+    <label>Message:</label>
+    <input type="text" @bind-value="this._message" />
+
+    <label>Time:</label>
+    <input type="datetime-local" @bind-value="this._time" />
+    <IconButton FAClass="comment" OnClick="this.Alert" />
+</div>
+
+    @code
+    {
+    private string _title;
+    private string _message;
+    private DateTime? _time;
     private async Task Alert()
     {
-        this.notificationService.SendNotification("Test", "TestTEst", DateTime.Now);
+        this.notificationService.SendNotification(this._title, this._message, this._time);
     }
     }
