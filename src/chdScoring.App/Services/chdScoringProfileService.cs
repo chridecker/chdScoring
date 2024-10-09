@@ -65,8 +65,8 @@ namespace chdScoring.App.Services
             {
                 return new csUserDto
                 {
-                    FirstName = "Admin",
-                    LastName = "Admin",
+                    FirstName = "Christoph",
+                    LastName = "Decker",
                     Id = RightConstants.AdminId,
                     Role = EUserRole.Admin
 
