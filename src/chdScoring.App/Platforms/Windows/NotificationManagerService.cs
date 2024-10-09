@@ -12,7 +12,7 @@ namespace chdScoring.App.Platforms.Windows
 {
     public class NotificationManagerService : INotificationManagerService
     {
-        public event EventHandler NotificationReceived;
+        public event EventHandler<NotificationEventArgs> NotificationReceived;
 
         public NotificationManagerService()
         {
