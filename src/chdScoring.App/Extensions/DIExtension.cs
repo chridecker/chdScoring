@@ -57,10 +57,10 @@ namespace chdScoring.App.Extensions
         private static IServiceCollection AddNotification(this IServiceCollection services)
         {
 #if ANDROID
-            services.AddTransient<INotificationManagerService, Platforms.Android.NotificationManagerService>();
+            services.AddSingleton<INotificationManagerService, Platforms.Android.NotificationManagerService>();
 #endif        
 #if WINDOWS
-            services.AddTransient<INotificationManagerService, Platforms.Windows.NotificationManagerService>();
+            services.AddSingleton<INotificationManagerService, Platforms.Windows.NotificationManagerService>();
 #endif
 
             return services;
