@@ -49,6 +49,7 @@ namespace chdScoring.App.Extensions
             services.ConfigureHttpClientDefaults(builder => builder.ConfigurePrimaryHttpMessageHandler(HttpsClientHandlerService.GetPlatformMessageHandler));
 #endif
 
+            services.AddNotification();
             services.AddChdScoringClient((sp) => configuration.GetApiKey("chdScoringApi"));
             return services;
         }
