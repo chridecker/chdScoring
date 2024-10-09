@@ -38,7 +38,7 @@ namespace chdScoring.App.Extensions
             services.AddSingleton<INavigationHistoryStateContainer, NavigationHistoryStateContainer>();
 
             /* Scoped */
-            services.AddScoped<INavigationHandler, NavigationHandler<int, int>>();
+            services.AddScoped<INavigationHandler, NavigationHandler>();
 
             services.AddTransient<IPasswordHashService, PasswordHashService>();
 

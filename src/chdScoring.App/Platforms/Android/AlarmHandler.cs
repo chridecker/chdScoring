@@ -17,7 +17,7 @@ namespace chdScoring.App.Platforms.Android
                 string title = intent.GetStringExtra(NotificationManagerService.TitleKey);
                 string message = intent.GetStringExtra(NotificationManagerService.MessageKey);
 
-                NotificationManagerService manager = NotificationManagerService.Instance ?? new NotificationManagerService();
+                var manager = NotificationManagerService.Instance ?? new NotificationManagerService();
                 manager.Show(title, message);
             }
         }

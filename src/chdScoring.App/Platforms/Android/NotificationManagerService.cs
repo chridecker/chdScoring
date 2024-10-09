@@ -30,38 +30,35 @@ namespace chdScoring.App.Platforms.Android
         {
             if (Instance == null)
             {
-                CreateNotificationChannel();
-                compatManager = NotificationManagerCompat.From(Platform.AppContext);
+                this.CreateNotificationChannel();
+                this.compatManager = NotificationManagerCompat.From(Platform.AppContext);
                 Instance = this;
             }
         }
 
         public void SendNotification(string title, string message, DateTime? notifyTime = null)
         {
-            if (!channelInitialized)
+            if (!this.channelInitialized)
             {
-                CreateNotificationChannel();
+                this.CreateNotificationChannel();
             }
 
-            if (notifyTime != null)
+            if (notifyTime.HasValue)
             {
-                Intent intent = new Intent(Platform.AppContext, typeof(AlarmHandler));
-                intent.PutExtra(TitleKey, title);
-                intent.PutExtra(MessageKey, message);
-                intent.SetFlags(ActivityFlags.SingleTop | ActivityFlags.ClearTop);
+                var intent = this.CreateIntent(title, message, typeof(AlarmHandler));
 
                 var pendingIntentFlags = (Build.VERSION.SdkInt >= BuildVersionCodes.S)
                     ? PendingIntentFlags.CancelCurrent | PendingIntentFlags.Immutable
                     : PendingIntentFlags.CancelCurrent;
 
-                PendingIntent pendingIntent = PendingIntent.GetBroadcast(Platform.AppContext, pendingIntentId++, intent, pendingIntentFlags);
-                long triggerTime = GetNotifyTime(notifyTime.Value);
-                AlarmManager alarmManager = Platform.AppContext.GetSystemService(Context.AlarmService) as AlarmManager;
+                var pendingIntent = PendingIntent.GetBroadcast(Platform.AppContext, this.pendingIntentId++, intent, pendingIntentFlags);
+                var triggerTime = this.GetNotifyTime(notifyTime.Value);
+                var alarmManager = Platform.AppContext.GetSystemService(Context.AlarmService) as AlarmManager;
                 alarmManager.Set(AlarmType.RtcWakeup, triggerTime, pendingIntent);
             }
             else
             {
-                Show(title, message);
+                this.Show(title, message);
             }
         }
 
@@ -73,28 +70,34 @@ namespace chdScoring.App.Platforms.Android
 
         public void Show(string title, string message)
         {
-            Intent intent = new Intent(Platform.AppContext, typeof(MainActivity));
-            intent.PutExtra(TitleKey, title);
-            intent.PutExtra(MessageKey, message);
-            intent.SetFlags(ActivityFlags.SingleTop | ActivityFlags.ClearTop);
+            var intent = this.CreateIntent(title, message, typeof(MainActivity));
 
             var pendingIntentFlags = (Build.VERSION.SdkInt >= BuildVersionCodes.S)
                 ? PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable
                 : PendingIntentFlags.UpdateCurrent;
 
-            PendingIntent pendingIntent = PendingIntent.GetActivity(Platform.AppContext, pendingIntentId++, intent, pendingIntentFlags);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(Platform.AppContext, channelId)
+            var pendingIntent = PendingIntent.GetActivity(Platform.AppContext, this.pendingIntentId++, intent, pendingIntentFlags);
+            var builder = new NotificationCompat.Builder(Platform.AppContext, channelId)
                 .SetContentIntent(pendingIntent)
                 .SetContentTitle(title)
                 .SetContentText(message)
                 .SetLargeIcon(BitmapFactory.DecodeResource(Platform.AppContext.Resources, Resource.Drawable.logo_small))
                 .SetSmallIcon(Resource.Drawable.logo_small);
 
-            Notification notification = builder.Build();
-            compatManager.Notify(messageId++, notification);
+            var notification = builder.Build();
+            this.compatManager.Notify(this.messageId++, notification);
         }
 
-        void CreateNotificationChannel()
+        private Intent CreateIntent(string title, string message, Type type)
+        {
+            var intent = new Intent(Platform.AppContext, type);
+            intent.PutExtra(TitleKey, title);
+            intent.PutExtra(MessageKey, message);
+            intent.SetFlags(ActivityFlags.SingleTop | ActivityFlags.ClearTop);
+            return intent;
+        }
+
+        private void CreateNotificationChannel()
         {
             // Create the notification channel, but only on API 26+.
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
@@ -105,15 +108,15 @@ namespace chdScoring.App.Platforms.Android
                     Description = channelDescription
                 };
                 // Register the channel
-                NotificationManager manager = (NotificationManager)Platform.AppContext.GetSystemService(Context.NotificationService);
+                var manager = (NotificationManager)Platform.AppContext.GetSystemService(Context.NotificationService);
                 manager.CreateNotificationChannel(channel);
-                channelInitialized = true;
+                this.channelInitialized = true;
             }
         }
 
-        long GetNotifyTime(DateTime notifyTime)
+        private long GetNotifyTime(DateTime notifyTime)
         {
-            DateTime utcTime = TimeZoneInfo.ConvertTimeToUtc(notifyTime);
+            var utcTime = TimeZoneInfo.ConvertTimeToUtc(notifyTime);
             double epochDiff = (new DateTime(1970, 1, 1) - DateTime.MinValue).TotalSeconds;
             long utcAlarmTime = utcTime.AddSeconds(-epochDiff).Ticks / 10000;
             return utcAlarmTime; // milliseconds
