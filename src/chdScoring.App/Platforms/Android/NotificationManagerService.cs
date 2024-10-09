@@ -22,7 +22,7 @@ namespace chdScoring.App.Platforms.Android
 
         NotificationManagerCompat compatManager;
 
-        public event EventHandler NotificationReceived;
+        public event EventHandler<NotificationEventArgs> NotificationReceived;
 
         public static NotificationManagerService Instance { get; private set; }
 
