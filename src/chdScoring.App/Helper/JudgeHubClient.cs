@@ -1,4 +1,5 @@
 ﻿using chd.Hub.Base.Client;
+using chdScoring.App.Interfaces;
 using chdScoring.App.Services;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
@@ -12,12 +13,13 @@ namespace chdScoring.App.Helper
     {
         private readonly IJudgeDataCache _judgeDataCache;
         private readonly ISettingManager _settingManager;
+        private readonly INotificationManagerService _notificationManagerService;
 
-
-        public JudgeHubClient(ILogger<JudgeHubClient> logger, IJudgeDataCache judgeDataCache, ISettingManager settingManager) : base(logger)
+        public JudgeHubClient(ILogger<JudgeHubClient> logger, IJudgeDataCache judgeDataCache, ISettingManager settingManager, INotificationManagerService notificationManagerService) : base(logger)
         {
             this._judgeDataCache = judgeDataCache;
             this._settingManager = settingManager;
+            this._notificationManagerService = notificationManagerService;
         }
 
         public event EventHandler<CurrentFlight> DataReceived;
@@ -39,6 +41,7 @@ namespace chdScoring.App.Helper
         protected override void SpecificReinitialize(HubConnection connection)
         {
             connection?.Remove(nameof(IFlightHub.ReceiveFlightData));
+            connection?.Remove(nameof(IFlightHub.ReceiveNotification));
         }
 
         protected override void HookIncomingCalls(HubConnection connection)
@@ -47,6 +50,11 @@ namespace chdScoring.App.Helper
             {
                 this._judgeDataCache.Update(dto);
                 this.DataReceived?.Invoke(this, dto);
+            });
+
+            connection.On<NotificationDto>(nameof(IFlightHub.ReceiveNotification), (dto) =>
+            {
+                this._notificationManagerService.SendNotification(dto.Title, dto.Message, DateTime.Now.AddSeconds(dto.Seconds));
             });
         }
 
@@ -62,10 +70,6 @@ namespace chdScoring.App.Helper
             {
                 await conn.SendAsync(nameof(IFlightHub.RegisterAsControlCenter), cancellationToken);
             });
-
-
-
-
     }
     public interface IJudgeHubClient : IBaseHubClient<IFlightHub>
     {

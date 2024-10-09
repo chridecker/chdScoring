@@ -32,6 +32,12 @@ namespace chdScoring.BusinessLogic.Services
         {
             if (await this._scoreDal.SaveScore(dto, cancellationToken))
             {
+
+                if (dto.Value < 1)
+                {
+                    await this._hubDataService.NotifyZero(await this._scoreDal.CreateZeroNotification(dto), cancellationToken);
+                }
+
                 await this._flightCacheService.Update(cancellationToken);
                 await this._hubDataService.SendJudge(dto.Judge, cancellationToken);
             }
@@ -42,6 +48,11 @@ namespace chdScoring.BusinessLogic.Services
         {
             if (await this._scoreDal.UpdateScore(dto, cancellationToken))
             {
+                if (dto.Value < 1)
+                {
+                    await this._hubDataService.NotifyZero(await this._scoreDal.CreateZeroNotification(dto), cancellationToken);
+                }
+
                 await this._flightCacheService.Update(cancellationToken);
                 await this._hubDataService.SendJudge(dto.Judge, cancellationToken);
             }

@@ -78,11 +78,18 @@
             .top-row .header-panel .ui-header .right-content {
                 position: relative !important;
                 display: flex !important;
+                column-gap: 0.1rem !important; 
+                gap: 0;
                 flex-direction: row;
+                justify-content: center;
             }
 
                 .top-row .header-panel .ui-header .right-content .userBox {
-                    flex: 0 0 40% !important;
+                    font-size: 12pt !important;
+                    height: var(--top-header-height);
+                    width: 15rem !important;
+                }
+                .top-row .header-panel .ui-header .right-content .versionBox {
                     font-size: 12pt !important;
                     height: var(--top-header-height);
                     width: 10rem !important;
@@ -90,7 +97,7 @@
                 }
 
                 .top-row .header-panel .ui-header .right-content .networkBox {
-                    width: 1.4rem !important;
+                    width: 1.5rem !important;
                 }
 
                 .top-row .header-panel .ui-header .right-content .theme-mode {

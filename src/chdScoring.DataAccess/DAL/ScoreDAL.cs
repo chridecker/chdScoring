@@ -20,6 +20,17 @@ namespace chdScoring.DataAccess.DAL
         {
         }
 
+        public async Task<NotificationDto> CreateZeroNotification(SaveScoreDto dto)
+        {
+            var judge = await this._judgeRepository.FirstOrDefaultAsync(x => x.Id == dto.Judge);
+            var pilot = await this._teilnehmerRepository.FirstOrDefaultAsync(x => x.Id == dto.Pilot);
+            var message = $"Judge: {dto.Judge} {judge.Vorname.Substring(0, 1)} {judge.Name.ToUpper()}{Environment.NewLine}" +
+                $"Pilot: {dto.Pilot} {pilot.Vorname.Substring(0, 1)} {pilot.Nachname.ToUpper()}{Environment.NewLine}" +
+                $"Figur: {dto.Figur} -> {dto.Value}";
+
+            return new NotificationDto($"Wertung '{dto.Value}'", message);
+        }
+
         public async Task<bool> SaveScore(SaveScoreDto dto, CancellationToken cancellationToken)
         {
             var saved = false;

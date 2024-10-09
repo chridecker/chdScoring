@@ -1,4 +1,5 @@
 ﻿using chdScoring.BusinessLogic.Hubs;
+using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -30,9 +31,13 @@ namespace chdScoring.BusinessLogic.Services
         {
             await this._hub.Clients.Group($"judge{judge}").ReceiveFlightData(this._cacheService.GetCurrentFlight(DateTime.Now), cancellationToken);
         }
+
+        public async Task NotifyZero(NotificationDto dto, CancellationToken cancellationToken)
+        => await this._hub.Clients.Group("controlcenter").ReceiveNotification(dto, cancellationToken);
     }
     public interface IHubDataService
     {
+        Task NotifyZero(NotificationDto dto, CancellationToken cancellationToken);
         Task SendAll(CancellationToken cancellationToken);
         Task SendJudge(int judge, CancellationToken cancellationToken);
     }

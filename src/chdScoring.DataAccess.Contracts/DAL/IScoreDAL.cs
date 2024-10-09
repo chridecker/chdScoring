@@ -10,6 +10,7 @@ namespace chdScoring.DataAccess.Contracts.DAL
 {
     public interface IScoreDAL : IBaseDAL
     {
+        Task<NotificationDto> CreateZeroNotification(SaveScoreDto dto);
         Task<bool> SaveScore(SaveScoreDto dto, CancellationToken cancellationToken);
         Task<bool> UpdateScore(SaveScoreDto dto, CancellationToken cancellationToken);
     }

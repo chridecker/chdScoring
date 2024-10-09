@@ -1,7 +1,6 @@
 ﻿.notifications {
-    margin: 1rem;
+    margin: 0.2rem;
     display: grid;
-    width: max-content;
     grid-template-columns: repeat(2,1fr);
     grid-gap: 0.5rem;
 }
