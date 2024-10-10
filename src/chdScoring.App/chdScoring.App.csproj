@@ -83,14 +83,11 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="chd.UI.Base.Components" Version="1.0.24283.66" />
-		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.24283.66" />
-		<PackageReference Include="chd.UI.Base.Contracts" Version="1.0.24283.66" />
+		<PackageReference Include="chd.UI.Base.Components" Version="1.0.24284.68" />
+		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.24284.68" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
-		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.8" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -103,5 +100,9 @@
 			<UserProperties XamarinHotReloadDebuggerTimeoutExceptionchdScoringAppHideInfoBar="True" />
 		</VisualStudio>
 	</ProjectExtensions>
+
+	<ItemGroup>
+	  <PackageReference Update="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.91" />
+	</ItemGroup>
 
 </Project>
