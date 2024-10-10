@@ -5,7 +5,7 @@ using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
-
+using chdScoring.App.Interfaces;
 
 namespace chdScoring.App.Helper
 {
@@ -71,10 +71,5 @@ namespace chdScoring.App.Helper
                 await conn.SendAsync(nameof(IFlightHub.RegisterAsControlCenter), cancellationToken);
             });
     }
-    public interface IJudgeHubClient : IBaseHubClient<IFlightHub>
-    {
-        event EventHandler<CurrentFlight> DataReceived;
-        Task Register(int judge, CancellationToken cancellationToken = default);
-        Task RegisterControlCenter(CancellationToken cancellationToken = default);
-    }
+   
 }

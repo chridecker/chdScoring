@@ -40,8 +40,6 @@ namespace chdScoring.App.Extensions
             /* Scoped */
             services.AddScoped<INavigationHandler, NavigationHandler>();
 
-            services.AddTransient<IPasswordHashService, PasswordHashService>();
-
             services.AddScoped<IJudgeHubClient, JudgeHubClient>();
             services.AddSingleton<IJudgeDataCache, JudgeDataCache>();
 

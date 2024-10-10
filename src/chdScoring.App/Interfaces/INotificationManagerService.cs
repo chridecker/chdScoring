@@ -10,7 +10,8 @@ namespace chdScoring.App.Interfaces
     public interface INotificationManagerService
     {
         event EventHandler<NotificationEventArgs> NotificationReceived;
-        void SendNotification(string title, string message, object data, bool autoCloseOnLick = true, DateTime? notifyTime = null);
+        void SendNotification(string title, string message, bool autoCloseOnLick = true);
+        void SendNotification<TData>(string title, string message, TData data, bool autoCloseOnLick = true);
         void ReceiveNotification(NotificationEventArgs dto);
     }
     public class NotificationEventArgs : EventArgs

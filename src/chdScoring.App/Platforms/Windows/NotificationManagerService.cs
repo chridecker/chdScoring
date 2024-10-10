@@ -32,7 +32,11 @@ namespace chdScoring.App.Platforms.Windows
             this.NotificationReceived?.Invoke(this, args);
         }
 
-        public void SendNotification(string title, string message, object data, bool cancel = true, DateTime? notifyTime = null)
+        public void SendNotification<TData>(string title, string message, TData data, bool cancel = true)
+        => this.SendNotification(title, message, cancel);
+
+
+        public void SendNotification(string title, string message, bool cancel = true)
         {
             var id = this.messageId++;
 
@@ -41,7 +45,6 @@ namespace chdScoring.App.Platforms.Windows
                 .AddText(title)
                 .AddText(message)
                 .AddButton(new AppNotificationButton("OK"))
-                .SetTimeStamp(notifyTime ?? DateTime.Now)
                 .BuildNotification();
             AppNotificationManager.Default.Show(ap);
         }

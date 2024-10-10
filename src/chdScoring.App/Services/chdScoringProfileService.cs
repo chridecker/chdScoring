@@ -3,6 +3,7 @@ using chd.UI.Base.Contracts.Constants;
 using chd.UI.Base.Contracts.Dtos.Authentication;
 using chd.UI.Base.Contracts.Interfaces.Authentication;
 using chdScoring.App.Constants;
+using chdScoring.App.Interfaces;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Enums;
 using chdScoring.Contracts.Interfaces;
@@ -13,12 +14,10 @@ namespace chdScoring.App.Services
     public class chdScoringProfileService : ProfileService<int, int>, IchdScoringProfileService
     {
         private readonly IJudgeService _judgeService;
-        private readonly IPasswordHashService _passwordHashService;
 
-        public chdScoringProfileService(IJudgeService judgeService, IPasswordHashService passwordHashService)
+        public chdScoringProfileService(IJudgeService judgeService)
         {
             this._judgeService = judgeService;
-            this._passwordHashService = passwordHashService;
         }
         protected override async Task<UserPermissionDto<int>> GetPermissions(UserDto<int, int> dto, CancellationToken cancellationToken = default)
         {
@@ -89,5 +88,4 @@ namespace chdScoring.App.Services
         }
 
     }
-    public interface IchdScoringProfileService : IProfileService<int, int> { }
 }

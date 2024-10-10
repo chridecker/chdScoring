@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Web;
+﻿using chdScoring.App.Interfaces;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
 namespace chdScoring.App.Handler
@@ -11,9 +12,5 @@ namespace chdScoring.App.Handler
         public Task OnKeyDown(KeyboardEventArgs key) => Task.Run(() => this.KeyDown?.Invoke(this, key));
 
     }
-    public interface IKeyHandler
-    {
-        event EventHandler<KeyboardEventArgs> KeyDown;
-        Task OnKeyDown(KeyboardEventArgs key);
-    }
+    
 }

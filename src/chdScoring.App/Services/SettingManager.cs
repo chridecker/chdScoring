@@ -6,6 +6,7 @@ using chdScoring.App.Constants;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using chdScoring.App.Interfaces;
 
 namespace chdScoring.App.Services
 {
@@ -51,14 +52,5 @@ namespace chdScoring.App.Services
         }
 
     }
-    public interface ISettingManager : IBaseClientSettingManager
-    {
-        Task<string> MainUrl { get; }
-        Task UpdateMainUrl(string url);
-
-        event EventHandler<string> AutoRedirectToChanged;
-
-        Task<string> GetAutoRedirectTo();
-        Task SetAutoRedirectTo(string value);
-    }
+   
 }

@@ -53,17 +53,17 @@ namespace chdScoring.App
             if (intent?.Extras != null)
             {
                 var id = intent.GetIntExtra(Platforms.Android.NotificationManagerService.IdKey, 0);
-                string title = intent.GetStringExtra(Platforms.Android.NotificationManagerService.TitleKey);
-                string message = intent.GetStringExtra(Platforms.Android.NotificationManagerService.MessageKey);
-                string type = intent.GetStringExtra(Platforms.Android.NotificationManagerService.DataTypeKey);
-                string data = intent.GetStringExtra(Platforms.Android.NotificationManagerService.DataKey);
+                var title = intent.GetStringExtra(Platforms.Android.NotificationManagerService.TitleKey);
+                var message = intent.GetStringExtra(Platforms.Android.NotificationManagerService.MessageKey);
                 var cancel = intent.GetBooleanExtra(Platforms.Android.NotificationManagerService.CancelKey, false);
-
-
                 object intentData = null;
 
-                if (!string.IsNullOrEmpty(type) && Type.GetType(type) is not null && !string.IsNullOrEmpty(data))
+                if (intent.HasExtra(Platforms.Android.NotificationManagerService.DataKey))
                 {
+
+                    string data = intent.GetStringExtra(Platforms.Android.NotificationManagerService.DataKey);
+                    string type = intent.GetStringExtra(Platforms.Android.NotificationManagerService.DataTypeKey);
+
                     var t = Type.GetType(type);
                     intentData = JsonSerializer.Deserialize(data, t);
                 }

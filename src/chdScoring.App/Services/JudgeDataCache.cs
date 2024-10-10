@@ -1,5 +1,5 @@
 ﻿using chdScoring.Contracts.Dtos;
-
+using chdScoring.App.Interfaces;
 namespace chdScoring.App.Services
 {
     public class JudgeDataCache : IJudgeDataCache
@@ -17,10 +17,5 @@ namespace chdScoring.App.Services
         public CurrentFlight Data => this._dto;
     }
 
-    public interface IJudgeDataCache
-    {
-        CurrentFlight Data { get; }
-
-        void Update(CurrentFlight dto);
-    }
+   
 }

@@ -42,30 +42,22 @@ namespace chdScoring.App.Platforms.Android
             }
         }
 
-        public void SendNotification(string title, string message, object data, bool autoCloseOnLick = true, DateTime? notifyTime = null)
+        public void SendNotification(string title, string message, bool autoCloseOnLick = true)
         {
             if (!this.channelInitialized)
             {
                 this.CreateNotificationChannel();
             }
+            this.Show(title, message, autoCloseOnLick);
+        }
 
-            if (notifyTime.HasValue)
+        public void SendNotification<TData>(string title, string message, TData data, bool autoCloseOnLick = true)
+        {
+            if (!this.channelInitialized)
             {
-                var intent = this.CreateIntent(0, title, message, data, autoCloseOnLick, typeof(AlarmHandler));
-
-                var pendingIntentFlags = (Build.VERSION.SdkInt >= BuildVersionCodes.S)
-                    ? PendingIntentFlags.CancelCurrent | PendingIntentFlags.Immutable
-                    : PendingIntentFlags.CancelCurrent;
-
-                var pendingIntent = PendingIntent.GetBroadcast(Platform.AppContext, this.pendingIntentId++, intent, pendingIntentFlags);
-                var triggerTime = this.GetNotifyTime(notifyTime.Value);
-                var alarmManager = Platform.AppContext.GetSystemService(Context.AlarmService) as AlarmManager;
-                alarmManager.Set(AlarmType.RtcWakeup, triggerTime, pendingIntent);
+                this.CreateNotificationChannel();
             }
-            else
-            {
-                this.Show(title, message, data, autoCloseOnLick);
-            }
+            this.Show(title, message, data, autoCloseOnLick);
         }
 
         public void ReceiveNotification(NotificationEventArgs args)
@@ -77,13 +69,28 @@ namespace chdScoring.App.Platforms.Android
             NotificationReceived?.Invoke(this, args);
         }
 
-        public void Show(string title, string message, object data, bool autoCancel)
+        public void Show(string title, string message, bool autoCancel)
         {
             var id = this.messageId++;
-            var intent = this.CreateIntent(id, title, message, data, autoCancel, typeof(MainActivity));
+            var intent = this.CreateIntent(id, title, message, autoCancel, typeof(MainActivity));
+            this.SendIntent(id, intent, title, message, autoCancel);
+        }
+
+        private void Show<TData>(string title, string message, TData data, bool autoCancel)
+        {
+            var id = this.messageId++;
+            var intent = this.CreateIntent(id, title, message, autoCancel, typeof(MainActivity));
+            if (data is not null) { }
+            intent.PutExtra(DataTypeKey, typeof(TData).FullName);
+            intent.PutExtra(DataKey, JsonSerializer.Serialize(data));
+            this.SendIntent(id, intent, title, message, autoCancel);
+        }
+
+        private void SendIntent(int id, Intent intent, string title, string message, bool autoCancel)
+        {
             var pendingIntentFlags = (Build.VERSION.SdkInt >= BuildVersionCodes.S)
-                ? PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable
-                : PendingIntentFlags.UpdateCurrent;
+              ? PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable
+          : PendingIntentFlags.UpdateCurrent;
 
             var pendingIntent = PendingIntent.GetActivity(Platform.AppContext, this.pendingIntentId++, intent, pendingIntentFlags);
             var builder = new NotificationCompat.Builder(Platform.AppContext, channelId)
@@ -98,15 +105,14 @@ namespace chdScoring.App.Platforms.Android
             this.compatManager.Notify(id, notification);
         }
 
-        private Intent CreateIntent(int id, string title, string message, object data, bool cancel, Type type)
+        private Intent CreateIntent(int id, string title, string message, bool cancel, Type type)
         {
             var intent = new Intent(Platform.AppContext, type);
             intent.PutExtra(IdKey, id);
             intent.PutExtra(TitleKey, title);
             intent.PutExtra(MessageKey, message);
             intent.PutExtra(CancelKey, cancel);
-            intent.PutExtra(DataTypeKey, data.GetType().FullName);
-            intent.PutExtra(DataKey, JsonSerializer.Serialize(data));
+
             intent.SetFlags(ActivityFlags.SingleTop | ActivityFlags.ClearTop);
             return intent;
         }
