@@ -13,6 +13,7 @@ using System.Collections.Concurrent;
 using chd.UI.Base.Contracts.Extensions;
 using chd.UI.Base.Contracts.Enum;
 using chdScoring.App.Pages.Components;
+using chdScoring.App.Interfaces;
 
 namespace chdScoring.App.Pages
 {

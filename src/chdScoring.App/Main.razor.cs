@@ -5,6 +5,7 @@ using chd.Api.Base.Contracts.Interfaces;
 using chd.Api.Base.Client.Extensions;
 using chd.UI.Base.Contracts.Interfaces.Authentication;
 using chd.UI.Base.Contracts.Interfaces.Services;
+using chdScoring.App.Interfaces;
 
 namespace chdScoring.App
 {

@@ -6,6 +6,7 @@ using chd.UI.Base.Contracts.Dtos.Authentication;
 using chd.UI.Base.Contracts.Interfaces.Authentication;
 using chd.UI.Base.Contracts.Interfaces.Services;
 using chdScoring.App.Helper;
+using chdScoring.App.Interfaces;
 using chdScoring.App.Services;
 using Microsoft.AspNetCore.Components;
 

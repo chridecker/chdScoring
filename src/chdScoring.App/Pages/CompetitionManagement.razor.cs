@@ -6,6 +6,7 @@ using chd.UI.Base.Components.General.Search;
 using chd.UI.Base.Contracts.Enum;
 using chdScoring.App.Constants;
 using chdScoring.App.Helper;
+using chdScoring.App.Interfaces;
 using chdScoring.App.Pages.Components;
 using chdScoring.App.Services;
 using chdScoring.Contracts.Dtos;

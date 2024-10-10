@@ -6,6 +6,7 @@ using chdScoring.Contracts.Enums;
 using chdScoring.Contracts.Interfaces;
 using chdScoring.App.Constants;
 using chd.UI.Base.Components.Base;
+using chdScoring.App.Interfaces;
 
 namespace chdScoring.App.Pages
 {

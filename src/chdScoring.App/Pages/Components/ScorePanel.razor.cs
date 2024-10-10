@@ -7,6 +7,7 @@ using chdScoring.Contracts.Dtos;
 using chdScoring.App.Handler;
 using Blazorise.DeepCloner;
 using chdScoring.Contracts.Interfaces;
+using chdScoring.App.Interfaces;
 
 namespace chdScoring.App.Pages.Components
 {
