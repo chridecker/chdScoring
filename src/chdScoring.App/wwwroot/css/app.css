@@ -79,17 +79,19 @@
                 position: relative !important;
                 display: flex !important;
                 column-gap: 0.1rem !important; 
-                gap: 0;
+                gap: 0.1rem;
                 flex-direction: row;
                 justify-content: center;
             }
 
                 .top-row .header-panel .ui-header .right-content .userBox {
-                    font-size: 12pt !important;
+                    font-size: 10pt !important;
+                    flex:0 2 auto;
                     height: var(--top-header-height);
                     width: 15rem !important;
                 }
                 .top-row .header-panel .ui-header .right-content .versionBox {
+                    flex: 0 2 auto;
                     font-size: 12pt !important;
                     height: var(--top-header-height);
                     width: 10rem !important;
@@ -97,6 +99,7 @@
                 }
 
                 .top-row .header-panel .ui-header .right-content .networkBox {
+                    flex: 0 1 auto;
                     width: 1.5rem !important;
                 }
 

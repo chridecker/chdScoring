@@ -30,7 +30,14 @@ namespace chdScoring.App
         private static IConfiguration GetAppSettingsConfig()
         {
             var fileName = "appsettings.json";
-            var fullPath = Path.Combine(FileSystem.Current.CacheDirectory, fileName);
+            var directoryPath = string.Empty;
+#if ANDROID
+            var docDirectory = Android.App.Application.Context.GetExternalFilesDir(Android.OS.Environment.DirectoryDocuments);
+            var fullPath = $"{docDirectory.AbsoluteFile.Path}/chdScoring/{fileName}";
+#endif
+#if WINDOWS
+            var fullPath= Path.Combine( "c:\\chdScoring\\", fileName);
+#endif
             if (File.Exists(fullPath))
             {
                 using Stream stream = File.OpenRead(fullPath);
