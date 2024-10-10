@@ -4,15 +4,21 @@
 name: .NET
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
+    inputs: 
+      build_config:
+        description: 'How to build debug/release'
+        required: true
+        default: 'Release'
+  #push:
+  #  branches: [ "main" ]
+  #pull_request:
+  #  branches: [ "main" ]
 
 jobs:
   build:
     env:
-      BUILD_CONFIG: 'Release'
+      BUILD_CONFIG: ${{ github.event.inputs.build_config }}
       SOLUTION: 'chdscoring.sln'
       
     runs-on: windows-latest
