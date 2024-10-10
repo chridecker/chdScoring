@@ -11,18 +11,19 @@ namespace chdScoring.App.Interfaces
     {
         event EventHandler<NotificationEventArgs> NotificationReceived;
         void SendNotification(string title, string message, object data, bool autoCloseOnLick = true, DateTime? notifyTime = null);
-        void ReceiveNotification(string title, string message, object data,  bool cancel);
+        void ReceiveNotification(NotificationEventArgs dto);
     }
     public class NotificationEventArgs : EventArgs
     {
-        public NotificationEventArgs(string title, string message, object data, bool cancel = true)
+        public NotificationEventArgs(int id, string title, string message, object data, bool cancel = true)
         {
+            this.Id = id;
             this.Title = title;
             this.Message = message;
             this.Data = data;
             this.Cancel = cancel;
         }
-
+        public int Id { get; set; }
         public string Title { get; }
         public string Message { get; }
         public object Data { get; set; }

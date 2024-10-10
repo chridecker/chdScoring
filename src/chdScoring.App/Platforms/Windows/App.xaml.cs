@@ -1,5 +1,7 @@
 ﻿using chd.UI.Base.Contracts.Interfaces.Services;
+using chdScoring.App.Interfaces;
 using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppNotifications;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -12,6 +14,7 @@ namespace chdScoring.App.WinUI
     public partial class App : MauiWinUIApplication
     {
         private IAppInfoService _appInfoService;
+        private INotificationManagerService _notificationManagerService;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -26,7 +29,9 @@ namespace chdScoring.App.WinUI
         {
             base.OnLaunched(args);
             this._appInfoService = IPlatformApplication.Current.Services.GetService<IAppInfoService>();
+            this._notificationManagerService = IPlatformApplication.Current.Services.GetService<INotificationManagerService>();
         }
+
 
         protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
     }

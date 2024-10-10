@@ -14,6 +14,10 @@ namespace chdScoring.App.Platforms.Windows
     {
         public event EventHandler<NotificationEventArgs> NotificationReceived;
 
+        public const string IdKey = "intentid";
+
+        private int messageId = 0;
+
         public NotificationManagerService()
         {
             AppNotificationManager.Default.NotificationInvoked += this.Default_NotificationInvoked;
@@ -23,13 +27,17 @@ namespace chdScoring.App.Platforms.Windows
         {
         }
 
-        public void ReceiveNotification(string title, string message, object data, bool autoCancel)
+        public void ReceiveNotification(NotificationEventArgs args)
         {
+            this.NotificationReceived?.Invoke(this, args);
         }
 
         public void SendNotification(string title, string message, object data, bool cancel = true, DateTime? notifyTime = null)
         {
+            var id = this.messageId++;
+
             var ap = new AppNotificationBuilder()
+                .AddArgument(IdKey, id.ToString())
                 .AddText(title)
                 .AddText(message)
                 .AddButton(new AppNotificationButton("OK"))

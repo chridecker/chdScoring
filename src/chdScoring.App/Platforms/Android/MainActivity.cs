@@ -8,6 +8,7 @@ using AndroidX.Activity;
 using AndroidX.Core.View;
 using chd.UI.Base.Contracts.Interfaces.Services;
 using chdScoring.App.Interfaces;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 
@@ -16,9 +17,11 @@ namespace chdScoring.App
     [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density, LaunchMode = LaunchMode.SingleTop)]
     public class MainActivity : MauiAppCompatActivity
     {
+        private readonly INotificationManagerService _notificationManagerService;
         private readonly IAppInfoService _appInfoService;
         public MainActivity()
         {
+            this._notificationManagerService = IPlatformApplication.Current.Services.GetService<INotificationManagerService>();
             this._appInfoService = IPlatformApplication.Current.Services.GetService<IAppInfoService>();
 
         }
@@ -26,9 +29,9 @@ namespace chdScoring.App
         protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            CreateNotificationFromIntent(Intent);
+            this.CreateNotificationFromIntent(Intent);
 
-            this.OnBackPressedDispatcher.AddCallback(this, new BackPress());
+            this.OnBackPressedDispatcher.AddCallback(this, new BackPress(this._appInfoService));
 
             this.Window?.AddFlags(WindowManagerFlags.Fullscreen);
 
@@ -42,14 +45,14 @@ namespace chdScoring.App
         protected override void OnNewIntent(Intent? intent)
         {
             base.OnNewIntent(intent);
-
-            CreateNotificationFromIntent(intent);
+            this.CreateNotificationFromIntent(intent);
         }
 
-        static void CreateNotificationFromIntent(Intent intent)
+        private void CreateNotificationFromIntent(Intent intent)
         {
             if (intent?.Extras != null)
             {
+                var id = intent.GetIntExtra(Platforms.Android.NotificationManagerService.IdKey, 0);
                 string title = intent.GetStringExtra(Platforms.Android.NotificationManagerService.TitleKey);
                 string message = intent.GetStringExtra(Platforms.Android.NotificationManagerService.MessageKey);
                 string type = intent.GetStringExtra(Platforms.Android.NotificationManagerService.DataTypeKey);
@@ -64,16 +67,17 @@ namespace chdScoring.App
                     var t = Type.GetType(type);
                     intentData = JsonSerializer.Deserialize(data, t);
                 }
-
-                var service = IPlatformApplication.Current.Services.GetService<INotificationManagerService>();
-                service.ReceiveNotification(title, message, intentData, cancel);
+                this._notificationManagerService.ReceiveNotification(new NotificationEventArgs(id, title, message, intentData, cancel));
             }
         }
 
         class BackPress : OnBackPressedCallback
         {
-            public BackPress() : base(true)
+            private readonly IAppInfoService _appInfoService;
+
+            public BackPress(IAppInfoService appInfoService) : base(true)
             {
+                this._appInfoService = appInfoService;
             }
 
             public override void HandleOnBackPressed()
@@ -85,9 +89,8 @@ namespace chdScoring.App
                 }
                 else
                 {
-                    var service = IPlatformApplication.Current.Services.GetService<IAppInfoService>();
 
-                    service.BackButtonPressed?.Invoke(this, EventArgs.Empty);
+                    this._appInfoService.BackButtonPressed?.Invoke(this, EventArgs.Empty);
                 }
             }
         }

@@ -15,6 +15,7 @@ namespace chdScoring.App.Platforms.Android
         const string channelName = "Default";
         const string channelDescription = "The default channel for notifications.";
 
+        public const string IdKey = "intentid";
         public const string TitleKey = "title";
         public const string MessageKey = "message";
         public const string CancelKey = "cancel";
@@ -50,7 +51,7 @@ namespace chdScoring.App.Platforms.Android
 
             if (notifyTime.HasValue)
             {
-                var intent = this.CreateIntent(title, message, data, autoCloseOnLick, typeof(AlarmHandler));
+                var intent = this.CreateIntent(0, title, message, data, autoCloseOnLick, typeof(AlarmHandler));
 
                 var pendingIntentFlags = (Build.VERSION.SdkInt >= BuildVersionCodes.S)
                     ? PendingIntentFlags.CancelCurrent | PendingIntentFlags.Immutable
@@ -67,16 +68,19 @@ namespace chdScoring.App.Platforms.Android
             }
         }
 
-        public void ReceiveNotification(string title, string message, object data)
+        public void ReceiveNotification(NotificationEventArgs args)
         {
-            var args = new NotificationEventArgs(title, message, data);
+            if (args.Cancel)
+            {
+                this.compatManager.Cancel(args.Id);
+            }
             NotificationReceived?.Invoke(this, args);
         }
 
         public void Show(string title, string message, object data, bool autoCancel)
         {
-            var intent = this.CreateIntent(title, message, data, autoCancel, typeof(MainActivity));
-
+            var id = this.messageId++;
+            var intent = this.CreateIntent(id, title, message, data, autoCancel, typeof(MainActivity));
             var pendingIntentFlags = (Build.VERSION.SdkInt >= BuildVersionCodes.S)
                 ? PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable
                 : PendingIntentFlags.UpdateCurrent;
@@ -91,12 +95,13 @@ namespace chdScoring.App.Platforms.Android
                 .SetAutoCancel(autoCancel);
 
             var notification = builder.Build();
-            this.compatManager.Notify(this.messageId++, notification);
+            this.compatManager.Notify(id, notification);
         }
 
-        private Intent CreateIntent(string title, string message, object data, bool cancel, Type type)
+        private Intent CreateIntent(int id, string title, string message, object data, bool cancel, Type type)
         {
             var intent = new Intent(Platform.AppContext, type);
+            intent.PutExtra(IdKey, id);
             intent.PutExtra(TitleKey, title);
             intent.PutExtra(MessageKey, message);
             intent.PutExtra(CancelKey, cancel);
