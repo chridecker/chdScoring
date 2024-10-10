@@ -73,7 +73,7 @@ namespace chdScoring.App
                 }
 
                 e.WebView.Settings.JavaScriptEnabled = true;
-                // e.WebView.Settings.AllowFileAccess = true;
+                e.WebView.Settings.AllowFileAccess = true;
                 e.WebView.Settings.MediaPlaybackRequiresUserGesture = false;
                 var webChromeClient = new PermissionManagingBlazorWebChromeClient(e.WebView.WebChromeClient!, activity);
                 e.WebView.SetWebChromeClient(webChromeClient);

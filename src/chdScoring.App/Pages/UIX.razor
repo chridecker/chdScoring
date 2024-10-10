@@ -33,10 +33,10 @@
 
     private async Task Alert()
     {
-        this.notificationService.SendNotification(this._title, this._message);
+        this.notificationService.SendNotification(this._title, this._message, null);
     }
 
-    private  async void NotificationReceived(object sender, NotificationEventArgs e)
+    private async void NotificationReceived(object sender, NotificationEventArgs e)
     {
         await this.modal.ShowDialog(e.Message, chd.UI.Base.Contracts.Enum.EDialogButtons.OK);
     }
