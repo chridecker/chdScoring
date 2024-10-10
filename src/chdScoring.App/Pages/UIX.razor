@@ -17,9 +17,6 @@
 
     <label>Message:</label>
     <input type="text" @bind-value="this._message" />
-
-    <label>Time:</label>
-    <input type="datetime-local" @bind-value="this._time" />
     <IconButton FAClass="comment" OnClick="this.Alert" />
 </div>
 
@@ -27,7 +24,6 @@
 {
     private string _title;
     private string _message;
-    private DateTime? _time;
 
     protected override async Task OnInitializedAsync()
     {
@@ -37,7 +33,7 @@
 
     private async Task Alert()
     {
-        this.notificationService.SendNotification(this._title, this._message, this._time);
+        this.notificationService.SendNotification(this._title, this._message);
     }
 
     private  async void NotificationReceived(object sender, NotificationEventArgs e)
