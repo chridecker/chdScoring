@@ -23,11 +23,11 @@ namespace chdScoring.App.Platforms.Windows
         {
         }
 
-        public void ReceiveNotification(string title, string message)
+        public void ReceiveNotification(string title, string message, object data, bool autoCancel)
         {
         }
 
-        public void SendNotification(string title, string message, DateTime? notifyTime = null)
+        public void SendNotification(string title, string message, object data, bool cancel = true, DateTime? notifyTime = null)
         {
             var ap = new AppNotificationBuilder()
                 .AddText(title)

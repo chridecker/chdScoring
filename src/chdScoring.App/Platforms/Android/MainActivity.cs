@@ -8,6 +8,8 @@ using AndroidX.Activity;
 using AndroidX.Core.View;
 using chd.UI.Base.Contracts.Interfaces.Services;
 using chdScoring.App.Interfaces;
+using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 
 namespace chdScoring.App
 {
@@ -50,9 +52,21 @@ namespace chdScoring.App
             {
                 string title = intent.GetStringExtra(Platforms.Android.NotificationManagerService.TitleKey);
                 string message = intent.GetStringExtra(Platforms.Android.NotificationManagerService.MessageKey);
+                string type = intent.GetStringExtra(Platforms.Android.NotificationManagerService.DataTypeKey);
+                string data = intent.GetStringExtra(Platforms.Android.NotificationManagerService.DataKey);
+                var cancel = intent.GetBooleanExtra(Platforms.Android.NotificationManagerService.CancelKey, false);
+
+
+                object intentData = null;
+
+                if (!string.IsNullOrEmpty(type) && Type.GetType(type) is not null && !string.IsNullOrEmpty(data))
+                {
+                    var t = Type.GetType(type);
+                    intentData = JsonSerializer.Deserialize(data, t);
+                }
 
                 var service = IPlatformApplication.Current.Services.GetService<INotificationManagerService>();
-                service.ReceiveNotification(title, message);
+                service.ReceiveNotification(title, message, intentData, cancel);
             }
         }
 

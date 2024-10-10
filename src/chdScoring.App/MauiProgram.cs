@@ -30,7 +30,7 @@ namespace chdScoring.App
         private static IConfiguration GetAppSettingsConfig()
         {
             var fileName = "appsettings.json";
-            var fullPath = Path.Combine(FileSystem.Current.AppDataDirectory, fileName);
+            var fullPath = Path.Combine(FileSystem.Current.CacheDirectory, fileName);
             if (File.Exists(fullPath))
             {
                 using Stream stream = File.OpenRead(fullPath);

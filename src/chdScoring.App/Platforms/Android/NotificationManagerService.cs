@@ -4,6 +4,8 @@ using Android.Graphics;
 using Android.OS;
 using AndroidX.Core.App;
 using chdScoring.App.Interfaces;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace chdScoring.App.Platforms.Android
 {
@@ -15,6 +17,9 @@ namespace chdScoring.App.Platforms.Android
 
         public const string TitleKey = "title";
         public const string MessageKey = "message";
+        public const string CancelKey = "cancel";
+        public const string DataKey = "data";
+        public const string DataTypeKey = "datatype";
 
         bool channelInitialized = false;
         int messageId = 0;
@@ -36,7 +41,7 @@ namespace chdScoring.App.Platforms.Android
             }
         }
 
-        public void SendNotification(string title, string message, DateTime? notifyTime = null)
+        public void SendNotification(string title, string message, object data, bool autoCloseOnLick = true, DateTime? notifyTime = null)
         {
             if (!this.channelInitialized)
             {
@@ -45,7 +50,7 @@ namespace chdScoring.App.Platforms.Android
 
             if (notifyTime.HasValue)
             {
-                var intent = this.CreateIntent(title, message, typeof(AlarmHandler));
+                var intent = this.CreateIntent(title, message, data, autoCloseOnLick, typeof(AlarmHandler));
 
                 var pendingIntentFlags = (Build.VERSION.SdkInt >= BuildVersionCodes.S)
                     ? PendingIntentFlags.CancelCurrent | PendingIntentFlags.Immutable
@@ -58,19 +63,19 @@ namespace chdScoring.App.Platforms.Android
             }
             else
             {
-                this.Show(title, message);
+                this.Show(title, message, data, autoCloseOnLick);
             }
         }
 
-        public void ReceiveNotification(string title, string message)
+        public void ReceiveNotification(string title, string message, object data)
         {
-            var args = new NotificationEventArgs(title, message);
+            var args = new NotificationEventArgs(title, message, data);
             NotificationReceived?.Invoke(this, args);
         }
 
-        public void Show(string title, string message)
+        public void Show(string title, string message, object data, bool autoCancel)
         {
-            var intent = this.CreateIntent(title, message, typeof(MainActivity));
+            var intent = this.CreateIntent(title, message, data, autoCancel, typeof(MainActivity));
 
             var pendingIntentFlags = (Build.VERSION.SdkInt >= BuildVersionCodes.S)
                 ? PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable
@@ -83,17 +88,20 @@ namespace chdScoring.App.Platforms.Android
                 .SetContentText(message)
                 .SetLargeIcon(BitmapFactory.DecodeResource(Platform.AppContext.Resources, Resource.Drawable.logo_small))
                 .SetSmallIcon(Resource.Drawable.logo_small)
-                .SetAutoCancel(true);
+                .SetAutoCancel(autoCancel);
 
             var notification = builder.Build();
             this.compatManager.Notify(this.messageId++, notification);
         }
 
-        private Intent CreateIntent(string title, string message, Type type)
+        private Intent CreateIntent(string title, string message, object data, bool cancel, Type type)
         {
             var intent = new Intent(Platform.AppContext, type);
             intent.PutExtra(TitleKey, title);
             intent.PutExtra(MessageKey, message);
+            intent.PutExtra(CancelKey, cancel);
+            intent.PutExtra(DataTypeKey, data.GetType().FullName);
+            intent.PutExtra(DataKey, JsonSerializer.Serialize(data));
             intent.SetFlags(ActivityFlags.SingleTop | ActivityFlags.ClearTop);
             return intent;
         }
