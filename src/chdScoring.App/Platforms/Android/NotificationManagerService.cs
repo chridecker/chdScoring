@@ -82,7 +82,8 @@ namespace chdScoring.App.Platforms.Android
                 .SetContentTitle(title)
                 .SetContentText(message)
                 .SetLargeIcon(BitmapFactory.DecodeResource(Platform.AppContext.Resources, Resource.Drawable.logo_small))
-                .SetSmallIcon(Resource.Drawable.logo_small);
+                .SetSmallIcon(Resource.Drawable.logo_small)
+                .SetAutoCancel(true);
 
             var notification = builder.Build();
             this.compatManager.Notify(this.messageId++, notification);
