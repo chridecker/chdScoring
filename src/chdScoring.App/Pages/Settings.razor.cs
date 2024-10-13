@@ -66,6 +66,7 @@ namespace chdScoring.App.Pages
         private async Task UpdateMainUrl(ChangeEventArgs e)
         {
             await this._settingManager.UpdateMainUrl((string)e.Value);
+            this._settingManager.SetLocalSetting(SettingConstants.BaseAddress, (string)e.Value);
             await this.InvokeAsync(this.StateHasChanged);
         }
 
