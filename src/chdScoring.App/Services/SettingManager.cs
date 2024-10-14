@@ -17,7 +17,6 @@ namespace chdScoring.App.Services
 
         public event EventHandler<string> AutoRedirectToChanged;
 
-
         public SettingManager(ILogger<SettingManager> logger, IConfiguration configuration,
             IProtecedLocalStorageHandler protecedLocalStorageHandler,
             NavigationManager navigationManager) : base(logger, protecedLocalStorageHandler, navigationManager)
@@ -28,7 +27,7 @@ namespace chdScoring.App.Services
         {
             if (string.IsNullOrWhiteSpace(this._mainUrl))
             {
-                this._mainUrl = await this.GetSettingLocal<string>(SettingConstants.BaseAddress) ?? 
+                this._mainUrl = await this.GetSettingLocal<string>(SettingConstants.BaseAddress) ??
                 this._configuration.GetApiKey("chdScoringApi").ToString();
             }
             return this._mainUrl;
@@ -50,6 +49,20 @@ namespace chdScoring.App.Services
             this.AutoRedirectToChanged?.Invoke(this, value);
         }
 
+        public T? GetLocalSetting<T>(string key) where T : class
+        {
+            if (Preferences.ContainsKey(key))
+            {
+                return Preferences.Default.Get<T>(key, default(T));
+            }
+            return default(T);
+        }
+
+        public void SetLocalSetting<T>(string key, T value) where T:class
+        {
+            Preferences.Default.Set<T>(key, value);
+        }
+
     }
-   
+
 }

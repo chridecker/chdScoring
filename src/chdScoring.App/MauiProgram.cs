@@ -1,4 +1,5 @@
 ﻿using Blazored.Modal;
+using chdScoring.App.Constants;
 using chdScoring.App.Extensions;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
@@ -18,8 +19,8 @@ namespace chdScoring.App
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 });
 
-            var appsetting = GetAppSettingsConfig();
-            builder.Configuration.AddConfiguration(appsetting);
+            builder.Configuration.AddConfiguration(GetAppSettingsConfig());
+            builder.Configuration.AddConfiguration(GetLocalSetting());
             builder.AddServices();
 
 
@@ -28,34 +29,30 @@ namespace chdScoring.App
         private static IConfiguration GetAppSettingsConfig()
         {
             var fileName = "appsettings.json";
-            var directoryPath = string.Empty;
-#if ANDROID
-            var docDirectory = Android.App.Application.Context.GetExternalFilesDir(Android.OS.Environment.DirectoryDocuments);
-            var fullPath = $"{docDirectory.AbsoluteFile.Path}/chdScoring/{fileName}";
-#endif
-#if WINDOWS
-            var fullPath= Path.Combine( "c:\\chdScoring\\", fileName);
-#endif
-            if (File.Exists(fullPath))
-            {
-                using Stream stream = File.OpenRead(fullPath);
-                return new ConfigurationBuilder()
-                        .AddJsonStream(stream)
-                        .Build();
-            }
-
             var appSettingsFileName = "chdScoring.App.appsettings.json";
             var assembly = Assembly.GetExecutingAssembly();
-            using (Stream stream = assembly.GetManifestResourceStream(appSettingsFileName))
+            using var resStream = assembly.GetManifestResourceStream(appSettingsFileName);
+            if (resStream == null)
             {
-                if (stream == null)
-                {
-                    throw new ApplicationException($"Unable to read file [{appSettingsFileName}]");
-                }
-                return new ConfigurationBuilder()
-                        .AddJsonStream(stream)
-                        .Build();
+                throw new ApplicationException($"Unable to read file [{appSettingsFileName}]");
             }
+            return new ConfigurationBuilder()
+                    .AddJsonStream(resStream)
+                    .Build();
+        }
+
+        private static IConfiguration GetLocalSetting()
+        {
+            if (Preferences.ContainsKey(SettingConstants.BaseAddress))
+            {
+                var pref = Preferences.Default.Get<string>(SettingConstants.BaseAddress, string.Empty);
+                var dict = new Dictionary<string, string>()
+                {
+                    {$"ApiKeys:chdScoringApi",pref }
+                };
+                return new ConfigurationBuilder().AddInMemoryCollection(dict).Build();
+            }
+            return new ConfigurationBuilder().Build();
         }
 
         private static void AddServices(this MauiAppBuilder builder)
