@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
-namespace chdScoring.Main.UI.Services
+namespace chdScoring.Main.WebServer.Services
 {
     public class chdScoringService : BackgroundService
     {

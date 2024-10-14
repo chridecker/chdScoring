@@ -1,14 +1,14 @@
 using chdScoring.BusinessLogic.Extensions;
-using chdScoring.Main.UI;
+using chdScoring.Main.WebServer;
 using Microsoft.Extensions.Configuration;
 using WindowsFormsLifetime;
 using NLog.Web;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-using chdScoring.Main.UI.Services;
+using chdScoring.Main.WebServer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using chdScoring.Main.UI.Extensions;
+using chdScoring.Main.WebServer.Extensions;
 using chd.Api.Base.Extensions;
 using chdScoring.BusinessLogic.Hubs;
 

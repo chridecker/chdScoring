@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace chdScoring.Main.UI.Extensions
+namespace chdScoring.Main.WebServer.Extensions
 {
     public static class MiddlewareExtensions
     {

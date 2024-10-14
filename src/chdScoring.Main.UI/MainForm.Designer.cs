@@ -1,4 +1,4 @@
-﻿namespace chdScoring.Main.UI
+﻿namespace chdScoring.Main.WebServer
 {
     partial class MainForm
     {

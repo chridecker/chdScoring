@@ -1,7 +1,7 @@
 ﻿using chdScoring.BusinessLogic.Services;
 using Microsoft.AspNetCore.Http;
 
-namespace chdScoring.Main.UI.Extensions
+namespace chdScoring.Main.WebServer.Extensions
 {
     public class ApiLoggingMiddleware
     {

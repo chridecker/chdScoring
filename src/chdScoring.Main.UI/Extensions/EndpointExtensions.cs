@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.SignalR;
 using static chdScoring.Contracts.Constants.EndpointConstants;
 
-namespace chdScoring.Main.UI.Extensions
+namespace chdScoring.Main.WebServer.Extensions
 {
     public static class EndpointExtensions
     {

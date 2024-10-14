@@ -1,6 +1,6 @@
 using chdScoring.BusinessLogic.Services;
 
-namespace chdScoring.Main.UI
+namespace chdScoring.Main.WebServer
 {
     public partial class MainForm : Form
     {
