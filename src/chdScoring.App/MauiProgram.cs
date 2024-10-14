@@ -2,8 +2,6 @@
 using chdScoring.App.Extensions;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.Maui.Storage;
 using System.Reflection;
 
 namespace chdScoring.App

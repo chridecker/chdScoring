@@ -1,11 +1,4 @@
-﻿using chd.UI.Base.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace chdScoring.App.Interfaces
+﻿namespace chdScoring.App.Interfaces
 {
     public interface INotificationManagerService
     {

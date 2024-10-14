@@ -1,11 +1,9 @@
 ﻿using chd.Hub.Base.Client;
 using chdScoring.App.Interfaces;
-using chdScoring.App.Services;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
-using chdScoring.App.Interfaces;
 
 namespace chdScoring.App.Helper
 {

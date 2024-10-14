@@ -1,13 +1,9 @@
 ﻿
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
-using chdScoring.DataAccess.Contracts.Repositories.Base;
 using chdScoring.DataAccess.EFCore;
 using chdScoring.DataAccess.Repositories.Base;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

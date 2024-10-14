@@ -4,27 +4,17 @@ using chdScoring.Contracts.Interfaces;
 using chdScoring.Contracts.Settings;
 using chdScoring.DataAccess.Contracts.DAL;
 using chdScoring.DataAccess.Contracts.DAL.Base;
-using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.Repositories;
-using chdScoring.DataAccess.Contracts.Repositories.Base;
 using chdScoring.DataAccess.DAL;
 using chdScoring.DataAccess.EFCore;
 using chdScoring.DataAccess.Repositories;
-using chdScoring.DataAccess.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 
 

@@ -1,17 +1,13 @@
 ﻿using chdScoring.DataAccess.Contracts.DAL;
-using chdScoring.DataAccess.Contracts.DAL.Base;
 using chdScoring.DataAccess.Contracts.Repositories;
 using chdScoring.DataAccess.DAL.Base;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using chdScoring.Contracts.Extensions;
-using System.Text.Json.Serialization;
-using System.IO;
 
 namespace chdScoring.DataAccess.DAL
 {

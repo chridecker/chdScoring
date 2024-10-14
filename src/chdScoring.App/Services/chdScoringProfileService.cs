@@ -1,13 +1,10 @@
 ﻿using chd.UI.Base.Client.Implementations.Authorization;
-using chd.UI.Base.Contracts.Constants;
 using chd.UI.Base.Contracts.Dtos.Authentication;
-using chd.UI.Base.Contracts.Interfaces.Authentication;
 using chdScoring.App.Constants;
 using chdScoring.App.Interfaces;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Enums;
 using chdScoring.Contracts.Interfaces;
-using System.Security.Cryptography;
 
 namespace chdScoring.App.Services
 {

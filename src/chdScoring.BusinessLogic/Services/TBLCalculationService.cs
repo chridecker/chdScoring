@@ -1,14 +1,7 @@
-﻿using chdScoring.BusinessLogic.Extensions;
-using chdScoring.DataAccess.Contracts.DAL;
-using chdScoring.DataAccess.Contracts.Repositories;
+﻿using chdScoring.DataAccess.Contracts.DAL;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Identity.Client;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

@@ -1,9 +1,4 @@
 using chdScoring.BusinessLogic.Services;
-using chdScoring.DataAccess.Contracts.Domain;
-using chdScoring.DataAccess.Contracts.Repositories;
-using Org.BouncyCastle.Asn1.Ocsp;
-using System.ComponentModel;
-using System.Drawing.Imaging;
 
 namespace chdScoring.Main.UI
 {

@@ -1,8 +1,6 @@
-﻿using Blazored.Modal.Services;
-using chd.Api.Base.Client.Extensions;
+﻿using chd.Api.Base.Client.Extensions;
 using chd.UI.Base.Client.Extensions;
 using chd.UI.Base.Client.Implementations.Services;
-using chd.UI.Base.Contracts.Interfaces.Authentication;
 using chd.UI.Base.Contracts.Interfaces.Services;
 using chdScoring.App.Auth;
 using chdScoring.App.Handler;
@@ -11,7 +9,6 @@ using chdScoring.App.Interfaces;
 using chdScoring.App.Services;
 using chdScoring.Main.Client.Extensions;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace chdScoring.App.Extensions
 {

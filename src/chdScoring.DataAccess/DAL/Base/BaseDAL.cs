@@ -1,14 +1,7 @@
-﻿using chdScoring.Contracts.Dtos;
-using chdScoring.DataAccess.Contracts.DAL.Base;
+﻿using chdScoring.DataAccess.Contracts.DAL.Base;
 using chdScoring.DataAccess.Contracts.Repositories;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

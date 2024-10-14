@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace chdScoring.App.Interfaces
+﻿namespace chdScoring.App.Interfaces
 {
-     public interface IVibrationHelper
+    public interface IVibrationHelper
     {
         void Vibrate(TimeSpan duration);
         Task Vibrate(int repeat, TimeSpan duration, CancellationToken cancellationToken = default);

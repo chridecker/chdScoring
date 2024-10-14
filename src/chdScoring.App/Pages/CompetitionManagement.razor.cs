@@ -5,15 +5,11 @@ using chd.UI.Base.Components.Extensions;
 using chd.UI.Base.Components.General.Search;
 using chd.UI.Base.Contracts.Enum;
 using chdScoring.App.Constants;
-using chdScoring.App.Helper;
 using chdScoring.App.Interfaces;
 using chdScoring.App.Pages.Components;
-using chdScoring.App.Services;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using Microsoft.AspNetCore.Components;
-using System.Linq;
-using static chdScoring.Contracts.Constants.EndpointConstants;
 
 namespace chdScoring.App.Pages
 {

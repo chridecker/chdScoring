@@ -1,13 +1,9 @@
-using Blazored.Modal.Services;
 using Blazored.Toast.Configuration;
 using Blazored.Toast.Services;
-using chd.UI.Base.Client.Implementations.Services;
 using chd.UI.Base.Contracts.Dtos.Authentication;
 using chd.UI.Base.Contracts.Interfaces.Authentication;
 using chd.UI.Base.Contracts.Interfaces.Services;
-using chdScoring.App.Helper;
 using chdScoring.App.Interfaces;
-using chdScoring.App.Services;
 using Microsoft.AspNetCore.Components;
 
 namespace chdScoring.App.Shared

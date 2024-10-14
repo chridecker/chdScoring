@@ -1,7 +1,6 @@
 ﻿using chd.Api.Base.Client.Extensions;
 using chd.UI.Base.Client.Implementations.Services.Base;
 using chd.UI.Base.Contracts.Interfaces.Services;
-using chd.UI.Base.Contracts.Interfaces.Services.Base;
 using chdScoring.App.Constants;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;

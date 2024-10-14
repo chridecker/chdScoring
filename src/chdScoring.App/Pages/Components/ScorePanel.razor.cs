@@ -1,12 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
-using chdScoring.App.Helper;
-using chdScoring.App.Services;
 using chdScoring.Contracts.Dtos;
-using chdScoring.App.Handler;
-using Blazorise.DeepCloner;
-using chdScoring.Contracts.Interfaces;
 using chdScoring.App.Interfaces;
 
 namespace chdScoring.App.Pages.Components

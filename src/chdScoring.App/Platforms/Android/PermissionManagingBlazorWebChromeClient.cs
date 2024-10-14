@@ -2,11 +2,6 @@
 using AndroidX.Activity.Result.Contract;
 using AndroidX.Activity.Result;
 using AndroidX.Core.Content;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Android;
 using AndroidX.Activity;
 using Android.Content.PM;

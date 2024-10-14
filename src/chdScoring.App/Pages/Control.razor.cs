@@ -1,8 +1,5 @@
 using global::Microsoft.AspNetCore.Components;
-using chdScoring.App.Helper;
 using chdScoring.Contracts.Dtos;
-using chdScoring.App.Services;
-using chdScoring.Contracts.Enums;
 using chdScoring.Contracts.Interfaces;
 using chdScoring.App.Constants;
 using chd.UI.Base.Components.Base;

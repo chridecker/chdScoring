@@ -1,16 +1,12 @@
 using Microsoft.AspNetCore.Components;
-using chdScoring.App.Services;
 using chdScoring.Contracts.Dtos;
-using chdScoring.App.Helper;
 using chdScoring.Contracts.Interfaces;
-using Blazored.Modal.Services;
 using chd.UI.Base.Components.Extensions;
 using chd.UI.Base.Contracts.Dtos.Authentication;
 using chd.UI.Base.Components.Base;
 using chdScoring.App.Constants;
 using chd.UI.Base.Client.Implementations.Services;
 using System.Collections.Concurrent;
-using chd.UI.Base.Contracts.Extensions;
 using chd.UI.Base.Contracts.Enum;
 using chdScoring.App.Pages.Components;
 using chdScoring.App.Interfaces;

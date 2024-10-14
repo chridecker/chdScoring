@@ -1,5 +1,4 @@
-﻿using chdScoring.DataAccess.Contracts.Interfaces;
-using chdScoring.DataAccess.Contracts.Repositories.Base;
+﻿using chdScoring.DataAccess.Contracts.Repositories.Base;
 using chdScoring.DataAccess.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -10,7 +9,6 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

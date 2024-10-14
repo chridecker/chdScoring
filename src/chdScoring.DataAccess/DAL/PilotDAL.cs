@@ -6,7 +6,6 @@ using chdScoring.DataAccess.Contracts.Repositories;
 using chdScoring.DataAccess.DAL.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections.Generic;
 using System.Linq;

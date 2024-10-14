@@ -3,11 +3,6 @@ using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Interfaces;
 using chdScoring.Main.Client.Clients;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static chdScoring.Contracts.Constants.EndpointConstants;
 
 namespace chdScoring.Main.Client.Extensions

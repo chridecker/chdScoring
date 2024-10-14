@@ -1,18 +1,5 @@
 ﻿using chdScoring.BusinessLogic.Services;
-using chdScoring.Contracts.Constants;
-using chdScoring.Contracts.Dtos;
-using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using ZstdSharp.Unsafe;
 
 namespace chdScoring.Main.UI.Extensions
 {

@@ -1,11 +1,6 @@
 ﻿using chd.Hub.Base.Client;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace chdScoring.App.Interfaces
 {

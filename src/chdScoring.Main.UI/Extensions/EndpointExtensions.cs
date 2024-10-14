@@ -1,22 +1,11 @@
 ﻿using chdScoring.BusinessLogic.Hubs;
-using chdScoring.BusinessLogic.Services;
 using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
-using chdScoring.DataAccess.Contracts.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.SignalR;
-using MySqlX.XDevAPI.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using static chdScoring.Contracts.Constants.EndpointConstants;
 
 namespace chdScoring.Main.UI.Extensions

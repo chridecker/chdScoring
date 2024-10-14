@@ -2,15 +2,12 @@
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using Android.Util;
 using Android.Views;
 using AndroidX.Activity;
 using AndroidX.Core.View;
 using chd.UI.Base.Contracts.Interfaces.Services;
 using chdScoring.App.Interfaces;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
-using System.Text.Json.Serialization.Metadata;
 
 namespace chdScoring.App
 {

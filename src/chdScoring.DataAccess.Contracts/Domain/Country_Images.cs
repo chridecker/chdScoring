@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Principal;
-using System.Text;
-
-namespace chdScoring.DataAccess.Contracts.Domain
+﻿namespace chdScoring.DataAccess.Contracts.Domain
 {
     public class Country_Images
     {

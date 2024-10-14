@@ -1,18 +1,9 @@
 ﻿using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.DAL;
-using chdScoring.DataAccess.Contracts.Domain;
-using chdScoring.DataAccess.Contracts.Repositories;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 

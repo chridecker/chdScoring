@@ -1,8 +1,5 @@
-﻿using chdScoring.Contracts.Settings;
-using chdScoring.DataAccess.Contracts.Domain;
+﻿using chdScoring.DataAccess.Contracts.Domain;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System.Security.Principal;
 
 namespace chdScoring.DataAccess.EFCore
 {

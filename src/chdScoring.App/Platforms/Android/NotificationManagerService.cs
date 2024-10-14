@@ -5,7 +5,6 @@ using Android.OS;
 using AndroidX.Core.App;
 using chdScoring.App.Interfaces;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace chdScoring.App.Platforms.Android
 {

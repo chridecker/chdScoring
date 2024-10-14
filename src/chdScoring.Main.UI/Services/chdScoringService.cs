@@ -1,21 +1,9 @@
-﻿using chdScoring.BusinessLogic.Extensions;
-using chdScoring.BusinessLogic.Services;
+﻿using chdScoring.BusinessLogic.Services;
 using chdScoring.Contracts.Interfaces;
 using chdScoring.Contracts.Settings;
-using chdScoring.DataAccess.Contracts.Domain;
-using chdScoring.DataAccess.Contracts.Repositories;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using NLog.LayoutRenderers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace chdScoring.Main.UI.Services
 {

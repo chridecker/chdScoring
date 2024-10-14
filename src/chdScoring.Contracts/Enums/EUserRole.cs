@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace chdScoring.Contracts.Enums
+﻿namespace chdScoring.Contracts.Enums
 {
     public enum EUserRole
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace chdScoring.DataAccess.Contracts.Domain
+﻿namespace chdScoring.DataAccess.Contracts.Domain
 {
     public class Klassen
     {
