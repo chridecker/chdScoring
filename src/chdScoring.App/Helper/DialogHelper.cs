@@ -1,4 +1,4 @@
-﻿using chdScoring.App.Interfaces;
+﻿using chdScoring.App.UI.Interfaces;
 
 namespace chdScoring.App.Helper
 {

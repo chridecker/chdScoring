@@ -1,0 +1,75 @@
+@using chd.UI.Base.Client.Implementations.Authorization
+@using chd.UI.Base.Components.General
+@using chd.UI.Base.Components.General.Pagination
+@using chd.UI.Base.Contracts.Enum
+@using chdScoring.App.UI.Pages.Components
+@inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
+@page "/competitionmanagement"
+@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.CompMgmt })]
+
+
+@if (this._dto is not null)
+{
+    <div class="timer-control">
+        <Timer CancellationToken="this._cts.Token" Dto="this._dto" Airfield="1" />
+    </div>
+}
+<SideWidgetContainer>
+    <SideWidget FAClass="whistle">
+        @if (this._dto is not null)
+        {
+            <div class="round-result-compact">
+                @foreach (var judge in this._dto.Judges.OrderBy(o => o.Id))
+                {
+                    <JudgeResultCompact Judge="judge" Maneouvres="this._dto.ManeouvreLst[judge.Id]" />
+                }
+                <div class="round-result">
+                    @((this._currentAvgScore ?? 0).ToString("n1"))
+                </div>
+            </div>
+        }
+    </SideWidget>
+    <SideWidget OnClick="this.LoadRoundResult" FAClass="ranking-star">
+        @if (this._results is null)
+        {
+            <LoadingControl />
+        }
+        else
+        {
+            <div class="round-result-list">
+                @foreach (var res in this._results.OrderBy(o => o.Rank))
+                {
+                    <div class="round-result">
+                        @(res.Rank). @res.Pilot.Name (@res.Score.ToString("n2"))
+                    </div>
+                }
+            </div>
+        }
+    </SideWidget>
+</SideWidgetContainer>
+
+<FloatingActionNavigation>
+    @if (this._dto is not null)
+    {
+        <FloatingActionButton FAClass="floppy-disk"
+                              OnClick="async () => await this.SaveRound()"
+                              Title="Save Round"
+                              CssClass="dot-btn-save large" />
+
+        <FloatingActionButton FAClass="pause"
+                              OnClick="async () => await this.SetBreak()"
+                              Title="Break"
+                              CssClass="dot-btn-save large" />
+    }
+
+    <FloatingActionButton FAClass="forward-step"
+                          OnClick="async () => await this.LoadNextPilot(true)"
+                          Title="Next Pilot"
+                          CssClass="dot-btn-save large" />
+
+    <FloatingActionButton FAClass="forward"
+                          OnClick="async () => await this.LoadNextPilot()"
+                          Title="Choose Pilot"
+                          CssClass="dot-btn-save large" />
+</FloatingActionNavigation>
+

@@ -1,11 +1,11 @@
 ﻿using chd.Api.Base.Client.Extensions;
 using chd.UI.Base.Client.Implementations.Services.Base;
 using chd.UI.Base.Contracts.Interfaces.Services;
-using chdScoring.App.Constants;
+using chdScoring.App.UI.Constants;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using chdScoring.App.Interfaces;
+using chdScoring.App.UI.Interfaces;
 
 namespace chdScoring.App.Services
 {

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:local="clr-namespace:chdScoring.App"
+             xmlns:ui="clr-namespace:chdScoring.App.UI;assembly=chdScoring.App.UI"
              x:Class="chdScoring.App.MainPage"
              BackgroundColor="{DynamicResource CHDBg}">
     <ContentPage.Behaviors>
@@ -10,7 +11,7 @@
     </ContentPage.Behaviors>
     <BlazorWebView x:Name="blazorWebView" HostPage="wwwroot/index.html" BackgroundColor="{StaticResource CHDBg}">
         <BlazorWebView.RootComponents>
-            <RootComponent Selector="#app" ComponentType="{x:Type local:Main}" />
+            <RootComponent Selector="#app" ComponentType="{x:Type ui:Main}" />
         </BlazorWebView.RootComponents>
     </BlazorWebView>
 

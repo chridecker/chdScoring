@@ -3,7 +3,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using AndroidX.Core.App;
-using chdScoring.App.Interfaces;
+using chdScoring.App.UI.Interfaces;
 using System.Text.Json;
 
 namespace chdScoring.App.Platforms.Android

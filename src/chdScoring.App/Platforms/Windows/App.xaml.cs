@@ -1,5 +1,5 @@
 ﻿using chd.UI.Base.Contracts.Interfaces.Services;
-using chdScoring.App.Interfaces;
+using chdScoring.App.UI.Interfaces;
 using Microsoft.UI.Xaml;
 
 // To learn more about WinUI, the WinUI project structure,

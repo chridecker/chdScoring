@@ -1,0 +1,48 @@
+@using System.Globalization
+@using chdScoring.App.UI.Pages.Components
+@inject ISettingManager clientSettingManager
+@inject IchdScoringProfileService profileService
+@inject ITimeoutHandler timeoutHandler
+@inject IJudgeHubClient apiClient
+@inherits LayoutComponentBase
+
+<div class="header-panel">
+    <HeaderBase TUserId="int" TRightId="int" PageTitle="@this.PageTitle" ShowVersion="true" ShowDateInfo="false">
+        <RightChildContent>
+            <div class="networkBox">
+                <div class="liquid @GetStateCss()"></div>
+            </div>
+            <ThemeModeButton />
+        </RightChildContent>
+    </HeaderBase>
+</div>
+
+@code {
+    [Parameter] public string PageTitle { get; set; }
+
+    private string _themeModeIcon;
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        this.StartRefresh();
+        await base.OnInitializedAsync();
+    }
+
+    private void StartRefresh() => Task.Run(async () =>
+      {
+          while (true)
+          {
+              var user = this.profileService.User;
+              if (user != null && user.LogOffTimer.HasValue)
+              {
+                  this.timeoutHandler.CalculateDifferences(user.LogOffTimer);
+              }
+
+              await this.InvokeAsync(StateHasChanged);
+              await Task.Delay(TimeSpan.FromSeconds(5));
+          }
+      });
+
+    private string GetStateCss() => apiClient?.IsConnected ?? false ? "online" : "offline";
+}

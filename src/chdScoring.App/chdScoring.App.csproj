@@ -84,16 +84,11 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="chd.UI.Base.Components" Version="1.0.24284.68" />
-		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.24284.68" />
+		<PackageReference Include="chd.UI.Base.Components" Version="1.0.24284.69" />
+		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.24284.69" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\chdScoring.Contracts\chdScoring.Contracts.csproj" />
-		<ProjectReference Include="..\chdScoring.Main.Client\chdScoring.Main.Client.csproj" />
 	</ItemGroup>
 
 	<ProjectExtensions>
@@ -101,6 +96,10 @@
 			<UserProperties XamarinHotReloadDebuggerTimeoutExceptionchdScoringAppHideInfoBar="True" />
 		</VisualStudio>
 	</ProjectExtensions>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\chdScoring.App.UI\chdScoring.App.UI.csproj" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Update="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.91" />

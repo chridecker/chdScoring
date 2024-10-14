@@ -1,4 +1,4 @@
-﻿using chdScoring.App.Interfaces;
+﻿using chdScoring.App.UI.Interfaces;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
 

@@ -1,5 +1,5 @@
 ﻿using Blazored.Modal;
-using chdScoring.App.Constants;
+using chdScoring.App.UI.Constants;
 using chdScoring.App.Extensions;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;

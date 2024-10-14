@@ -6,7 +6,7 @@ using Android.Views;
 using AndroidX.Activity;
 using AndroidX.Core.View;
 using chd.UI.Base.Contracts.Interfaces.Services;
-using chdScoring.App.Interfaces;
+using chdScoring.App.UI.Interfaces;
 using System.Text.Json;
 
 namespace chdScoring.App

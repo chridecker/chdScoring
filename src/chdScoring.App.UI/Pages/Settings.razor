@@ -1,0 +1,21 @@
+﻿@inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
+@page "/settings"
+@using chdScoring.App.UI.Pages.Components
+
+<div class="settings">
+    <div class="setting">
+        Theme: 
+        <ThemeModeButton />
+    </div>
+    <div class="setting">
+        Basis Adresse:
+        <input type="text" value="@this._baseAddress" @onchange="async (e)=>await this.UpdateMainUrl(e)" />
+    </div>
+    <div class="setting">
+        <SettingCheckbox SettingText="Navigation automatisch ausblenden" Checked="@this._autocollapseNav" OnChange="async (e)=> await UpdateAutoCollapeseNavBar(e)" />
+    </div>
+    <div class="setting">
+        Auto Redirect:
+        <Selection Values="@this._redirectOptions" @bind-SelectedValue="this.SelectedAutoRedirect" />
+    </div>
+</div>
