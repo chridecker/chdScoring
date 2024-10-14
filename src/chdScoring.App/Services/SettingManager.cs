@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using chdScoring.App.UI.Interfaces;
+using chdScoring.App.UI.Services;
 
 namespace chdScoring.App.Services
 {
-    public class SettingManager : BaseClientSettingManager<int, int>, ISettingManager
+    public class SettingManager : BaseSettingManager
     {
         private string _mainUrl;
         private int? _judge;
@@ -19,37 +20,12 @@ namespace chdScoring.App.Services
 
         public SettingManager(ILogger<SettingManager> logger, IConfiguration configuration,
             IProtecedLocalStorageHandler protecedLocalStorageHandler,
-            NavigationManager navigationManager) : base(logger, protecedLocalStorageHandler, navigationManager)
+            NavigationManager navigationManager) : base(logger, configuration, protecedLocalStorageHandler, navigationManager)
         {
             this._configuration = configuration;
         }
-        public Task<string> MainUrl => Task.Run(async () =>
-        {
-            if (string.IsNullOrWhiteSpace(this._mainUrl))
-            {
-                this._mainUrl = await this.GetSettingLocal<string>(SettingConstants.BaseAddress) ??
-                this._configuration.GetApiKey("chdScoringApi").ToString();
-            }
-            return this._mainUrl;
-        });
 
-
-
-        public async Task UpdateMainUrl(string url)
-        {
-            this._mainUrl = url;
-            await this.StoreSettingLocal<string>(SettingConstants.BaseAddress, url);
-        }
-
-        public Task<string> GetAutoRedirectTo() => this.GetSettingLocal(SettingConstants.AutoRedirectTo);
-
-        public async Task SetAutoRedirectTo(string value)
-        {
-            await this.StoreSettingLocal(SettingConstants.AutoRedirectTo, value);
-            this.AutoRedirectToChanged?.Invoke(this, value);
-        }
-
-        public T? GetLocalSetting<T>(string key) where T : class
+        public override T? GetLocalSetting<T>(string key) where T : class
         {
             if (Preferences.ContainsKey(key))
             {
@@ -58,7 +34,7 @@ namespace chdScoring.App.Services
             return default(T);
         }
 
-        public void SetLocalSetting<T>(string key, T value) where T:class
+        public override void SetLocalSetting<T>(string key, T value) where T : class
         {
             Preferences.Default.Set<T>(key, value);
         }

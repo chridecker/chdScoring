@@ -14,7 +14,7 @@ namespace chdScoring.App.Extensions
     {
         public static IServiceCollection AddChdScoringApp(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddChdScoringAppUI<DialogHelper, VibrationHelper, UpdateService, SettingManager>(configuration);
+            services.AddChdScoringAppUI<VibrationHelper, UpdateService, SettingManager>(configuration);
 
 
 #if ANDROID

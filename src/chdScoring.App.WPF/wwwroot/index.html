@@ -1,24 +1,28 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <title>chdScoring.App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>chdScoring.App.WPF</title>
+
     <base href="/" />
-    <link href="chdScoring.App.styles.css" rel="stylesheet" />
+    <link href="chdScoring.App.WPF.styles.css" rel="stylesheet" />
     <link href="_content/chdScoring.App.UI/css/app.css" rel="stylesheet" />
     <link href="_content/chd.UI.Base.Components/css/chd.UI.Base.Components.css" rel="stylesheet" />
+
+    <link rel="icon" type="image/png" href="_content/chd.UI.TestUI.UI/favicon.png" />
+
+    <link href="chd.UI.TestUI.WPF.styles.css" rel="stylesheet" />
 </head>
 
 <body>
-
     <div class="status-bar-safe-area"></div>
-
     <div id="app" class="main-app">
         <div style="background: var(--chd-bg); color: var(--chd-main-color-theme); padding: .5rem">Wird geladen...</div>
     </div>
 
-    <div id="blazor-error-ui">
+    <div id="blazor-error-ui" data-nosnippet>
         An unhandled error has occurred.
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
@@ -28,9 +32,9 @@
     <script src="_content/chd.UI.Base.Components/js/CSSUtilities.js"></script>
     <script src="_content/chd.UI.Base.Components/js/ScrollScripts.js"></script>
     <script src="_content/chd.UI.Base.Components/js/qrcode.js"></script>
-
-    <script src="_framework/blazor.webview.js" autostart="false"></script>
     <script src="_content/chdScoring.App.UI/js/app.js"></script>
+
+    <script src="_framework/blazor.webview.js"></script>
 </body>
 
 </html>

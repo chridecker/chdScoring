@@ -16,9 +16,13 @@ namespace chdScoring.App.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        protected override void OnInitialized(EventArgs e)
         {
-            InitializeComponent();
+            this.WindowState = WindowState.Maximized;
+            this.WindowStyle = WindowStyle.SingleBorderWindow;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            base.OnInitialized(e);
         }
+        public void Reload() => this.blazorWebView.WebView.Reload();
     }
 }

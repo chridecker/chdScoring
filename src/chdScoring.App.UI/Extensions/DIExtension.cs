@@ -15,10 +15,9 @@ namespace chdScoring.App.UI.Extensions
 {
     public static class DIExtension
     {
-        public static IServiceCollection AddChdScoringAppUI<TDialogHelper, TVibrationHelper, TUpdateService, TSettingManager>(this IServiceCollection services, IConfiguration configuration)
-            where TDialogHelper : class, IDialogHelper
+        public static IServiceCollection AddChdScoringAppUI<TVibrationHelper, TUpdateService, TSettingManager>(this IServiceCollection services, IConfiguration configuration)
             where TVibrationHelper : class, IVibrationHelper
-            where TSettingManager : BaseClientSettingManager<int, int>, ISettingManager
+            where TSettingManager : BaseSettingManager, ISettingManager
             where TUpdateService : BaseUpdateService
         {
             services.AddAuthorizationCore();
@@ -27,7 +26,6 @@ namespace chdScoring.App.UI.Extensions
 
             services.AddMauiModalHandler();
 
-            services.AddSingleton<IDialogHelper, TDialogHelper>();
             services.AddSingleton<IKeyHandler, KeyHandler>();
             services.AddSingleton<IVibrationHelper, TVibrationHelper>();
 
