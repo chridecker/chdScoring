@@ -77,8 +77,8 @@ namespace chdScoring.DataAccess.DAL
                         Figur = dto.Figur,
                         Judge = dto.Judge,
                         Teilnehmer = dto.Pilot,
-                        Wert_alt = score.Wert,
-                        Wert_neu = dto.Value,
+                        Wert_alt = (float)score.Wert,
+                        Wert_neu = (float)dto.Value,
                         Time = DateTime.Now,
                         User = dto.User
                     }, cancellationToken);
