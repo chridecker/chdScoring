@@ -52,7 +52,7 @@ namespace chdScoring.App.UI.Helper
 
             connection.On<NotificationDto>(nameof(IFlightHub.ReceiveNotification), (dto) =>
             {
-                this._notificationManagerService.SendNotification(dto.Title, dto.Message, DateTime.Now.AddSeconds(dto.Seconds));
+                this._notificationManagerService.SendNotification(dto.Title, dto.Message);
             });
         }
 
