@@ -86,7 +86,8 @@ namespace chdScoring.App.UI.Pages
                     Figur = dto.Id,
                     Judge = this._judge,
                     Round = this._dto.Round.Id,
-                    Value = dto.Score.Value
+                    Value = dto.Score.Value,
+                    User = this._profileService.User.Id
                 }, this._cts.Token);
             }
         }

@@ -6,5 +6,9 @@
 
         public const string AutoRedirectTo = "AutoRedirectTo";
         public const string AutoCollapseNavbar_Key = "AutoCollapseNavbar";
+
+        public const string Use_ControlBoard = "USE_ControlBoard";
+        public const string Use_CompMgmt = "USE_Comp_Mgmt";
+        public const string Use_Scoring = "USE_Scoring";
     }
 }

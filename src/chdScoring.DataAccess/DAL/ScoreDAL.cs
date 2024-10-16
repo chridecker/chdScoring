@@ -12,9 +12,12 @@ namespace chdScoring.DataAccess.DAL
 {
     public class ScoreDAL : BaseDAL, IScoreDAL
     {
-        public ScoreDAL(ILogger<ScoreDAL> logger, IWettkampfLeitungRepository wettkampfLeitungRepository,
+        private readonly IWertungHistoryRepository _wertungHistoryRepository;
+
+        public ScoreDAL(ILogger<ScoreDAL> logger, IWettkampfLeitungRepository wettkampfLeitungRepository, IWertungHistoryRepository wertungHistoryRepository,
             ITeilnehmerRepository teilnehmerRepository, IJudgeRepository judgeRepository, IFigurRepository figurRepository, IProgrammRepository programmRepository, IWertungRepository wertungRepository, IKlasseRepository klasseRepository, ICountryImageRepository countryImageRepository, IImageRepository imageRepository, IDurchgangPanelRepository durchgangPanelRepository, IDurchgangProgramRepository durchgangProgramRepository, IFigurProgrammRepository figurProgrammRepository, IJudgePanelRepository judgePanelRepository, IStammDatenRepository stammDatenRepository, IBebwerbRepository bebwerbRepository, IDurchgangRepository durchgangRepository, ITeilnehmerBewerbRepository teilnehmerBewerbRepository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, figurProgrammRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
         {
+            this._wertungHistoryRepository = wertungHistoryRepository;
         }
 
         public async Task<NotificationDto> CreateZeroNotification(SaveScoreDto dto)
@@ -68,6 +71,17 @@ namespace chdScoring.DataAccess.DAL
                 var score = await this._wertungRepository.Find(dto.Pilot, dto.Round, dto.Figur, dto.Judge, cancellationToken);
                 if (score != null)
                 {
+                    await this._wertungHistoryRepository.SaveAsync(new Wertung_History
+                    {
+                        Durchgang = dto.Round,
+                        Figur = dto.Figur,
+                        Judge = dto.Judge,
+                        Teilnehmer = dto.Pilot,
+                        Wert_alt = score.Wert,
+                        Wert_neu = dto.Value,
+                        Time = DateTime.Now,
+                        User = dto.User
+                    }, cancellationToken);
                     score.Wert = dto.Value;
                     await this._wertungRepository.SaveAsync(score, cancellationToken);
                     return true;

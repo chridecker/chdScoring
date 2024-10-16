@@ -6,6 +6,7 @@
         public int Pilot { get; set; }
         public int Round { get; set; }
         public int Judge { get; set; }
+        public int User { get; set; }
         public decimal Value { get; set; }
     }
 }
