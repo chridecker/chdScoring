@@ -1,6 +1,8 @@
 ﻿@inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
 @page "/settings"
+@using chd.UI.Base.Client.Implementations.Authorization
 @using chdScoring.App.UI.Pages.Components
+@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.Setting })]
 
 <div class="settings">
     <div class="setting">
