@@ -30,10 +30,21 @@
 .side-widget-container .side-widget {
     top: calc(var(--top-header-height) * 2 + var(--child-index) * calc(var(--widget-button-total-size) + var(--widget-button-padding))) !important;
 }
-.side-widget-container .side-widget.active {
-    top: calc(var(--top-header-height) * 2) !important;
+
+    .side-widget-container .side-widget.active {
+        top: calc(var(--top-header-height) * 2) !important;
+    }
+
+.fab-navigation {
+    bottom: 1.5rem !important;
 }
 
+    .fab-navigation .fab-navigation-control {
+    }
+
+        .fab-navigation .fab-navigation-control .btn {
+            border-radius: calc(var(--floating-action-navigation-size) / 3) !important; 
+        }
 
 
 @media (min-width: 768px) {
@@ -59,7 +70,6 @@
         --widget-height: 33rem !important;
     }
 
-    
 
     .top-row:not(.auth) {
         display: flex !important;
@@ -78,7 +88,7 @@
             .top-row .header-panel .ui-header .right-content {
                 position: relative !important;
                 display: flex !important;
-                column-gap: 0.1rem !important; 
+                column-gap: 0.1rem !important;
                 gap: 0.1rem;
                 flex-direction: row;
                 justify-content: center;
@@ -86,10 +96,11 @@
 
                 .top-row .header-panel .ui-header .right-content .userBox {
                     font-size: 10pt !important;
-                    flex:0 2 auto;
+                    flex: 0 2 auto;
                     height: var(--top-header-height);
                     width: 15rem !important;
                 }
+
                 .top-row .header-panel .ui-header .right-content .versionBox {
                     flex: 0 2 auto;
                     font-size: 10pt !important;
@@ -111,7 +122,6 @@
         width: 13rem;
     }
 }
-
 
 .blazored-modal {
 }
