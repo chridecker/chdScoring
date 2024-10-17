@@ -50,7 +50,7 @@
 @media (min-width: 768px) {
     * {
         --top-header-padding-tb: 0 !important;
-        --top-header-height: 1.5rem !important;
+        --top-header-height: 1rem !important;
     }
 
     .top-row {
@@ -70,6 +70,9 @@
         --widget-height: 33rem !important;
     }
 
+    main {
+        margin-top: 0 !important;
+    }
 
     .top-row:not(.auth) {
         display: flex !important;
@@ -77,7 +80,7 @@
 
     .top-row .header-panel {
         padding-left: 0.2rem;
-        padding-right: 0.2rem;
+        padding-right: 0.4rem;
     }
 
         .top-row .header-panel .ui-header {
@@ -94,20 +97,22 @@
                 gap: 0.1rem;
                 flex-direction: row;
                 justify-content: center;
+                align-items: center;
+                align-content: center;
             }
 
                 .top-row .header-panel .ui-header .right-content .userBox {
                     font-size: 10pt !important;
                     flex: 0 2 auto;
-                    height: var(--top-header-height);
+                    height: max-content !important;
                     width: 15rem !important;
                 }
 
                 .top-row .header-panel .ui-header .right-content .versionBox {
                     flex: 0 2 auto;
                     font-size: 10pt !important;
-                    height: var(--top-header-height);
                     width: 10rem !important;
+                    height: max-content !important;
                     margin-left: 0.5rem;
                 }
 
@@ -122,11 +127,10 @@
 
                 .top-row .header-panel .ui-header .right-content > .battery-container {
                     flex: 1 0 auto;
-                }
-                .top-row .header-panel .ui-header .right-content > .battery-container {
                     margin-left: 0.5rem;
                     flex-direction: row-reverse;
                 }
+
 
     .outer input {
         width: 13rem;
