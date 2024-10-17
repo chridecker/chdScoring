@@ -91,17 +91,17 @@ namespace chdScoring.App.Platforms.Android
               ? PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable
           : PendingIntentFlags.UpdateCurrent;
 
-            var remoteInput = new  AndroidX.Core.App.RemoteInput.Builder("key_text_reply")
-    .SetLabel("Your answer...")
-    .Build();
+    //        var remoteInput = new  AndroidX.Core.App.RemoteInput.Builder("key_text_reply")
+    //.SetLabel("Your answer...")
+    //.Build();
 
             var pendingIntent = PendingIntent.GetActivity(Platform.AppContext, this.pendingIntentId++, intent, pendingIntentFlags);
-            var replyAction = new NotificationCompat.Action.Builder(Resource.Drawable.logo_small, "Reply", pendingIntent)
-                .AddRemoteInput(remoteInput)
-                .Build();
+            //var replyAction = new NotificationCompat.Action.Builder(Resource.Drawable.logo_small, "Reply", pendingIntent)
+            //    .AddRemoteInput(remoteInput)
+            //    .Build();
 
             var notification = new NotificationCompat.Builder(Platform.AppContext, channelId)
-                .AddAction(replyAction)
+                //.AddAction(replyAction)
                 .SetContentIntent(pendingIntent)
                 .SetContentTitle(title)
                 .SetContentText(message)

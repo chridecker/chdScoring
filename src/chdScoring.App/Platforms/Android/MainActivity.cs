@@ -49,7 +49,7 @@ namespace chdScoring.App
         {
             if (intent?.Extras != null)
             {
-                var reply = this.GetReply(intent);
+                //var reply = this.GetReply(intent);
 
                 var id = intent.GetIntExtra(Platforms.Android.NotificationManagerService.IdKey, 0);
                 var title = intent.GetStringExtra(Platforms.Android.NotificationManagerService.TitleKey);
@@ -66,19 +66,19 @@ namespace chdScoring.App
                     var t = Type.GetType(type);
                     intentData = JsonSerializer.Deserialize(data, t);
                 }
-                this._notificationManagerService.ReceiveNotification(new NotificationEventArgs(id, title, $"{reply} / {message}", intentData, cancel));
+                this._notificationManagerService.ReceiveNotification(new NotificationEventArgs(id, title, message, intentData, cancel));
             }
         }
 
-        private string GetReply(Intent intent)
-        {
-            var input = RemoteInput.GetResultsFromIntent(intent);
-            if (input is not null)
-            {
-                return input.GetCharSequence("key_text_reply", "");
-            }
-            return string.Empty;
-        }
+        //private string GetReply(Intent intent)
+        //{
+        //    var input = RemoteInput.GetResultsFromIntent(intent);
+        //    if (input is not null)
+        //    {
+        //        return input.GetCharSequence("key_text_reply", "");
+        //    }
+        //    return string.Empty;
+        //}
 
         class BackPress : OnBackPressedCallback
         {
