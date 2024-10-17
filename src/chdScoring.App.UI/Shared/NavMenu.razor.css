@@ -1,5 +1,5 @@
 .nav-menu ::deep .sidebar {
-    padding: 0.2rem;
+    padding: 0;
 }
 
     .nav-menu ::deep .sidebar.collapsed {

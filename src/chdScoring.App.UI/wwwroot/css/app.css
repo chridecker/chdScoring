@@ -51,7 +51,7 @@
 @media (min-width: 768px) {
     * {
         --top-header-padding-tb: 0 !important;
-        --top-header-height: 1rem !important;
+        --top-header-height: 1.5rem !important;
     }
 
     .top-row {
