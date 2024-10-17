@@ -43,7 +43,7 @@
     }
 
         .fab-navigation .fab-navigation-control .btn {
-            border-radius: calc(var(--floating-action-navigation-size) / 3) !important; 
+            border-radius: calc(var(--floating-action-navigation-size) / 3) !important;
         }
 
 
@@ -76,6 +76,8 @@
     }
 
     .top-row .header-panel {
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
     }
 
         .top-row .header-panel .ui-header {
@@ -116,6 +118,14 @@
 
                 .top-row .header-panel .ui-header .right-content .theme-mode {
                     display: none;
+                }
+
+                .top-row .header-panel .ui-header .right-content > .battery-container {
+                    flex: 1 0 auto;
+                }
+                .top-row .header-panel .ui-header .right-content > .battery-container {
+                    margin-left: 0.5rem;
+                    flex-direction: row-reverse;
                 }
 
     .outer input {

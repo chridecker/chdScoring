@@ -6,6 +6,7 @@
 @using chd.UI.Base.Client.Implementations.Services
 @inject INotificationManagerService notificationService
 @inject IModalService modal
+@inject IBatteryService battery
 
 @attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.UIX })]
 
@@ -19,6 +20,8 @@
     <IconButton FAClass="comment" OnClick="this.Alert" />
 </div>
 
+<Battery BatteryLevel="this.battery.BatteryLevel" Charging="this.battery.Charging" FullLevel="95" LowLevel="15" />
+
 @code
 {
     private string _title;
@@ -27,6 +30,7 @@
     protected override async Task OnInitializedAsync()
     {
         this.notificationService.NotificationReceived += this.NotificationReceived;
+        this.battery.InfoChanged += this.InfoChanged;
         await base.OnInitializedAsync();
     }
 
@@ -40,8 +44,14 @@
         await this.modal.ShowDialog(e.Message, chd.UI.Base.Contracts.Enum.EDialogButtons.OK);
     }
 
+    private async void InfoChanged(object sender, EventArgs e)
+    {
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
     public void Dispose()
     {
+        this.battery.InfoChanged -= this.InfoChanged;
         this.notificationService.NotificationReceived -= this.NotificationReceived;
     }
 }

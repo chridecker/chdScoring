@@ -115,6 +115,9 @@
 
             .header-panel ::deep .ui-header > .right-content > .theme-mode {
                 margin-right: 1rem;
+            }
+
+            .header-panel ::deep .ui-header > .right-content > .battery-container {
 
             }
 

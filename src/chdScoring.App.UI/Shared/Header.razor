@@ -4,6 +4,8 @@
 @inject IchdScoringProfileService profileService
 @inject ITimeoutHandler timeoutHandler
 @inject IJudgeHubClient apiClient
+@inject IBatteryService batteryService
+@implements IDisposable
 @inherits LayoutComponentBase
 
 <div class="header-panel">
@@ -12,6 +14,7 @@
             <div class="networkBox">
                 <div class="liquid @GetStateCss()"></div>
             </div>
+            <Battery BatteryLevel="this.batteryService.BatteryLevel" Charging="this.batteryService.Charging" FullLevel="95" LowLevel="15" />
             <ThemeModeButton />
         </RightChildContent>
     </HeaderBase>
@@ -21,17 +24,23 @@
     [Parameter] public string PageTitle { get; set; }
 
     private string _themeModeIcon;
+    private CancellationTokenSource _cts = new();
 
     protected override async Task OnInitializedAsync()
     {
-        
         this.StartRefresh();
+        this.batteryService.InfoChanged += this.InfoChanged;
         await base.OnInitializedAsync();
+    }
+
+    private async void InfoChanged(object sender, EventArgs e)
+    {
+        await this.InvokeAsync(this.StateHasChanged);
     }
 
     private void StartRefresh() => Task.Run(async () =>
       {
-          while (true)
+          while (!this._cts.Token.IsCancellationRequested)
           {
               var user = this.profileService.User;
               if (user != null && user.LogOffTimer.HasValue)
@@ -45,4 +54,11 @@
       });
 
     private string GetStateCss() => apiClient?.IsConnected ?? false ? "online" : "offline";
+
+    public void Dispose()
+    {
+        this.batteryService.InfoChanged -= this.InfoChanged;
+        this._cts.Cancel();
+        this._cts.Dispose();
+    }
 }
