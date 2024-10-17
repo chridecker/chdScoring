@@ -48,14 +48,9 @@
     </SideWidget>
 </SideWidgetContainer>
 
-<FloatingActionNavigation>
+<FloatingActionNavigation FAIconActive="floppy-disk" OnClick="async () => await this.SaveRound()" TextActive="Save Round">
     @if (this._dto is not null)
     {
-        <FloatingActionButton FAClass="floppy-disk"
-                              OnClick="async () => await this.SaveRound()"
-                              Title="Save Round"
-                              CssClass="dot-btn-save large" />
-
         <FloatingActionButton FAClass="pause"
                               OnClick="async () => await this.SetBreak()"
                               Title="Break"
