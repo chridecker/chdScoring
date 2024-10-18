@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Playwright;
 using System.Drawing.Printing;
 
@@ -7,10 +10,14 @@ namespace chdScoring.PrintService.Services
     public class PrintService : BackgroundService
     {
         private readonly IPrintCache _printCache;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ILoggerFactory _loggerFactory;
 
-        public PrintService(IPrintCache printCache)
+        public PrintService(IPrintCache printCache, IServiceProvider serviceProvider, ILoggerFactory loggerFactory)
         {
             this._printCache = printCache;
+            this._serviceProvider = serviceProvider;
+            this._loggerFactory = loggerFactory;
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)
@@ -76,9 +83,16 @@ namespace chdScoring.PrintService.Services
                 {
                     Headless = true,
                 });
+                using var client = new HttpClient()
+                {
+                    BaseAddress = new Uri(dto.Url)
+                };
+                var html = await client.GetStringAsync("");
+
+
                 var page = await browser.NewPageAsync(new()
                 {
-                    BaseURL = dto.Url
+                    Content = html
                 });
                 await page.PdfAsync(new PagePdfOptions()
                 {
@@ -88,6 +102,22 @@ namespace chdScoring.PrintService.Services
                 });
                 await page.CloseAsync();
             }
+        }
+
+        private async Task HandleWithComponent()
+        {
+            await using var renderer = new HtmlRenderer(this._serviceProvider, this._loggerFactory);
+           var html = await  renderer.Dispatcher.InvokeAsync(async () =>
+            {
+                var dict = new Dictionary<string, object>()
+                {
+
+                };
+
+                var param = ParameterView.FromDictionary(dict);
+                var output = await renderer.RenderComponentAsync<Comonent>(param);
+                return output.ToHtmlString();
+            });
         }
 
         private void PrintFile(FileInfo info)
