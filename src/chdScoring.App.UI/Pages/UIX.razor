@@ -20,6 +20,8 @@
     <IconButton FAClass="comment" OnClick="this.Alert" />
 </div>
 
+<IconButton FAClass="xmark" OnClick="Error" />
+
 <Battery BatteryLevel="this.battery.BatteryLevel" Charging="this.battery.Charging" FullLevel="95" LowLevel="15" />
 
 @code
@@ -32,6 +34,11 @@
         this.notificationService.NotificationReceived += this.NotificationReceived;
         this.battery.InfoChanged += this.InfoChanged;
         await base.OnInitializedAsync();
+    }
+
+    private void Error()
+    {
+        throw new Exception("Test");
     }
 
     private async Task Alert()

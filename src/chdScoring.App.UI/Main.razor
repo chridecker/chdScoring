@@ -1,6 +1,9 @@
-﻿<CascadingToolTip>
+﻿@using chd.UI.Base.Components.General.ErrorHandling
+
+<CascadingToolTip>
     <CascadingDropList>
         <CascadingBlazoredModal Position="ModalPosition.Middle" AnimationType="ModalAnimationType.None" Size="ModalSize.Automatic" HideCloseButton="false">
+            <CustomErrorBoundary >
             <Router AppAssembly="@typeof(Main).Assembly">
                 <Found Context="routeData">
                     <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(chdScoring.App.UI.Shared.MainLayout)">
@@ -16,6 +19,7 @@
                     </LayoutView>
                 </NotFound>
             </Router>
+            </CustomErrorBoundary>
         </CascadingBlazoredModal>
     </CascadingDropList>
 </CascadingToolTip>

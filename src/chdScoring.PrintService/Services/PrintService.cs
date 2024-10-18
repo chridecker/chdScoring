@@ -78,47 +78,47 @@ namespace chdScoring.PrintService.Services
         {
             while (this._printCache.TryTake(out var dto, cancellationToken))
             {
-                using var playwright = await Playwright.CreateAsync();
-                var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
-                {
-                    Headless = true,
-                });
-                using var client = new HttpClient()
-                {
-                    BaseAddress = new Uri(dto.Url)
-                };
-                var html = await client.GetStringAsync("");
+                //using var playwright = await Playwright.CreateAsync();
+                //var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+                //{
+                //    Headless = true,
+                //});
+                //using var client = new HttpClient()
+                //{
+                //    BaseAddress = new Uri(dto.Url)
+                //};
+                //var html = await client.GetStringAsync("");
 
 
-                var page = await browser.NewPageAsync(new()
-                {
-                    Content = html
-                });
-                await page.PdfAsync(new PagePdfOptions()
-                {
-                    Format = "A4",
-                    Landscape = false,
-                    Path = $"Pdf/test.pdf"
-                });
-                await page.CloseAsync();
+                //var page = await browser.NewPageAsync(new()
+                //{
+                //    Content = html
+                //});
+                //await page.PdfAsync(new PagePdfOptions()
+                //{
+                //    Format = "A4",
+                //    Landscape = false,
+                //    Path = $"Pdf/test.pdf"
+                //});
+                //await page.CloseAsync();
             }
         }
 
-        private async Task HandleWithComponent()
-        {
-            await using var renderer = new HtmlRenderer(this._serviceProvider, this._loggerFactory);
-           var html = await  renderer.Dispatcher.InvokeAsync(async () =>
-            {
-                var dict = new Dictionary<string, object>()
-                {
+        //private async Task HandleWithComponent()
+        //{
+        //    await using var renderer = new HtmlRenderer(this._serviceProvider, this._loggerFactory);
+        //   var html = await  renderer.Dispatcher.InvokeAsync(async () =>
+        //    {
+        //        var dict = new Dictionary<string, object>()
+        //        {
 
-                };
+        //        };
 
-                var param = ParameterView.FromDictionary(dict);
-                var output = await renderer.RenderComponentAsync<Comonent>(param);
-                return output.ToHtmlString();
-            });
-        }
+        //        var param = ParameterView.FromDictionary(dict);
+        //        var output = await renderer.RenderComponentAsync<Comonent>(param);
+        //        return output.ToHtmlString();
+        //    });
+        //}
 
         private void PrintFile(FileInfo info)
         {
