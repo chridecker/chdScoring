@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Playwright;
 using System.Drawing.Printing;
 
 namespace chdScoring.PrintService.Services
@@ -52,8 +53,7 @@ namespace chdScoring.PrintService.Services
             {
                 try
                 {
-                    if (!string.IsNullOrWhiteSpace(this._printCache.Printer)
-                        && ((IEnumerable<string>)PrinterSettings.InstalledPrinters).Contains(this._printCache.Printer))
+                    if (!string.IsNullOrWhiteSpace(this._printCache.Printer))
                     {
                         await this.HandleCache(stoppingToken);
                     }
@@ -71,7 +71,22 @@ namespace chdScoring.PrintService.Services
         {
             while (this._printCache.TryTake(out var dto, cancellationToken))
             {
-
+                using var playwright = await Playwright.CreateAsync();
+                var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+                {
+                    Headless = true,
+                });
+                var page = await browser.NewPageAsync(new()
+                {
+                    BaseURL = dto.Url
+                });
+                await page.PdfAsync(new PagePdfOptions()
+                {
+                    Format = "A4",
+                    Landscape = false,
+                    Path = $"Pdf/test.pdf"
+                });
+                await page.CloseAsync();
             }
         }
 

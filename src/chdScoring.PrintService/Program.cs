@@ -8,6 +8,10 @@ using Microsoft.Extensions.Logging;
 using NLog.Web;
 using WindowsFormsLifetime;
 
+
+//Microsoft.Playwright.Program.Main(["install"]);
+//return;
+
 var path = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
 
 var config = new ConfigurationBuilder().AddJsonFile(path).Build();
