@@ -46,16 +46,28 @@ namespace chdScoring.App.UI.Pages
         [Inject] private IScoringService _scoringService { get; set; }
         [Inject] private IJudgeDataCache _judgeDataCache { get; set; }
         [Inject] private IScrollInfoService _scrollInfoService { get; set; }
+        [Inject] private IBatteryService _batteryService { get; set; }
+        [Inject] private IVibrationHelper _vibrationHelper { get; set; }
         protected override async Task OnInitializedAsync()
         {
             this.Title = PageTitleConstants.Scoring;
             this._scrollInfoService.OnScroll += this._scrollInfoService_OnScroll;
             this._profileService.UserChanged += this._profileService_UserChanged;
+            this._batteryService.InfoChanged += this._batteryService_InfoChanged;
 
             await this.LoadData();
             this.ResendUnsavedScore(this._cts.Token);
 
             await base.OnInitializedAsync();
+        }
+
+        private async void _batteryService_InfoChanged(object? sender, EventArgs e)
+        {
+            if (this._batteryService.BatteryLevel < 15)
+            {
+                await this._vibrationHelper.Vibrate(5, TimeSpan.FromMilliseconds(200), this._cts.Token);
+                await this._modal.ShowDialog("Batterlevel kritisch!", EDialogButtons.OK);
+            }
         }
 
         private void _scrollInfoService_OnScroll(object sender, int e)
@@ -158,6 +170,7 @@ namespace chdScoring.App.UI.Pages
         {
             this._profileService.UserChanged -= this._profileService_UserChanged;
             this._scrollInfoService.OnScroll -= this._scrollInfoService_OnScroll;
+            this._batteryService.InfoChanged -= this._batteryService_InfoChanged;
             this._cts.Cancel();
         }
     }
