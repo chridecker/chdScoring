@@ -113,6 +113,7 @@ namespace chdScoring.App.UI.Pages
             this._judge = this._profileService.User.Id;
             if (!this._judgeHubClient.IsConnected) { await this._judgeHubClient.StartAsync(this._cts.Token); }
             await this._judgeHubClient.Register(this._judge, this._cts.Token);
+            await this._judgeHubClient.RegisterStatus(this._cts.Token);
             this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
             this._dto = this._judgeDataCache.Data ?? await this._judgeService.GetCurrentFlight();
         }
