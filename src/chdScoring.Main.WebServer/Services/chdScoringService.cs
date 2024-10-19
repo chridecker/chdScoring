@@ -36,6 +36,7 @@ namespace chdScoring.Main.WebServer.Services
             {
                 using var scope = this._serviceProvider.CreateScope();
                 await scope.ServiceProvider.GetService<IHubDataService>().SendAll(cancellationToken);
+                await scope.ServiceProvider.GetService<IHubDataService>().RequestStatus(cancellationToken);
                 await Task.Delay(this._optionsMonitor.CurrentValue.SendInterval, cancellationToken);
             }
         }, cancellationToken);

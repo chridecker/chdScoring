@@ -3,17 +3,21 @@ using chdScoring.App.UI.Constants;
 using chd.UI.Base.Components.Base;
 using chd.UI.Base.Components.General;
 using chdScoring.App.UI.Interfaces;
+using chd.UI.Base.Contracts.Interfaces.Update;
 
 namespace chdScoring.App.UI.Pages
 {
     public partial class Settings : PageComponentBase<int, int>
     {
         [Inject] private ISettingManager _settingManager { get; set; }
+        [Inject] private IUpdateService _updateService { get; set; }
 
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
         private string _baseAddress = string.Empty;
+        private Version _currentVersion;
         private bool _autocollapseNav = false;
+        private bool _developerMode = false;
         private string _autoRedirect;
         private Dictionary<string, RenderFragment> _redirectOptions = new Dictionary<string, RenderFragment>();
 
@@ -35,8 +39,9 @@ namespace chdScoring.App.UI.Pages
             this.Title = PageTitleConstants.Settings;
 
             this._baseAddress = await this._settingManager.MainUrl;
-
-            this._autocollapseNav = await this._settingManager.GetSettingLocal<bool>(SettingConstants.AutoCollapseNavbar_Key); ;
+            this._currentVersion = await this._updateService.CurrentVersion();
+            this._autocollapseNav = await this._settingManager.GetSettingLocal<bool>(SettingConstants.AutoCollapseNavbar_Key);
+            this._developerMode = await this._settingManager.GetSettingLocal<bool>(SettingConstants.DeveloperMode);
             this._autoRedirect = await this._settingManager.GetSettingLocal(SettingConstants.AutoRedirectTo);
 
             await this.InitSelection();
@@ -70,6 +75,12 @@ namespace chdScoring.App.UI.Pages
         private async Task UpdateAutoCollapeseNavBar(ChangeEventArgs e)
         {
             await this._settingManager.StoreSettingLocal<bool>(SettingConstants.AutoCollapseNavbar_Key, (bool)e.Value);
+            await this.InvokeAsync(this.StateHasChanged);
+        }
+
+        private async Task UpdateDeveloperMode(ChangeEventArgs e)
+        {
+            await this._settingManager.StoreSettingLocal<bool>(SettingConstants.DeveloperMode, (bool)e.Value);
             await this.InvokeAsync(this.StateHasChanged);
         }
 

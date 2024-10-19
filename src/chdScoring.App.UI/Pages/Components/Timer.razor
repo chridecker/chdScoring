@@ -3,6 +3,7 @@
 @using chdScoring.Contracts.Interfaces
 @using chdScoring.Contracts.Enums
 @inject ITimerService timerService
+@inject IVibrationHelper virbationHelper
 
 <div class="timer">
     <div class="pilot">
@@ -33,17 +34,12 @@
 
     private async Task StartStop(ETimerOperation operaetion)
     {
-        try
-        {
-            var dto = new TimerOperationDto
-                {
-                    Airfield = this.Airfield,
-                    Operation = operaetion
-                };
-            await this.timerService.HandleOperation(dto, this.CancellationToken);
-        }
-        catch
-        {
-        }
+        var dto = new TimerOperationDto
+            {
+                Airfield = this.Airfield,
+                Operation = operaetion
+            };
+        await this.timerService.HandleOperation(dto, this.CancellationToken);
+        this.virbationHelper.Vibrate(TimeSpan.FromMilliseconds(200));
     }
 }

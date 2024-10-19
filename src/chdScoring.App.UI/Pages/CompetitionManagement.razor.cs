@@ -54,18 +54,11 @@ namespace chdScoring.App.UI.Pages
             {
                 return;
             }
-            try
+            await this._pilotService.UnLoadPilot(new LoadPilotDto
             {
-                await this._pilotService.UnLoadPilot(new LoadPilotDto
-                {
-                    Pilot = this._dto.Pilot.Id,
-                    Round = this._dto.Round.Id
-                }, this._cts.Token);
-            }
-            catch (Exception ex)
-            {
-                await this._modal.ShowDialog(ex.Message, EDialogButtons.OK);
-            }
+                Pilot = this._dto.Pilot.Id,
+                Round = this._dto.Round.Id
+            }, this._cts.Token);
         }
 
         private async Task LoadRoundResult()
@@ -107,30 +100,19 @@ namespace chdScoring.App.UI.Pages
 
         private async Task LoadNextPilot(bool takeFirst = false)
         {
-            try
+            var pilots = await this._pilotService.GetOpenRound(this._dto?.Round?.Id, this._cts.Token);
+            if (pilots.Any())
             {
-                var pilots = await this._pilotService.GetOpenRound(this._dto?.Round?.Id, this._cts.Token);
-                if (pilots.Any())
+                OpenRoundDto dto = takeFirst ? pilots.OrderBy(o => o.StartNumber).FirstOrDefault() : await this.ChoosePilotModal(pilots);
+                if (dto != null && await this._pilotService.SetPilotActive(new LoadPilotDto
                 {
-                    OpenRoundDto dto = takeFirst ? pilots.OrderBy(o => o.StartNumber).FirstOrDefault() : await this.ChoosePilotModal(pilots);
-                    if (dto != null && await this._pilotService.SetPilotActive(new LoadPilotDto
-                    {
-                        Pilot = dto.Pilot.Id,
-                        Round = dto.Round
-                    }, this._cts.Token))
-                    {
-                        this._vibrationHelper.Vibrate(TimeSpan.FromSeconds(0.5));
-                    }
+                    Pilot = dto.Pilot.Id,
+                    Round = dto.Round
+                }, this._cts.Token))
+                {
+                    this._vibrationHelper.Vibrate(TimeSpan.FromSeconds(0.5));
                 }
-
             }
-            catch (Exception ex)
-            {
-                await this._vibrationHelper.Vibrate(3, TimeSpan.FromSeconds(0.3), this._cts.Token);
-                await this._modal.ShowDialog(ex.Message, EDialogButtons.OK);
-                return;
-            }
-
         }
 
         private async Task<OpenRoundDto> ChoosePilotModal(IEnumerable<OpenRoundDto> pilots)

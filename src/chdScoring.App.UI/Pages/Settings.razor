@@ -6,7 +6,10 @@
 
 <div class="settings">
     <div class="setting">
-        Theme: 
+        Version: @this._currentVersion
+    </div>
+    <div class="setting">
+        Theme:
         <ThemeModeButton />
     </div>
     <div class="setting">
@@ -19,5 +22,8 @@
     <div class="setting">
         Auto Redirect:
         <Selection Values="@this._redirectOptions" @bind-SelectedValue="this.SelectedAutoRedirect" />
+    </div>
+    <div class="setting">
+        <SettingCheckbox SettingText="Entwickler Modus" Checked="@this._developerMode" OnChange="async (e)=> await UpdateDeveloperMode(e)" />
     </div>
 </div>

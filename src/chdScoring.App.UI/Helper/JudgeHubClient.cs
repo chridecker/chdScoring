@@ -4,6 +4,7 @@ using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
+using System.Threading;
 
 namespace chdScoring.App.UI.Helper
 {
@@ -54,6 +55,14 @@ namespace chdScoring.App.UI.Helper
             {
                 this._notificationManagerService.SendNotification(dto.Title, dto.Message);
             });
+
+            connection.On(nameof(IFlightHub.ReceiveStatusRequest), async () =>
+            {
+                await this.SendAsync(async (conn) =>
+                {
+                    await conn.SendAsync(nameof(IFlightHub.SendStatus),new DeviceStatusDto());
+                });
+            });
         }
 
         public Task Register(int judge, CancellationToken cancellationToken = default)
@@ -68,6 +77,11 @@ namespace chdScoring.App.UI.Helper
             {
                 await conn.SendAsync(nameof(IFlightHub.RegisterAsControlCenter), cancellationToken);
             });
+        public Task RegisterStatus(CancellationToken cancellationToken = default)
+        => this.SendAsync(async (conn) =>
+            {
+                await conn.SendAsync(nameof(IFlightHub.RegisterAsStatus), cancellationToken);
+            });
     }
-   
+
 }

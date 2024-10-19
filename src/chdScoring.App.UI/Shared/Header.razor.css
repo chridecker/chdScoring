@@ -25,6 +25,7 @@
             }
 
             .header-panel ::deep .ui-header > .right-content > .versionBox {
+                display:none;
                 grid-column: 4;
                 grid-row: 1;
             }

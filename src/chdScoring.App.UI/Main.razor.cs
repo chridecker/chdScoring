@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using chd.UI.Base.Contracts.Interfaces.Authentication;
 using chd.UI.Base.Contracts.Interfaces.Services;
 using chdScoring.App.UI.Interfaces;
+using chdScoring.App.UI.Constants;
 
 namespace chdScoring.App.UI
 {
@@ -9,14 +10,18 @@ namespace chdScoring.App.UI
     {
         [Inject] IProfileService<int, int> _profileService { get; set; }
         [Inject] ISettingManager _settingManager { get; set; }
+        [Inject] IVibrationHelper _vibrationHelper { get; set; }
         [Inject] IBaseUIComponentHandler _baseUIComponentHandler { get; set; }
         [Inject] NavigationManager _navManager { get; set; }
 
         private string _autoRedirect;
+        private bool _isDeveloperMode;
 
         protected override async Task OnInitializedAsync()
         {
             this._settingManager.AutoRedirectToChanged += this.AutoRedirectToChanged;
+
+            this._isDeveloperMode = await this._settingManager.GetSettingLocal<bool>(SettingConstants.DeveloperMode);
             await base.OnInitializedAsync();
         }
 
@@ -34,6 +39,10 @@ namespace chdScoring.App.UI
                 }
             }
             await base.OnAfterRenderAsync(firstRender);
+        }
+        private async Task HandleError()
+        {
+            await this._vibrationHelper.Vibrate(3, TimeSpan.FromMilliseconds(300));
         }
 
         private async void AutoRedirectToChanged(object? sender, string e) => await this.ReloadAutoRedirect();

@@ -23,6 +23,10 @@ namespace chdScoring.BusinessLogic.Services
         {
             await this._hub.Clients.All.ReceiveFlightData(this._cacheService.GetCurrentFlight(DateTime.Now), cancellationToken);
         }
+        public async Task RequestStatus(CancellationToken cancellationToken)
+        {
+            await this._hub.Clients.Group("status").ReceiveStatusRequest(cancellationToken);
+        }
 
         public async Task SendJudge(int judge, CancellationToken cancellationToken)
         {
@@ -36,6 +40,7 @@ namespace chdScoring.BusinessLogic.Services
     {
         Task NotifyZero(NotificationDto dto, CancellationToken cancellationToken);
         Task SendAll(CancellationToken cancellationToken);
+        Task RequestStatus(CancellationToken cancellationToken);
         Task SendJudge(int judge, CancellationToken cancellationToken);
     }
 }
