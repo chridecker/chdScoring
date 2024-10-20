@@ -8,5 +8,6 @@ namespace chdScoring.App.UI.Interfaces
 {
     public interface IDeviceStatusService
     {
+
     }
 }

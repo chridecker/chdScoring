@@ -63,10 +63,11 @@ namespace chdScoring.App.UI.Pages
 
         private async void _batteryService_InfoChanged(object? sender, EventArgs e)
         {
-            if (this._batteryService.BatteryLevel < 15)
+            if (this._batteryService.BatteryLevel < 15 &&
+                !(this._batteryService.Charging.HasValue && this._batteryService.Charging.Value))
             {
                 await this._vibrationHelper.Vibrate(5, TimeSpan.FromMilliseconds(200), this._cts.Token);
-                await this._modal.ShowDialog("Batterlevel kritisch!", EDialogButtons.OK);
+                await this._modal.ShowDialog($"Batterlevel {this._batteryService.BatteryLevel}% kritisch!", EDialogButtons.OK);
             }
         }
 
