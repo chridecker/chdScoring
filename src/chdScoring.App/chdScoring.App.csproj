@@ -84,8 +84,8 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="chd.UI.Base.Components" Version="1.0.24293.80" />
-		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.24293.80" />
+		<PackageReference Include="chd.UI.Base.Components" Version="1.0.24294.81" />
+		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.24294.81" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
