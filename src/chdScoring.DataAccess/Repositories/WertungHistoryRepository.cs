@@ -1,4 +1,5 @@
 ﻿
+using chdScoring.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
 using chdScoring.DataAccess.EFCore;
@@ -14,7 +15,7 @@ namespace chdScoring.DataAccess.Repositories
 {
     public class WertungHistoryRepository : BaseRepository<Wertung_History>, IWertungHistoryRepository
     {
-        public WertungHistoryRepository(ILogger<WertungHistoryRepository> logger, chdScoringContext context) : base(logger, context)
+        public WertungHistoryRepository(ILogger<WertungHistoryRepository> logger,  IContextFactory<chdScoringContext> contextFactory): base(logger, contextFactory)
         {
         }
 

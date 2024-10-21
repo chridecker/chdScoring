@@ -1,4 +1,5 @@
 ﻿
+using chdScoring.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
 using chdScoring.DataAccess.EFCore;
@@ -12,7 +13,7 @@ namespace chdScoring.DataAccess.Repositories
 {
     public class ProgrammRepository : BaseRepository<Programm>, IProgrammRepository
     {
-        public ProgrammRepository(ILogger<ProgrammRepository> logger, chdScoringContext context) : base(logger, context)
+        public ProgrammRepository(ILogger<ProgrammRepository> logger,  IContextFactory<chdScoringContext> contextFactory): base(logger, contextFactory)
         {
         }
 

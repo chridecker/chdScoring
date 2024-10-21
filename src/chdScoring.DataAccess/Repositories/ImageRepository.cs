@@ -1,4 +1,5 @@
 ﻿
+using chdScoring.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
 using chdScoring.DataAccess.EFCore;
@@ -11,7 +12,7 @@ namespace chdScoring.DataAccess.Repositories
 {
     public class ImageRepository : BaseRepository<Images>, IImageRepository
     {
-        public ImageRepository(ILogger<ImageRepository> logger, chdScoringContext context) : base(logger, context)
+        public ImageRepository(ILogger<ImageRepository> logger,  IContextFactory<chdScoringContext> contextFactory): base(logger, contextFactory)
         {
         }
 

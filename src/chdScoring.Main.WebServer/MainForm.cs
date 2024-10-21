@@ -1,13 +1,25 @@
 using chdScoring.BusinessLogic.Services;
+using chdScoring.Contracts.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using System.Threading;
 
 namespace chdScoring.Main.WebServer
 {
     public partial class MainForm : Form
     {
         private readonly IApiLogger _apiLogger;
-        public MainForm(IApiLogger apiLogger)
+        private readonly IServiceProvider _serviceProvider;
+        private readonly IDatabaseConfiguration _databaseConfiguration;
+
+        public MainForm(IApiLogger apiLogger, IServiceProvider serviceProvider, IDatabaseConfiguration databaseConfiguration)
         {
+            this._databaseConfiguration = databaseConfiguration;
+            this._serviceProvider = serviceProvider;
+
             InitializeComponent();
+
+
+            this.comboBoxDataBase.DataSource = this._databaseConfiguration.GetConnections().Select(s => s.Name).ToList();
 
             this.Resize += this.MainForm_Resize;
             this._apiLogger = apiLogger;
@@ -51,6 +63,17 @@ namespace chdScoring.Main.WebServer
             {
                 this.Show();
                 this.WindowState = FormWindowState.Normal;
+            }
+        }
+
+        private async void comboBoxDataBase_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (sender is ComboBox cB)
+            {
+                this._databaseConfiguration.SetCurrentConnection(cB.SelectedItem.ToString());
+                using var scope = this._serviceProvider.CreateScope();
+                await scope.ServiceProvider.GetRequiredService<IFlightCacheService>().Update(CancellationToken.None);
+                 await scope.ServiceProvider.GetService<IHubDataService>().SendAll(CancellationToken.None);
             }
         }
     }

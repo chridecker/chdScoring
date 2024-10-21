@@ -1,4 +1,5 @@
 ﻿
+using chdScoring.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
 using chdScoring.DataAccess.EFCore;
@@ -9,7 +10,7 @@ namespace chdScoring.DataAccess.Repositories
 {
     public class StammDatenRepository : BaseRepository<Stammdaten>, IStammDatenRepository
     {
-        public StammDatenRepository(ILogger<StammDatenRepository> logger, chdScoringContext context) : base(logger, context)
+        public StammDatenRepository(ILogger<StammDatenRepository> logger,  IContextFactory<chdScoringContext> contextFactory): base(logger, contextFactory)
         {
         }
     }

@@ -1,4 +1,5 @@
-﻿using chdScoring.DataAccess.Contracts.Domain;
+﻿using chdScoring.Contracts.Interfaces;
+using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
 using chdScoring.DataAccess.EFCore;
 using chdScoring.DataAccess.Repositories.Base;
@@ -11,7 +12,7 @@ namespace chdScoring.DataAccess.Repositories
 {
     public class KlasseRepository : BaseRepository<Klassen>, IKlasseRepository
     {
-        public KlasseRepository(ILogger<KlasseRepository> logger, chdScoringContext context) : base(logger, context)
+        public KlasseRepository(ILogger<KlasseRepository> logger,  IContextFactory<chdScoringContext> contextFactory): base(logger, contextFactory)
         {
         }
         public async Task<Klassen> GetCurrentKlasse(CancellationToken cancellationToken)

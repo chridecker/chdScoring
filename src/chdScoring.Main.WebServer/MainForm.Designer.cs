@@ -36,11 +36,14 @@
             this.schließenToolStripMenuItem = new ToolStripMenuItem();
             this.tabControl1 = new TabControl();
             this.tabPage1 = new TabPage();
+            this.label1 = new Label();
+            this.comboBoxDataBase = new ComboBox();
             this.tabPage2 = new TabPage();
             this.button1 = new Button();
             this.textBoxWebLog = new TextBox();
             this.contextMenuStripSysTray.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,20 +62,20 @@
             this.contextMenuStripSysTray.ImageScalingSize = new Size(28, 28);
             this.contextMenuStripSysTray.Items.AddRange(new ToolStripItem[] { this.öffnenToolStripMenuItem, this.schließenToolStripMenuItem });
             this.contextMenuStripSysTray.Name = "contextMenuStripSysTray";
-            this.contextMenuStripSysTray.Size = new Size(181, 70);
+            this.contextMenuStripSysTray.Size = new Size(126, 48);
             // 
             // öffnenToolStripMenuItem
             // 
-            this.öffnenToolStripMenuItem.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            this.öffnenToolStripMenuItem.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             this.öffnenToolStripMenuItem.Name = "öffnenToolStripMenuItem";
-            this.öffnenToolStripMenuItem.Size = new Size(180, 22);
+            this.öffnenToolStripMenuItem.Size = new Size(125, 22);
             this.öffnenToolStripMenuItem.Text = "Öffnen";
             this.öffnenToolStripMenuItem.Click += this.öffnenToolStripMenuItem_Click;
             // 
             // schließenToolStripMenuItem
             // 
             this.schließenToolStripMenuItem.Name = "schließenToolStripMenuItem";
-            this.schließenToolStripMenuItem.Size = new Size(180, 22);
+            this.schließenToolStripMenuItem.Size = new Size(125, 22);
             this.schließenToolStripMenuItem.Text = "Schließen";
             this.schließenToolStripMenuItem.Click += this.schließenToolStripMenuItem_Click;
             // 
@@ -90,14 +93,34 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.comboBoxDataBase);
             this.tabPage1.Location = new Point(4, 24);
             this.tabPage1.Margin = new Padding(2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new Padding(2);
             this.tabPage1.Size = new Size(1117, 526);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.Text = "Settings";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new Point(5, 11);
+            this.label1.Name = "label1";
+            this.label1.Size = new Size(55, 15);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Database";
+            // 
+            // comboBoxDataBase
+            // 
+            this.comboBoxDataBase.FormattingEnabled = true;
+            this.comboBoxDataBase.Location = new Point(66, 8);
+            this.comboBoxDataBase.Name = "comboBoxDataBase";
+            this.comboBoxDataBase.Size = new Size(121, 23);
+            this.comboBoxDataBase.TabIndex = 0;
+            this.comboBoxDataBase.SelectedIndexChanged += this.comboBoxDataBase_SelectedIndexChanged;
             // 
             // tabPage2
             // 
@@ -109,7 +132,7 @@
             this.tabPage2.Padding = new Padding(2);
             this.tabPage2.Size = new Size(1117, 526);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Consol Log";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // button1
@@ -144,6 +167,8 @@
             this.Text = "chdScoring";
             this.contextMenuStripSysTray.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
@@ -160,5 +185,7 @@
         private TabPage tabPage2;
         private TextBox textBoxWebLog;
         private Button button1;
+        private Label label1;
+        private ComboBox comboBoxDataBase;
     }
 }

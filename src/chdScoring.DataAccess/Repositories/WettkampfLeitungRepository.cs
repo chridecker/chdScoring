@@ -1,4 +1,5 @@
 ﻿using chdScoring.Contracts.Enums;
+using chdScoring.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
 using chdScoring.DataAccess.EFCore;
@@ -14,7 +15,7 @@ namespace chdScoring.DataAccess.Repositories
 {
     public class WettkampfLeitungRepository : BaseRepository<Wettkampf_Leitung>, IWettkampfLeitungRepository
     {
-        public WettkampfLeitungRepository(ILogger<WettkampfLeitungRepository> logger, chdScoringContext context) : base(logger, context)
+        public WettkampfLeitungRepository(ILogger<WettkampfLeitungRepository> logger,  IContextFactory<chdScoringContext> contextFactory): base(logger, contextFactory)
         {
         }
 

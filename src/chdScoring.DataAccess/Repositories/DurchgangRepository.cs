@@ -1,4 +1,5 @@
-﻿using chdScoring.DataAccess.Contracts.Domain;
+﻿using chdScoring.Contracts.Interfaces;
+using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
 using chdScoring.DataAccess.EFCore;
 using chdScoring.DataAccess.Repositories.Base;
@@ -12,7 +13,7 @@ namespace chdScoring.DataAccess.Repositories
 {
     public class DurchgangRepository : BaseRepository<Round>, IDurchgangRepository
     {
-        public DurchgangRepository(ILogger<DurchgangRepository> logger, chdScoringContext context) : base(logger, context)
+        public DurchgangRepository(ILogger<DurchgangRepository> logger,  IContextFactory<chdScoringContext> contextFactory) : base(logger, contextFactory)
         {
         }
 

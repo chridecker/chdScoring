@@ -1,4 +1,5 @@
-﻿using chdScoring.DataAccess.Contracts.Repositories.Base;
+﻿using chdScoring.Contracts.Interfaces;
+using chdScoring.DataAccess.Contracts.Repositories.Base;
 using chdScoring.DataAccess.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -20,10 +21,10 @@ namespace chdScoring.DataAccess.Repositories.Base
         protected readonly chdScoringContext _context;
         protected IDbContextTransaction _currentTransaction;
 
-        protected BaseRepository(ILogger<BaseRepository<TEntity>> logger, chdScoringContext context)
+        protected BaseRepository(ILogger<BaseRepository<TEntity>> logger, IContextFactory<chdScoringContext> contextFactory)
         {
             this._logger = logger;
-            this._context = context;
+            this._context = contextFactory.Create();
         }
 
         public Task Commit(CancellationToken cancellationToken) => this._context.Database.CommitTransactionAsync(cancellationToken);
