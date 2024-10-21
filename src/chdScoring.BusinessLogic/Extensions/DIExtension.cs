@@ -33,6 +33,9 @@ namespace chdScoring.BusinessLogic.Extensions
 
             services.AddSingleton<IApiLogger, ApiLogger>();
             services.AddSingleton<IFlightCacheService, FlightCacheService>();
+            services.AddSingleton<DeviceStatusCache>();
+            services.AddSingleton<IDeviceStatusCache>(sp => sp.GetRequiredService<DeviceStatusCache>());
+            services.AddSingleton<IDeviceService>(sp => sp.GetRequiredService<DeviceStatusCache>());
 
             services.AddTransient<IHubDataService, HubDataService>();
             services.AddTransient<ITimerService, TimerService>();
@@ -97,7 +100,7 @@ namespace chdScoring.BusinessLogic.Extensions
         private static IServiceCollection AddContextFactory<TContext>(this IServiceCollection services, ServiceLifetime lifetime)
             where TContext : DbContext
         {
-            services.AddSingleton<IDatabaseConfiguration,DatabaseConfiguration>();
+            services.AddSingleton<IDatabaseConfiguration, DatabaseConfiguration>();
 
             var sp = services.BuildServiceProvider();
             var optMonitor = sp.GetRequiredService<IOptionsMonitor<DBSettings>>();

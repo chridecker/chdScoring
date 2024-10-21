@@ -4,6 +4,7 @@ using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.SignalR;
 using static chdScoring.Contracts.Constants.EndpointConstants;
@@ -22,6 +23,10 @@ namespace chdScoring.Main.WebServer.Extensions
             var scoring = mainGroup.MapGroup(Scoring.ROUTE).WithTags(Scoring.ROUTE);
             var judges = mainGroup.MapGroup(Judge.ROUTE).WithDisplayName(Judge.ROUTE);
             var pilot = mainGroup.MapGroup(Pilot.ROUTE).WithDisplayName(Pilot.ROUTE);
+            var device = mainGroup.MapGroup(Device.ROUTE).WithDisplayName(Device.ROUTE);
+
+            device.MapGet(Device.GET, async ([FromServices] IDeviceService service, CancellationToken token) => await service.GetAll(token));
+            device.MapGet(Device.GET_DeviceStatus, async ([FromQuery] string name, [FromServices] IDeviceService service, CancellationToken cancellation) => await service.GetByName(name, cancellation));
 
             pilot.MapGet(EndpointConstants.Pilot.GET_OpenRound, async (int? round, IPilotService service, CancellationToken cancellationToken)
                 => await service.GetOpenRound(round, cancellationToken));
@@ -44,7 +49,7 @@ namespace chdScoring.Main.WebServer.Extensions
 
             judges.MapGet(Judge.GET_Flight, async (IJudgeService judgesService) => await judgesService.GetCurrentFlight());
 
-            judges.MapGet(string.Empty, async (IJudgeService judgeService, CancellationToken cancellationToken)
+            judges.MapGet(Judge.GET_All, async (IJudgeService judgeService, CancellationToken cancellationToken)
                 => await judgeService.GetJudges());
 
 

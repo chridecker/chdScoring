@@ -13,12 +13,14 @@ namespace chdScoring.App.UI.Helper
         private readonly IJudgeDataCache _judgeDataCache;
         private readonly ISettingManager _settingManager;
         private readonly INotificationManagerService _notificationManagerService;
+        private readonly IDeviceStatusService _deviceStatusService;
 
-        public JudgeHubClient(ILogger<JudgeHubClient> logger, IJudgeDataCache judgeDataCache, ISettingManager settingManager, INotificationManagerService notificationManagerService) : base(logger)
+        public JudgeHubClient(ILogger<JudgeHubClient> logger, IJudgeDataCache judgeDataCache, ISettingManager settingManager, INotificationManagerService notificationManagerService, IDeviceStatusService deviceStatusService) : base(logger)
         {
             this._judgeDataCache = judgeDataCache;
             this._settingManager = settingManager;
             this._notificationManagerService = notificationManagerService;
+            this._deviceStatusService = deviceStatusService;
         }
 
         public event EventHandler<CurrentFlight> DataReceived;
@@ -60,7 +62,7 @@ namespace chdScoring.App.UI.Helper
             {
                 await this.SendAsync(async (conn) =>
                 {
-                    await conn.SendAsync(nameof(IFlightHub.SendStatus),new DeviceStatusDto());
+                    await conn.SendAsync(nameof(IFlightHub.SendStatus),await this._deviceStatusService.GetStatus());
                 });
             });
         }
@@ -68,7 +70,6 @@ namespace chdScoring.App.UI.Helper
         public Task Register(int judge, CancellationToken cancellationToken = default)
         => base.SendAsync(async (conn) =>
              {
-
                  await conn.SendAsync(nameof(IFlightHub.RegisterAsJudge), judge, cancellationToken);
              });
 

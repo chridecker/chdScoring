@@ -10,14 +10,24 @@ namespace chdScoring.BusinessLogic.Hubs
     public class FlightHub : Hub<IFlightHub>, IFlightHub
     {
         private readonly IFlightCacheService _flightCacheService;
-        public FlightHub(IFlightCacheService flightCacheService)
+        private readonly IDeviceStatusCache _deviceStatusCache;
+
+        public FlightHub(IFlightCacheService flightCacheService, IDeviceStatusCache deviceStatusCache)
         {
-            this._flightCacheService = flightCacheService;
+            this._deviceStatusCache = deviceStatusCache;
+            _flightCacheService = flightCacheService;
         }
         public async override Task OnConnectedAsync()
         {
+            this._deviceStatusCache.Add(this.Context.ConnectionId);
             await this.Clients.Caller.ReceiveFlightData(this._flightCacheService.GetCurrentFlight(DateTime.Now), this.Context.ConnectionAborted);
             await base.OnConnectedAsync();
+        }
+
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            this._deviceStatusCache.Remove(this.Context.ConnectionId);
+            await base.OnDisconnectedAsync(exception);
         }
 
         public async Task<bool> RegisterAsStatus()
@@ -42,6 +52,7 @@ namespace chdScoring.BusinessLogic.Hubs
 
         public async Task<bool> SendStatus(DeviceStatusDto dto)
         {
+            this._deviceStatusCache.UpdateDto(this.Context.ConnectionId, DateTime.Now, dto);
             return true;
         }
 

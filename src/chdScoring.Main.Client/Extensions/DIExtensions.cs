@@ -23,6 +23,9 @@ namespace chdScoring.Main.Client.Extensions
             
             services.AddHttpClient<PilotClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointConstants.Pilot.ROUTE));
             services.AddTransient<IPilotService, PilotClient>();
+            
+            services.AddHttpClient<DeviceClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointConstants.Device.ROUTE));
+            services.AddTransient<IDeviceService, DeviceClient>();
             return services;
         }
     }

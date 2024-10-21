@@ -16,7 +16,7 @@ namespace chdScoring.App.UI.Extensions
 {
     public static class DIExtension
     {
-        public static IServiceCollection AddChdScoringAppUI<TVibrationHelper, TUpdateService, TSettingManager, TBatteryService>(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddChdScoringAppUI<TVibrationHelper, TUpdateService, TSettingManager, TBatteryService>(this IServiceCollection services, IConfiguration configuration, ServiceLifetime profileServiceLifeTime = ServiceLifetime.Singleton)
             where TVibrationHelper : class, IVibrationHelper
             where TSettingManager : BaseSettingManager, ISettingManager
             where TUpdateService : BaseUpdateService
@@ -24,7 +24,9 @@ namespace chdScoring.App.UI.Extensions
         {
             services.AddAuthorizationCore();
 
-            services.AddUtilities<chdScoringProfileService, int, int, HandleUserIdLogin, TSettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, TUpdateService>();
+            services.AddUtilities<chdScoringProfileService, int, int, HandleUserIdLogin, TSettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, TUpdateService>(profileServiceLifeTime);
+
+            services.Add(new(typeof(IDeviceStatusService), typeof(DeviceStatusService), profileServiceLifeTime));
 
             services.AddMauiModalHandler();
 
@@ -38,6 +40,8 @@ namespace chdScoring.App.UI.Extensions
 
             /* State Container Singletons */
             services.AddSingleton<INavigationHistoryStateContainer, NavigationHistoryStateContainer>();
+
+
 
             /* Scoped */
             services.AddScoped<INavigationHandler, NavigationHandler>();

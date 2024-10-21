@@ -15,6 +15,7 @@
         public class Judge
         {
             public const string ROUTE = "judge";
+            public const string GET_All= "";
             public const string GET_Flight = "flight";
 
         }
@@ -32,6 +33,14 @@
             public const string POST_TIMER = "timer";
             public const string POST_SaveRound = "saveround";
 
+        }
+
+        public class Device
+        {
+             public const string ROUTE = "device";
+
+            public const string GET = "";
+            public const string GET_DeviceStatus = "device";
         }
 
     }

@@ -16,6 +16,6 @@ namespace chdScoring.Main.Client.Clients
         => this.Get<CurrentFlight>(EndpointConstants.Judge.GET_Flight, cancellationToken);
 
         public Task<IEnumerable<JudgeDto>> GetJudges(CancellationToken cancellationToken = default)
-            => this.Get<IEnumerable<JudgeDto>>("", cancellationToken);
+            => this.Get<IEnumerable<JudgeDto>>(EndpointConstants.Judge.GET_All, cancellationToken);
     }
 }

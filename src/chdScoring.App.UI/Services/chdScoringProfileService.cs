@@ -16,6 +16,9 @@ namespace chdScoring.App.UI.Services
         {
             this._judgeService = judgeService;
         }
+
+        public csUserDto? CsUser => this.User is csUserDto cs ? cs : null;
+
         protected override async Task<UserPermissionDto<int>> GetPermissions(UserDto<int, int> dto, CancellationToken cancellationToken = default)
         {
             if (dto is csUserDto user)
