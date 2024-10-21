@@ -17,6 +17,10 @@
         <input type="text" value="@this._baseAddress" @onchange="async (e)=>await this.UpdateMainUrl(e)" />
     </div>
     <div class="setting">
+        Battery Limit:
+        <input type="number" step="0.5" value="@this._batteryLimit" @onchange="async (e)=>await this.UpdateBatteryLimit(e)" />
+    </div>
+    <div class="setting">
         <SettingCheckbox SettingText="Navigation automatisch ausblenden" Checked="@this._autocollapseNav" OnChange="async (e)=> await UpdateAutoCollapeseNavBar(e)" />
     </div>
     <div class="setting">

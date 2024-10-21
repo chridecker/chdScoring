@@ -53,10 +53,10 @@ namespace chdScoring.App.UI.Services
             this.AutoRedirectToChanged?.Invoke(this, value);
         }
 
-        public abstract T? GetLocalSetting<T>(string key) where T : class;
+        public abstract T? GetNativSetting<T>(string key) where T : class;
 
 
-        public abstract void SetLocalSetting<T>(string key, T value) where T : class;
+        public abstract void SetNativSetting<T>(string key, T value) where T : class;
 
     }
 }

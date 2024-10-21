@@ -11,7 +11,7 @@ namespace chdScoring.App.UI.Interfaces
 
         Task<string> GetAutoRedirectTo();
         Task SetAutoRedirectTo(string value);
-        T? GetLocalSetting<T>(string key) where T : class;
-        void SetLocalSetting<T>(string key, T value) where T : class;
+        T? GetNativSetting<T>(string key) where T : class;
+        void SetNativSetting<T>(string key, T value) where T : class;
     }
 }

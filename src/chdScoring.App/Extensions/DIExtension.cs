@@ -1,5 +1,4 @@
-﻿using chd.Api.Base.Client.Extensions;
-using chd.UI.Base.Client.Extensions;
+﻿using Blazored.Toast.Services;
 using chd.UI.Base.Client.Implementations.Services;
 using chdScoring.App.Auth;
 using chdScoring.App.Helper;
@@ -7,6 +6,7 @@ using chdScoring.App.Services;
 using chdScoring.App.UI.Extensions;
 using chdScoring.App.UI.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace chdScoring.App.Extensions
 {
@@ -19,6 +19,8 @@ namespace chdScoring.App.Extensions
 
 #if ANDROID
             services.ConfigureHttpClientDefaults(builder => builder.ConfigurePrimaryHttpMessageHandler(HttpsClientHandlerService.GetPlatformMessageHandler));
+            services.RemoveAll<IToastService>();
+            services.AddScoped<IToastService, Platforms.Android.AndroidToastService>();
 #endif
 
             services.AddNotification();

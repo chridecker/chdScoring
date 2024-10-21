@@ -48,6 +48,8 @@ namespace chdScoring.App.UI.Pages
         [Inject] private IScrollInfoService _scrollInfoService { get; set; }
         [Inject] private IBatteryService _batteryService { get; set; }
         [Inject] private IVibrationHelper _vibrationHelper { get; set; }
+        [Inject] private ISettingManager _settingManager { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             this.Title = PageTitleConstants.Scoring;
@@ -63,7 +65,10 @@ namespace chdScoring.App.UI.Pages
 
         private async void _batteryService_InfoChanged(object? sender, EventArgs e)
         {
-            if (this._batteryService.BatteryLevel < 15 &&
+            var limit = await this._settingManager.GetSettingLocal<double>(SettingConstants.BatteryWarningLimit);
+            limit = limit > 0 ? limit : 15;
+
+            if (this._batteryService.BatteryLevel < limit &&
                 !(this._batteryService.Charging.HasValue && this._batteryService.Charging.Value))
             {
                 await this._vibrationHelper.Vibrate(5, TimeSpan.FromMilliseconds(200), this._cts.Token);

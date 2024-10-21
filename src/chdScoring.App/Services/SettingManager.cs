@@ -25,7 +25,7 @@ namespace chdScoring.App.Services
             this._configuration = configuration;
         }
 
-        public override T? GetLocalSetting<T>(string key) where T : class
+        public override T? GetNativSetting<T>(string key) where T : class
         {
             if (Preferences.ContainsKey(key))
             {
@@ -34,7 +34,7 @@ namespace chdScoring.App.Services
             return default(T);
         }
 
-        public override void SetLocalSetting<T>(string key, T value) where T : class
+        public override void SetNativSetting<T>(string key, T value) where T : class
         {
             Preferences.Default.Set<T>(key, value);
         }

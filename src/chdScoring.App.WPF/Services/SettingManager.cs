@@ -20,12 +20,12 @@ namespace chdScoring.App.WPF.Services
         {
         }
 
-        public override T? GetLocalSetting<T>(string key) where T : class
+        public override T? GetNativSetting<T>(string key) where T : class
         {
             return default(T);
         }
 
-        public override void SetLocalSetting<T>(string key, T value)
+        public override void SetNativSetting<T>(string key, T value)
         {
         }
     }
