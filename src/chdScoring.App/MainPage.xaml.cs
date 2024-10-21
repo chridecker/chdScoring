@@ -32,7 +32,8 @@ namespace chdScoring.App
         private async Task CheckPermissions()
         {
 #if ANDROID
-            PermissionStatus status = await Permissions.RequestAsync<NotificationPermission>();
+            PermissionStatus statusNotification = await Permissions.RequestAsync<NotificationPermission>();
+            PermissionStatus statusWifi = await Permissions.RequestAsync<WifiPermission>();
 #endif
         }
 

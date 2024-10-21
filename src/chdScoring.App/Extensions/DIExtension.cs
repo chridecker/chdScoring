@@ -19,8 +19,6 @@ namespace chdScoring.App.Extensions
 
 #if ANDROID
             services.ConfigureHttpClientDefaults(builder => builder.ConfigurePrimaryHttpMessageHandler(HttpsClientHandlerService.GetPlatformMessageHandler));
-            services.RemoveAll<IToastService>();
-            services.AddScoped<IToastService, Platforms.Android.AndroidToastService>();
 #endif
 
             services.AddNotification();
