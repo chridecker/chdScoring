@@ -26,6 +26,7 @@ namespace chdScoring.App.UI.Services
         => new DeviceStatusDto
         {
             BatteryLevel = this._batteryService.BatteryLevel,
+            BatteryCharging = this._batteryService.Charging,
             HostName = Environment.MachineName,
             CurrentVersion = await this._updateService.CurrentVersion(),
             CurrentUser = this._profileService.CsUser,

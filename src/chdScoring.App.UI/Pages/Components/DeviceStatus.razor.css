@@ -1,0 +1,24 @@
+﻿.device-status-container {
+    padding: 1rem;
+    border: 1px solid var(--chd-font-color);
+    border-radius: 0.5rem;
+    display: grid;
+    grid-template: 1fr 1fr;
+    max-width: max(30%,15rem);
+    gap: 0.5rem;
+}
+
+    .device-status-container .device-name {
+    }
+
+    .device-status-container .device-last-update {
+    }
+
+    .device-status-container .device-battery {
+    }
+
+    .device-status-container .device-version {
+    }
+
+    .device-status-container .device-user {
+    }

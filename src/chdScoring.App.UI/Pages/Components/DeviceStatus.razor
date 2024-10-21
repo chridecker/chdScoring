@@ -1,0 +1,21 @@
+@using chdScoring.Contracts.Dtos
+
+<div class="device-status-container">
+    <div class="device-name">@this.Dto.HostName</div>
+    <div class="device-last-update">@this.Dto.LastUpdate</div>
+    <div class="device-battery">
+        <Battery BatteryLevel="this.Dto.BatteryLevel" Charging="this.Dto.BatteryCharging" FullLevel="95" LowLevel="15" />
+    </div>
+    <div class="device-version">@this.Dto.CurrentVersion</div>
+    <div class="device-user">
+        @if(this.Dto.CurrentUser is not null)
+        {
+            <div class="user-name">@this.Dto.CurrentUser.FullName</div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public DeviceStatusDto Dto { get; set; }
+
+}

@@ -14,17 +14,10 @@ namespace chdScoring.BusinessLogic.Services
     public class DeviceStatusCache : IDeviceStatusCache
     {
         private ConcurrentDictionary<string, DeviceStatusDto> _deviceStatusDict = new ConcurrentDictionary<string, DeviceStatusDto>();
-        private ConcurrentDictionary<string, DateTime> _devicelastUpdateDict = new ConcurrentDictionary<string, DateTime>();
 
         public DeviceStatusCache()
         {
 
-        }
-
-        public void Add(string connectionId)
-        {
-            this._devicelastUpdateDict[connectionId] = DateTime.Now;
-            this._deviceStatusDict[connectionId] = null;
         }
 
         public Task<IEnumerable<DeviceStatusDto>> GetAll(CancellationToken cancellationToken = default) => Task.FromResult(this._deviceStatusDict.Values.Where(x => x != null));
@@ -33,9 +26,8 @@ namespace chdScoring.BusinessLogic.Services
         public void Remove(string connectionId) => this._deviceStatusDict.TryRemove(connectionId, out _);
 
 
-        public void UpdateDto(string connectionId, DateTime time, DeviceStatusDto dto)
+        public void UpdateDto(string connectionId, DeviceStatusDto dto)
         {
-            this._devicelastUpdateDict[connectionId] = time;
             this._deviceStatusDict[connectionId] = dto;
         }
     }

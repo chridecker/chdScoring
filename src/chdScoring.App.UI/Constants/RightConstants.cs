@@ -8,5 +8,6 @@
         public const int CompMgmt = 2;
         public const int Scoring = 3;
         public const int UIX = 4;
+        public const int Devices = 5;
     }
 }

@@ -1,0 +1,47 @@
+@using chd.UI.Base.Client.Implementations.Authorization
+@using chdScoring.App.UI.Pages.Components
+@using chdScoring.Contracts.Dtos
+@using chdScoring.Contracts.Interfaces
+@inject IDeviceService deviceService
+@implements IDisposable
+@inherits PageComponentBase<int,int>
+@page "/devices"
+@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.Devices })]
+
+    @if (this._devices?.Any() ?? false)
+{
+    <div class="device-list">
+        @foreach (var device in this._devices)
+        {
+            <DeviceStatus Dto="device" />
+        }
+    </div>
+}
+
+@code {
+    private CancellationTokenSource _cancellationTokenSource = new();
+    private List<DeviceStatusDto> _devices;
+
+    protected override async Task OnInitializedAsync()
+    {
+        this._devices = (await this.deviceService.GetAll()).ToList();
+        await base.OnInitializedAsync();
+    }
+
+    private void Refresher() => Task.Run(async () =>
+    {
+        while (!this._cancellationTokenSource.Token.IsCancellationRequested)
+        {
+            this._devices = (await this.deviceService.GetAll()).ToList();
+            await this.InvokeAsync(this.StateHasChanged);
+            await Task.Delay(TimeSpan.FromSeconds(5), this._cancellationTokenSource.Token);
+        }
+    }, this._cancellationTokenSource.Token);
+
+
+    public void Dispose()
+    {
+        this._cancellationTokenSource.Cancel();
+        this._cancellationTokenSource.Dispose();
+    }
+}

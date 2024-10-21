@@ -1,0 +1,8 @@
+﻿.device-list {
+    display: flex;
+    padding: 0.5rem;
+    flex-direction: row;
+    gap: 1rem;
+    width: 95%;
+    border:1px solid red;
+}

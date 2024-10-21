@@ -32,7 +32,9 @@ namespace chdScoring.App.UI.Services
                     new() { Id = RightConstants.ControlBoard, Name = "Scorboard" },
                     new() { Id = RightConstants.CompMgmt, Name = "Comp Mgmt" },
                         new() { Id = RightConstants.Scoring, Name = "Scoring" },
-                        new() { Id = RightConstants.UIX, Name = "UIX" }}
+                        new() { Id = RightConstants.UIX, Name = "UIX" },
+                        new() { Id = RightConstants.Devices, Name = "Devices" },
+                        }
                     };
                 }
                 else if (user.Role == EUserRole.Judge)
@@ -75,7 +77,7 @@ namespace chdScoring.App.UI.Services
             {
                 dto.Id = int.TryParse(dto.Username.Substring(dto.Username.Length - 1, 1), out var id) ? id : 0;
                 var judge = (await this._judgeService.GetJudges(cancellationToken)).FirstOrDefault(x => x.Id == dto.Id && x.Password == dto.Password)
-                     ?? throw new Exception("Kein JJudge gefunden");
+                     ?? throw new Exception("Kein Judge gefunden");
                 return new csUserDto
                 {
                     Id = dto.Id.Value,

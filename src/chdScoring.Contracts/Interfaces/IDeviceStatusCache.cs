@@ -7,11 +7,8 @@ namespace chdScoring.Contracts.Interfaces
 {
     public interface IDeviceStatusCache : IDeviceService
     {
-        void Add(string connectionId);
         void Remove(string connectionId);
 
-        void UpdateDto(string connectionId, DateTime time, DeviceStatusDto dto);
-
-       
+        void UpdateDto(string connectionId,  DeviceStatusDto dto);
     }
 }

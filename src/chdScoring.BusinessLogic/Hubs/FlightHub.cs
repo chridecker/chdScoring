@@ -19,7 +19,6 @@ namespace chdScoring.BusinessLogic.Hubs
         }
         public async override Task OnConnectedAsync()
         {
-            this._deviceStatusCache.Add(this.Context.ConnectionId);
             await this.Clients.Caller.ReceiveFlightData(this._flightCacheService.GetCurrentFlight(DateTime.Now), this.Context.ConnectionAborted);
             await base.OnConnectedAsync();
         }
@@ -52,7 +51,8 @@ namespace chdScoring.BusinessLogic.Hubs
 
         public async Task<bool> SendStatus(DeviceStatusDto dto)
         {
-            this._deviceStatusCache.UpdateDto(this.Context.ConnectionId, DateTime.Now, dto);
+            dto.LastUpdate = DateTime.Now;
+            this._deviceStatusCache.UpdateDto(this.Context.ConnectionId, dto);
             return true;
         }
 
