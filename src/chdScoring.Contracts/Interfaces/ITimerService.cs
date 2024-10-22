@@ -8,5 +8,7 @@ namespace chdScoring.Contracts.Interfaces
     {
         Task<bool> HandleOperation(TimerOperationDto dto, CancellationToken cancellationToken);
         Task<bool> SaveRound(SaveRoundDto dto, CancellationToken cancellation);
+        Task<bool> CalculateRoundTBL(CalcRoundDto dto,CancellationToken cancellationToken);
+
     }
 }

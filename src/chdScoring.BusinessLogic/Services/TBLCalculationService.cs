@@ -1,4 +1,6 @@
-﻿using chdScoring.DataAccess.Contracts.DAL;
+﻿using chdScoring.Contracts.Dtos;
+using chdScoring.Contracts.Interfaces;
+using chdScoring.DataAccess.Contracts.DAL;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -17,16 +19,8 @@ namespace chdScoring.BusinessLogic.Services
             this._logger = logger;
             this._serviceProvider = serviceProvider;
         }
-        public async Task Calc(CancellationToken cancellationToken)
-        {
-            using var scope = this._serviceProvider.CreateAsyncScope();
-            var dal = scope.ServiceProvider.GetRequiredService<ITBLDAL>();
-            await dal.Calculate(1, cancellationToken);
-        }
+        
 
     }
-    public interface ITBLCalculationService
-    {
-        Task Calc(CancellationToken cancellationToken);
-    }
+
 }

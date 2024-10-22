@@ -10,13 +10,15 @@ namespace chdScoring.BusinessLogic.Services
     public class TimerService : ITimerService
     {
         private readonly ITimerDAL _dAL;
+        private readonly ITBLDAL _tBLDAL;
         private readonly IPilotDAL _pilotDAL;
         private readonly IHubDataService _hubDataService;
         private readonly IFlightCacheService _flightCacheService;
 
-        public TimerService(ITimerDAL dAL, IPilotDAL pilotDAL, IHubDataService hubDataService, IFlightCacheService flightCacheService)
+        public TimerService(ITimerDAL dAL, ITBLDAL tBLDAL, IPilotDAL pilotDAL, IHubDataService hubDataService, IFlightCacheService flightCacheService)
         {
             this._dAL = dAL;
+            this._tBLDAL = tBLDAL;
             this._pilotDAL = pilotDAL;
             this._hubDataService = hubDataService;
             this._flightCacheService = flightCacheService;
@@ -28,6 +30,8 @@ namespace chdScoring.BusinessLogic.Services
             ETimerOperation.Stop => this.Stop(dto, cancellationToken),
             _ => Task.FromResult(false),
         };
+
+        public Task<bool> CalculateRoundTBL(CalcRoundDto dto, CancellationToken cancellationToken) => this._tBLDAL.Calculate(dto.Round, cancellationToken);
 
         public async Task<bool> SaveRound(SaveRoundDto dto, CancellationToken cancellationToken)
         {

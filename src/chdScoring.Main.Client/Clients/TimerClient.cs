@@ -17,5 +17,8 @@ namespace chdScoring.Main.Client.Clients
 
         public Task<bool> SaveRound(SaveRoundDto dto, CancellationToken cancellation)
         => base.Post<bool>(EndpointConstants.Control.POST_SaveRound, dto, cancellation);
+
+        public Task<bool> CalculateRoundTBL(CalcRoundDto dto, CancellationToken cancellation)
+        => base.Post<bool>(EndpointConstants.Control.POST_CalcRound, dto, cancellation);
     }
 }

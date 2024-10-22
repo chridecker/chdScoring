@@ -6,6 +6,6 @@ namespace chdScoring.DataAccess.Contracts.DAL
 {
     public interface ITBLDAL : IBaseDAL
     {
-        Task Calculate(int round, CancellationToken stoppingToken);
+        Task<bool> Calculate(int round, CancellationToken stoppingToken);
     }
 }
