@@ -10,5 +10,6 @@
         public int Land { get; set; }
         public string License { get; set; }
         public int Pin { get; set; }
+        public bool EditScore { get; set; }
     }
 }
