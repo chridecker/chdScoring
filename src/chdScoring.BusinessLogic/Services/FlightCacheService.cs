@@ -28,9 +28,6 @@ namespace chdScoring.BusinessLogic.Services
             this._currentFlight = await dal.GetCurrentFlightData(cancellationToken);
         }
 
-
-
-
         public CurrentFlight GetCurrentFlight(DateTime currentDateTime)
         {
             if (this._currentFlight is null) { return null; }

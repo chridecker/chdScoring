@@ -81,5 +81,15 @@ namespace chdScoring.DataAccess.DAL
             var lst = await this._durchgangRepository.Where(x => x.Durchgang == round).ToListAsync();
             return lst.Any() ? lst.Max(m => m.Wert_abs) : null;
         }
+
+        public async Task<int> GetFinishedRound(CancellationToken cancellationToken)
+        {
+            var wl = await this._wettkampfLeitungRepository.Where(x => x.Status == (int)EFlightState.Saved).OrderByDescending(o => o.Durchgang)?.FirstOrDefaultAsync();
+            if (wl is not null)
+            {
+                throw new Exception($"Keine offene Runde gefunden");
+            }
+            return wl.Durchgang;
+        }
     }
 }

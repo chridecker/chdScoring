@@ -31,6 +31,8 @@ namespace chdScoring.BusinessLogic.Services
             _ => Task.FromResult(false),
         };
 
+        public Task<int> GetFinishedRound(CancellationToken cancellationToken) => this._dAL.GetFinishedRound(cancellationToken);
+
         public Task<bool> CalculateRoundTBL(CalcRoundDto dto, CancellationToken cancellationToken) => this._tBLDAL.Calculate(dto.Round, cancellationToken);
 
         public async Task<bool> SaveRound(SaveRoundDto dto, CancellationToken cancellationToken)

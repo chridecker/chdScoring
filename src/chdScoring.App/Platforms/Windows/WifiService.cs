@@ -1,5 +1,4 @@
 ﻿using chdScoring.App.UI.Interfaces;
-using NativeWifi;
 using System;
 using System.Collections.Generic;
 using System.Linq;

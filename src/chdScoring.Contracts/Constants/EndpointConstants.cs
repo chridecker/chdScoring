@@ -30,6 +30,7 @@
         {
             public const string ROUTE = "control";
 
+            public const string GET_OpenRound = "openround";
             public const string POST_TIMER = "timer";
             public const string POST_SaveRound = "saveround";
             public const string POST_CalcRound = "calcround";

@@ -45,9 +45,12 @@ namespace chdScoring.Main.WebServer.Extensions
 
             control.MapPost(EndpointConstants.Control.POST_SaveRound, async (SaveRoundDto dto, ITimerService service, CancellationToken cancellationToken)
                 => await service.SaveRound(dto, cancellationToken));
-            
+
             control.MapPost(EndpointConstants.Control.POST_CalcRound, async (CalcRoundDto dto, ITimerService service, CancellationToken cancellationToken)
                 => await service.CalculateRoundTBL(dto, cancellationToken));
+
+            control.MapGet(EndpointConstants.Control.GET_OpenRound, async (ITimerService service, CancellationToken cancellationToken)
+                => await service.GetFinishedRound(cancellationToken));
 
 
             judges.MapGet(Judge.GET_Flight, async (IJudgeService judgesService) => await judgesService.GetCurrentFlight());

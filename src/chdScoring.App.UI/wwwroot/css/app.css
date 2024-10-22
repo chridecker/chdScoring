@@ -33,7 +33,6 @@
 }
 
 .fab-navigation {
-    bottom: 1.5rem !important;
 }
 
     .fab-navigation .fab-navigation-control {
@@ -65,7 +64,7 @@
         --nav-toggle-height: 1.2rem !important;
         --top-header-padding-tb: 0.2 !important;
         --top-header-height: 1.5rem !important;
-        --main-article-height: calc(100vh - calc(var(--top-header-height) * 2)) !important;
+        --main-article-height: calc(100vh - calc(var(--top-header-height))) !important;
         --widget-width: 15rem !important;
         --widget-height: 33rem !important;
     }

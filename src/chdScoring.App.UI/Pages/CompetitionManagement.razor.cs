@@ -93,8 +93,23 @@ namespace chdScoring.App.UI.Pages
             else
             {
                 await this._vibrationHelper.Vibrate(3, TimeSpan.FromSeconds(0.4), this._cts.Token);
-                await this._modal.ShowDialog("Beim Speichern der Runde ist ein Fehler aufgetreten!", chd.UI.Base.Contracts.Enum.EDialogButtons.OK);
+                await this._modal.ShowDialog("Beim Speichern der Runde ist ein Fehler aufgetreten!", EDialogButtons.OK);
             }
+        }
+
+        private async Task CalculateTBL()
+        {
+            var pilots = await this._pilotService.GetOpenRound(this._dto?.Round?.Id, this._cts.Token);
+            if (pilots.Any())
+            {
+                await this._modal.ShowDialog($"Es sind noch offene Wertungsflüge in der aktuellen Runde!", EDialogButtons.OK);
+                return;
+            }
+            var round = await this._timerService.GetFinishedRound(this._cts.Token);
+            await this._timerService.CalculateRoundTBL(new CalcRoundDto()
+            {
+                Round = round
+            }, this._cts.Token);
         }
 
 
