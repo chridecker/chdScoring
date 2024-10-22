@@ -9,8 +9,10 @@
         Version: @this._currentVersion
     </div>
     <div class="setting">
-        Theme:
-        <ThemeModeButton />
+        Wifi: @this._wifiService.SSID - (@this._wifiService.SignalLevel) - @this._wifiService.IPAddress 
+    </div>
+    <div class="setting">
+        Theme: <ThemeModeButton />
     </div>
     <div class="setting">
         Basis Adresse:

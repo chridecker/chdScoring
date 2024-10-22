@@ -11,6 +11,7 @@ namespace chdScoring.App.UI.Pages
     {
         [Inject] private ISettingManager _settingManager { get; set; }
         [Inject] private IUpdateService _updateService { get; set; }
+        [Inject] private IWifiService _wifiService { get; set; }
 
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
