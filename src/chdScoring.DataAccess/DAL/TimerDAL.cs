@@ -85,7 +85,7 @@ namespace chdScoring.DataAccess.DAL
         public async Task<int> GetFinishedRound(CancellationToken cancellationToken)
         {
             var wl = await this._wettkampfLeitungRepository.Where(x => x.Status == (int)EFlightState.Saved).OrderByDescending(o => o.Durchgang)?.FirstOrDefaultAsync();
-            if (wl is not null)
+            if (wl is null)
             {
                 throw new Exception($"Keine offene Runde gefunden");
             }

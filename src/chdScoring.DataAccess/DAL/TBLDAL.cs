@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using chdScoring.Contracts.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace chdScoring.DataAccess.DAL
 {
@@ -18,9 +19,7 @@ namespace chdScoring.DataAccess.DAL
         }
         public async Task<bool> Calculate(int round, CancellationToken stoppingToken)
         {
-            var stammdaten = await this._stammDatenRepository.FindAll(stoppingToken);
-            var teilnehmerLst = await this._teilnehmerRepository.FindAll(stoppingToken);
-
+            var teilnehmerLst = (await this._wettkampfLeitungRepository.Where(x => x.Durchgang == round).Include(i => i.Pilot).ToListAsync()).Select(s => s.Pilot);
             var judgesDG = await this._judgeRepository.GetRoundPanel(round, stoppingToken);
             var figuren = await this._figurRepository.GetProgramToRound(round, stoppingToken);
             var wertungen = await this._wertungRepository.FindByRound(round, stoppingToken);

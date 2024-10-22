@@ -70,6 +70,7 @@ namespace chdScoring.App.UI.Pages
         private async Task SaveRound()
         {
             var duration = this._dto?.Round.Time - this._dto?.LeftTime ?? TimeSpan.Zero;
+            if (this._dto is null) { return; }
 
             if (this._dto.ManeouvreLst.Values.Any(a => a.Any(aa => !aa.Score.HasValue)) || !this._currentAvgScore.HasValue)
             {
