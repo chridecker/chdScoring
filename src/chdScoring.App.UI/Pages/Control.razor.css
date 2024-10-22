@@ -1,80 +1,58 @@
 ﻿
 .control-center {
     padding: 0.2rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
 }
 
-    .control-center .timer {
-        display: flex;
-        flex-direction: row;
-        gap: 1rem;
-        font-size: 40pt;
-    }
-
-        .control-center .timer .pilot {
-        }
-
-        .control-center .timer .time {
-            font-weight: bold;
-        }
-
-        .control-center .timer .control {
-        }
-
-            .control-center .timer .control ::deep .btn {
-                border-radius: 1rem;
-            }
-
-                .control-center .timer .control ::deep .btn svg {
-                    height: 3rem;
-                }
-
-    .control-center .live {
+    .control-center .maneouvres {
         display: grid;
-        grid-template: 1fr;
-        grid-gap: 0.2rem;
+        grid-template-columns: repeat(1, 1fr);
     }
 
-        .control-center .live .maneouvres {
+        .control-center .maneouvres .maneouvre {
+            display: flex;
+            flex-direction: row;
+            gap: 0.2rem;
+            border-bottom: 1px dashed var(--chd-grey);
         }
 
-            .control-center .live .maneouvres .maneouvre {
-                display: flex;
+            .control-center .maneouvres .maneouvre:hover {
+                background-color: var(--chd-main-color-theme-semi-transparent);
             }
 
-                .control-center .live .maneouvres .maneouvre .empty {
-                    min-width: 3rem;
+            .control-center .maneouvres .maneouvre:last-child {
+                border-bottom: none;
+            }
+
+            .control-center .maneouvres .maneouvre .figur-id {
+            }
+
+            .control-center .maneouvres .maneouvre .figur {
+                width: max(20rem,75%);
+                overflow: scroll;
+                height: 1.5rem;
+            }
+
+            .control-center .maneouvres .maneouvre .judge-scores {
+                display: flex;
+                flex-direction: row;
+            }
+
+                .control-center .maneouvres .maneouvre .judge-scores .judge-score {
+                    width: 4rem;
+                    text-align: center;
                 }
 
-                .control-center .live .maneouvres .maneouvre .figur {
-                    width: 75%;
-                    overflow: hidden;
-                    height: 1.5rem;
-                }
-
-                .control-center .live .maneouvres .maneouvre .judges {
-                    display: flex;
-                    flex-direction: row;
-                }
-
-                    .control-center .live .maneouvres .maneouvre .judges .judge-score {
-                        min-width: 3rem;
-                        text-align: right;
+                    .control-center .maneouvres .maneouvre .judge-scores .judge-score.needs-attention {
+                        border: 3px solid var(--chd-red);
+                        border-radius: 15px;
                     }
 
-        .control-center .live .results {
-            display: flex;
-        }
 
-            .control-center .live .results .empty {
-                width: 75%;
-            }
-
-            .control-center .live .results .judge-result {
-                text-align: right;
-                min-width: 3rem;
-            }
-
-            .control-center .live .results .total-result {
-                text-align: right;
-                min-width: 3rem;
-            }
+@media (max-width: 400px) {
+    .control-center .maneouvres .maneouvre .figur {
+        display: none;
+    }
+}

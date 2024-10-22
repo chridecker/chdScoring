@@ -7,7 +7,7 @@ using chdScoring.App.UI.Interfaces;
 
 namespace chdScoring.App.UI.Pages
 {
-    public partial class Control : PageComponentBase<int,int>, IDisposable
+    public partial class Control : PageComponentBase<int, int>, IDisposable
     {
         private CancellationTokenSource _cts = new CancellationTokenSource();
         private CurrentFlight _dto;
@@ -32,6 +32,15 @@ namespace chdScoring.App.UI.Pages
 
             await base.OnInitializedAsync();
         }
+
+        private decimal? _score(JudgeDto judge, ManeouvreDto maneouvre) => this._dto.ManeouvreLst[judge.Id].FirstOrDefault(x => x.Id == maneouvre.Id)?.Score;
+        private string _scoreClass(JudgeDto judge, ManeouvreDto maneouvre)
+        {
+            var score = this._score(judge, maneouvre);
+            if (!score.HasValue || score.Value >= 1) { return string.Empty; }
+            return "needs-attention";
+        }
+
         private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)
         {
             this._dto = e;

@@ -6,34 +6,21 @@
 
 @if (this._dto is not null)
 {
-    <div class="control-center">
-        <div class="live">
+        <div class="control-center">
             <div class="maneouvres">
-                @foreach (var maneouvre in this._dto.ManeouvreLst.FirstOrDefault().Value.OrderBy(o => o.Id))
-                {
-                    <div class="maneouvre">
-                        <div class="figur">
-                            @maneouvre.Id.ToString("D2") @maneouvre.Name (@maneouvre.Value)
+            @foreach (var maneouvre in this._dto.ManeouvreLst.FirstOrDefault().Value.OrderBy(o => o.Id))
+            {
+                        <div class="maneouvre">
+                            <div class="figur-id">@maneouvre.Id.ToString("D2")</div>
+                            <div class="figur">@maneouvre.Name (@maneouvre.Value)</div>
+                            <div class="judge-scores">
+                        @foreach (var judge in this._dto.Judges.OrderBy(o => o.Id))
+                        {
+                                        <div class="judge-score @(this._scoreClass(judge, maneouvre))">@_score(judge, maneouvre)</div>
+                        }
+                            </div>
                         </div>
-                        <div class="judges">
-                            @foreach (var judge in this._dto.Judges.OrderBy(o => o.Id))
-                            {
-                                var score = this._dto.ManeouvreLst[judge.Id].FirstOrDefault(x => x.Id == maneouvre.Id).Score;
-                                <div class="judge-score">@score</div>
-                            }
-                        </div>
-                    </div>
-                    <div class="empty"></div>
-                }
-            </div>
-            <div class="results">
-                <div class="empty"></div>
-                @foreach (var judge in this._dto.Judges.OrderBy(o => o.Id))
-                {
-                    <div class="judge-result">@this._dto.ManeouvreLst[judge.Id].Select(s => s.Value * (s.Score ?? 0)).Sum()</div>
-                }
-                <div class="total-result">@this._dto.ManeouvreLst.Values.Select(s => s.Select(x => x.Value * (x.Score ?? 0)).Sum()).Average()</div>
+            }
             </div>
         </div>
-    </div>
 }
