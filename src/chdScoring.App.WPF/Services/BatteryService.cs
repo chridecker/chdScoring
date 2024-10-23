@@ -15,6 +15,7 @@ namespace chdScoring.App.WPF.Services
 
         private double _level = 0;
         public double BatteryLevel => this._level;
+        public string DeviceName => Environment.MachineName;
 
         public bool? Charging => false;
 

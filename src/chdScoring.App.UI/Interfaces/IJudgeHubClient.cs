@@ -9,6 +9,5 @@ namespace chdScoring.App.UI.Interfaces
         event EventHandler<CurrentFlight> DataReceived;
         Task Register(int judge, CancellationToken cancellationToken = default);
         Task RegisterControlCenter(CancellationToken cancellationToken = default);
-        Task RegisterStatus(CancellationToken cancellationToken = default);
     }
 }

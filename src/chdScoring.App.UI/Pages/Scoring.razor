@@ -4,16 +4,14 @@
 @inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
 @attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.Scoring })]
 
-<ChdAuthorizeView TRightId="int" TUserId="int" Rights="new int[]{ RightConstants.Scoring }">
     @if (this._dto != null)
-    {
-        <div class="scoring">
-            <FigurTable Maneouvres="this.Maneouvres" Current="this._current"
-                        EditManeouvre="this.OpenEditScoreModal"
-                        EditManeouvreEnabled="((this._dto?.EditScoreEnabled ?? false) && (this.Judge?.EditScore ?? false))" />
-            <ScorePanel ScoreSaved="this.ScoreSaved"
-                        CancellationToken="this._cts.Token"
-                        Judge="this.Judge" Pilot="this._dto?.Pilot" PanelDisabled="this._panelDisabled" Round="(this._dto?.Round?.Id ?? 0)" Maneouvre="this._current" />
-        </div>
-    }
-</ChdAuthorizeView>
+{
+    <div class="scoring" >
+        <FigurTable Maneouvres="this.Maneouvres" Current="this._current"
+                    EditManeouvre="this.OpenEditScoreModal"
+                    EditManeouvreEnabled="((this._dto?.EditScoreEnabled ?? false) && (this.Judge?.EditScore ?? false))" />
+        <ScorePanel ScoreSaved="this.ScoreSaved"
+                    CancellationToken="this._cts.Token"
+                    Judge="this.Judge" Pilot="this._dto?.Pilot" PanelDisabled="this._panelDisabled" Round="(this._dto?.Round?.Id ?? 0)" Maneouvre="this._current" />
+    </div>
+}

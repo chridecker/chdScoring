@@ -20,6 +20,8 @@ namespace chdScoring.App.Services
 
         public BatteryState State => Battery.Default.State;
 
+        public string DeviceName => DeviceInfo.Current.Name;
+
         public event EventHandler InfoChanged;
         public BatteryService()
         {

@@ -27,7 +27,7 @@ namespace chdScoring.App.UI.Services
         {
             BatteryLevel = this._batteryService.BatteryLevel,
             BatteryCharging = this._batteryService.Charging,
-            HostName = Environment.MachineName,
+            HostName = this._batteryService.DeviceName,
             CurrentVersion = await this._updateService.CurrentVersion(),
             CurrentUser = this._profileService.CsUser,
             CurrentLocalTime = DateTime.Now,
