@@ -23,6 +23,7 @@ namespace chdScoring.App.UI.Pages
         private JudgeDto Judge => this._dto?.Judges.FirstOrDefault(x => x.Id == this._judge);
         private bool _panelDisabled => this._dto is null || !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero ? true : this._current is null;
         private bool _scrolledManually = false;
+        private int _zoom;
 
         private IEnumerable<ManeouvreDto> Maneouvres
         {
@@ -53,6 +54,9 @@ namespace chdScoring.App.UI.Pages
         protected override async Task OnInitializedAsync()
         {
             this.Title = PageTitleConstants.Scoring;
+
+            this._zoom = await this._settingManager.GetScoringZoom();
+
             this._scrollInfoService.OnScroll += this._scrollInfoService_OnScroll;
             this._profileService.UserChanged += this._profileService_UserChanged;
             this._batteryService.InfoChanged += this._batteryService_InfoChanged;

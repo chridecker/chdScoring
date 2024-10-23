@@ -9,7 +9,11 @@
         Version: @this._currentVersion
     </div>
     <div class="setting">
-        Wifi: @this._wifiService.SSID - (@this._wifiService.SignalLevel) - @this._wifiService.IPAddress 
+        Wifi: @this._wifiService.SSID - (@this._wifiService.SignalLevel) - @this._wifiService.IPAddress
+    </div>
+    <div class="setting">
+        Scoring Zoom (@(this._scoringZoom)%):
+        <input type="range" min="50" max="200" value="@this._scoringZoom" @onchange="async (e)=>await this.UpdateScoringZoom(e)" />
     </div>
     <div class="setting">
         Theme: <ThemeModeButton />
@@ -32,4 +36,6 @@
     <div class="setting">
         <SettingCheckbox SettingText="Entwickler Modus" Checked="@this._developerMode" OnChange="async (e)=> await UpdateDeveloperMode(e)" />
     </div>
+
+
 </div>
