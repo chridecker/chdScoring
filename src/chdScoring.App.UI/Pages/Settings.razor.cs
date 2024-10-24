@@ -21,6 +21,7 @@ namespace chdScoring.App.UI.Pages
         private bool _developerMode = false;
         private string _autoRedirect;
         private double _batteryLimit;
+        private int _scoringZoom;
         private Dictionary<string, RenderFragment> _redirectOptions = new Dictionary<string, RenderFragment>();
 
         private KeyValuePair<string, RenderFragment>? _selectedAutoRedirect;
@@ -46,6 +47,7 @@ namespace chdScoring.App.UI.Pages
             this._developerMode = await this._settingManager.GetSettingLocal<bool>(SettingConstants.DeveloperMode);
             this._autoRedirect = await this._settingManager.GetSettingLocal(SettingConstants.AutoRedirectTo);
             this._batteryLimit = await this._settingManager.GetSettingLocal<double>(SettingConstants.BatteryWarningLimit);
+            this._scoringZoom = await this._settingManager.GetSettingLocal<int>(SettingConstants.ScoringZoom);
 
             await this.InitSelection();
 
@@ -84,6 +86,13 @@ namespace chdScoring.App.UI.Pages
         private async Task UpdateAutoCollapeseNavBar(ChangeEventArgs e)
         {
             await this._settingManager.StoreSettingLocal<bool>(SettingConstants.AutoCollapseNavbar_Key, (bool)e.Value);
+            await this.InvokeAsync(this.StateHasChanged);
+        }
+
+        private async Task UpdateScoringZoom(ChangeEventArgs e)
+        {
+            this._scoringZoom = int.TryParse(e.Value.ToString(), out var val) ? val : 100;
+            await this._settingManager.StoreSettingLocal<int>(SettingConstants.ScoringZoom, this._scoringZoom);
             await this.InvokeAsync(this.StateHasChanged);
         }
 

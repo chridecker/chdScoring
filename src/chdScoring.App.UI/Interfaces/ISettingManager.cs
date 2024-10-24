@@ -10,6 +10,7 @@ namespace chdScoring.App.UI.Interfaces
         event EventHandler<string> AutoRedirectToChanged;
 
         Task<string> GetAutoRedirectTo();
+        Task<int> GetScoringZoom();
         Task SetAutoRedirectTo(string value);
         T? GetNativSetting<T>(string key) where T : class;
         void SetNativSetting<T>(string key, T value) where T : class;

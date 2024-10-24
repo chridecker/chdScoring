@@ -8,14 +8,14 @@
 @page "/devices"
 @attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.Devices })]
 
-    @if (this._devices?.Any() ?? false)
+@if (this._devices?.Any() ?? false)
 {
-    <div class="device-list">
+        <div class="device-list">
         @foreach (var device in this._devices)
         {
-            <DeviceStatus Dto="device" />
+                    <DeviceStatus Dto="device" />
         }
-    </div>
+        </div>
 }
 
 @code {
@@ -24,7 +24,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        this._devices = (await this.deviceService.GetAll()).ToList();
+        await this.TryGetDevices();
         await base.OnInitializedAsync();
     }
 
@@ -32,11 +32,22 @@
     {
         while (!this._cancellationTokenSource.Token.IsCancellationRequested)
         {
-            this._devices = (await this.deviceService.GetAll()).ToList();
-            await this.InvokeAsync(this.StateHasChanged);
+            if (await this.TryGetDevices())
+            {
+                await this.InvokeAsync(this.StateHasChanged);
+            }
             await Task.Delay(TimeSpan.FromSeconds(5), this._cancellationTokenSource.Token);
         }
     }, this._cancellationTokenSource.Token);
+
+    private async Task<bool> TryGetDevices()
+    {
+        try
+        {
+            this._devices = (await this.deviceService.GetAll()).ToList();
+        }
+        catch{}
+    }
 
 
     public void Dispose()
