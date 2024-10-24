@@ -2,23 +2,41 @@
     padding: 1rem;
     border: 1px solid var(--chd-font-color);
     border-radius: 0.5rem;
-    display: inline-grid;
-    grid-template: 1fr 1fr;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     max-width: max(30%,15rem);
     gap: 0.5rem;
+    align-items: baseline;
+    justify-items: center;
+    align-content: center;
 }
 
     .device-status-container .device-name {
+        order: 1;
     }
 
     .device-status-container .device-last-update {
+        order: 4;
     }
 
     .device-status-container .device-battery {
+        order: 2;
     }
 
+
+        .device-status-container .device-battery ::deep .battery-container .battery-icon svg {
+            height: 1.5rem;
+        }
+
+        .device-status-container .device-battery ::deep .battery-container .battery-loading-state {
+            font-size: 12pt;
+        }
+
     .device-status-container .device-version {
+        order: 5;
     }
 
     .device-status-container .device-user {
+        order: 3;
     }
