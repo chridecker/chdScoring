@@ -2,7 +2,7 @@
     padding: 1rem;
     border: 1px solid var(--chd-font-color);
     border-radius: 0.5rem;
-    display: grid;
+    display: inline-grid;
     grid-template: 1fr 1fr;
     max-width: max(30%,15rem);
     gap: 0.5rem;

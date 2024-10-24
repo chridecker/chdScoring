@@ -36,6 +36,9 @@
     <div class="setting">
         <SettingCheckbox SettingText="Entwickler Modus" Checked="@this._developerMode" OnChange="async (e)=> await UpdateDeveloperMode(e)" />
     </div>
+    <div class="setting">
+        <SettingCheckbox SettingText="Use UIX" Checked="@this._useUix" OnChange="async (e)=> await UpdateUIX(e)" />
+    </div>
 
 
 </div>

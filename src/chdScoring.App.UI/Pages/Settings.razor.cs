@@ -22,6 +22,7 @@ namespace chdScoring.App.UI.Pages
         private string _autoRedirect;
         private double _batteryLimit;
         private int _scoringZoom;
+        private bool _useUix;
         private Dictionary<string, RenderFragment> _redirectOptions = new Dictionary<string, RenderFragment>();
 
         private KeyValuePair<string, RenderFragment>? _selectedAutoRedirect;
@@ -48,6 +49,7 @@ namespace chdScoring.App.UI.Pages
             this._autoRedirect = await this._settingManager.GetSettingLocal(SettingConstants.AutoRedirectTo);
             this._batteryLimit = await this._settingManager.GetSettingLocal<double>(SettingConstants.BatteryWarningLimit);
             this._scoringZoom = await this._settingManager.GetSettingLocal<int>(SettingConstants.ScoringZoom);
+            this._useUix = await this._settingManager.GetSettingLocal<bool>(SettingConstants.Use_UIX);
 
             await this.InitSelection();
 
@@ -99,6 +101,12 @@ namespace chdScoring.App.UI.Pages
         private async Task UpdateDeveloperMode(ChangeEventArgs e)
         {
             await this._settingManager.StoreSettingLocal<bool>(SettingConstants.DeveloperMode, (bool)e.Value);
+            await this.InvokeAsync(this.StateHasChanged);
+        }
+        
+        private async Task UpdateUIX(ChangeEventArgs e)
+        {
+            await this._settingManager.StoreSettingLocal<bool>(SettingConstants.Use_UIX, (bool)e.Value);
             await this.InvokeAsync(this.StateHasChanged);
         }
 

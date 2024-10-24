@@ -45,8 +45,10 @@
         try
         {
             this._devices = (await this.deviceService.GetAll()).ToList();
+            return true;
         }
         catch{}
+        return false;
     }
 
 

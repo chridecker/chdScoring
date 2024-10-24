@@ -13,7 +13,10 @@
             <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[]{RightConstants.ControlBoard}" href="controlcenter" IconFAClass="calculator" Title="Control Center" />
             <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[]{RightConstants.CompMgmt}" href="competitionmanagement" IconFAClass="stopwatch" Title="Competition Management" />
             <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[]{RightConstants.Devices}" href="devices" IconFAClass="tablet" Title="Devices" />
-            <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[]{RightConstants.UIX}" href="uix" IconFAClass="flask" Title="UI Xperiments" />
+            @if (this._useUix)
+            {
+                <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[]{RightConstants.UIX}" href="uix" IconFAClass="flask" Title="UI Xperiments" />
+            }
         </MenuContent>
         <BottomContent>
             <AuthorizedNavItem Rights="new int[]{RightConstants.Setting}" TUserId="int" TRightId="int" Style="EIconStyle.Regular" href="settings" IconFAClass="fa-gear" Title="Settings" />

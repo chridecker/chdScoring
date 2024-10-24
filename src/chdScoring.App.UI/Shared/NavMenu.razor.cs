@@ -3,6 +3,7 @@ using Blazored.Toast.Services;
 using chd.UI.Base.Contracts.Dtos.Authentication;
 using chd.UI.Base.Contracts.Interfaces.Authentication;
 using chd.UI.Base.Contracts.Interfaces.Services;
+using chdScoring.App.UI.Constants;
 using chdScoring.App.UI.Interfaces;
 using Microsoft.AspNetCore.Components;
 
@@ -25,13 +26,15 @@ namespace chdScoring.App.UI.Shared
         private bool _small = true;
 
         private bool collapseNavMenu = true;
+        private bool _useUix;
 
         private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-        protected override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
+            this._useUix = await this._settingManager.GetSettingLocal<bool>(SettingConstants.Use_UIX);
             this.RegisterEvents();
-            return base.OnInitializedAsync();
+            await base.OnInitializedAsync();
         }
 
         protected override async Task OnAfterRenderAsync(bool first)
