@@ -1,0 +1,10 @@
+﻿.side-widget-container .side-widget .widget-content .round-result-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    align-items: flex-end;
+}
+
+    .side-widget-container .side-widget .widget-content .round-result-compact .round-result {
+        font-weight: bold;
+    }

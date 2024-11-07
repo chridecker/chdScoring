@@ -1,9 +1,17 @@
-﻿.scoring {
-    position: relative;
+﻿.judges-dropdown {
+    width: 100%;
+    display: flex;
+    flex-flow: row-reverse;
+    padding: 0.2rem;
+}
+
+    .judges-dropdown ::deep .droplist-wrapper {
+    }
+
+.scoring {
     display: flex;
     flex-direction: row;
     gap: 0.1rem;
-    padding-top: 0.5rem;
     height: 100%;
     overflow: hidden;
 }
@@ -22,3 +30,37 @@
         .scoring ::deep div.score-panel {
             width: 40%;
         }
+
+
+@media only screen and (max-width: 360px) {
+    * {
+        --max-figure-width: 9rem;
+    }
+
+    .scoring {
+        flex-direction: column;
+        height: auto;
+        gap: 2rem;
+    }
+
+        .scoring ::deep div.figure-table {
+            width: 100%;
+            height: 100%;
+        }
+
+            .scoring ::deep div.figure-table .custom-table thead tr .custom-table-head {
+                display: none;
+            }
+
+            .scoring ::deep div.figure-table .custom-table tbody tr .custom-table-data:nth-child(2) {
+                font-size: 10pt;
+                max-width: var(--max-figure-width);
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
+        .scoring ::deep div.score-panel {
+            width: 100%;
+        }
+}

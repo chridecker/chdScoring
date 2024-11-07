@@ -1,0 +1,20 @@
+@using chdScoring.Contracts.Dtos
+@if (this.Results is null)
+{
+    <LoadingControl />
+}
+else
+{
+    <div class="round-result-list">
+        @foreach (var res in this.Results.OrderBy(o => o.Rank))
+        {
+            <div class="round-result">
+                @(res.Rank). @res.Pilot.Name (@res.Score.ToString("n2"))
+            </div>
+        }
+    </div>
+}
+
+@code{
+    [Parameter]public IEnumerable<RoundResultDto> Results { get; set; }
+}

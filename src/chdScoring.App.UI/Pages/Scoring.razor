@@ -1,12 +1,26 @@
 ﻿@page "/scoring"
+@page "/scoring/{JudgeId:int}"
 @using chd.UI.Base.Client.Implementations.Authorization
 @using chdScoring.App.UI.Pages.Components
+@using chdScoring.Contracts.Dtos
 @inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
 @attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.Scoring })]
 
-    @if (this._dto != null)
+<ChdAuthorizeView TRightId="int" TUserId="int" Rights="this._rights">
+    @if (this._judges.Any())
+    {
+        <div class="judges-dropdown">
+            <DropListWrapper T="JudgeDto" Values="this._judges" Value="this._selectedJudge" ValueChanged="this.OnJudgeChanged" Context="judge">
+                @judge.Id - @judge.Name
+            </DropListWrapper>
+        </div>
+    }
+
+</ChdAuthorizeView>
+
+@if (this._dto != null)
 {
-    <div class="scoring" style="zoom: @(this._zoom)%" >
+    <div class="scoring" style="zoom: @(this._zoom)%">
         <FigurTable Maneouvres="this.Maneouvres" Current="this._current"
                     EditManeouvre="this.OpenEditScoreModal"
                     EditManeouvreEnabled="((this._dto?.EditScoreEnabled ?? false) && (this.Judge?.EditScore ?? false))" />

@@ -1,0 +1,21 @@
+@using chdScoring.Contracts.Dtos
+@inject NavigationManager navManager
+
+<div class="judge-result-compact">
+    <div class="judge-data">
+        <div class="judge-data-text">@this.Judge.Id - @this.Judge.Name</div>
+        <IconButton FAClass="arrow-up-right-from-square" OnClick="async ()=>await this.NavigateToScoring(this.Judge)" />
+    </div>
+    <div class="judge-result">@this.Maneouvres.Sum(s => s.Value * (s.Score ?? 0)).ToString("n1")</div>
+    <div class="judge-result-count">@this.Maneouvres.Count(c => c.Score.HasValue)</div>
+</div>
+
+@code {
+    [Parameter] public JudgeDto Judge { get; set; }
+    [Parameter] public IEnumerable<ManeouvreDto> Maneouvres { get; set; }
+
+    private async Task NavigateToScoring(JudgeDto judge)
+    {
+        this.navManager.NavigateTo($"scoring/{judge.Id}");
+    }
+}

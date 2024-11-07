@@ -28,8 +28,6 @@ namespace chdScoring.App.UI.Pages
         private CurrentFlight _dto;
         private IEnumerable<RoundResultDto> _results;
 
-        private decimal? _currentAvgScore => this._dto?.ManeouvreLst.Values.Select(s => s.Select(ss => ss.Value * (ss.Score ?? 0)).Sum()).Average();
-
         protected override async Task OnInitializedAsync()
         {
             this.Title = PageTitleConstants.CompetitionManagement;
@@ -69,10 +67,12 @@ namespace chdScoring.App.UI.Pages
 
         private async Task SaveRound()
         {
+            var avgScore = this._dto?.ManeouvreLst.Values.Select(s => s.Select(ss => ss.Value * (ss.Score ?? 0)).Sum()).Average();
+
             var duration = this._dto?.Round.Time - this._dto?.LeftTime ?? TimeSpan.Zero;
             if (this._dto is null) { return; }
 
-            if (this._dto.ManeouvreLst.Values.Any(a => a.Any(aa => !aa.Score.HasValue)) || !this._currentAvgScore.HasValue)
+            if (this._dto.ManeouvreLst.Values.Any(a => a.Any(aa => !aa.Score.HasValue)) || !avgScore.HasValue)
             {
                 await this._vibrationHelper.Vibrate(3, TimeSpan.FromMilliseconds(400), this._cts.Token);
                 if (await this._modal.ShowDialog("Nicht alle Judges habe alle Figuren gewertet!", EDialogButtons.OKCancel) != EDialogResult.OK)
@@ -82,7 +82,7 @@ namespace chdScoring.App.UI.Pages
             }
             if (await this._timerService.SaveRound(new SaveRoundDto
             {
-                Score = this._currentAvgScore.Value,
+                Score = avgScore ?? 0,
                 Pilot = this._dto.Pilot.Id,
                 Round = this._dto.Round.Id,
                 Duration = duration

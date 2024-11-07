@@ -20,16 +20,17 @@ namespace chdScoring.App.UI.Pages
         private CurrentFlight _dto;
         private ManeouvreDto _current => this.Maneouvres.Where(x => !x.Score.HasValue).OrderBy(o => o.Id).FirstOrDefault();
 
-        private JudgeDto Judge => this._dto?.Judges.FirstOrDefault(x => x.Id == this._judge);
+        private JudgeDto Judge => this._dto?.Judges.FirstOrDefault(x => x.Id == (this._judge ?? 0));
         private bool _panelDisabled => this._dto is null || !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero ? true : this._current is null;
         private bool _scrolledManually = false;
         private int _zoom;
+        private int[] _rights => new int[] { RightConstants.CompMgmt };
 
         private IEnumerable<ManeouvreDto> Maneouvres
         {
             get
             {
-                if (this._dto?.ManeouvreLst.TryGetValue(this._judge, out var lst) ?? false)
+                if (this._dto?.ManeouvreLst.TryGetValue(this._judge ?? 0, out var lst) ?? false)
                 {
                     return lst;
                 }
@@ -37,9 +38,11 @@ namespace chdScoring.App.UI.Pages
             }
         }
 
-        private int _judge;
+        private int? _judge;
 
         private BlockingCollection<SaveScoreDto> _unsavedScores = new BlockingCollection<SaveScoreDto>();
+        private IEnumerable<JudgeDto> _judges = [];
+        private JudgeDto _selectedJudge;
 
         [Inject] private IModalHandler _modal { get; set; }
         [Inject] private IJudgeHubClient _judgeHubClient { get; set; }
@@ -50,6 +53,16 @@ namespace chdScoring.App.UI.Pages
         [Inject] private IBatteryService _batteryService { get; set; }
         [Inject] private IVibrationHelper _vibrationHelper { get; set; }
         [Inject] private ISettingManager _settingManager { get; set; }
+
+        [Parameter]
+        public int? JudgeId
+        {
+            get => this._judge;
+            set
+            {
+                this._judge = value;
+            }
+        }
 
         protected override async Task OnInitializedAsync()
         {
@@ -65,6 +78,13 @@ namespace chdScoring.App.UI.Pages
             this.ResendUnsavedScore(this._cts.Token);
 
             await base.OnInitializedAsync();
+        }
+
+        private async void OnJudgeChanged(JudgeDto judge)
+        {
+            this._selectedJudge = judge;
+            this.JudgeId = judge.Id;
+            await this.InvokeAsync(this.StateHasChanged);
         }
 
         private async void _batteryService_InfoChanged(object? sender, EventArgs e)
@@ -106,7 +126,7 @@ namespace chdScoring.App.UI.Pages
                 {
                     Pilot = this._dto.Pilot.Id,
                     Figur = dto.Id,
-                    Judge = this._judge,
+                    Judge = this._judge.Value,
                     Round = this._dto.Round.Id,
                     Value = dto.Score.Value,
                     User = this._profileService.User.Id
@@ -120,9 +140,16 @@ namespace chdScoring.App.UI.Pages
             {
                 return;
             }
-            this._judge = this._profileService.User.Id;
+
+            this._judges = await this._judgeService.GetJudges(this._cts.Token);
+            this._judge ??= this._profileService.User.Id;
+            if (this._judge.HasValue)
+            {
+                this._selectedJudge = this._judges.FirstOrDefault(x => x.Id == this._judge.Value);
+            }
+
             if (!this._judgeHubClient.IsConnected) { await this._judgeHubClient.StartAsync(this._cts.Token); }
-            await this._judgeHubClient.Register(this._judge, this._cts.Token);
+            await this._judgeHubClient.Register(this._judge.Value, this._cts.Token);
             this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
             this._dto = this._judgeDataCache.Data ?? await this._judgeService.GetCurrentFlight();
         }

@@ -1,0 +1,19 @@
+@using chdScoring.Contracts.Dtos
+
+@if (this.Dto is not null)
+{
+    <div class="round-result-compact">
+        @foreach (var judge in this.Dto.Judges.OrderBy(o => o.Id))
+        {
+            <JudgeResultCompact Judge="judge" Maneouvres="this.Dto.ManeouvreLst[judge.Id]" />
+        }
+        <div class="round-result">
+            @((this._currentAvgScore ?? 0).ToString("n1"))
+        </div>
+    </div>
+}
+@code{
+    [Parameter]public CurrentFlight Dto{ get; set; }
+    private decimal? _currentAvgScore => this.Dto?.ManeouvreLst.Values.Select(s => s.Select(ss => ss.Value * (ss.Score ?? 0)).Sum()).Average();
+
+}
