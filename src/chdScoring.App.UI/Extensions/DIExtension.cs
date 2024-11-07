@@ -43,8 +43,6 @@ namespace chdScoring.App.UI.Extensions
             /* State Container Singletons */
             services.AddSingleton<INavigationHistoryStateContainer, NavigationHistoryStateContainer>();
 
-
-
             /* Scoped */
             services.AddScoped<INavigationHandler, NavigationHandler>();
 
