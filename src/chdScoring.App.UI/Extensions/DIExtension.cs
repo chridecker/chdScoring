@@ -16,12 +16,11 @@ namespace chdScoring.App.UI.Extensions
 {
     public static class DIExtension
     {
-        public static IServiceCollection AddChdScoringAppUI<TVibrationHelper, TUpdateService, TSettingManager, TBatteryService, TWifiManager>(this IServiceCollection services, IConfiguration configuration, ServiceLifetime profileServiceLifeTime = ServiceLifetime.Singleton)
+        public static IServiceCollection AddChdScoringAppUI<TVibrationHelper, TUpdateService, TSettingManager, TBatteryService>(this IServiceCollection services, IConfiguration configuration, ServiceLifetime profileServiceLifeTime = ServiceLifetime.Singleton)
             where TVibrationHelper : class, IVibrationHelper
             where TSettingManager : BaseSettingManager, ISettingManager
             where TUpdateService : BaseUpdateService
             where TBatteryService : class, IBatteryService
-            where TWifiManager : class, IWifiService
         {
             services.AddAuthorizationCore();
 
@@ -31,7 +30,6 @@ namespace chdScoring.App.UI.Extensions
 
             services.AddMauiModalHandler();
 
-            services.AddSingleton<IWifiService, TWifiManager>();
             services.AddSingleton<IKeyHandler, KeyHandler>();
             services.AddSingleton<IVibrationHelper, TVibrationHelper>();
             services.AddSingleton<IBatteryService, TBatteryService>();

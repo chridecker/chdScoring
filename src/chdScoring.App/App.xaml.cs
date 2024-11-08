@@ -27,7 +27,10 @@ namespace chdScoring.App
 #endif
 
                 var mainWindow = base.CreateWindow(activationState);
-
+#if WINDOWS
+                 mainWindow.Width = 370;
+                mainWindow.Height = 825;
+#endif
                 mainWindow.Deactivated += (sender, args) => this._appInfoService.AppLifeCycleChanged?.Invoke(this, EAppLifeCycle.OnSleep);
                 mainWindow.Resumed += (sender, args) => this._appInfoService.AppLifeCycleChanged?.Invoke(this, EAppLifeCycle.OnResume);
 
