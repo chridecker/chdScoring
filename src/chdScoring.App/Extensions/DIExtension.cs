@@ -14,7 +14,7 @@ namespace chdScoring.App.Extensions
     {
         public static IServiceCollection AddChdScoringApp(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddChdScoringAppUI<VibrationHelper, UpdateService, SettingManager, BatteryService>(configuration);
+            services.AddChdScoringAppUI<VibrationHelper, UpdateService, SettingManager, BatteryService, TTSService>(configuration);
 
 #if ANDROID
             services.ConfigureHttpClientDefaults(builder => builder.ConfigurePrimaryHttpMessageHandler(HttpsClientHandlerService.GetPlatformMessageHandler));

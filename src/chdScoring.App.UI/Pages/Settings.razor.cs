@@ -21,6 +21,7 @@ namespace chdScoring.App.UI.Pages
         private string _autoRedirect;
         private double _batteryLimit;
         private int _scoringZoom;
+        private int _speechVolume;
         private bool _useUix;
         private Dictionary<string, RenderFragment> _redirectOptions = new Dictionary<string, RenderFragment>();
 
@@ -48,6 +49,7 @@ namespace chdScoring.App.UI.Pages
             this._autoRedirect = await this._settingManager.GetSettingLocal(SettingConstants.AutoRedirectTo);
             this._batteryLimit = await this._settingManager.GetSettingLocal<double>(SettingConstants.BatteryWarningLimit);
             this._scoringZoom = await this._settingManager.GetSettingLocal<int>(SettingConstants.ScoringZoom);
+            this._speechVolume = await this._settingManager.GetSettingLocal<int>(SettingConstants.SpeechVolume);
             this._useUix = await this._settingManager.GetSettingLocal<bool>(SettingConstants.Use_UIX);
 
             await this.InitSelection();
@@ -94,6 +96,13 @@ namespace chdScoring.App.UI.Pages
         {
             this._scoringZoom = int.TryParse(e.Value.ToString(), out var val) ? val : 100;
             await this._settingManager.StoreSettingLocal<int>(SettingConstants.ScoringZoom, this._scoringZoom);
+            await this.InvokeAsync(this.StateHasChanged);
+        }
+        
+        private async Task UpdateSpeechVolume(ChangeEventArgs e)
+        {
+            this._speechVolume = int.TryParse(e.Value.ToString(), out var val) ? val : 100;
+            await this._settingManager.StoreSettingLocal<int>(SettingConstants.SpeechVolume, this._speechVolume);
             await this.InvokeAsync(this.StateHasChanged);
         }
 

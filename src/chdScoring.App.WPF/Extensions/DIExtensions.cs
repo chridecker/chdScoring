@@ -20,7 +20,7 @@ namespace chdScoring.App.WPF.Extensions
     {
         public static IServiceCollection AddChdScoringApp(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddChdScoringAppUI<VibrationHelper, UpdateService, SettingManager, BatteryService>(configuration);
+            services.AddChdScoringAppUI<VibrationHelper, UpdateService, SettingManager, BatteryService, TTSService>(configuration);
 
             services.AddSingleton<INotificationManagerService, NotificationManagerService>();
             return services;

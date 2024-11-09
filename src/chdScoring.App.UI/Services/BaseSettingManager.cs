@@ -45,6 +45,7 @@ namespace chdScoring.App.UI.Services
             await this.StoreSettingLocal<string>(SettingConstants.BaseAddress, url);
         }
 
+
         public Task<string> GetAutoRedirectTo() => this.GetSettingLocal(SettingConstants.AutoRedirectTo);
 
         public async Task SetAutoRedirectTo(string value)
@@ -58,6 +59,6 @@ namespace chdScoring.App.UI.Services
 
         public abstract void SetNativSetting<T>(string key, T value) where T : class;
 
-        public Task<int> GetScoringZoom()=> this.GetSettingLocal<int>(SettingConstants.ScoringZoom);
+        public Task<int> GetScoringZoom() => this.GetSettingLocal<int>(SettingConstants.ScoringZoom);
     }
 }

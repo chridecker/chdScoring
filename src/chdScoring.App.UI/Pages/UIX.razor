@@ -7,6 +7,7 @@
 @inject INotificationManagerService notificationService
 @inject IModalService modal
 @inject IBatteryService battery
+@inject ITTSService ttsService
 
 @attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.UIX })]
 
@@ -35,9 +36,9 @@
         await base.OnInitializedAsync();
     }
 
-    private void Error()
+    private async Task Error()
     {
-        throw new Exception("Test");
+        await ttsService.SpeakNowAsync(_message);
     }
 
     private async Task Alert()

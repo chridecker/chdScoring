@@ -16,11 +16,12 @@ namespace chdScoring.App.UI.Extensions
 {
     public static class DIExtension
     {
-        public static IServiceCollection AddChdScoringAppUI<TVibrationHelper, TUpdateService, TSettingManager, TBatteryService>(this IServiceCollection services, IConfiguration configuration, ServiceLifetime profileServiceLifeTime = ServiceLifetime.Singleton)
+        public static IServiceCollection AddChdScoringAppUI<TVibrationHelper, TUpdateService, TSettingManager, TBatteryService, TTTS>(this IServiceCollection services, IConfiguration configuration, ServiceLifetime profileServiceLifeTime = ServiceLifetime.Singleton)
             where TVibrationHelper : class, IVibrationHelper
             where TSettingManager : BaseSettingManager, ISettingManager
             where TUpdateService : BaseUpdateService
             where TBatteryService : class, IBatteryService
+            where TTTS : class, ITTSService
         {
             services.AddAuthorizationCore();
 
@@ -35,6 +36,7 @@ namespace chdScoring.App.UI.Extensions
             services.AddSingleton<IBatteryService, TBatteryService>();
 
             services.AddSingleton<IAppInfoService, AppInfoService>();
+            services.AddSingleton<ITTSService, TTTS>();
 
             services.AddSingleton<IchdScoringProfileService>(sp => sp.GetRequiredService<chdScoringProfileService>());
 

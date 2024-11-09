@@ -12,8 +12,6 @@ namespace chdScoring.App.Services
 {
     public class SettingManager : BaseSettingManager
     {
-        private string _mainUrl;
-        private int? _judge;
         private readonly IConfiguration _configuration;
 
         public event EventHandler<string> AutoRedirectToChanged;
