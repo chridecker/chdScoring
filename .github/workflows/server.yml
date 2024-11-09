@@ -31,7 +31,7 @@ jobs:
         $YEAR=& Get-Date -UFormat "%y%j"
         $HOUR=& Get-Date -format HHmm
         $VERSION="$MAJOR.$MINOR.$YEAR.$HOUR"
-        dotnet publish src/chdScoring.Main.WebServer/chdScoring.Main.WebServer.csproj --no-restore --configuration ${{ env.BUILD_CONFIG }} --framework net8.0-windows --self-contained true -r win-x64 /p:Version=$VERSION 
+        dotnet publish src/chdScoring.Main.WebServer/chdScoring.Main.WebServer.csproj --no-restore --configuration ${{ env.BUILD_CONFIG }} --framework net8.0-windows --runtime win-x64 --self-contained true /p:Version=$VERSION 
 
     - name: Upload APK Build Artifact
       uses: actions/upload-artifact@v4.4.2
