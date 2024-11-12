@@ -8,6 +8,6 @@ namespace chdScoring.App.UI.Interfaces
 {
     public interface ITTSService
     {
-        Task SpeakNowAsync(string message,string lang = "de", CancellationToken cancellation = default);
+        Task SpeakAsync(string message,CancellationToken cancellation = default);
     }
 }

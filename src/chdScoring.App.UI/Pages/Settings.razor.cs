@@ -11,6 +11,7 @@ namespace chdScoring.App.UI.Pages
     {
         [Inject] private ISettingManager _settingManager { get; set; }
         [Inject] private IUpdateService _updateService { get; set; }
+        [Inject(Key = SettingConstants.AvailableLanguages)] private Dictionary<string, string> _availableLang { get; set; }
 
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
@@ -21,9 +22,22 @@ namespace chdScoring.App.UI.Pages
         private string _autoRedirect;
         private double _batteryLimit;
         private int _scoringZoom;
-        private int _speechVolume;
+        private string _speechLanguage;
         private bool _useUix;
+        private Dictionary<string, RenderFragment> _speechLanguages = new Dictionary<string, RenderFragment>();
         private Dictionary<string, RenderFragment> _redirectOptions = new Dictionary<string, RenderFragment>();
+
+        private KeyValuePair<string, RenderFragment>? _selectedSpeechLanguage;
+        private KeyValuePair<string, RenderFragment>? SelectedSpeechLanguage
+        {
+            get => this._selectedSpeechLanguage;
+            set
+            {
+                this._selectedSpeechLanguage = value;
+                this.SelectedSpeechLanguageChanged(value);
+            }
+        }
+
 
         private KeyValuePair<string, RenderFragment>? _selectedAutoRedirect;
         private KeyValuePair<string, RenderFragment>? SelectedAutoRedirect
@@ -49,13 +63,25 @@ namespace chdScoring.App.UI.Pages
             this._autoRedirect = await this._settingManager.GetSettingLocal(SettingConstants.AutoRedirectTo);
             this._batteryLimit = await this._settingManager.GetSettingLocal<double>(SettingConstants.BatteryWarningLimit);
             this._scoringZoom = await this._settingManager.GetSettingLocal<int>(SettingConstants.ScoringZoom);
-            this._speechVolume = await this._settingManager.GetSettingLocal<int>(SettingConstants.SpeechVolume);
+            this._speechLanguage = await this._settingManager.GetSettingLocal(SettingConstants.SpeechLanguage);
             this._useUix = await this._settingManager.GetSettingLocal<bool>(SettingConstants.Use_UIX);
 
+            await this.InitSpeechLanguages();
             await this.InitSelection();
 
             await base.OnInitializedAsync();
         }
+
+        private async Task InitSpeechLanguages()
+        {
+            foreach (var lang in this._availableLang)
+            {
+                this._speechLanguages.Add(lang.Key, CreateColorOption(string.IsNullOrEmpty(lang.Value) ? lang.Key : lang.Value, "message"));
+            }
+            this._selectedSpeechLanguage = this._speechLanguages.FirstOrDefault(x => x.Key == this._speechLanguage);
+        }
+
+
         private async Task InitSelection()
         {
             this._redirectOptions.Add("", CreateColorOption(PageTitleConstants.Index, "house"));
@@ -98,11 +124,14 @@ namespace chdScoring.App.UI.Pages
             await this._settingManager.StoreSettingLocal<int>(SettingConstants.ScoringZoom, this._scoringZoom);
             await this.InvokeAsync(this.StateHasChanged);
         }
-        
-        private async Task UpdateSpeechVolume(ChangeEventArgs e)
+
+        private async Task SelectedSpeechLanguageChanged(KeyValuePair<string, RenderFragment>? val)
         {
-            this._speechVolume = int.TryParse(e.Value.ToString(), out var val) ? val : 100;
-            await this._settingManager.StoreSettingLocal<int>(SettingConstants.SpeechVolume, this._speechVolume);
+            this._selectedSpeechLanguage = val;
+            if (val.HasValue)
+            {
+                await this._settingManager.StoreSettingLocal(SettingConstants.SpeechLanguage, val.Value.Key);
+            }
             await this.InvokeAsync(this.StateHasChanged);
         }
 
@@ -111,7 +140,7 @@ namespace chdScoring.App.UI.Pages
             await this._settingManager.StoreSettingLocal<bool>(SettingConstants.DeveloperMode, (bool)e.Value);
             await this.InvokeAsync(this.StateHasChanged);
         }
-        
+
         private async Task UpdateUIX(ChangeEventArgs e)
         {
             await this._settingManager.StoreSettingLocal<bool>(SettingConstants.Use_UIX, (bool)e.Value);

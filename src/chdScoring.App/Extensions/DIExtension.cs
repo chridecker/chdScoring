@@ -3,6 +3,7 @@ using chd.UI.Base.Client.Implementations.Services;
 using chdScoring.App.Auth;
 using chdScoring.App.Helper;
 using chdScoring.App.Services;
+using chdScoring.App.UI.Constants;
 using chdScoring.App.UI.Extensions;
 using chdScoring.App.UI.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -12,8 +13,12 @@ namespace chdScoring.App.Extensions
 {
     public static class DIExtension
     {
-        public static IServiceCollection AddChdScoringApp(this IServiceCollection services, IConfiguration configuration)
+        public static async Task <IServiceCollection> AddChdScoringApp(this IServiceCollection services, IConfiguration configuration)
         {
+            var langs = await TextToSpeech.Default.GetLocalesAsync();
+
+            services.AddKeyedSingleton(SettingConstants.AvailableLanguages, langs.GroupBy(s => s.Language,s=> s).ToDictionary(d => d.Key, d=> $"{d.FirstOrDefault()?.Name} ({d.FirstOrDefault()?.Language})"));
+
             services.AddChdScoringAppUI<VibrationHelper, UpdateService, SettingManager, BatteryService, TTSService>(configuration);
 
 #if ANDROID

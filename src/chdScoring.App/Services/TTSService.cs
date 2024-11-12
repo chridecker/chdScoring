@@ -16,10 +16,18 @@ namespace chdScoring.App.Services
         {
             this._settingManager = settingManager;
         }
-        public async Task SpeakNowAsync(string message, string lang = "de", CancellationToken cancellation = default)
+        public async Task SpeakAsync(string message, CancellationToken cancellation = default)
         {
             if (string.IsNullOrWhiteSpace(message)) { return; }
-            IEnumerable<Locale> locales = await TextToSpeech.Default.GetLocalesAsync();
+            var lang = "de";
+            var selectedLang = await this._settingManager.GetSettingLocal(SettingConstants.SpeechLanguage);
+            var locales = await TextToSpeech.Default.GetLocalesAsync();
+
+            if (!string.IsNullOrWhiteSpace(selectedLang) && locales.Any(x => x.Language.StartsWith(selectedLang.Substring(0, 2))))
+            {
+                lang = selectedLang;
+            }
+
             var options = new SpeechOptions()
             {
                 Locale = locales.FirstOrDefault(x => x.Language.StartsWith(lang))

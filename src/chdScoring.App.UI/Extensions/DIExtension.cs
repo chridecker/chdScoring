@@ -36,7 +36,7 @@ namespace chdScoring.App.UI.Extensions
             services.AddSingleton<IBatteryService, TBatteryService>();
 
             services.AddSingleton<IAppInfoService, AppInfoService>();
-            services.AddSingleton<ITTSService, TTTS>();
+            services.Add(new(typeof(ITTSService), typeof(TTTS), ServiceLifetime.Scoped));
 
             services.AddSingleton<IchdScoringProfileService>(sp => sp.GetRequiredService<chdScoringProfileService>());
 

@@ -9,7 +9,7 @@ namespace chdScoring.App.WPF.Services
 {
     public class TTSService : ITTSService
     {
-        public Task SpeakNowAsync(string message, string lang = "de", CancellationToken cancellation = default)
+        public Task SpeakAsync(string message,  CancellationToken cancellation = default)
         {
             throw new NotImplementedException();
         }

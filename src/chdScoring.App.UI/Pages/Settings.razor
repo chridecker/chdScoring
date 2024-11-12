@@ -13,8 +13,8 @@
         <input type="range" min="50" max="200" value="@this._scoringZoom" @onchange="async (e)=>await this.UpdateScoringZoom(e)" />
     </div>
     <div class="setting">
-        Speech Volume(@(this._speechVolume)%):
-        <input type="range" min="0" max="100" value="@this._speechVolume" @onchange="async (e)=>await this.UpdateSpeechVolume(e)" />
+        Speech:
+        <Selection Values="this._speechLanguages" @bind-SelectedValue="this.SelectedSpeechLanguage" />
     </div>
     <div class="setting">
         Theme: <ThemeModeButton />
