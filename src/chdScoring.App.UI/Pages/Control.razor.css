@@ -2,7 +2,7 @@
 .control-center {
     padding: 0.2rem;
     display: flex;
-    gap: 0.5rem;
+    gap: 0.2rem;
     flex-direction: column;
 }
 
@@ -14,8 +14,9 @@
         .control-center .maneouvres .maneouvre {
             display: flex;
             flex-direction: row;
-            gap: 0.3rem;
+            gap: 0.5rem;
             border-bottom: 1px dashed var(--chd-grey);
+            padding-bottom: 0.1rem;
         }
 
             .control-center .maneouvres .maneouvre:hover {
@@ -30,26 +31,27 @@
             }
 
             .control-center .maneouvres .maneouvre .figur {
-                width: max(20rem,75%);
+                width: max(22rem,80%);
                 overflow: scroll;
-                height: 1.5rem;
+                height: 1.7rem;
             }
 
             .control-center .maneouvres .maneouvre .judge-scores {
                 display: flex;
                 flex-direction: row;
-                gap: 0.5rem;
+                gap: 0.3rem;
             }
+
+                .control-center .maneouvres .maneouvre .judge-scores .needs-attention {
+                }
 
                 .control-center .maneouvres .maneouvre .judge-scores .judge-score {
                     min-width: 2.2rem;
                     text-align: center;
+                    background: var(--chd-bg);
                 }
 
-                    .control-center .maneouvres .maneouvre .judge-scores .judge-score.needs-attention {
-                        border: 3px solid var(--chd-red);
-                        border-radius: 15px;
-                    }
+
 
 
 @media (max-width: 400px) {

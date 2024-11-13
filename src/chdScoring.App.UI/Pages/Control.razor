@@ -6,21 +6,23 @@
 
 @if (this._dto is not null)
 {
-        <div class="control-center">
-            <div class="maneouvres">
+    <div class="control-center">
+        <div class="maneouvres">
             @foreach (var maneouvre in this._dto.ManeouvreLst.FirstOrDefault().Value.OrderBy(o => o.Id))
             {
-                        <div class="maneouvre">
-                            <div class="figur-id">@maneouvre.Id.ToString("D2")</div>
-                            <div class="figur">@maneouvre.Name (@maneouvre.Value)</div>
-                            <div class="judge-scores">
+                <div class="maneouvre">
+                    <div class="figur-id">@maneouvre.Id.ToString("D2")</div>
+                    <div class="figur">@maneouvre.Name (@maneouvre.Value)</div>
+                    <div class="judge-scores">
                         @foreach (var judge in this._dto.Judges.OrderBy(o => o.Id))
                         {
-                                        <div class="judge-score @(this._scoreClass(judge, maneouvre))">@_score(judge, maneouvre)</div>
-                        }
+                            <div class="@(this._scoreClass(judge, maneouvre))">
+                                <div class="judge-score ">@_score(judge, maneouvre)</div>
                             </div>
-                        </div>
+                        }
+                    </div>
+                </div>
             }
-            </div>
         </div>
+    </div>
 }

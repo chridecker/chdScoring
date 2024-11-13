@@ -38,7 +38,7 @@ namespace chdScoring.App.UI.Pages
         {
             var score = this._score(judge, maneouvre);
             if (!score.HasValue || score.Value >= 1) { return string.Empty; }
-            return "needs-attention";
+            return "needs-attention is-loading-glow ";
         }
 
         private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)

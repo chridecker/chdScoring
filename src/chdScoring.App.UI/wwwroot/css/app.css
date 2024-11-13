@@ -145,8 +145,32 @@
     }
 }
 
-.blazored-modal {
+/*Modal*/
+.bm-container {
+    z-index: 902;
 }
+
+.blazored-modal {
+    background-color: var(--chd-bg) !important;
+    color: var(--chd-font-color) !important;
+    max-width: 80vw !important;
+    max-height: 80vh !important;
+    overflow: scroll !important;
+    border-color: var(--chd-main-color-theme) !important;
+}
+
+    .blazored-modal .bm-close {
+        color: var(--chd-font-color) !important;
+    }
+
+    .blazored-modal::-webkit-scrollbar {
+        display: none;
+    }
+
+    .blazored-modal .bm-header {
+        padding: 0 !important;
+    }
+
 
     .blazored-modal .blazored-modal-content {
         overflow: auto;
