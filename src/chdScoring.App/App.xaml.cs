@@ -21,21 +21,22 @@ namespace chdScoring.App
 
         protected override Window CreateWindow(IActivationState activationState)
         {
-            {
+
+        var col = Color.FromRgba("#181B1F");
+            col.ToRgba(out var r, out var g,out var b, out var a);
 #if ANDROID
-                Platform.CurrentActivity.Window.SetNavigationBarColor(Color.FromRgba("#181B1F").ToAndroid());
+        Platform.CurrentActivity.Window.SetNavigationBarColor(Android.Graphics.Color.Argb(a,r,g,b));
 #endif
 
-                var mainWindow = base.CreateWindow(activationState);
+            var mainWindow = base.CreateWindow(activationState);
 #if WINDOWS
                  mainWindow.Width = 370;
                 mainWindow.Height = 825;
 #endif
-                mainWindow.Deactivated += (sender, args) => this._appInfoService.AppLifeCycleChanged?.Invoke(this, EAppLifeCycle.OnSleep);
-                mainWindow.Resumed += (sender, args) => this._appInfoService.AppLifeCycleChanged?.Invoke(this, EAppLifeCycle.OnResume);
+        mainWindow.Deactivated += (sender, args) => this._appInfoService.AppLifeCycleChanged?.Invoke(this, EAppLifeCycle.OnSleep);
+        mainWindow.Resumed += (sender, args) => this._appInfoService.AppLifeCycleChanged?.Invoke(this, EAppLifeCycle.OnResume);
 
-                return mainWindow;
-            }
+            return mainWindow;
         }
-    }
+}
 }
