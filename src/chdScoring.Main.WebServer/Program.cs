@@ -28,7 +28,7 @@ builder.WebHost.UseUrls(config.GetValue<string>("BaseAddress"));
 
 builder.Host.UseWindowsFormsLifetime<MainForm>();
 
-builder.Services.AddBaseApi("chdScoringAPI");
+builder.Services.AddBaseApi();
 
 builder.Services.AddchdScoringDataAccess(builder.Configuration);
 builder.Services.AddHostedService<chdScoringService>();
@@ -45,6 +45,7 @@ app.MapHub<FlightHub>("/chdScoring/flight-hub");
 
 
 app.UseBaseApi();
+app.MapBaseApi("chdScoringAPI");
 
 app.UseRouting();
 

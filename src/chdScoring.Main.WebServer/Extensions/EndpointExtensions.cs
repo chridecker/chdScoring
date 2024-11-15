@@ -21,9 +21,9 @@ namespace chdScoring.Main.WebServer.Extensions
             var control = mainGroup.MapGroup(EndpointConstants.Control.ROUTE).WithTags(EndpointConstants.Control.ROUTE);
 
             var scoring = mainGroup.MapGroup(Scoring.ROUTE).WithTags(Scoring.ROUTE);
-            var judges = mainGroup.MapGroup(Judge.ROUTE).WithDisplayName(Judge.ROUTE);
-            var pilot = mainGroup.MapGroup(Pilot.ROUTE).WithDisplayName(Pilot.ROUTE);
-            var device = mainGroup.MapGroup(Device.ROUTE).WithDisplayName(Device.ROUTE);
+            var judges = mainGroup.MapGroup(Judge.ROUTE).WithTags(Judge.ROUTE);
+            var pilot = mainGroup.MapGroup(Pilot.ROUTE).WithTags(Pilot.ROUTE);
+            var device = mainGroup.MapGroup(Device.ROUTE).WithTags(Device.ROUTE);
 
             device.MapGet(Device.GET, async ([FromServices] IDeviceService service, CancellationToken token) => await service.GetAll(token));
             device.MapGet(Device.GET_DeviceStatus, async ([FromQuery] string name, [FromServices] IDeviceService service, CancellationToken cancellation) => await service.GetByName(name, cancellation));
