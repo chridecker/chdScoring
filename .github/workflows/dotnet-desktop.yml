@@ -27,16 +27,22 @@ jobs:
       
     runs-on: windows-latest
 
+    strategy:
+      matrix:
+        dotnet-version: [ '9.0.x' ]
+    
     steps:
     - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
    
     - name: Install Maui
       run: dotnet workload install maui 
         
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
+   
     - name: Restore dependencies
       run: dotnet restore
     - name: Publish
