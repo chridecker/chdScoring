@@ -27,7 +27,7 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<PackageIcon>android-chrome-192x192_wh.png</PackageIcon>
 		<PublishAot>False</PublishAot>
-		<Version>1.0.0.2</Version>
+		<Version>1.0.0.3</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
