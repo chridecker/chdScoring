@@ -21,11 +21,8 @@ namespace chdScoring.App
 
         protected override Window CreateWindow(IActivationState activationState)
         {
-
-        var col = Color.FromRgba("#181B1F");
-            col.ToRgba(out var r, out var g,out var b, out var a);
 #if ANDROID
-        Platform.CurrentActivity.Window.SetNavigationBarColor(Android.Graphics.Color.Argb(a,r,g,b));
+        Platform.CurrentActivity.Window.SetNavigationBarColor(Android.Graphics.Color.Rgb(24,27,31));
 #endif
 
             var mainWindow = base.CreateWindow(activationState);
