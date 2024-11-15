@@ -13,11 +13,12 @@ namespace chdScoring.App.Extensions
 {
     public static class DIExtension
     {
-        public static async Task <IServiceCollection> AddChdScoringApp(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddChdScoringApp(this IServiceCollection services, IConfiguration configuration)
         {
-            var langs = await TextToSpeech.Default.GetLocalesAsync();
+            var langs = new Dictionary<string, string>();// TextToSpeech.Default.GetLocalesAsync().Result;
 
-            services.AddKeyedSingleton(SettingConstants.AvailableLanguages, langs.GroupBy(s => s.Language,s=> s).ToDictionary(d => d.Key, d=> $"{d.FirstOrDefault()?.Name} ({d.FirstOrDefault()?.Language})"));
+
+            services.AddKeyedSingleton(SettingConstants.AvailableLanguages, langs);//.GroupBy(s => s.Language, s => s).ToDictionary(d => d.Key, d => $"{d.FirstOrDefault()?.Name} ({d.FirstOrDefault()?.Language})"));
 
             services.AddChdScoringAppUI<VibrationHelper, UpdateService, SettingManager, BatteryService, TTSService>(configuration);
 
