@@ -11,7 +11,7 @@ namespace chdScoring.App.UI.Pages
     {
         [Inject] private ISettingManager _settingManager { get; set; }
         [Inject] private IUpdateService _updateService { get; set; }
-        [Inject(Key = SettingConstants.AvailableLanguages)] private Dictionary<string, string> _availableLang { get; set; }
+        [Inject(Key = SettingConstants.AvailableLanguages)] private Task<Dictionary<string, string>> _availableLang { get; set; }
 
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
@@ -74,7 +74,7 @@ namespace chdScoring.App.UI.Pages
 
         private async Task InitSpeechLanguages()
         {
-            foreach (var lang in this._availableLang)
+            foreach (var lang in await this._availableLang)
             {
                 this._speechLanguages.Add(lang.Key, CreateColorOption(string.IsNullOrEmpty(lang.Value) ? lang.Key : lang.Value, "message"));
             }

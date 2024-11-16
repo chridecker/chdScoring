@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
 		<!--<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>-->
+
 		<OutputType>Exe</OutputType>
 		<RootNamespace>chdScoring.App</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -15,42 +16,31 @@
 		<ApplicationTitle>chdScoring.App</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.chdscoring.app</ApplicationId>
+		<ApplicationId>com.chdscoring.mobile.app</ApplicationId>
 		<ApplicationIdGuid>BFC96E92-5187-47DB-B0D5-50F402520A1D</ApplicationIdGuid>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
+		<WindowsPackageType>None</WindowsPackageType>
+
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
-		<PackageIcon>android-chrome-192x192_wh.png</PackageIcon>
+		
 		<PublishAot>False</PublishAot>
 		<Version>1.0.0.3</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
-		<ApplicationTitle>chdScoring</ApplicationTitle>
-		<ApplicationId>com.chdscoring.mobile.app</ApplicationId>
 		<EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-windows10.0.19041.0|AnyCPU'">
-		<ApplicationTitle>chdScoring</ApplicationTitle>
-		<ApplicationId>com.chdscoring.mobile.app</ApplicationId>
-	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
-		<ApplicationTitle>chdScoring</ApplicationTitle>
-		<ApplicationId>com.chdscoring.mobile.app</ApplicationId>
 		<RunAOTCompilation>False</RunAOTCompilation>
 	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-windows10.0.19041.0|AnyCPU'">
-		<ApplicationTitle>chdScoring</ApplicationTitle>
-		<ApplicationId>com.chdscoring.mobile.app</ApplicationId>
-	</PropertyGroup>
+	
 
 	<ItemGroup>
 		<!-- App Icon -->
@@ -100,11 +90,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.0.10" />
+	  <PackageReference Update="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.10" />
+	  <PackageReference Update="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 	</ItemGroup>
 
 	<ItemGroup>
