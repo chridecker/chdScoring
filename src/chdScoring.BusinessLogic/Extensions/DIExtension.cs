@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Reflection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 
 
@@ -46,10 +47,33 @@ namespace chdScoring.BusinessLogic.Extensions
 
             services.AddDALs<CurrentFlightDAL, ICurrentFlightDAL>(ServiceLifetime.Scoped);
             services.AddRepositories<TeilnehmerRepository, ITeilnehmerRepository>(ServiceLifetime.Scoped);
+
             return services;
         }
 
-
+        private static IServiceCollection AddchdScoringContext(this IServiceCollection services)
+        {
+            services.AddDbContext<chdScoringContext>((sp, opt) =>
+            {
+                var optMonitor = sp.GetRequiredService<IOptionsMonitor<DBSettings>>();
+                if (optMonitor.Get(nameof(EDBConnection.MySql)).ConnectionType == EDBConnection.MySql)
+                {
+                    foreach (var conn in optMonitor.Get(nameof(EDBConnection.MySql)).ConnectionStrings)
+                    {
+                        opt.UseMySQL(conn.ConnectionString);
+                    }
+                }
+                else if (optMonitor.Get(nameof(EDBConnection.SQLite)).ConnectionType == EDBConnection.SQLite)
+                {
+                    foreach (var conn in optMonitor.Get(nameof(EDBConnection.SQLite)).ConnectionStrings)
+                    {
+                        //opt.
+                        opt.UseSqlite(conn.ConnectionString);
+                    }
+                }
+            });
+            return services;
+        }
         private static IServiceCollection AddDALs<TImplementation, TInterface>(this IServiceCollection services, ServiceLifetime lifetime) where TImplementation : class, TInterface where TInterface : IBaseDAL
             => services.AddContractImplementation<IBaseDAL, TImplementation, TInterface>(lifetime);
 
@@ -76,12 +100,11 @@ namespace chdScoring.BusinessLogic.Extensions
             where TContext : DbContext
         {
             services.AddSingleton<IDatabaseConfiguration, DatabaseConfiguration>();
+
             var sp = services.BuildServiceProvider();
             var optMonitor = sp.GetRequiredService<IOptionsMonitor<DBSettings>>();
             if (optMonitor.Get(nameof(EDBConnection.MySql)).ConnectionType == EDBConnection.MySql)
             {
-
-
                 foreach (var conn in optMonitor.Get(nameof(EDBConnection.MySql)).ConnectionStrings)
                 {
                     services.AddKeyedDBContextOptions<TContext>(conn.Name, (opt) => opt.UseMySQL(conn.ConnectionString));
