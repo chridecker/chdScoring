@@ -22,6 +22,9 @@
     <SideWidget OnClick="this.LoadRoundResult" FAClass="ranking-star">
         <RoundResultCompact Results="this._results" />
     </SideWidget>
+    <SideWidget OnClick="this.LoadDatabaseData" FAClass="database">
+        <DatabaseManagement CurrentDatabaseConnection="@this._currentDatabaseConnection" DatabaseConnections="this._databaseConnections" />
+    </SideWidget>
 </SideWidgetContainer>
 
 <FloatingActionNavigation FAIconActive="floppy-disk" OnClick="async () => await this.SaveRound()" TextActive="Save Round">

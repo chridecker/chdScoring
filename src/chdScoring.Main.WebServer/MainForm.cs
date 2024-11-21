@@ -24,7 +24,11 @@ namespace chdScoring.Main.WebServer
             this.Resize += this.MainForm_Resize;
             this._apiLogger = apiLogger;
             this._apiLogger.LogAdded += this._apiLogger_LogAdded;
+
+            this._databaseConfiguration.ConnectionChanged += this._databaseConfiguration_ConnectionChanged;
         }
+
+
 
         private void _apiLogger_LogAdded(object? sender, EventArgs e)
         {
@@ -68,13 +72,24 @@ namespace chdScoring.Main.WebServer
 
         private async void comboBoxDataBase_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (sender is ComboBox cB)
+            if (sender is ComboBox cB
+                && cB.SelectedItem != this._databaseConfiguration.CurrentConnection)
             {
                 this._databaseConfiguration.SetCurrentConnection(cB.SelectedItem.ToString());
-                using var scope = this._serviceProvider.CreateScope();
-                await scope.ServiceProvider.GetRequiredService<IFlightCacheService>().Update(CancellationToken.None);
-                 await scope.ServiceProvider.GetService<IHubDataService>().SendAll(CancellationToken.None);
             }
+        }
+        private async void _databaseConfiguration_ConnectionChanged(object? sender, string e)
+        {
+            this.Invoke(() =>
+            {
+                if (this.comboBoxDataBase.SelectedItem != e)
+                {
+                    this.comboBoxDataBase.SelectedItem = e;
+                }
+            });
+            using var scope = this._serviceProvider.CreateScope();
+            await scope.ServiceProvider.GetRequiredService<IFlightCacheService>().Update(CancellationToken.None);
+            await scope.ServiceProvider.GetService<IHubDataService>().SendAll(CancellationToken.None);
         }
     }
 }

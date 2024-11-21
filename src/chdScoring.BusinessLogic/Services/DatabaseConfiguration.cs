@@ -15,6 +15,9 @@ namespace chdScoring.BusinessLogic.Services
         private string _currentConnectionKey;
         private readonly IOptionsMonitor<DBSettings> _optionsMonitor;
 
+
+        public event EventHandler<string> ConnectionChanged;
+
         public string CurrentConnection => this._currentConnectionKey;
 
         public DatabaseConfiguration(IOptionsMonitor<DBSettings> optionsMonitor)
@@ -26,6 +29,7 @@ namespace chdScoring.BusinessLogic.Services
         public void SetCurrentConnection(string connectionKey)
         {
             this._currentConnectionKey = connectionKey;
+            this.ConnectionChanged?.Invoke(this, connectionKey);
         }
 
         public IEnumerable<DBConnectionSetting> GetConnections()

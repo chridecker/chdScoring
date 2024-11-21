@@ -42,6 +42,7 @@ namespace chdScoring.BusinessLogic.Extensions
             services.AddTransient<IJudgeService, JudgeService>();
             services.AddTransient<IScoringService, ScoringService>();
             services.AddTransient<IPilotService, PilotService>();
+            services.AddTransient<IDatabaseService, DatabaseService>();
 
             services.AddContextFactory<chdScoringContext>(ServiceLifetime.Scoped);
 

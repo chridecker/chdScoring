@@ -23,10 +23,13 @@ namespace chdScoring.App.UI.Pages
         [Inject] IJudgeDataCache _judgeDataCache { get; set; }
         [Inject] IPilotService _pilotService { get; set; }
         [Inject] ITimerService _timerService { get; set; }
+        [Inject] IDatabaseService _databaseService { get; set; }
 
 
         private CurrentFlight _dto;
         private IEnumerable<RoundResultDto> _results;
+        private IEnumerable<string> _databaseConnections;
+        private string _currentDatabaseConnection;
 
         protected override async Task OnInitializedAsync()
         {
@@ -63,6 +66,11 @@ namespace chdScoring.App.UI.Pages
         {
             this._results = null;
             this._results = await this._pilotService.GetRoundResult(this._dto?.Round?.Id, this._cts.Token);
+        }
+        private async Task LoadDatabaseData()
+        {
+            this._databaseConnections = await this._databaseService.GetDatabaseConnections();
+            this._currentDatabaseConnection = await this._databaseService.GetCurrentDatabaseConnection();
         }
 
         private async Task SaveRound()
