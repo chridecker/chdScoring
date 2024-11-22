@@ -43,9 +43,9 @@ namespace chdScoring.PrintService.Services
             {
                 await Task.Delay(TimeSpan.FromSeconds(5));
                 var file = new FileInfo(e.FullPath);
-                if (file.Exists && this._printCache.TryTake(file, out var dto))
+                if (file.Exists)
                 {
-                    this._printCache.Add(file, dto);
+                    this._printCache.Add(file);
                 }
             }
         }
@@ -95,19 +95,12 @@ namespace chdScoring.PrintService.Services
                     Path = $"{Folder}/{dto.Name}"
                 });
                 await page.CloseAsync();
-
-                this._printCache.Add(new PrintDto
-                {
-                    FilePath = dto.Name,
-                    Landscape = dto.Landscape,
-                    Printer = this._printCache.Printer
-                });
             }
         }
 
         private async Task HandlePrintFolder(CancellationToken cancellationToken)
         {
-            while (this._printCache.TryTake(out PrintDto dto, cancellationToken))
+            while (this._printCache.TryTake(out FileInfo dto, cancellationToken))
             {
                 this.PrintFile(dto);
             }
@@ -115,31 +108,27 @@ namespace chdScoring.PrintService.Services
 
 
 
-        private void PrintFile(PrintDto dto)
+        private void PrintFile(FileInfo file)
         {
-            var file = new FileInfo(dto.FilePath);
-            if (file.Exists && this.PrintFileToPrinter(file, this._printCache.Printer, dto.Landscape))
+            if (file.Exists && this.PrintFileToPrinter(file, this._printCache.Printer))
             {
                 file.Delete();
             }
         }
 
-        private bool PrintFileToPrinter(FileInfo info, string printer, bool landScape)
+        private bool PrintFileToPrinter(FileInfo info, string printer)
         {
             try
             {
-                // Create the printer settings for our printer
                 var printerSettings = new PrinterSettings
                 {
                     PrinterName = printer,
                     Copies = (short)1,
                 };
 
-                // Create our page settings for the paper size selected
                 var pageSettings = new PageSettings(printerSettings)
                 {
                     Margins = new Margins(0, 0, 0, 0),
-                    Landscape = landScape
                 };
                 foreach (PaperSize paperSize in printerSettings.PaperSizes)
                 {
@@ -150,7 +139,6 @@ namespace chdScoring.PrintService.Services
                     }
                 }
 
-                // Now print the PDF document
                 using (var document = PdfDocument.Load(info.FullName))
                 {
                     using (var printDocument = document.CreatePrintDocument())
