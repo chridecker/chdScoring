@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Playwright;
 using NLog.Web;
 using WindowsFormsLifetime;
 
 
 //Microsoft.Playwright.Program.Main(["install"]);
 //return;
+
 
 var path = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
 

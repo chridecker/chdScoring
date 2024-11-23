@@ -25,6 +25,9 @@ namespace chdScoring.Main.WebServer.Extensions
             var pilot = mainGroup.MapGroup(Pilot.ROUTE).WithTags(Pilot.ROUTE);
             var device = mainGroup.MapGroup(Device.ROUTE).WithTags(Device.ROUTE);
             var database = mainGroup.MapGroup(Database.ROUTE).WithTags(Database.ROUTE);
+            var print = mainGroup.MapGroup(Print.ROUTE).WithTags(Print.ROUTE);
+
+            print.MapPost(Print.POST_ADD, async (CreatePdfDto dto, IPrintService service, CancellationToken ct) => await service.PrintToPdfAsync(dto, ct));
 
             database.MapGet(Database.GET, async (IDatabaseService service, CancellationToken token) => await service.GetDatabaseConnections(token));
             database.MapGet(Database.GET_CURRENT, async (IDatabaseService service, CancellationToken token) => await service.GetCurrentDatabaseConnection(token));

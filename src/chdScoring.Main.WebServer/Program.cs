@@ -31,6 +31,7 @@ builder.Host.UseWindowsFormsLifetime<MainForm>();
 builder.Services.AddBaseApi();
 
 builder.Services.AddchdScoringDataAccess(builder.Configuration);
+builder.Services.AddHostedService<PrintExecuteService>();
 builder.Services.AddHostedService<chdScoringService>();
 
 

@@ -31,12 +31,14 @@ namespace chdScoring.BusinessLogic.Extensions
             services.Configure<DBSettings>(nameof(EDBConnection.MySql), configuration.GetSection($"{nameof(DBSettings)}:{nameof(EDBConnection.MySql)}"));
             services.Configure<DBSettings>(nameof(EDBConnection.SQLite), configuration.GetSection($"{nameof(DBSettings)}:{nameof(EDBConnection.SQLite)}"));
 
+            services.AddSingleton<IPrintCache, PrintCache>();
             services.AddSingleton<IApiLogger, ApiLogger>();
             services.AddSingleton<IFlightCacheService, FlightCacheService>();
             services.AddSingleton<DeviceStatusCache>();
             services.AddSingleton<IDeviceStatusCache>(sp => sp.GetRequiredService<DeviceStatusCache>());
             services.AddSingleton<IDeviceService>(sp => sp.GetRequiredService<DeviceStatusCache>());
 
+            services.AddTransient<IPrintService, PrintService>();
             services.AddTransient<IHubDataService, HubDataService>();
             services.AddTransient<ITimerService, TimerService>();
             services.AddTransient<IJudgeService, JudgeService>();

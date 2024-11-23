@@ -1,0 +1,169 @@
+﻿using chdScoring.BusinessLogic.Services;
+using chdScoring.Contracts.Dtos;
+using chdScoring.Contracts.Interfaces;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Playwright;
+using PdfiumViewer;
+using System;
+using System.Collections.Generic;
+using System.Drawing.Printing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace chdScoring.Main.WebServer.Services
+{
+    public class PrintExecuteService : BackgroundService
+    {
+        private readonly IPrintCache _printCache;
+        private readonly IApiLogger _logger;
+        private string _folder;
+        private const string Folder = "Pdf";
+        private const string Printed = "Printed";
+
+        public PrintExecuteService(IPrintCache printCache, IApiLogger logger)
+        {
+            this._printCache = printCache;
+            this._logger = logger;
+        }
+
+        public override Task StartAsync(CancellationToken cancellationToken)
+        {
+            this._folder = Path.Combine(Directory.GetCurrentDirectory(), Folder);
+            if (!Directory.Exists(_folder))
+            {
+                Directory.CreateDirectory(_folder);
+            }
+            if (!Directory.Exists(Path.Combine(_folder, Printed)))
+            {
+                Directory.CreateDirectory(Path.Combine(_folder, Printed));
+            }
+
+            return base.StartAsync(cancellationToken);
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                try
+                {
+                    await this.HandleCache(stoppingToken);
+
+                    await this.HandlePrintFolder(stoppingToken);
+
+                    if (!string.IsNullOrWhiteSpace(this._printCache.Printer))
+                    {
+                        await this.HandlePrintQueue(stoppingToken);
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
+            }
+        }
+
+        private async Task HandleCache(CancellationToken cancellationToken)
+        {
+            while (this._printCache.TryTake(out CreatePdfDto dto, cancellationToken))
+            {
+                using var playwright = await Playwright.CreateAsync();
+                var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+                {
+                    Headless = true,
+                });
+                using var client = new HttpClient()
+                {
+                    BaseAddress = new Uri(dto.Url)
+                };
+                var page = await browser.NewPageAsync();
+                await page.GotoAsync(dto.Url);
+                await page.PdfAsync(new PagePdfOptions()
+                {
+                    Format = "A4",
+                    Landscape = dto.Landscape,
+                    Path = $"{Folder}/{dto.Name}"
+                });
+                await page.CloseAsync();
+            }
+        }
+
+        private async Task HandlePrintQueue(CancellationToken cancellationToken)
+        {
+            while (this._printCache.TryTake(out FileInfo dto, cancellationToken))
+            {
+                this.PrintFile(dto);
+            }
+        }
+
+        private async Task HandlePrintFolder(CancellationToken cancellationToken)
+        {
+            foreach (var file in Directory.GetFiles(this._folder, "*.pdf"))
+            {
+                var info = new FileInfo(file);
+
+                if (info.Exists && info.CreationTime < DateTime.Now.AddSeconds(2))
+                {
+                    this._printCache.Add(info);
+                }
+            }
+        }
+
+
+
+        private void PrintFile(FileInfo file)
+        {
+            if (file.Exists && this.PrintFileToPrinter(file, this._printCache.Printer))
+            {
+                var printed = Path.Combine(Directory.GetCurrentDirectory(), Folder, Printed, file.Name);
+                file.MoveTo(printed, true);
+                //file.Delete();
+            }
+        }
+
+        private bool PrintFileToPrinter(FileInfo info, string printer)
+        {
+            try
+            {
+                var printerSettings = new PrinterSettings
+                {
+                    PrinterName = printer,
+                    Copies = (short)1,
+                };
+
+                var pageSettings = new PageSettings(printerSettings)
+                {
+                    Margins = new Margins(0, 0, 0, 0),
+                };
+                foreach (PaperSize paperSize in printerSettings.PaperSizes)
+                {
+                    if (paperSize.Kind == PaperKind.A4)
+                    {
+                        pageSettings.PaperSize = paperSize;
+                        break;
+                    }
+                }
+
+                using (var document = PdfDocument.Load(info.FullName))
+                {
+                    using (var printDocument = document.CreatePrintDocument())
+                    {
+                        printDocument.PrinterSettings = printerSettings;
+                        printDocument.DefaultPageSettings = pageSettings;
+                        printDocument.PrintController = new StandardPrintController();
+                        printDocument.Print();
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                this._logger?.Log(ex.Message);
+                return false;
+            }
+        }
+    }
+}

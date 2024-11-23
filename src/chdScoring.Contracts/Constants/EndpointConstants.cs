@@ -53,5 +53,11 @@
             public const string POST_SETDATABASE = "set";
         }
 
+        public class Print
+        {
+            public const string ROUTE = "print";
+            public const string POST_ADD = "create";
+        }
+
     }
 }
