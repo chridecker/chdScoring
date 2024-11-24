@@ -24,6 +24,7 @@ namespace chdScoring.App.UI.Pages
         [Inject] IPilotService _pilotService { get; set; }
         [Inject] ITimerService _timerService { get; set; }
         [Inject] IDatabaseService _databaseService { get; set; }
+        [Inject] IPrintHelper _printHelper { get; set; }
 
 
         private CurrentFlight _dto;
@@ -88,6 +89,8 @@ namespace chdScoring.App.UI.Pages
                     return;
                 }
             }
+            var pilot = this._dto.Pilot.Id;
+            var round = this._dto.Round.Id;
             if (await this._timerService.SaveRound(new SaveRoundDto
             {
                 Score = avgScore ?? 0,
@@ -98,6 +101,10 @@ namespace chdScoring.App.UI.Pages
             }, this._cts.Token))
             {
                 this._vibrationHelper.Vibrate(TimeSpan.FromSeconds(0.5));
+                if (await this._modal.ShowDialog($"Autoprint Round Sheet?", EDialogButtons.YesNo) == EDialogResult.Yes)
+                {
+                    await this._printHelper.PrintRound(pilot, round);
+                }
             }
             else
             {

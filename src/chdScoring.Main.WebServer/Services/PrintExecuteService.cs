@@ -17,14 +17,16 @@ namespace chdScoring.Main.WebServer.Services
     {
         private readonly IPrintCache _printCache;
         private readonly IApiLogger _logger;
+        private readonly IDatabaseConfiguration _databaseConfiguration;
         private string _folder;
         private const string Folder = "Pdf";
         private const string Printed = "Printed";
 
-        public PrintExecuteService(IPrintCache printCache, IApiLogger logger)
+        public PrintExecuteService(IPrintCache printCache, IApiLogger logger, IDatabaseConfiguration databaseConfiguration)
         {
             this._printCache = printCache;
             this._logger = logger;
+            this._databaseConfiguration = databaseConfiguration;
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)
@@ -34,9 +36,12 @@ namespace chdScoring.Main.WebServer.Services
             {
                 Directory.CreateDirectory(_folder);
             }
-            if (!Directory.Exists(Path.Combine(_folder, Printed)))
+            foreach (var db in this._databaseConfiguration.GetConnections())
             {
-                Directory.CreateDirectory(Path.Combine(_folder, Printed));
+                if (!Directory.Exists(Path.Combine(_folder, Printed, db.Name)))
+                {
+                    Directory.CreateDirectory(Path.Combine(_folder, Printed, db.Name));
+                }
             }
 
             return base.StartAsync(cancellationToken);
@@ -59,7 +64,7 @@ namespace chdScoring.Main.WebServer.Services
                 }
                 catch (Exception ex)
                 {
-
+                    this._logger.Log(ex.Message);
                 }
 
                 await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
@@ -116,11 +121,10 @@ namespace chdScoring.Main.WebServer.Services
 
         private void PrintFile(FileInfo file)
         {
-            if (file.Exists && this.PrintFileToPrinter(file, this._printCache.Printer))
+            if (this._printCache.AutoPrint && file.Exists && this.PrintFileToPrinter(file, this._printCache.Printer))
             {
-                var printed = Path.Combine(Directory.GetCurrentDirectory(), Folder, Printed, file.Name);
+                var printed = Path.Combine(Directory.GetCurrentDirectory(), Folder, Printed, this._databaseConfiguration.CurrentConnection, file.Name);
                 file.MoveTo(printed, true);
-                //file.Delete();
             }
         }
 

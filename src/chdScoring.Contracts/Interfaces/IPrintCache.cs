@@ -10,6 +10,8 @@ namespace chdScoring.Contracts.Interfaces
     public interface IPrintCache
     {
         string Printer { get; }
+        bool AutoPrint { get; set; }
+
         bool Add(CreatePdfDto dto);
         bool Add(FileInfo info);
         void SetPrinter(string printer);

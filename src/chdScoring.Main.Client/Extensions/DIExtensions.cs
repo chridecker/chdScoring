@@ -11,8 +11,11 @@ namespace chdScoring.Main.Client.Extensions
     {
         public static IServiceCollection AddChdScoringClient(this IServiceCollection services, Func<IServiceProvider, Uri> func)
         {
-            services.AddHttpClient<TimerClient>(sp => func.Invoke(sp).Append(ROOT).Append(Control.ROUTE));
 
+            services.AddHttpClient<PrintClient>(sp => func.Invoke(sp).Append(ROOT).Append(Print.ROUTE));
+            services.AddTransient<IPrintService, PrintClient>();
+
+            services.AddHttpClient<TimerClient>(sp => func.Invoke(sp).Append(ROOT).Append(Control.ROUTE));
             services.AddTransient<ITimerService, TimerClient>();
 
             services.AddHttpClient<JudgeClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointConstants.Judge.ROUTE));

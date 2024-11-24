@@ -36,13 +36,14 @@
             this.schließenToolStripMenuItem = new ToolStripMenuItem();
             this.tabControl1 = new TabControl();
             this.tabPage1 = new TabPage();
+            this.label2 = new Label();
+            this.comboBox1 = new ComboBox();
             this.label1 = new Label();
             this.comboBoxDataBase = new ComboBox();
             this.tabPage2 = new TabPage();
             this.button1 = new Button();
             this.textBoxWebLog = new TextBox();
-            this.label2 = new Label();
-            this.comboBox1 = new ComboBox();
+            this.checkBoxAutoPrint = new CheckBox();
             this.contextMenuStripSysTray.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -95,6 +96,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.checkBoxAutoPrint);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.comboBox1);
             this.tabPage1.Controls.Add(this.label1);
@@ -107,6 +109,25 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Settings";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new Point(16, 72);
+            this.label2.Margin = new Padding(5, 0, 5, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new Size(90, 30);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Drucker:";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new Point(113, 66);
+            this.comboBox1.Margin = new Padding(5, 6, 5, 6);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new Size(686, 38);
+            this.comboBox1.TabIndex = 2;
             // 
             // label1
             // 
@@ -162,24 +183,16 @@
             this.textBoxWebLog.Size = new Size(1610, 1034);
             this.textBoxWebLog.TabIndex = 0;
             // 
-            // label2
+            // checkBoxAutoPrint
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new Point(16, 72);
-            this.label2.Margin = new Padding(5, 0, 5, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new Size(90, 30);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Drucker:";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new Point(113, 66);
-            this.comboBox1.Margin = new Padding(5, 6, 5, 6);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new Size(686, 38);
-            this.comboBox1.TabIndex = 2;
+            this.checkBoxAutoPrint.AutoSize = true;
+            this.checkBoxAutoPrint.Location = new Point(824, 72);
+            this.checkBoxAutoPrint.Name = "checkBoxAutoPrint";
+            this.checkBoxAutoPrint.Size = new Size(133, 34);
+            this.checkBoxAutoPrint.TabIndex = 4;
+            this.checkBoxAutoPrint.Text = "Auto Print";
+            this.checkBoxAutoPrint.UseVisualStyleBackColor = true;
+            this.checkBoxAutoPrint.CheckedChanged += this.checkBoxAutoPrint_CheckedChanged;
             // 
             // MainForm
             // 
@@ -215,5 +228,6 @@
         private ComboBox comboBoxDataBase;
         private Label label2;
         private ComboBox comboBox1;
+        private CheckBox checkBoxAutoPrint;
     }
 }

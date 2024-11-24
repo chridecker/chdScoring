@@ -49,6 +49,8 @@ namespace chdScoring.App.UI.Extensions
             services.AddScoped<IJudgeHubClient, JudgeHubClient>();
             services.AddSingleton<IJudgeDataCache, JudgeDataCache>();
 
+            services.AddTransient<IPrintHelper, PrintHelper>();
+
             services.AddChdScoringClient((sp) => configuration.GetApiKey("chdScoringApi"));
             return services;
         }

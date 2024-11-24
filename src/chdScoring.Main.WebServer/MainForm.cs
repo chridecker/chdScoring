@@ -35,7 +35,7 @@ namespace chdScoring.Main.WebServer
             this.Resize += this.MainForm_Resize;
             this._apiLogger = apiLogger;
             this._apiLogger.LogAdded += this._apiLogger_LogAdded;
-
+            this.checkBoxAutoPrint.Checked = this._printCache.AutoPrint;
             this._databaseConfiguration.ConnectionChanged += this._databaseConfiguration_ConnectionChanged;
         }
 
@@ -107,6 +107,11 @@ namespace chdScoring.Main.WebServer
             using var scope = this._serviceProvider.CreateScope();
             await scope.ServiceProvider.GetRequiredService<IFlightCacheService>().Update(CancellationToken.None);
             await scope.ServiceProvider.GetService<IHubDataService>().SendAll(CancellationToken.None);
+        }
+
+        private void checkBoxAutoPrint_CheckedChanged(object sender, EventArgs e)
+        {
+            this._printCache.AutoPrint = this.checkBoxAutoPrint.Checked;
         }
     }
 }
