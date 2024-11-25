@@ -80,12 +80,10 @@ namespace chdScoring.Main.WebServer.Services
                 {
                     Headless = true,
                 });
-                using var client = new HttpClient()
-                {
-                    BaseAddress = new Uri(dto.Url)
-                };
+
                 var page = await browser.NewPageAsync();
-                await page.GotoAsync(dto.Url);
+                var respoonse = await page.GotoAsync(dto.Url);
+                await Task.Delay(500, cancellationToken);
                 await page.PdfAsync(new PagePdfOptions()
                 {
                     Format = "A4",
