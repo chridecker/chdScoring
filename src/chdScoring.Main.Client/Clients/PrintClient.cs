@@ -17,7 +17,7 @@ namespace chdScoring.Main.Client.Clients
         {
         }
 
-        public async Task<bool> AddToPrintCache(PrintPdfDto dto, CancellationToken cancellationToken = default) => await this.Post<bool>(Print.POST_ADD, dto, cancellationToken);
+        public async Task<bool> AddToPrintCache(PrintPdfDto dto, CancellationToken cancellationToken = default) => await this.Post<bool>(Print.POST_PRINT_PDF, dto, cancellationToken);
 
         public async Task<bool> ChangeAutoPrint(CancellationToken cancellationToken = default) => await this.Post<bool>(Print.POST_CHANGE_AUTOPRINT, cancellationToken);
 

@@ -1,0 +1,25 @@
+@page "/printfiles"
+@using chd.UI.Base.Client.Implementations.Authorization
+@using chdScoring.App.UI.Pages.Components
+@inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
+@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.Print })]
+
+
+@if (this._printDtos?.Any() ?? false)
+{
+    <div class="print-files-container">
+        @foreach (var dto in this._printDtos.OrderBy(o => o.CreationTime))
+        {
+            <PrintPdfComponent Dto="dto" Token="this._cts.Token" PrintSucceded="this.Reload" />
+        }
+    </div>
+}
+
+
+
+<FloatingActionNavigation FAIconActive="arrows-rotate" OnClick="async () => await this.Reload()" TextActive="Reload">
+    <FloatingActionButton FAClass="bolt-auto"
+                          OnClick="async () => await this.ChangeAutoPrint()"
+                          Title="Auto Print"
+                          CssClass="dot-btn-save large" />
+</FloatingActionNavigation>

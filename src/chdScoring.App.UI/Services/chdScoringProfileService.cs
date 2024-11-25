@@ -35,6 +35,7 @@ namespace chdScoring.App.UI.Services
                         new() { Id = RightConstants.UIX, Name = "UIX" },
                         new() { Id = RightConstants.Devices, Name = "Devices" },
                         new() { Id = RightConstants.Database, Name = "Database" },
+                        new() { Id = RightConstants.Print, Name = "Drucken" },
                         }
                     };
                 }

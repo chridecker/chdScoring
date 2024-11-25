@@ -10,5 +10,6 @@
         public const int UIX = 4;
         public const int Devices = 5;
         public const int Database = 6;
+        public const int Print = 7;
     }
 }

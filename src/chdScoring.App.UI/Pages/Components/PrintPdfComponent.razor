@@ -1,0 +1,28 @@
+@using chd.UI.Base.Contracts.Enum
+@using chdScoring.Contracts.Dtos
+@using chdScoring.Contracts.Interfaces
+@inject IPrintService printService
+@if (this.Dto is not null)
+{
+    <div class="print-file-container">
+        <div class="print-file-logo">
+            <IconButton ButtonStyle="EButtonStyle.Primary" FAClass="print" OnClick="async ()=> await this.Print()" />
+        </div>
+        <div class="print-file-name">@Dto.Name</div>
+        <div class="print-file-datetime">@Dto.CreationTime.ToString("HH:mm:ss dd.MM.yy")</div>
+    </div>
+}
+
+@code {
+    [Parameter] public PrintPdfDto Dto { get; set; }
+    [Parameter] public CancellationToken Token { get; set; }
+    [Parameter] public EventCallback PrintSucceded { get; set; }
+
+    private async Task Print()
+    {
+        if (await this.printService.AddToPrintCache(this.Dto, this.Token))
+        {
+            await this.PrintSucceded.InvokeAsync();
+        }
+    }
+}
