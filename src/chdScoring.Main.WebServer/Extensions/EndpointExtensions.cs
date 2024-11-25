@@ -27,7 +27,12 @@ namespace chdScoring.Main.WebServer.Extensions
             var database = mainGroup.MapGroup(Database.ROUTE).WithTags(Database.ROUTE);
             var print = mainGroup.MapGroup(Print.ROUTE).WithTags(Print.ROUTE);
 
+            print.MapGet(Print.GET_PDF, async (IPrintService svc, CancellationToken ct) => await svc.GetPdfLst(ct));
+            print.MapGet(Print.GET_AUTOPRINT, async (IPrintService svc, CancellationToken ct) => await svc.GetAutoPrintSetting(ct));
+            print.MapPost(Print.POST_CHANGE_AUTOPRINT, async (IPrintService service, CancellationToken ct) => await service.ChangeAutoPrint(ct));
             print.MapPost(Print.POST_ADD, async (CreatePdfDto dto, IPrintService service, CancellationToken ct) => await service.PrintToPdfAsync(dto, ct));
+            print.MapPost(Print.POST_PRINT_PDF, async (PrintPdfDto dto, IPrintService service, CancellationToken ct) => await service.AddToPrintCache(dto, ct));
+
 
             database.MapGet(Database.GET, async (IDatabaseService service, CancellationToken token) => await service.GetDatabaseConnections(token));
             database.MapGet(Database.GET_CURRENT, async (IDatabaseService service, CancellationToken token) => await service.GetCurrentDatabaseConnection(token));

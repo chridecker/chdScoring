@@ -12,6 +12,8 @@ namespace chdScoring.Contracts.Interfaces
         string Printer { get; }
         bool AutoPrint { get; set; }
 
+        event EventHandler<bool> AutoPrintChanged;
+
         bool Add(CreatePdfDto dto);
         bool Add(FileInfo info);
         void SetPrinter(string printer);

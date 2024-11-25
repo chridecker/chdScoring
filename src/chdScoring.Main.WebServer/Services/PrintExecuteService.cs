@@ -1,4 +1,5 @@
 ﻿using chdScoring.BusinessLogic.Services;
+using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using Microsoft.Extensions.Hosting;
@@ -19,8 +20,7 @@ namespace chdScoring.Main.WebServer.Services
         private readonly IApiLogger _logger;
         private readonly IDatabaseConfiguration _databaseConfiguration;
         private string _folder;
-        private const string Folder = "Pdf";
-        private const string Printed = "Printed";
+
 
         public PrintExecuteService(IPrintCache printCache, IApiLogger logger, IDatabaseConfiguration databaseConfiguration)
         {
@@ -31,16 +31,16 @@ namespace chdScoring.Main.WebServer.Services
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            this._folder = Path.Combine(Directory.GetCurrentDirectory(), Folder);
+            this._folder = Path.Combine(Directory.GetCurrentDirectory(), FolderConstants.Folder);
             if (!Directory.Exists(_folder))
             {
                 Directory.CreateDirectory(_folder);
             }
             foreach (var db in this._databaseConfiguration.GetConnections())
             {
-                if (!Directory.Exists(Path.Combine(_folder, Printed, db.Name)))
+                if (!Directory.Exists(Path.Combine(_folder, FolderConstants.Printed, db.Name)))
                 {
-                    Directory.CreateDirectory(Path.Combine(_folder, Printed, db.Name));
+                    Directory.CreateDirectory(Path.Combine(_folder, FolderConstants.Printed, db.Name));
                 }
             }
 
@@ -88,7 +88,7 @@ namespace chdScoring.Main.WebServer.Services
                 {
                     Format = "A4",
                     Landscape = dto.Landscape,
-                    Path = $"{Folder}/{dto.Name}"
+                    Path = $"{FolderConstants.Folder}/{dto.Name}"
                 });
                 await page.CloseAsync();
             }
@@ -96,9 +96,13 @@ namespace chdScoring.Main.WebServer.Services
 
         private async Task HandlePrintQueue(CancellationToken cancellationToken)
         {
-            while (this._printCache.TryTake(out FileInfo dto, cancellationToken))
+            while (this._printCache.TryTake(out FileInfo file, cancellationToken))
             {
-                this.PrintFile(dto);
+                if (file.Exists && this.PrintFileToPrinter(file, this._printCache.Printer))
+                {
+                    var printed = Path.Combine(Directory.GetCurrentDirectory(), FolderConstants.Folder, FolderConstants.Printed, this._databaseConfiguration.CurrentConnection, file.Name);
+                    file.MoveTo(printed, true);
+                }
             }
         }
 
@@ -108,21 +112,10 @@ namespace chdScoring.Main.WebServer.Services
             {
                 var info = new FileInfo(file);
 
-                if (info.Exists && info.CreationTime < DateTime.Now.AddSeconds(2))
+                if (this._printCache.AutoPrint && info.Exists && info.CreationTime < DateTime.Now.AddSeconds(2))
                 {
                     this._printCache.Add(info);
                 }
-            }
-        }
-
-
-
-        private void PrintFile(FileInfo file)
-        {
-            if (this._printCache.AutoPrint && file.Exists && this.PrintFileToPrinter(file, this._printCache.Printer))
-            {
-                var printed = Path.Combine(Directory.GetCurrentDirectory(), Folder, Printed, this._databaseConfiguration.CurrentConnection, file.Name);
-                file.MoveTo(printed, true);
             }
         }
 

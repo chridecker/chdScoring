@@ -17,7 +17,17 @@ namespace chdScoring.BusinessLogic.Services
         private BlockingCollection<FileInfo> _toExecutePrint = new BlockingCollection<FileInfo>();
         private string _printer;
 
-        public bool AutoPrint { get; set; } = true;
+        private bool _autoPrint = true;
+        public bool AutoPrint
+        {
+            get => this._autoPrint; set
+            {
+                this._autoPrint = value;
+                this.AutoPrintChanged?.Invoke(this, value);
+            }
+        }
+        public event EventHandler<bool> AutoPrintChanged;
+
         public string Printer => this._printer;
         public void SetPrinter(string printer) => this._printer = printer;
         public bool Add(CreatePdfDto dto) => this._toPdf.TryAdd(dto);

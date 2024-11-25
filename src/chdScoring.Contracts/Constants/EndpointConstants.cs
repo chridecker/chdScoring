@@ -57,6 +57,10 @@
         {
             public const string ROUTE = "print";
             public const string POST_ADD = "create";
+            public const string GET_AUTOPRINT = "autoprint";
+            public const string GET_PDF = "pdfs";
+            public const string POST_CHANGE_AUTOPRINT = "changeautoprint";
+            public const string POST_PRINT_PDF = "printpdf";
         }
 
     }

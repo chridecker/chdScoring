@@ -101,7 +101,7 @@ namespace chdScoring.App.UI.Pages
             }, this._cts.Token))
             {
                 this._vibrationHelper.Vibrate(TimeSpan.FromSeconds(0.5));
-                if (await this._modal.ShowDialog($"Autoprint Round Sheet?", EDialogButtons.YesNo) == EDialogResult.Yes)
+                if (await this._modal.ShowDialog($"Cretae PDF?", EDialogButtons.YesNo) == EDialogResult.Yes)
                 {
                     await this._printHelper.PrintRound(pilot, round);
                 }

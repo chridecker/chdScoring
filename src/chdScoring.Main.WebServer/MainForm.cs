@@ -37,6 +37,18 @@ namespace chdScoring.Main.WebServer
             this._apiLogger.LogAdded += this._apiLogger_LogAdded;
             this.checkBoxAutoPrint.Checked = this._printCache.AutoPrint;
             this._databaseConfiguration.ConnectionChanged += this._databaseConfiguration_ConnectionChanged;
+            this._printCache.AutoPrintChanged += this._printCache_AutoPrintChanged;
+        }
+
+        private void _printCache_AutoPrintChanged(object? sender, bool e)
+        {
+            if (e != this.checkBoxAutoPrint.Checked)
+            {
+                this.Invoke(() =>
+                {
+                    this.checkBoxAutoPrint.Checked = e;
+                });
+            }
         }
 
         private void ComboBox1_SelectedValueChanged(object? sender, EventArgs e)
@@ -111,7 +123,10 @@ namespace chdScoring.Main.WebServer
 
         private void checkBoxAutoPrint_CheckedChanged(object sender, EventArgs e)
         {
-            this._printCache.AutoPrint = this.checkBoxAutoPrint.Checked;
+            if (this._printCache.AutoPrint != this.checkBoxAutoPrint.Checked)
+            {
+                this._printCache.AutoPrint = this.checkBoxAutoPrint.Checked;
+            }
         }
     }
 }
