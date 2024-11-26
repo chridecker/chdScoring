@@ -1,4 +1,6 @@
-﻿namespace chdScoring.DataAccess.Contracts.Domain
+﻿using System.Collections.Generic;
+
+namespace chdScoring.DataAccess.Contracts.Domain
 {
     public class Round
     {

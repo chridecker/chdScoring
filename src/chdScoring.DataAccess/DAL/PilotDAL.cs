@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,37 +28,58 @@ namespace chdScoring.DataAccess.DAL
                 round = (await this._wettkampfLeitungRepository.Where(x => x.Status == (int)EFlightState.Loaded).OrderBy(o => o.Durchgang).FirstOrDefaultAsync())?.Durchgang ?? 0;
             }
 
-            var retValue = new List<OpenRoundDto>();
             var lst = await this._wettkampfLeitungRepository.Where(x => x.Durchgang == round.Value && x.Status == (int)EFlightState.Loaded)
-                .Include(i => i.Pilot)
+                .Include(i => i.Pilot).ThenInclude(i => i.Country_Image)
                 .AsSplitQuery()
                 .ToListAsync();
-
-            foreach (var wl in lst)
+            return lst.Select(wl => new OpenRoundDto
             {
-                var country = await this._countryImageRepository.FirstOrDefaultAsync(x => x.Img_Id == wl.Pilot.Land);
-                var dto = new OpenRoundDto
+                StartNumber = wl.Start,
+                Round = round.Value,
+                Pilot = new PilotDto
                 {
-                    StartNumber = wl.Start,
-                    Round = round.Value,
-                    Pilot = new PilotDto
+                    Id = wl.Teilnehmer,
+                    Name = wl.Pilot.FullName,
+                    Club = wl.Pilot.Club,
+                    Country = wl.Pilot.Country_Image.Name,
+                    CountryCode = wl.Pilot.Country_Image.Short,
+                    CountryImage = new ImageDto
                     {
-                        Id = wl.Teilnehmer,
-                        Name = $"{wl.Pilot.Vorname} {wl.Pilot.Nachname.ToUpper()}",
-                        Club = wl.Pilot.Club,
-                        Country = country.Name,
-                        CountryCode = country.Short,
-                        CountryImage = new ImageDto
-                        {
-                            Data = country.Img_Data,
-                            Type = country.Img_Type
-                        }
+                        Data = wl.Pilot.Country_Image.Img_Data,
+                        Type = wl.Pilot.Country_Image.Img_Type
                     }
-                };
-                retValue.Add(dto);
-            }
-            return retValue.OrderBy(o => o.StartNumber);
+                }
+            });
         }
+
+        public async Task<IEnumerable<FinishedRoundDto>> GetFinishedFlights(CancellationToken cancellationToken)
+        {
+            var rounds = await this._wettkampfLeitungRepository.Where(x => x.Status >= (int)EFlightState.Saved)
+                .Include(x => x.Pilot).ThenInclude(i => i.Country_Image)
+                .AsSplitQuery().ToListAsync();
+            return rounds.Select(s => new FinishedRoundDto
+            {
+                Start = s.Start,
+                Pilot = new()
+                {
+                    Id = s.Pilot.Id,
+                    Club = s.Pilot.Club,
+                    Name = s.Pilot.FullName,
+                    Country = s.Pilot.Country_Image.Name,
+                    CountryCode = s.Pilot.Country_Image.Short,
+                    CountryImage = new ImageDto()
+                    {
+                        Data = s.Pilot.Country_Image.Img_Data,
+                        Type = s.Pilot.Country_Image.Img_Type
+                    }
+                },
+                Round = new()
+                {
+                    Id = s.Durchgang,
+                }
+            });
+        }
+
 
         public async Task<IEnumerable<RoundResultDto>> LoadRoundResults(int? round, CancellationToken cancellationToken)
         {
@@ -68,7 +90,7 @@ namespace chdScoring.DataAccess.DAL
 
             var retValue = new List<RoundResultDto>();
             var lst = await this._wettkampfLeitungRepository.Where(x => x.Durchgang == round.Value && x.Status == (int)EFlightState.Saved)
-                .Include(i => i.Pilot)
+                .Include(i => i.Pilot).ThenInclude(i => i.Country_Image)
                 .Include(i => i.Round)
                 .AsSplitQuery()
                 .ToListAsync();
@@ -76,7 +98,6 @@ namespace chdScoring.DataAccess.DAL
             var rank = 1;
             foreach (var wl in lst.OrderByDescending(o => o.Round.Wert_abs))
             {
-                var country = await this._countryImageRepository.FirstOrDefaultAsync(x => x.Img_Id == wl.Pilot.Land);
                 var dto = new RoundResultDto
                 {
                     StartNumber = wl.Start,
@@ -87,14 +108,14 @@ namespace chdScoring.DataAccess.DAL
                     Pilot = new PilotDto
                     {
                         Id = wl.Teilnehmer,
-                        Name = $"{wl.Pilot.Vorname} {wl.Pilot.Nachname.ToUpper()}",
+                        Name = wl.Pilot.FullName,
                         Club = wl.Pilot.Club,
-                        Country = country.Name,
-                        CountryCode = country.Short,
+                        Country = wl.Pilot.Country_Image.Name,
+                        CountryCode = wl.Pilot.Country_Image.Short,
                         CountryImage = new ImageDto
                         {
-                            Data = country.Img_Data,
-                            Type = country.Img_Type
+                            Data = wl.Pilot.Country_Image.Img_Data,
+                            Type = wl.Pilot.Country_Image.Img_Type
                         }
                     }
                 };

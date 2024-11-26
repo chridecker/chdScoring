@@ -35,14 +35,17 @@ namespace chdScoring.DataAccess.EFCore
                 builder.ToTable("durchgang").HasKey(x => new { x.Teilnehmer, x.Durchgang });
             });
             modelBuilder.Entity<Durchgang_Panel>().HasKey(x => new { x.Panel, x.Durchgang });
-            modelBuilder.Entity<Durchgang_Programm>().HasKey(x => new { x.Programm, x.Durchgang });
+            modelBuilder.Entity<Durchgang_Programm>(builder =>
+            {
+                builder.ToTable("durchgang_programm").HasKey(x => new { x.Programm, x.Durchgang });
+            });
             modelBuilder.Entity<Figur_Programm>().HasKey(x => new { x.Programm, x.Figur });
             modelBuilder.Entity<Judge_Panel>().HasKey(x => new { x.Judge, x.Panel });
             modelBuilder.Entity<Wertung_History>().HasKey(x => new { x.Judge, x.Durchgang, x.Figur, x.Teilnehmer, x.Time });
             modelBuilder.Entity<Wertung>(builder =>
             {
                 builder.ToTable("wertung").HasKey(x => new { x.Judge, x.Durchgang, x.Figur, x.Teilnehmer });
-                builder.HasMany(m => m.Histories).WithOne(o => o.Wertung).HasForeignKey(x => new {x.Judge, x.Durchgang, x.Figur, x.Teilnehmer });
+                builder.HasMany(m => m.Histories).WithOne(o => o.Wertung).HasForeignKey(x => new { x.Judge, x.Durchgang, x.Figur, x.Teilnehmer });
             });
 
             modelBuilder.Entity<Country_Images>().HasKey(x => x.Img_Id);
@@ -51,14 +54,14 @@ namespace chdScoring.DataAccess.EFCore
             modelBuilder.Entity<Teilnehmer>(builder =>
             {
                 builder.HasKey(x => x.Id);
-                builder.HasOne(x => x.Country_Image).WithOne().HasForeignKey<Teilnehmer>(f => f.Land);
-                builder.HasOne(x => x.Image).WithOne().HasForeignKey<Teilnehmer>(f => f.Bild);
+                builder.HasOne(x => x.Country_Image).WithMany().HasForeignKey(f => f.Land);
+                builder.HasOne(x => x.Image).WithMany().HasForeignKey(f => f.Bild);
             });
             modelBuilder.Entity<Wettkampf_Leitung>(builder =>
             {
                 builder.ToTable("wettkampf_leitung").HasKey(x => new { x.Teilnehmer, x.Durchgang });
-                builder.HasOne(x => x.Pilot).WithOne().HasForeignKey<Wettkampf_Leitung>(f => f.Teilnehmer);
-                builder.HasOne(x => x.Round).WithOne().HasForeignKey<Wettkampf_Leitung>(f => new { f.Teilnehmer, f.Durchgang });
+                builder.HasOne(x => x.Pilot).WithMany().HasForeignKey(f => f.Teilnehmer);
+                builder.HasOne(x => x.Round).WithMany().HasForeignKey(f => new { f.Teilnehmer, f.Durchgang });
             });
 
             base.OnModelCreating(modelBuilder);

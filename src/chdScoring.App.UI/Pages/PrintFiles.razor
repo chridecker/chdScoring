@@ -18,7 +18,12 @@
 
 
 <FloatingActionNavigation FAIconActive="arrows-rotate" OnClick="async () => await this.Reload()" TextActive="Reload">
-    <FloatingActionButton FAClass="bolt-auto"
+    <FloatingActionButton FAClass="print"
+                          OnClick="async () => await this.CreatePdf()"
+                          Title="Create Pdf"
+                          CssClass="dot-btn-save large" />
+
+    <FloatingActionButton FAClass="@_autoPrintIco"
                           OnClick="async () => await this.ChangeAutoPrint()"
                           Title="Auto Print"
                           CssClass="dot-btn-save large" />

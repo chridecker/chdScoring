@@ -46,5 +46,7 @@ namespace chdScoring.BusinessLogic.Services
             }
             return false;
         }
+
+        public Task<IEnumerable<FinishedRoundDto>> GetFinishedFlights(CancellationToken cancellationToken = default) => this._dal.GetFinishedFlights(cancellationToken);
     }
 }

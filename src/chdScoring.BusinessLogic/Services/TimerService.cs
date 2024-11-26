@@ -11,15 +11,13 @@ namespace chdScoring.BusinessLogic.Services
     {
         private readonly ITimerDAL _dAL;
         private readonly ITBLDAL _tBLDAL;
-        private readonly IPilotDAL _pilotDAL;
         private readonly IHubDataService _hubDataService;
         private readonly IFlightCacheService _flightCacheService;
 
-        public TimerService(ITimerDAL dAL, ITBLDAL tBLDAL, IPilotDAL pilotDAL, IHubDataService hubDataService, IFlightCacheService flightCacheService)
+        public TimerService(ITimerDAL dAL, ITBLDAL tBLDAL, IHubDataService hubDataService, IFlightCacheService flightCacheService)
         {
             this._dAL = dAL;
             this._tBLDAL = tBLDAL;
-            this._pilotDAL = pilotDAL;
             this._hubDataService = hubDataService;
             this._flightCacheService = flightCacheService;
         }

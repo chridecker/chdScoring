@@ -13,6 +13,8 @@ namespace chdScoring.Main.Client.Clients
         {
         }
 
+        public async Task<IEnumerable<FinishedRoundDto>> GetFinishedFlights(CancellationToken cancellationToken = default)
+        => await this.Get<IEnumerable<FinishedRoundDto>>(EndpointConstants.Pilot.GET_FinishedRounds, cancellationToken);
         public Task<IEnumerable<OpenRoundDto>> GetOpenRound(int? round, CancellationToken cancellationToken)
              => base.Get<IEnumerable<OpenRoundDto>>(round.HasValue ? EndpointConstants.Pilot.GET_OpenRound.SetUrlParameters(("round", round)) : EndpointConstants.Pilot.GET_OpenRound, cancellationToken);
         public Task<IEnumerable<RoundResultDto>> GetRoundResult(int? round, CancellationToken cancellationToken)
