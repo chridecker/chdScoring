@@ -7,31 +7,30 @@ using chdScoring.App.UI.Interfaces;
 
 namespace chdScoring.App.UI.Pages
 {
-    public partial class Control : PageComponentBase<int, int>, IDisposable
+    public partial class ScoreCorrection : PageComponentBase<int, int>, IDisposable
     {
         private CancellationTokenSource _cts = new CancellationTokenSource();
+        private IEnumerable<FinishedRoundDto> _roundSets;
+        private FinishedRoundDto _selectedRoundSet;
         private RoundDataDto _dto;
 
-        [Inject] IJudgeHubClient _judgeHubClient { get; set; }
-        [Inject] IJudgeDataCache _judgeDataCache { get; set; }
         [Inject] ITimerService _timerService { get; set; }
+        [Inject] IPilotService _pilotService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             this.Title = PageTitleConstants.ControlCenter;
             this._cts = new();
 
-            this._dto = this._judgeDataCache.Data;
-            if (!this._judgeHubClient.IsConnected)
-            {
-                await this._judgeHubClient.StartAsync(this._cts.Token);
-
-            }
-            await this._judgeHubClient.RegisterControlCenter(this._cts.Token);
-
-            this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
+            this._roundSets = await this._pilotService.GetFinishedFlights(this._cts.Token);
 
             await base.OnInitializedAsync();
+        }
+        private async void OnRoundSetChanged(FinishedRoundDto dto)
+        {
+            this._selectedRoundSet = dto;
+            this._dto = await this._pilotService.GetRoundData(dto.Pilot.Id, dto.Round.Id, this._cts.Token);
+            await this.InvokeAsync(this.StateHasChanged);
         }
 
         private decimal? _score(JudgeDto judge, ManeouvreDto maneouvre) => this._dto.ManeouvreLst[judge.Id].FirstOrDefault(x => x.Id == maneouvre.Id)?.Score;
@@ -42,16 +41,8 @@ namespace chdScoring.App.UI.Pages
             return "needs-attention is-loading-glow ";
         }
 
-        private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)
-        {
-            this._dto = e;
-            await this.InvokeAsync(this.StateHasChanged);
-        }
-
-
         public void Dispose()
         {
-            this._judgeHubClient.DataReceived -= this._judgeHubClient_DataReceived;
             this._cts.Cancel();
         }
     }

@@ -11,5 +11,6 @@
         public const int Devices = 5;
         public const int Database = 6;
         public const int Print = 7;
+        public const int Correction = 8;
     }
 }

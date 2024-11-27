@@ -2,15 +2,23 @@
 @using chd.UI.Base.Contracts.Enum
 @using chdScoring.Contracts.Dtos
 @inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
-@page "/controlcenter"
-@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.ControlBoard })]
+@page "/correction"
+@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.Correction })]
 
-@if (this._dto is not null)
-{
-    <div class="control-center">
-        <div class="pilot-data">
-            #@this._dto.Pilot.Id - @this._dto.Pilot.Name
+<ChdAuthorizeView TRightId="int" TUserId="int" Rights="new int[] { RightConstants.Correction }">
+    @if (this._roundSets?.Any() ?? false)
+    {
+        <div class="rounds-dropdown">
+            <DropListWrapper T="FinishedRoundDto" Values="this._roundSets" Value="this._selectedRoundSet" ValueChanged="this.OnRoundSetChanged" Context="set">
+                @set.Pilot.Id - @set.Pilot.Name - @set.Round.Id
+            </DropListWrapper>
         </div>
+    }
+</ChdAuthorizeView>
+<div class="control-center">
+  
+    @if (this._dto is not null)
+    {
         <div class="maneouvres">
             @foreach (var maneouvre in this._dto.ManeouvreLst.FirstOrDefault().Value.OrderBy(o => o.Id))
             {
@@ -28,5 +36,5 @@
                 </div>
             }
         </div>
-    </div>
-}
+    }
+</div>

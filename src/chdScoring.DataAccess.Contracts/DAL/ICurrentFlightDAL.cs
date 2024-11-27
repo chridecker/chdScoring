@@ -9,5 +9,6 @@ namespace chdScoring.DataAccess.Contracts.DAL
     {
 
         Task<CurrentFlight> GetCurrentFlightData(CancellationToken cancellationToken);
+        Task<RoundDataDto> GetRoundData(int pilot, int round, CancellationToken cancellationToken);
     }
 }

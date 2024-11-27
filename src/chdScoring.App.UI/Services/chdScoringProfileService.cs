@@ -36,6 +36,7 @@ namespace chdScoring.App.UI.Services
                         new() { Id = RightConstants.Devices, Name = "Devices" },
                         new() { Id = RightConstants.Database, Name = "Database" },
                         new() { Id = RightConstants.Print, Name = "Drucken" },
+                        new() { Id = RightConstants.Correction, Name = "Korrektur" },
                         }
                     };
                 }

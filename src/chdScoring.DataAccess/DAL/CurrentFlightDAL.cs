@@ -1,8 +1,10 @@
 ﻿using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Enums;
 using chdScoring.DataAccess.Contracts.DAL;
+using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
 using chdScoring.DataAccess.DAL.Base;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,8 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
+using static chdScoring.Contracts.Constants.EndpointConstants;
 
 namespace chdScoring.DataAccess.DAL
 {
@@ -34,53 +38,75 @@ namespace chdScoring.DataAccess.DAL
 
                 if (currentPilot != null)
                 {
-                    var klasse = await this._klasseRepository.GetCurrentKlasse(cancellationToken);
-                    var round = currentPilot.Durchgang;
                     var stammdaten = await this._stammDatenRepository.FindAll(cancellationToken);
-                    var pilot = await this._teilnehmerRepository.FindById(currentPilot.Teilnehmer, cancellationToken);
-                    var judges = await this._judgeRepository.GetRoundPanel(round, cancellationToken);
-                    var maneouvreLst = (await this._figurRepository.GetProgramToRound(round, cancellationToken)).OrderBy(o => o.Id);
-                    var scores = await this._wertungRepository.GetScoresToPilotInRound(pilot.Id, round, cancellationToken);
-                    var program = await this._programmRepository.GetProgramToRound(round, cancellationToken);
+                    var klasse = await this._klasseRepository.GetCurrentKlasse(cancellationToken);
 
                     var currentTime = DateTime.Now.TimeOfDay;
-
                     TimeSpan? time = currentPilot.Start_Time == TimeSpan.Zero || currentTime < currentPilot.Start_Time ? null : TimeSpan.FromMinutes(klasse.Zeit) - (currentTime - currentPilot.Start_Time);
 
                     dto = new CurrentFlight()
                     {
                         EditScoreEnabled = stammdaten.FirstOrDefault()?.Edit ?? false,
                         StartTime = currentPilot.Start_Time,
-                        Round = new RoundDto { Id = round, Program = program.Title, Time = TimeSpan.FromMinutes(klasse.Zeit) },
                         LeftTime = time.HasValue && time.Value < TimeSpan.Zero ? TimeSpan.Zero : time,
-                        Pilot = new PilotDto { Id = pilot.Id, Name = pilot.FullName },
-                        Judges = judges.Select(judge => new JudgeDto { Id = judge.Id, Name = $"{judge.Vorname} {judge.Name.ToUpper()}", EditScore = judge.EditScore }),
                     };
-
-                    foreach (var judge in judges.OrderBy(o => o.Id))
-                    {
-                        var dict = new Dictionary<int, IEnumerable<ManeouvreDto>>();
-                        var judgeScores = scores.Where(x => x.Judge == judge.Id);
-                        var figurs = new List<ManeouvreDto>();
-                        for (int i = 1; i <= maneouvreLst.Count(); i++)
-                        {
-                            var element = maneouvreLst.ElementAt(i - 1);
-                            figurs.Add(new ManeouvreDto
-                            {
-                                Id = i,
-                                Name = element.Name,
-                                Value = element.Wert,
-                                Score = judgeScores.FirstOrDefault(x => x.Figur == i)?.Wert,
-                                Saved = judgeScores.Any(x => x.Figur == i),
-                            });
-                        }
-                        dto.ManeouvreLst[judge.Id] = figurs;
-                    }
+                    dto = await this.GetRoundData(dto, currentPilot, cancellationToken);
+                    dto.Round.Time = TimeSpan.FromMinutes(klasse.Zeit);
                 }
             }
             catch (Exception ex)
             {
                 this._logger?.LogError(ex, ex.Message);
+            }
+            return dto;
+        }
+
+        public async Task<RoundDataDto> GetRoundData(int pilot, int round, CancellationToken cancellationToken)
+        {
+            var dto = new RoundDataDto();
+            var wl = await this._wettkampfLeitungRepository
+                .Where(x => x.Status >= (int)EFlightState.OnAir)
+                .Include(i => i.Pilot)
+                .FirstOrDefaultAsync(x => x.Teilnehmer == pilot && x.Durchgang == round);
+
+            return await this.GetRoundData(dto, wl, cancellationToken);
+        }
+
+        private async Task<T> GetRoundData<T>(T dto, Wettkampf_Leitung wl, CancellationToken cancellationToken)
+            where T : RoundDataDto
+        {
+            var round = wl.Durchgang;
+            var judges = await this._judgeRepository.GetRoundPanel(round, cancellationToken);
+            var program = await this._programmRepository.GetProgramToRound(round, cancellationToken);
+            var maneouvreLst = (await this._figurRepository.GetProgramToRound(round, cancellationToken)).OrderBy(o => o.Id);
+            var scores = await this._wertungRepository.GetScoresToPilotInRound(wl.Teilnehmer, round, cancellationToken);
+
+            dto.Pilot = new PilotDto { Id = wl.Pilot.Id, Name = wl.Pilot.FullName };
+            dto.Judges = judges.Select(judge => new JudgeDto { Id = judge.Id, Name = $"{judge.Vorname} {judge.Name.ToUpper()}", EditScore = judge.EditScore });
+            dto.Round = new RoundDto
+            {
+                Id = round,
+                Program = program.Title,
+            };
+
+            foreach (var judge in judges.OrderBy(o => o.Id))
+            {
+                var dict = new Dictionary<int, IEnumerable<ManeouvreDto>>();
+                var judgeScores = scores.Where(x => x.Judge == judge.Id);
+                var figurs = new List<ManeouvreDto>();
+                for (int i = 1; i <= maneouvreLst.Count(); i++)
+                {
+                    var element = maneouvreLst.ElementAt(i - 1);
+                    figurs.Add(new ManeouvreDto
+                    {
+                        Id = i,
+                        Name = element.Name,
+                        Value = element.Wert,
+                        Score = judgeScores.FirstOrDefault(x => x.Figur == i)?.Wert,
+                        Saved = judgeScores.Any(x => x.Figur == i),
+                    });
+                }
+                dto.ManeouvreLst[judge.Id] = figurs;
             }
             return dto;
         }

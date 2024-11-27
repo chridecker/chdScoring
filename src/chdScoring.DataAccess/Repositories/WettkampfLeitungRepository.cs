@@ -22,7 +22,9 @@ namespace chdScoring.DataAccess.Repositories
         public async Task<IEnumerable<Wettkampf_Leitung>> CurrentRoundSet(CancellationToken token)
         {
             var currentRound = await this._context.Database.SqlQueryRaw<int>($"SELECT MIN(durchgang) as Value FROM wettkampf_leitung WHERE STATUS < {(int)EFlightState.Saved}").FirstOrDefaultAsync(cancellationToken: token);
-            return await this._context.Wettkampf_Leitung.Where(x => x.Durchgang == currentRound).ToListAsync(cancellationToken: token);
+            return await this._context.Wettkampf_Leitung.Where(x => x.Durchgang == currentRound)
+                .Include(i => i.Pilot)
+                .ToListAsync(cancellationToken: token);
         }
 
         public async Task<Wettkampf_Leitung> GetActiveOnAirfield(int airfield, CancellationToken cancellationToken)

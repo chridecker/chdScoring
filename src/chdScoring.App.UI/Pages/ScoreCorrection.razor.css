@@ -1,13 +1,20 @@
 ﻿
+.rounds-dropdown {
+    width: 100%;
+    display: flex;
+    flex-flow: row-reverse;
+    padding: 0.2rem;
+}
+
+    .rounds-dropdown ::deep .droplist-wrapper {
+    }
+
 .control-center {
     padding: 0.2rem;
     display: flex;
     gap: 0.2rem;
     flex-direction: column;
 }
-
-    .control-center .pilot-data {
-    }
 
     .control-center .maneouvres {
         display: grid;

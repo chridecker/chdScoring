@@ -12,6 +12,7 @@
             public const string GET_FinishedRounds= "finishedrounds";
             public const string POST_SetPilotActive = "setpilotactive";
             public const string POST_UnloadPilot = "unloadpilot";
+            public const string GET_Round = "round";
         }
         public class Judge
         {
