@@ -3,14 +3,13 @@
     <div class="finished-rounds-container">
         @foreach (var round in this._finishedRounds.OrderByDescending(o => o.Round.Id).ThenBy(t => t.Start))
         {
-
             <div class="finished-round">
+                <IconButton FAClass="print" OnClick="async()=>await this.CreatePdf(round.Pilot.Id,round.Round.Id)" />
                 <CustomImage Class="pilot-image" Data="round.Pilot.CountryImage.Data" Type="@round.Pilot.CountryImage.Type" />
                 <div class="round-number">Round: @round.Round.Id</div>
                 <div class="pilot-name">
                     @round.Start - @round.Pilot.Name
                 </div>
-                <IconButton FAClass="print" OnClick="async()=>await this.CreatePdf(round.Pilot.Id,round.Round.Id)" />
             </div>
         }
     </div>

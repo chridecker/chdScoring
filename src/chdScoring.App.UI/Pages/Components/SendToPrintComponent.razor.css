@@ -1,9 +1,13 @@
 ﻿.finished-rounds-container {
+    display: grid;
+    gap: 0.5rem;
 }
 
     .finished-rounds-container .finished-round {
         display: flex;
         gap: 0.2rem;
+        align-content:center;
+        align-items:center;
     }
 
         .finished-rounds-container .finished-round ::deep .pilot-image {
@@ -25,8 +29,9 @@
         }
 
         .finished-rounds-container .finished-round ::deep .btn {
-            height: 0.8rem;
+            height: 1.5rem;
         }
 
             .finished-rounds-container .finished-round ::deep .btn svg {
+                height: 0.8rem;
             }
