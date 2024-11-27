@@ -16,7 +16,7 @@
     }
 </ChdAuthorizeView>
 <div class="control-center">
-  
+
     @if (this._dto is not null)
     {
         <div class="maneouvres">
@@ -29,7 +29,19 @@
                         @foreach (var judge in this._dto.Judges.OrderBy(o => o.Id))
                         {
                             <div class="@(this._scoreClass(judge, maneouvre))">
-                                <div class="judge-score ">@_score(judge, maneouvre)</div>
+                                <div class="judge-score ">
+
+                                    @if (_score(judge, maneouvre).HasValue)
+                                    {
+                                        <IconButton ButtonStyle="EButtonStyle.Empty" FAClass="pen" OnClick="async ()=> await this.OpenEditScoreModal(judge,maneouvre)">
+                                            @_score(judge, maneouvre)
+                                        </IconButton>
+                                    }
+                                    else
+                                    {
+                                        @_score(judge, maneouvre)
+                                    }
+                                </div>
                             </div>
                         }
                     </div>
