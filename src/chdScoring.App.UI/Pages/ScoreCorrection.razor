@@ -15,10 +15,10 @@
         </div>
     }
 </ChdAuthorizeView>
-<div class="control-center">
 
-    @if (this._dto is not null)
-    {
+@if (this._dto is not null)
+{
+    <div class="control-center">
         <div class="maneouvres">
             @foreach (var maneouvre in this._dto.ManeouvreLst.FirstOrDefault().Value.OrderBy(o => o.Id))
             {
@@ -46,7 +46,8 @@
                         }
                     </div>
                 </div>
+
             }
         </div>
-    }
-</div>
+    </div>
+}
