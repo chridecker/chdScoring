@@ -1,4 +1,5 @@
-﻿using chdScoring.App.UI.Interfaces;
+﻿using Blazored.Modal;
+using chdScoring.App.UI.Interfaces;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using Microsoft.AspNetCore.Components;
@@ -14,7 +15,8 @@ namespace chdScoring.App.UI.Pages.Components
     public partial class SendToPrintComponent
     {
         [Inject] private IPilotService _pilotService { get; set; }
-        [Inject] private IPrintHelper _printHelper{ get; set; }
+        [Inject] private IPrintHelper _printHelper { get; set; }
+        [CascadingParameter] public BlazoredModalInstance Modal { get; set; }
         IEnumerable<FinishedRoundDto> _finishedRounds { get; set; }
 
 
@@ -27,6 +29,7 @@ namespace chdScoring.App.UI.Pages.Components
         private async Task CreatePdf(int pilot, int round)
         {
             await this._printHelper.PrintRound(pilot, round);
+            await this.Modal.CloseAsync();
         }
 
     }

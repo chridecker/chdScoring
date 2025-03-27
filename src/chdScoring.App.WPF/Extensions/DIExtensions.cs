@@ -11,7 +11,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
 using System.Windows;
-using chdScoring.App.WPF.Hosting;
 using Microsoft.Extensions.Hosting;
 
 namespace chdScoring.App.WPF.Extensions
@@ -23,27 +22,6 @@ namespace chdScoring.App.WPF.Extensions
             services.AddChdScoringAppUI<VibrationHelper, UpdateService, SettingManager, BatteryService, TTSService>(configuration);
 
             services.AddSingleton<INotificationManagerService, NotificationManagerService>();
-            return services;
-        }
-        public static IServiceCollection AddWPFWindow<TWindow>(this IServiceCollection services) where TWindow : Window
-            => services.AddTransient<TWindow>();
-
-        public static IServiceCollection UseWPFLifeTime<TApp>(this IServiceCollection services)
-            where TApp : Application, IInitComponents
-        {
-            services.AddSingleton<TApp>().AddSingleton(sp => Application.Current);
-
-            services.AddSingleton<IHostLifetime, WPFLifetime>();
-            services.AddSingleton<WPFHostingService<TApp>>();
-            services.AddHostedService<WPFHostingService<TApp>>(sp => sp.GetRequiredService<WPFHostingService<TApp>>());
-
-            services.AddSingleton<IAppProvider, AppProvider>();
-
-            // Synchronization context
-            services.AddSingleton<WPFSynchronizationContextProvider>();
-            services.AddSingleton<IWPFSynchronizationContextProvider>(sp => sp.GetRequiredService<WPFSynchronizationContextProvider>());
-            services.AddSingleton<IGuiContext>(sp => sp.GetRequiredService<WPFSynchronizationContextProvider>());
-
             return services;
         }
     }

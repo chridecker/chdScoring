@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using chdScoring.App.WPF.Extensions;
 using chdScoring.App.WPF;
+using chd.Base.UI.WPF.Extensions;
 
 Thread.CurrentThread.SetApartmentState(ApartmentState.Unknown);
 
@@ -14,7 +15,7 @@ var builder = Host.CreateApplicationBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
 builder.Services.AddChdScoringApp(builder.Configuration);
-builder.Services.UseWPFLifeTime<App>();
+builder.Services.AddWPF<App>(builder.Configuration);
 
 
 builder.Services.AddWpfBlazorWebView();

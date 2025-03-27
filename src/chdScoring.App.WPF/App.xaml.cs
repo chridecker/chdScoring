@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using chd.Base.UI.WPF.Interfaces;
+using Microsoft.Extensions.Hosting;
 using System.Configuration;
 using System.Data;
 using System.Windows;
@@ -29,9 +30,5 @@ namespace chdScoring.App.WPF
         {
         }
     }
-    public interface IInitComponents
-    {
-        public void InitializeComponent();
-    }
-
+   
 }
