@@ -14,5 +14,6 @@ namespace chdScoring.Contracts.Interfaces
         Task<bool> ChangeAutoPrint(CancellationToken cancellationToken = default);
         Task<IEnumerable<PrintPdfDto>> GetPdfLst(CancellationToken cancellationToken = default);
         Task<bool> AddToPrintCache(PrintPdfDto dto, CancellationToken cancellationToken = default);
+        Task<bool> DeleteFileAsync(PrintPdfDto dto, CancellationToken cancellationToken = default);
     }
 }

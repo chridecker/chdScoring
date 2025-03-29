@@ -53,6 +53,17 @@ namespace chdScoring.BusinessLogic.Services
             return false;
         }
 
+        public async Task<bool> DeleteFileAsync(PrintPdfDto dto, CancellationToken cancellationToken = default)
+        {
+            var info = new FileInfo(dto.Directory);
+            if (info.Exists)
+            {
+                File.Delete(info.FullName);
+                return true;
+            }
+            return false;
+        }
+
         public Task<bool> PrintToPdfAsync(CreatePdfDto dto, CancellationToken cancellationToken = default) => Task.FromResult(this._printCache.Add(dto));
     }
 }

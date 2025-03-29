@@ -28,5 +28,8 @@ namespace chdScoring.Main.Client.Clients
 
         public async Task<bool> PrintToPdfAsync(CreatePdfDto dto, CancellationToken cancellationToken = default)
         => await this.Post<bool>(Print.POST_ADD, dto, cancellationToken);
+        
+        public async Task<bool> DeleteFileAsync(PrintPdfDto dto, CancellationToken cancellationToken = default)
+        => await this.Post<bool>(Print.POST_DELETE, dto, cancellationToken);
     }
 }

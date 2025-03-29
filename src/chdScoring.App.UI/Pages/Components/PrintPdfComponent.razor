@@ -7,6 +7,7 @@
     <div class="print-file-container">
         <div class="print-file-logo">
             <IconButton ButtonStyle="EButtonStyle.Primary" FAClass="print" OnClick="async ()=> await this.Print()" />
+            <IconButton ButtonStyle="EButtonStyle.Cancel" FAClass="trash" OnClick="async ()=> await this.Delete()" />
         </div>
         <div class="print-file-name">@Dto.Name</div>
         <div class="print-file-datetime">@Dto.CreationTime.ToString("HH:mm:ss dd.MM.yy")</div>
@@ -21,6 +22,14 @@
     private async Task Print()
     {
         if (await this.printService.AddToPrintCache(this.Dto, this.Token))
+        {
+            await this.PrintSucceded.InvokeAsync();
+        }
+    }
+    
+    private async Task Delete()
+    {
+        if (await this.printService.DeleteFileAsync(this.Dto, this.Token))
         {
             await this.PrintSucceded.InvokeAsync();
         }
