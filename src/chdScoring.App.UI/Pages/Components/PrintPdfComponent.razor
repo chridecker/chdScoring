@@ -1,3 +1,4 @@
+@using Blazored.Modal.Services
 @using chd.UI.Base.Contracts.Enum
 @using chdScoring.Contracts.Dtos
 @using chdScoring.Contracts.Interfaces
@@ -19,6 +20,8 @@
     [Parameter] public CancellationToken Token { get; set; }
     [Parameter] public EventCallback PrintSucceded { get; set; }
 
+    [Inject] private IModalService _modal { get; set; }
+
     private async Task Print()
     {
         if (await this.printService.AddToPrintCache(this.Dto, this.Token))
@@ -26,10 +29,12 @@
             await this.PrintSucceded.InvokeAsync();
         }
     }
-    
+
     private async Task Delete()
     {
-        if (await this.printService.DeleteFileAsync(this.Dto, this.Token))
+        var yes = await this._modal.ShowDialog("Löschen?", EDialogButtons.YesNo);
+        if (yes == EDialogResult.Yes
+            && await this.printService.DeleteFileAsync(this.Dto, this.Token))
         {
             await this.PrintSucceded.InvokeAsync();
         }

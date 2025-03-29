@@ -32,6 +32,7 @@ namespace chdScoring.Main.WebServer.Extensions
             print.MapPost(Print.POST_CHANGE_AUTOPRINT, async (IPrintService service, CancellationToken ct) => await service.ChangeAutoPrint(ct));
             print.MapPost(Print.POST_ADD, async (CreatePdfDto dto, IPrintService service, CancellationToken ct) => await service.PrintToPdfAsync(dto, ct));
             print.MapPost(Print.POST_PRINT_PDF, async (PrintPdfDto dto, IPrintService service, CancellationToken ct) => await service.AddToPrintCache(dto, ct));
+            print.MapPost(Print.POST_DELETE, async (PrintPdfDto dto, IPrintService service, CancellationToken ct) => await service.DeleteFileAsync(dto, ct));
 
 
             database.MapGet(Database.GET, async (IDatabaseService service, CancellationToken token) => await service.GetDatabaseConnections(token));

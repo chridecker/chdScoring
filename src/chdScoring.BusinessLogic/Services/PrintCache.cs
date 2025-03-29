@@ -17,7 +17,7 @@ namespace chdScoring.BusinessLogic.Services
         private BlockingCollection<FileInfo> _toExecutePrint = new BlockingCollection<FileInfo>();
         private string _printer;
 
-        private bool _autoPrint = true;
+        private bool _autoPrint = false;
         public bool AutoPrint
         {
             get => this._autoPrint; set
