@@ -1,0 +1,9 @@
+
+<div class="database-connection @(this.IsCurrentDatabaseConnection ? " current " : "")">
+    @this.DatabaseConnection 
+</div>
+
+@code {
+    [Parameter] public string DatabaseConnection { get; set; }
+    [Parameter] public bool IsCurrentDatabaseConnection { get; set; }
+}

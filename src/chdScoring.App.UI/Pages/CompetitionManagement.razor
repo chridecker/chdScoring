@@ -22,9 +22,6 @@
     <SideWidget OnClick="this.LoadRoundResult" FAClass="ranking-star">
         <RoundResultCompact Results="this._results" />
     </SideWidget>
-    <SideWidget OnClick="this.LoadDatabaseData" FAClass="database">
-        <DatabaseManagement CurrentDatabaseConnection="@this._currentDatabaseConnection" DatabaseConnections="this._databaseConnections" />
-    </SideWidget>
 </SideWidgetContainer>
 
 <FloatingActionNavigation FAIconActive="floppy-disk" OnClick="async () => await this.SaveRound()" TextActive="Save Round">
@@ -50,5 +47,12 @@
                           OnClick="async () => await this.CalculateTBL()"
                           Title="Calculate Round (TBL)"
                           CssClass="dot-btn-save large" />
+
+    <ChdAuthorizeView TRightId="int" TUserId="int" Rights="new []{RightConstants.Database}">
+        <FloatingActionButton FAClass="database"
+                              OnClick="async () => await this.LoadDatabaseData()"
+                              Title="Choose Database"
+                              CssClass="dot-btn-save large" />
+    </ChdAuthorizeView>
 </FloatingActionNavigation>
 
