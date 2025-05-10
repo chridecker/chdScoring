@@ -7,8 +7,10 @@ using chd.UI.Base.Contracts.Enum;
 using chdScoring.App.UI.Constants;
 using chdScoring.App.UI.Interfaces;
 using chdScoring.App.UI.Pages.Components;
+using chdScoring.App.UI.Pages.Components.Management;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Components;
 
 namespace chdScoring.App.UI.Pages
@@ -72,6 +74,20 @@ namespace chdScoring.App.UI.Pages
         {
             this._databaseConnections = await this._databaseService.GetDatabaseConnections();
             this._currentDatabaseConnection = await this._databaseService.GetCurrentDatabaseConnection();
+            var parameters = new ModalParameters
+            {
+                {nameof(SearchModalComponent<string,int>.Items), this._databaseConnections },
+                {nameof(SearchModalComponent<string,int>.RenderType),typeof(DatabaseConnectionRender) },
+                {nameof(SearchModalComponent<string,int>.RenderParameterDict),(string db)=> SearchModalComponent<string,int>.CreateRenderParameterDict(db,((x)=> nameof(DatabaseConnectionRender.DatabaseConnection),(x)=>x),((x)=> nameof(DatabaseConnectionRender.IsCurrentDatabaseConnection),(x)=>x == this._currentDatabaseConnection))},
+            };
+            var modalInstance = this._modal.Show<SearchModalComponent<string, int>>($"Datenbank {this._currentDatabaseConnection}", parameters);
+
+            var result = await modalInstance.Result;
+            if (result.Confirmed && result.Data is string choosenDB)
+            {
+                await this._databaseService.SetDatabaseConnection(choosenDB);
+            }
+
         }
 
         private async Task SaveRound()
