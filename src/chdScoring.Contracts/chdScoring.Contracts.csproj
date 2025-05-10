@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="chd.UI.Base.Contracts" Version="1.0.25120.113" />
+    <PackageReference Include="chd.UI.Base.Contracts" Version="1.0.25130.114" />
     <PackageReference Include="System.IO.Pipelines" Version="9.0.4" />
   </ItemGroup>
 
