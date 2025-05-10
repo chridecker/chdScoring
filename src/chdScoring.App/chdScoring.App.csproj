@@ -36,7 +36,7 @@
 	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-android'">
 		<Version>1.0.0.3</Version>
 	</PropertyGroup>
-	
+
 	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-windows10.0.19041.0'">
 		<Version>1.0.0.3</Version>
 	</PropertyGroup>
@@ -79,11 +79,6 @@
 		</None>
 	</ItemGroup>
 
-
-	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="11.2.0" />
-	</ItemGroup>
-
 	<ProjectExtensions>
 		<VisualStudio>
 			<UserProperties XamarinHotReloadDebuggerTimeoutExceptionchdScoringAppHideInfoBar="True" />
@@ -95,15 +90,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Update="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.0.60" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Update="Microsoft.Maui.Controls" Version="9.0.60" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.92" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="11.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.0.60" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.60" />
+		<PackageReference Include="Oscore.Maui.Android.InAppUpdates" Version="1.2.0" />
 	</ItemGroup>
 
 </Project>

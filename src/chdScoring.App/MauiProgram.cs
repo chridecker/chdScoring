@@ -4,6 +4,7 @@ using chdScoring.App.Extensions;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
+using Maui.Android.InAppUpdates;
 
 namespace chdScoring.App
 {
@@ -22,7 +23,10 @@ namespace chdScoring.App
             builder.Configuration.AddConfiguration(GetAppSettingsConfig());
             builder.Configuration.AddConfiguration(GetLocalSetting());
             builder.AddServices();
-
+            builder.UseAndroidInAppUpdates(options =>
+            {
+                options.ImmediateUpdatePriority = 6;
+            });
 
             return builder.Build();
         }
