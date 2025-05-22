@@ -1,5 +1,5 @@
 ﻿using ObjCRuntime;
-using UIKit
+using UIKit;
 namespace chdScoring.App.Platforms.iOS
 {
     public class Program

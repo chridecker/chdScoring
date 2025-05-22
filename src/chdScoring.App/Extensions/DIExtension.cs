@@ -1,7 +1,11 @@
 ﻿using Blazored.Toast.Services;
 using chd.UI.Base.Client.Implementations.Services;
 using chdScoring.App.Helper;
+#if ANDROID
 using chdScoring.App.Platforms.Android;
+#elif IOS
+using chdScoring.App.Platforms.iOS;
+#endif
 using chdScoring.App.Services;
 using chdScoring.App.UI.Constants;
 using chdScoring.App.UI.Extensions;

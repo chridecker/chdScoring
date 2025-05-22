@@ -5,7 +5,7 @@ using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
 using Microsoft.Maui.LifecycleEvents;
-
+using chd.UI.Base.Contracts.Interfaces.Update;
 #if ANDROID
 using Maui.Android.InAppUpdates;
 #endif
