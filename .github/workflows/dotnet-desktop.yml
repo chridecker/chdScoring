@@ -14,7 +14,7 @@ on:
         description: 'Create an AAB Artifact'
         required: true
         default: 'true'
-       use_apk:
+      use_apk:
         description: 'Create an APK Artifact'
         required: true
         default: 'false'
