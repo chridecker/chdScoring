@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="chd.Api.Base.Client" Version="1.0.25130.114" />
-    <PackageReference Include="System.IO.Pipelines" Version="9.0.3" />
+    <PackageReference Include="System.IO.Pipelines" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
