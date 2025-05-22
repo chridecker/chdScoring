@@ -13,6 +13,10 @@ on:
       use_aab:
         description: 'Create an AAB Artifact'
         required: true
+        default: 'true'
+       use_apk:
+        description: 'Create an APK Artifact'
+        required: true
         default: 'false'
   #push:
   #  branches: [ "main" ]
@@ -55,6 +59,7 @@ jobs:
         dotnet publish src/chdScoring.App/chdScoring.App.csproj --no-restore --configuration ${{ env.BUILD_CONFIG }} --framework net9.0-android /p:ApplicationDisplayVersion=$VERSION /p:ApplicationVersion=${{ github.run_number}} /p:AndroidSigningKeyPass=${{secrets.CHDSCORING_KEYPASS}} /p:AndroidSigningStorePass=${{secrets.CHDSCORING_KEYPASS}} /p:AndroidKeyStore=true /p:AndroidSigningKeyStore=chdscoring.keystore /p:AndroidSigningKeyAlias=chdScoring /p:AndroidSigningKeyAlias=chdScoring /p:AndroidVersionCode=${{github.run_number}}
 
     - name: Upload APK Build Artifact
+      if: ${{ github.event.inputs.use_apk == 'true' }}
       uses: actions/upload-artifact@v4.4.2
       with:
         name: chdScoring
@@ -65,7 +70,7 @@ jobs:
       uses: actions/upload-artifact@v4.4.2
       with:
         name: chdScoringAAB
-        path: ./**/bin/Release/**/publish/*.aab
+        path: ./**/bin/Release/**/publish/*-Signed.aab
           
         
 
