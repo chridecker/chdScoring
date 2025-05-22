@@ -5,16 +5,22 @@ namespace chdScoring.App.Services
 {
     public class UpdateService : BaseUpdateService
     {
-        public UpdateService(ILogger<UpdateService> logger) : base(logger)
+        private readonly IAppInfo _appInfo;
+
+        public UpdateService(ILogger<UpdateService> logger, IAppInfo appInfo) : base(logger)
         {
+            this._appInfo = appInfo;
+        }
+
+        public override Task<Version> CurrentVersion()
+        {
+            return Task.FromResult(this._appInfo.Version);
         }
 
         public override Task UpdateAsync(int timeout)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
-
-        public override Task<Version> CurrentVersion() => Task.FromResult(AppInfo.Version);
 
     }
 }

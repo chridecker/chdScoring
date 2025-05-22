@@ -3,17 +3,14 @@
 using Xamarin.Android.Net;
 #endif
 
-namespace chdScoring.App.Auth
+namespace chdScoring.App.Platforms.Android
 {
     public static class HttpsClientHandlerService
     {
-
-        #if ANDROID
         public static HttpMessageHandler GetPlatformMessageHandler() => new AndroidMessageHandler
         {
             ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>true,
         };
-        #endif
 
     }
 }

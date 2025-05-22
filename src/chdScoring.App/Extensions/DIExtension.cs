@@ -1,7 +1,7 @@
 ﻿using Blazored.Toast.Services;
 using chd.UI.Base.Client.Implementations.Services;
-using chdScoring.App.Auth;
 using chdScoring.App.Helper;
+using chdScoring.App.Platforms.Android;
 using chdScoring.App.Services;
 using chdScoring.App.UI.Constants;
 using chdScoring.App.UI.Extensions;
@@ -18,25 +18,14 @@ namespace chdScoring.App.Extensions
             var t = LoadLocales();
             services.AddKeyedSingleton(SettingConstants.AvailableLanguages, t);
 
+#if ANDROID
+            services.AddAndroidServices();
+#endif
+
             services.AddChdScoringAppUI<VibrationHelper, UpdateService, SettingManager, BatteryService, TTSService>(configuration);
 
-#if ANDROID
-            services.ConfigureHttpClientDefaults(builder => builder.ConfigurePrimaryHttpMessageHandler(HttpsClientHandlerService.GetPlatformMessageHandler));
-#endif
-
-            services.AddNotification();
-            return services;
-        }
-
-        private static IServiceCollection AddNotification(this IServiceCollection services)
-        {
-#if ANDROID
-            services.AddSingleton<INotificationManagerService, Platforms.Android.NotificationManagerService>();
-#endif        
-#if WINDOWS
-            services.AddSingleton<INotificationManagerService, Platforms.Windows.NotificationManagerService>();
-#endif
-
+            services.AddSingleton<IDeviceInfo>(_ => DeviceInfo.Current);
+            services.AddSingleton<IAppInfo>(_ => AppInfo.Current);
             return services;
         }
 

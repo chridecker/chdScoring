@@ -4,6 +4,10 @@ using chdScoring.App.Extensions;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
+#if ANDROID
+using Maui.Android.InAppUpdates;
+#endif
+
 
 namespace chdScoring.App
 {
@@ -23,21 +27,25 @@ namespace chdScoring.App
             builder.Configuration.AddConfiguration(GetLocalSetting());
             builder.AddServices();
 
+#if ANDROID
+            builder.UseAndroidInAppUpdates(options =>
+            {
+                options.ImmediateUpdatePriority = 6;
+            });
+#endif
 
             return builder.Build();
         }
         private static IConfiguration GetAppSettingsConfig()
         {
-            var fileName = "appsettings.json";
-            var appSettingsFileName = "chdScoring.App.appsettings.json";
-            var assembly = Assembly.GetExecutingAssembly();
-            using var resStream = assembly.GetManifestResourceStream(appSettingsFileName);
-            if (resStream == null)
+            var fileName = "appsettings.txt";
+            if (!FileSystem.AppPackageFileExistsAsync(fileName).Result)
             {
-                throw new ApplicationException($"Unable to read file [{appSettingsFileName}]");
+                throw new ApplicationException($"Unable to read file [{fileName}]");
             }
+            using var stream = FileSystem.OpenAppPackageFileAsync(fileName).Result;
             return new ConfigurationBuilder()
-                    .AddJsonStream(resStream)
+                    .AddJsonStream(stream)
                     .Build();
         }
 

@@ -14,22 +14,12 @@ namespace chdScoring.App
         public App(IAppInfoService appInfoService)
         {
             InitializeComponent();
-
-            this.MainPage = new MainPage();
             this._appInfoService = appInfoService;
         }
 
         protected override Window CreateWindow(IActivationState activationState)
         {
-#if ANDROID
-            Platform.CurrentActivity.Window.SetNavigationBarColor(Android.Graphics.Color.Rgb(24, 27, 31));
-#endif
-
-            var mainWindow = base.CreateWindow(activationState);
-#if WINDOWS
-                 mainWindow.Width = 370;
-                mainWindow.Height = 825;
-#endif
+            var mainWindow = new Window(new MainPage());
             mainWindow.Deactivated += (sender, args) => this._appInfoService.AppLifeCycleChanged?.Invoke(this, EAppLifeCycle.OnSleep);
             mainWindow.Resumed += (sender, args) => this._appInfoService.AppLifeCycleChanged?.Invoke(this, EAppLifeCycle.OnResume);
 

@@ -14,7 +14,6 @@ namespace chdScoring.App
             InitializeComponent();
             try
             {
-                this.blazorWebView.BlazorWebViewInitializing += this.BlazorWebViewInitializing;
                 this.blazorWebView.BlazorWebViewInitialized += this.BlazorWebViewInitialized;
             }
             catch (Exception ex)
@@ -26,6 +25,7 @@ namespace chdScoring.App
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+            DeviceDisplay.KeepScreenOn = true;
             await this.CheckPermissions();
         }
 
@@ -36,36 +36,10 @@ namespace chdScoring.App
             PermissionStatus statusWifi = await Permissions.RequestAsync<WifiPermission>();
 #endif
         }
-
-        private partial void BlazorWebViewInitializing(object? sender, BlazorWebViewInitializingEventArgs e);
-        private partial void BlazorWebViewInitialized(object? sender, BlazorWebViewInitializedEventArgs e);
-
-#if WINDOWS
-         private partial void BlazorWebViewInitializing(object? sender, BlazorWebViewInitializingEventArgs e)
+        private  void BlazorWebViewInitialized(object? sender, BlazorWebViewInitializedEventArgs e)
         {
-        }
-
-        private partial void BlazorWebViewInitialized(object? sender, BlazorWebViewInitializedEventArgs e)
-        {
-        
-        }
-#endif
-
-
 #if ANDROID
 
-        // To manage Android permissions, update AndroidManifest.xml to include the permissions and
-        // features required by your app. You may have to perform additional configuration to enable
-        // use of those APIs from the WebView, as is done below. A custom WebChromeClient is needed
-        // to define what happens when the WebView requests a set of permissions. See
-        // PermissionManagingBlazorWebChromeClient.cs to explore the approach taken in this example.
-
-        private partial void BlazorWebViewInitializing(object? sender, BlazorWebViewInitializingEventArgs e)
-        {
-        }
-
-        private partial void BlazorWebViewInitialized(object? sender, BlazorWebViewInitializedEventArgs e)
-        {
             try
             {
                 if (e.WebView.Context?.GetActivity() is not ComponentActivity activity)
@@ -83,8 +57,8 @@ namespace chdScoring.App
             {
                 // do something if error appears
             }
+#endif
 
         }
-#endif
     }
 }

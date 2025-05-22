@@ -9,7 +9,7 @@
 		<EnableWindowsTargeting>true</EnableWindowsTargeting>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="chd.Api.Base" Version="1.0.25086.109" />
+		<PackageReference Include="chd.Api.Base" Version="1.0.25130.114" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.2.0" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
 		<PackageReference Include="NLog.Web.AspNetCore" Version="5.3.14" />

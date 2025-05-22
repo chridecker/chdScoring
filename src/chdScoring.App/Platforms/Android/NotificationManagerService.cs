@@ -3,12 +3,13 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using AndroidX.Core.App;
+using chdScoring.App.Services.Base;
 using chdScoring.App.UI.Interfaces;
 using System.Text.Json;
 
 namespace chdScoring.App.Platforms.Android
 {
-    public class NotificationManagerService : INotificationManagerService
+    public class NotificationManagerService : BaseNotificationManager
     {
         const string channelId = "default";
         const string channelName = "Default";
@@ -18,16 +19,12 @@ namespace chdScoring.App.Platforms.Android
         public const string TitleKey = "title";
         public const string MessageKey = "message";
         public const string CancelKey = "cancel";
-        public const string DataKey = "data";
-        public const string DataTypeKey = "datatype";
 
         bool channelInitialized = false;
-        int messageId = 0;
         int pendingIntentId = 0;
 
         NotificationManagerCompat compatManager;
 
-        public event EventHandler<NotificationEventArgs> NotificationReceived;
 
         public static NotificationManagerService Instance { get; private set; }
 
@@ -40,8 +37,7 @@ namespace chdScoring.App.Platforms.Android
                 Instance = this;
             }
         }
-
-        public void SendNotification(string title, string message, bool autoCloseOnLick = true)
+        public override void SendNotification(string title, string message, bool autoCloseOnLick = true)
         {
             if (!this.channelInitialized)
             {
@@ -50,7 +46,7 @@ namespace chdScoring.App.Platforms.Android
             this.Show(title, message, autoCloseOnLick);
         }
 
-        public void SendNotification<TData>(string title, string message, TData data, bool autoCloseOnLick = true)
+        public override void SendNotification<TData>(string title, string message, TData data, bool autoCloseOnLick = true)
         {
             if (!this.channelInitialized)
             {
@@ -59,25 +55,25 @@ namespace chdScoring.App.Platforms.Android
             this.Show(title, message, data, autoCloseOnLick);
         }
 
-        public void ReceiveNotification(NotificationEventArgs args)
+        public override void ReceiveNotification(NotificationEventArgs args)
         {
             if (args.Cancel)
             {
                 this.compatManager.Cancel(args.Id);
             }
-            NotificationReceived?.Invoke(this, args);
+            this.OnNotificationReceived(args);
         }
 
         public void Show(string title, string message, bool autoCancel)
         {
-            var id = this.messageId++;
+            var id = this._messageId++;
             var intent = this.CreateIntent(id, title, message, autoCancel, typeof(MainActivity));
             this.SendIntent(id, intent, title, message, autoCancel);
         }
 
         private void Show<TData>(string title, string message, TData data, bool autoCancel)
         {
-            var id = this.messageId++;
+            var id = this._messageId++;
             var intent = this.CreateIntent(id, title, message, autoCancel, typeof(MainActivity));
             if (data is not null) { }
             intent.PutExtra(DataTypeKey, typeof(TData).FullName);
@@ -91,9 +87,9 @@ namespace chdScoring.App.Platforms.Android
               ? PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable
           : PendingIntentFlags.UpdateCurrent;
 
-    //        var remoteInput = new  AndroidX.Core.App.RemoteInput.Builder("key_text_reply")
-    //.SetLabel("Your answer...")
-    //.Build();
+            //        var remoteInput = new  AndroidX.Core.App.RemoteInput.Builder("key_text_reply")
+            //.SetLabel("Your answer...")
+            //.Build();
 
             var pendingIntent = PendingIntent.GetActivity(Platform.AppContext, this.pendingIntentId++, intent, pendingIntentFlags);
             //var replyAction = new NotificationCompat.Action.Builder(Resource.Drawable.logo_small, "Reply", pendingIntent)
