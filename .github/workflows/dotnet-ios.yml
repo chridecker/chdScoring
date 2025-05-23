@@ -79,7 +79,6 @@ jobs:
       
     - name: Build MAUI iOS App (Release)
       run: dotnet publish src/chdScoring.App/chdScoring.App.csproj --no-restore -f net9.0-ios -c ${{ env.BUILD_CONFIG }} 
-            /p:RuntimeIdentifier=ios-arm64
             /p:CodesignKey="${{ github.event.inputs.codesignkey }}" 
             /p:CodesignProvision="chdScoringMobileAppStoreProfile" 
             /p:ArchiveOnBuild=true 
