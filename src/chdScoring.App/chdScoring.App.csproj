@@ -8,8 +8,7 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<EnableDefaultCssItems>false</EnableDefaultCssItems>
-		
-		<RuntimeIdentifiers>ios-arm64</RuntimeIdentifiers>
+
 		<!-- Display name -->
 		<ApplicationTitle>chdScoring.App</ApplicationTitle>
 
@@ -30,8 +29,12 @@
 		<AndroidKeyStore>False</AndroidKeyStore>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net9.0-ios'">
+		<RuntimeIdentifiers>ios-arm64</RuntimeIdentifiers>
+	</PropertyGroup>
+	
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-ios|AnyCPU'">
-	  <MtouchLink>SdkOnly</MtouchLink>
+		<MtouchLink>SdkOnly</MtouchLink>
 	</PropertyGroup>
 
 
@@ -48,14 +51,14 @@
 		<PackageReference Include="Xamarin.Google.Android.Play.App.Update.Ktx" Version="2.1.0.14" />
 		<PackageReference Include="Oscore.Maui.Android.InAppUpdates" Version="1.2.0" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="11.2.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.60" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.0.60" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<ProjectReference Include="..\chdScoring.App.UI\chdScoring.App.UI.csproj" />
 	</ItemGroup>
