@@ -8,7 +8,8 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<EnableDefaultCssItems>false</EnableDefaultCssItems>
-
+		
+		<RuntimeIdentifiers>ios-arm64</RuntimeIdentifiers>
 		<!-- Display name -->
 		<ApplicationTitle>chdScoring.App</ApplicationTitle>
 
