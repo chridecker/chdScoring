@@ -32,7 +32,6 @@
 	<ItemGroup>
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\logo_test.svg" />
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\logo_test.svg" BaseSize="168,208" />
 		<MauiFont Include="Resources\Fonts\*" />
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
@@ -43,7 +42,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiImage Remove="Resources\Images\logo_test.svg" />
+	  <None Remove="Resources\Images\logo_test.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -55,5 +54,9 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\chdScoring.App.UI\chdScoring.App.UI.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Update="Resources\Images\logo_test.svg" BaseSize="168,208" />
 	</ItemGroup>
 </Project>
