@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android;net9.0-ios</TargetFrameworks>
+		<OutputType>Exe</OutputType>
 		<Nullable>enable</Nullable>
 		<RootNamespace>chdScoring.App</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -24,18 +25,16 @@
 		<TargetAndroidVersion>34</TargetAndroidVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net9.0-ios'">
-		<RuntimeIdentifiers>ios-arm64</RuntimeIdentifiers>
-	</PropertyGroup>
-
-
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android34.0|AnyCPU' OR '$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android34.0|AnyCPU'">
 		<AndroidKeyStore>False</AndroidKeyStore>
 	</PropertyGroup>
 
+
 	<ItemGroup>
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\logo_test.svg" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\logo_small.svg" />
+		<MauiSplashScreen Include="Resources\Splash\logo_small.svg" BaseSize="168,208" />
 		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Update="Resources\Images\logo_small.svg" BaseSize="168,208" />
 		<MauiFont Include="Resources\Fonts\*" />
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
@@ -43,10 +42,6 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
 		<PackageReference Include="Xamarin.Google.Android.Play.App.Update.Ktx" Version="2.1.0.14" />
 		<PackageReference Include="Oscore.Maui.Android.InAppUpdates" Version="1.2.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Remove="Resources\Images\logo_test.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -58,9 +53,5 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\chdScoring.App.UI\chdScoring.App.UI.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiImage Update="Resources\Images\logo_test.svg" BaseSize="168,208" />
 	</ItemGroup>
 </Project>
