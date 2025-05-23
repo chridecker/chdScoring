@@ -31,7 +31,7 @@
 	</PropertyGroup>
 	
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net9.0-android'">
-		<RuntimeIdentifiers>android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
+		<RuntimeIdentifiers>android-arm;android-arm64</RuntimeIdentifiers>
 	</PropertyGroup>
 	
 
@@ -41,7 +41,7 @@
 
 	<PropertyGroup>
 		<!-- Used in Xamarin.Android projects -->
-		<AndroidSupportedAbis>armeabi-v7a;arm64-v8a;x86;x86_64</AndroidSupportedAbis>
+		<AndroidSupportedAbis>armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
 	</PropertyGroup>
 
 	<!--<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net9.0-ios'">
