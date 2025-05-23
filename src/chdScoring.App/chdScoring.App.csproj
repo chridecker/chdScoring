@@ -47,7 +47,6 @@
 
 	<ItemGroup>
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\logo_test.svg" />
-		<MauiSplashScreen Include="Resources\Splash\logo_test.svg" BaseSize="168,208" />
 		<MauiImage Include="Resources\Images\*" />
 		<MauiImage Update="Resources\Images\logo_test.svg" BaseSize="168,208" />
 		<MauiFont Include="Resources\Fonts\*" />
@@ -57,6 +56,10 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
 		<PackageReference Include="Xamarin.Google.Android.Play.App.Update.Ktx" Version="2.1.0.14" />
 		<PackageReference Include="Oscore.Maui.Android.InAppUpdates" Version="1.2.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Remove="Resources\Images\logo_test.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
