@@ -1,0 +1,109 @@
+name: Build MAUI iOS App
+
+on:
+  workflow_dispatch: # manuell auslösbar
+    inputs: 
+      build_config:
+        description: 'How to build debug/release'
+        required: true
+        default: 'Release'
+      codesignkey:
+        description: 'Apple CodeSignKey'
+        required: true
+        default: 'Apple Distribution: Christoph Decker (498HRCSRQQ)'
+      use_testflight:
+        description: 'Upload IPA to Testflight'
+        required: true
+        default: 'true'
+      use_ipa:
+        description: 'Create an IPA Artifact'
+        required: true
+        default: 'true'
+
+jobs:
+  build-ios:
+    env:
+      BUILD_CONFIG: ${{ github.event.inputs.build_config }}
+      
+    runs-on: macos-15
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set Datetime
+      id: date
+      run: |
+        echo "year=$(date +%y%j)" >> $GITHUB_OUTPUT
+        echo "hour=$(date +%H%M)" >> $GITHUB_OUTPUT
+    - name: Define Date Var
+      run: echo "DATEVERSION=1.1.${{ steps.date.outputs.year }}.${{ steps.date.outputs.hour }}" >> $GITHUB_ENV
+    - name: Define Date Var iOS
+      run: echo "DATEIOSVERSION=1.${{ steps.date.outputs.year }}.${{ github.run_number }}" >> $GITHUB_ENV
+
+    - name: Select Xcode version
+      run: sudo xcode-select -s /Applications/Xcode_16.3.app
+      
+  #-------------------------------------------------------
+
+    - name: Import Code-Signing Certificates
+      uses: Apple-Actions/import-codesign-certs@v1
+      with:
+        p12-file-base64: ${{ secrets.IOS_P12 }}
+        p12-password: ${{ secrets.IOS_P12_PASS }}
+
+    - name: Find Identity
+      run: security find-identity -v -p codesigning
+      
+    - name: Download Apple Provisioning Profiles
+      uses: Apple-Actions/download-provisioning-profiles@v1
+      with:
+        bundle-id: 'com.chdscoring.mobile.app'
+        issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+        api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
+        api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
+
+    #-------------------------------------------------------
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.x'
+
+    - name: Install MAUI workloads
+      run: |
+        dotnet workload install maui
+        dotnet workload install maui-ios
+   
+    #-------------------------------------------------------
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build MAUI iOS App (Release)
+      run: dotnet publish src/chdScoring.App/chdScoring.App.csproj --no-restore -f net9.0-ios -c ${{ env.BUILD_CONFIG }} 
+            /p:CodesignKey="${{ github.event.inputs.codesignkey }}" 
+            /p:CodesignProvision="chdScoringMobileAppStoreProfile" 
+            /p:ArchiveOnBuild=true 
+            /p:EnableAssemblyILStripping=false 
+            /p:ApplicationDisplayVersion=${{ env.DATEIOSVERSION }}
+            /p:ApplicationBuild=${{ github.run_number }}
+            /p:ApplicationVersion=${{ env.DATEIOSVERSION }} 
+            #/p:Version=${{ env.DATEVERSION }}
+            
+
+    - name: List build output
+      run: ls -R src/chdScoring.App/bin/Release/net9.0-ios/ios-arm64/publish/
+      
+    - name: Upload app to TestFlight
+      if: ${{github.event.inputs.use_testflight == 'true' }}
+      uses: Apple-Actions/upload-testflight-build@v1
+      with:
+        app-path: 'src/chdScoring.App/bin/Release/net9.0-ios/ios-arm64/publish/chdScoring.App.ipa'
+        issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+        api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
+        api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
+              
+    - name: Upload artifact
+      if: ${{ github.event.inputs.use_ipa == 'true' }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: ios-app
+        path: ./**/Release/**/publish/*.ipa
