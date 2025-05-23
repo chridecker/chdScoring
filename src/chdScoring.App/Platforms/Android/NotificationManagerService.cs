@@ -101,8 +101,8 @@ namespace chdScoring.App.Platforms.Android
                 .SetContentIntent(pendingIntent)
                 .SetContentTitle(title)
                 .SetContentText(message)
-                .SetLargeIcon(BitmapFactory.DecodeResource(Platform.AppContext.Resources, Resource.Drawable.logo_small))
-                .SetSmallIcon(Resource.Drawable.logo_small)
+                .SetLargeIcon(BitmapFactory.DecodeResource(Platform.AppContext.Resources, Resource.Drawable.navigation_empty_icon))
+                .SetSmallIcon(Resource.Drawable.navigation_empty_icon)
                 .SetAutoCancel(autoCancel).Build();
 
             this.compatManager.Notify(id, notification);
