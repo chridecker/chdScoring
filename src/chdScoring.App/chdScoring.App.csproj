@@ -36,7 +36,7 @@
 
 
 	<ItemGroup>
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\logo_small.svg" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\logo_test.svg" />
 		<MauiSplashScreen Include="Resources\Splash\logo_small.svg" BaseSize="168,208" />
 		<MauiImage Include="Resources\Images\*" />
 		<MauiImage Update="Resources\Images\logo_small.svg" BaseSize="168,208" />
