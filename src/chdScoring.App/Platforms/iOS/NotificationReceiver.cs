@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using UserNotifications;
 using chdScoring.App.UI.Interfaces;
+using Foundation;
 
 namespace chdScoring.App.Platforms.iOS
 {
@@ -42,7 +43,9 @@ namespace chdScoring.App.Platforms.iOS
             int.TryParse(request.Identifier, out int id);
             object requestData = null;
 
-            if (!string.IsNullOrEmpty(request.Content.UserInfo[NotificationManagerService.DataKey].ToString())
+            if (request.Content.UserInfo.ContainsKey(new NSString(NotificationManagerService.DataKey))
+                && request.Content.UserInfo.ContainsKey(new NSString(NotificationManagerService.DataTypeKey))
+&& !string.IsNullOrEmpty(request.Content.UserInfo[NotificationManagerService.DataKey].ToString())
                 && !string.IsNullOrEmpty(request.Content.UserInfo[NotificationManagerService.DataTypeKey].ToString()))
             {
                 var type = request.Content.UserInfo[NotificationManagerService.DataTypeKey].ToString();
