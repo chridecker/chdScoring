@@ -27,10 +27,8 @@
 		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">ios-arm64</RuntimeIdentifiers>
 	</PropertyGroup>
 
-	<!--<Target Name="PrintProps" BeforeTargets="Build">
-		<Message Text="Configuration: $(Configuration), TargetFramework: $(TargetFramework)" Importance="High"/>
-	</Target>
 
+	<!--
 	<PropertyGroup Condition="'$(Configuration)' == 'Debug' AND '$(TargetFramework)' == 'net9.0-ios'">
 		<RuntimeIdentifiers>iossimulator-arm64</RuntimeIdentifiers>
 	</PropertyGroup>-->
