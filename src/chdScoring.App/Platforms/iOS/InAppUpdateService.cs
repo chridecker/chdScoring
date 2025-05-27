@@ -28,7 +28,7 @@ namespace chdScoring.App.Platforms.iOS
                     await Shell.Current.DisplayAlert("Update verfügbar", "Es gibt eine neue Version im App Store.", "OK");
 
                     // Optional: Zum App Store weiterleiten
-                    var appStoreUrl = "https://apps.apple.com/app/id6746179037"; // z. B. id1234567890
+                    var appStoreUrl = "https://apps.apple.com/app/id6746303831"; // z. B. id1234567890
                     await Launcher.OpenAsync(appStoreUrl);
                 }
             }
