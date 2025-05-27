@@ -45,10 +45,5 @@
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.chdscoring.mobile.app</string>
-	<key>UIApplicationSceneManifest</key>
-	<dict>
-		<key>UIApplicationSupportsMultipleScenes</key>
-		<true/>
-	</dict>
 </dict>
 </plist>
