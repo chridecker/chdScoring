@@ -35,7 +35,8 @@ jobs:
     - name: Update Github Version
       run: |
         git clone https://github.com/chridecker/chd.version.git
+        cd chd.version
         mkdir -p ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}
-        echo "{\"Version\": \"${{ env.DATEIOSVERSION }} \"}" >  ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
+        echo "{\"Version\": \"${{ env.DATEIOSVERSION }} \"}" > ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
         git commit -a -m "Version ${{ env.DATEIOSVERSION }} "
         git push -f
