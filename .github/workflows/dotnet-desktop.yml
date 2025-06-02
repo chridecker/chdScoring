@@ -32,6 +32,7 @@ jobs:
     env:
       BUILD_CONFIG: ${{ github.event.inputs.build_config }}
       SOLUTION: 'chdscoring.sln'
+      DATEVERSION: ''
       
     runs-on: windows-latest
 
@@ -102,11 +103,11 @@ jobs:
         git clone git@github.com:chridecker/chd.version.git
         cd chd.version
         mkdir -p ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}
-        @{Version=${{ env.DATEIOSVERSION }}} |ConvertTo-Json -Compress > ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
+        @{Version=${{ env.VERSION }}} |ConvertTo-Json -Compress > ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
         git add ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
         git config user.name "CHD Build Service"
         git config user.email "chdscoring@gmail.com"
-        git commit -a -m "Version ${{ env.DATEIOSVERSION }} "
+        git commit -a -m "Version ${{ env.VERSION }} "
         git push -f     
         
 
