@@ -58,7 +58,7 @@ jobs:
         cd chd.version
         New-Item -ItemType Directory -Path "${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}" -Force
         Remove-Item -Path "${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json" -ErrorAction SilentlyContinue
-        @{Version=${{ env.DATEVERSION }} } | ConvertTo-Json -Compress > ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
+        @{Version="${{ env.DATEVERSION }}" } | ConvertTo-Json -Compress > ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
         git add ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
         git config user.name "CHD Build Service"
         git config user.email "chdscoring@gmail.com"
