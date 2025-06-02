@@ -60,7 +60,7 @@ jobs:
         $YEAR=& Get-Date -UFormat "%y%j"
         $HOUR=& Get-Date -format HHmm
         $VERSION="$MAJOR.$MINOR.$YEAR.$HOUR"
-        echo $VERSION >> $env:DATEVERSION
+        echo "DATEVERSION=$VERSION" >> $env:GITHUB_ENV
         dotnet publish src/chdScoring.App/chdScoring.App.csproj --no-restore --configuration ${{ env.BUILD_CONFIG }} --framework net9.0-android /p:ApplicationDisplayVersion=$VERSION /p:ApplicationVersion=${{ github.run_number}} /p:AndroidSigningKeyPass=${{secrets.CHDSCORING_KEYPASS}} /p:AndroidSigningStorePass=${{secrets.CHDSCORING_KEYPASS}} /p:AndroidKeyStore=true /p:AndroidSigningKeyStore=chdscoring.keystore /p:AndroidSigningKeyAlias=chdScoring /p:AndroidSigningKeyAlias=chdScoring /p:AndroidVersionCode=${{github.run_number}}
 
     - name: Upload APK Build Artifact
@@ -97,12 +97,13 @@ jobs:
         # Known hosts hinzufügen, damit SSH-Verbindung klappt
         ssh-keyscan github.com | Out-File -FilePath "$sshPath\known_hosts" -Encoding ascii
 
-    - name: Beispiel git clone via SSH
+    - name: Commit Version Update
       run: |
         git clone git@github.com:chridecker/chd.version.git
         cd chd.version
-        mkdir -p ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}
-        @{Version= $env:DATEVERSION |ConvertTo-Json -Compress > ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
+        New-Item -ItemType Directory -Path "${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}" -Force
+        Remove-Item -Path "${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json" -ErrorAction SilentlyContinue
+        @{Version="${{ env.DATEVERSION }}" } | ConvertTo-Json -Compress > ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
         git add ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
         git config user.name "CHD Build Service"
         git config user.email "chdscoring@gmail.com"
