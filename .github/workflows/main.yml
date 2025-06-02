@@ -38,5 +38,7 @@ jobs:
         cd chd.version
         mkdir -p ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}
         echo "{\"Version\": \"${{ env.DATEIOSVERSION }} \"}" > ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
+        git config user.name "CHD Build Service"
+        git config user.email "chdscoring@gmail.com"
         git commit -a -m "Version ${{ env.DATEIOSVERSION }} "
         git push -f
