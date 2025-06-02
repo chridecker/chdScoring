@@ -61,7 +61,7 @@ jobs:
         $YEAR=& Get-Date -UFormat "%y%j"
         $HOUR=& Get-Date -format HHmm
         $VERSION="$MAJOR.$MINOR.$YEAR.$HOUR"
-        echo $VERSION >> $GITHUB_ENV
+        $env:DATEVERSION = $VERSION
         dotnet publish src/chdScoring.App/chdScoring.App.csproj --no-restore --configuration ${{ env.BUILD_CONFIG }} --framework net9.0-android /p:ApplicationDisplayVersion=$VERSION /p:ApplicationVersion=${{ github.run_number}} /p:AndroidSigningKeyPass=${{secrets.CHDSCORING_KEYPASS}} /p:AndroidSigningStorePass=${{secrets.CHDSCORING_KEYPASS}} /p:AndroidKeyStore=true /p:AndroidSigningKeyStore=chdscoring.keystore /p:AndroidSigningKeyAlias=chdScoring /p:AndroidSigningKeyAlias=chdScoring /p:AndroidVersionCode=${{github.run_number}}
 
     - name: Upload APK Build Artifact
@@ -103,11 +103,11 @@ jobs:
         git clone git@github.com:chridecker/chd.version.git
         cd chd.version
         mkdir -p ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}
-        @{Version=${{ env.VERSION }}} |ConvertTo-Json -Compress > ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
+        @{Version= ${{ env.DATEVERSION }} |ConvertTo-Json -Compress > ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
         git add ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
         git config user.name "CHD Build Service"
         git config user.email "chdscoring@gmail.com"
-        git commit -a -m "Version ${{ env.VERSION }} "
+        git commit -a -m "Version ${{ env.DATEVERSION }} "
         git push -f     
         
 
