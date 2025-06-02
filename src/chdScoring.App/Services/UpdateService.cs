@@ -5,7 +5,7 @@ namespace chdScoring.App.Services
 {
     public class UpdateService : BaseUpdateService
     {
-        private readonly IAppInfo _appInfo;
+        protected readonly IAppInfo _appInfo;
 
         public UpdateService(ILogger<UpdateService> logger, IAppInfo appInfo) : base(logger)
         {

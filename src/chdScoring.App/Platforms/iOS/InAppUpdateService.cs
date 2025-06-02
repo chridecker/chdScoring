@@ -1,4 +1,6 @@
 ﻿using chd.UI.Base.Client.Implementations.Services.Base;
+using chdScoring.App.Services;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.ApplicationModel;
 using System;
@@ -7,13 +9,12 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using chdScoring.App.Services;
 
 namespace chdScoring.App.Platforms.iOS
 {
     public class InAppUpdateService : UpdateService
     {
-         public InAppUpdateService(ILogger<InAppUpdateService> logger, IAppInfo appInfo) : base(logger, appInfo)
+        public InAppUpdateService(ILogger<InAppUpdateService> logger, IAppInfo appInfo) : base(logger, appInfo)
         {
         }
         public override async Task UpdateAsync(int timeout)
@@ -39,23 +40,15 @@ namespace chdScoring.App.Platforms.iOS
         {
             try
             {
-                var url = $"https://itunes.apple.com/lookup?bundleId={AppInfo.PackageName}";
-
+                var url = $"https://raw.githubusercontent.com/chridecker/chd.version/refs/heads/main/{this._appInfo.PackageName}/ios/Version.json";
                 using var client = new HttpClient();
                 var json = await client.GetStringAsync(url);
                 var data = JsonDocument.Parse(json);
                 var root = data.RootElement;
 
-                if (root.GetProperty("resultCount").GetInt32() > 0)
+                if (Version.TryParse(root.GetProperty("Version").GetString(), out var store))
                 {
-                    var appStoreVersion = root
-                        .GetProperty("results")[0]
-                        .GetProperty("version")
-                        .GetString();
-                    if (Version.TryParse(appStoreVersion, out var store))
-                    {
-                        return store;
-                    }
+                    return store;
                 }
             }
             catch { }
