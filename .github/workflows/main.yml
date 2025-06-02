@@ -57,7 +57,7 @@ jobs:
         git clone git@github.com:chridecker/chd.version.git
         cd chd.version
         mkdir -p ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}
-        @{Version=${{ env.DATEVERSION }} | ConvertTo-Json -Compress > ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
+        @{Version=${{ env.DATEVERSION }} } | ConvertTo-Json -Compress > ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
         cd ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}
         ls
         cat Version.json
