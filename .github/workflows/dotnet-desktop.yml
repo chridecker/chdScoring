@@ -96,13 +96,7 @@ jobs:
         # Known hosts hinzufügen, damit SSH-Verbindung klappt
         ssh-keyscan github.com | Out-File -FilePath "$sshPath\known_hosts" -Encoding ascii
 
-    - name: Test SSH Verbindung
-      shell: pwsh
-      run: |
-        ssh -T git@github.com
-
     - name: Beispiel git clone via SSH
-      shell: pwsh
       run: |
         git clone git@github.com:chridecker/chd.version.git
         cd chd.version
