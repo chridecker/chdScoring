@@ -40,7 +40,7 @@ namespace chdScoring.App.Platforms.iOS
         {
             try
             {
-                var url = $"https://raw.githubusercontent.com/chridecker/chd.version/refs/heads/main/{this._appInfo.PackageName}/ios/Version.json";
+                var url = $"https://raw.githubusercontent.com/chridecker/chd.version/refs/heads/main/com.chdscoring.mobile.app/ios/Version.json";
                 using var client = new HttpClient();
                 var json = await client.GetStringAsync(url);
                 var data = JsonDocument.Parse(json);
