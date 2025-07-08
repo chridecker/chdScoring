@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using chdScoring.App.UI.Interfaces;
 using chdScoring.App.UI.Services;
+using CommunityToolkit.Maui.Alerts;
 
 namespace chdScoring.App.Services
 {
@@ -31,7 +32,8 @@ namespace chdScoring.App.Services
             }
             return default(T);
         }
-
+        public override void CloseApp() => Application.Current.Quit();
+        public override Task ShowToast(string message, CancellationToken cancellationToken = default) => Toast.Make(message).Show();
         public override void SetNativSetting<T>(string key, T value) where T : class
         {
             Preferences.Default.Set<T>(key, value);

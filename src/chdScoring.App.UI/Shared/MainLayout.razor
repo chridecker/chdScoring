@@ -6,12 +6,13 @@
 @inject IScrollInfoService scrollInfoService
 @inject IchdScoringProfileService profileService
 @inject IHandleUserIdLogin<int> handleUserIdLogin
-
+@inject IAppInfoService appInfoService
+@implements IAsyncDisposable
 
 <div class="page">
     <NavMenu Visible="true" />
 
-    <main >
+    <main>
         <div class="top-row">
             <Header PageTitle="@this.Title"></Header>
         </div>
@@ -34,10 +35,10 @@
 </BlazoredToasts>
 
 @code {
-
+    private CancellationTokenSource _cts = new();
     protected override async Task OnInitializedAsync()
     {
-
+        this.appInfoService.ExitApplication += this.ExitApplication;
         if (await handleUserIdLogin.IsEnabled)
         {
             var id = await handleUserIdLogin.GetIdAsync();
@@ -52,5 +53,20 @@
         }
 
         await base.OnInitializedAsync();
+    }
+
+    private async void ExitApplication(object? sender, bool exit)
+    {
+        if (!exit)
+        {
+            await this.clientSettings.ShowToast("Wollen Sie die Anwendung beenden?");
+            return;
+        }
+        this.clientSettings.CloseApp();
+    }
+    public async ValueTask DisposeAsync()
+    {
+        this.appInfoService.ExitApplication -= this.ExitApplication;
+        this._cts.Cancel();
     }
 }

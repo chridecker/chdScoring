@@ -20,6 +20,10 @@ namespace chdScoring.App.WPF.Services
         {
         }
 
+        public override void CloseApp()
+        {
+        }
+
         public override T? GetNativSetting<T>(string key) where T : class
         {
             return default(T);
@@ -28,5 +32,12 @@ namespace chdScoring.App.WPF.Services
         public override void SetNativSetting<T>(string key, T value)
         {
         }
+
+        public override Task ShowToast(string message, CancellationToken cancellationToken = default)
+        {
+            return Task.CompletedTask;
+        }
+
+        protected override bool _isiOS()=> false;
     }
 }
