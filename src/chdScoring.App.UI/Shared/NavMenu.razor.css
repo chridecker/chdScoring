@@ -34,3 +34,10 @@
                 .nav-menu ::deep .sidebar.collapsed .menu-bar .menu .nav-item .nav-link svg {
                     height: 95%;
                 }
+
+
+@container style(--sidebar-width-small: 0) {
+    .nav-menu ::deep .sidebar header .image .logo {
+        display:none;
+    }
+}

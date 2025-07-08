@@ -14,5 +14,6 @@ namespace chdScoring.App.UI.Interfaces
         Task SetAutoRedirectTo(string value);
         T? GetNativSetting<T>(string key) where T : class;
         void SetNativSetting<T>(string key, T value) where T : class;
+        bool IsiOS { get; }
     }
 }

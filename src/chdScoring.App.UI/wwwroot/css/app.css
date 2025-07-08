@@ -6,7 +6,6 @@
     --chd-device-height: 1024px;
     --dg-device-width: 1024px;
     --dg-device-height: 1280px;
-    --sidebar-width-small: 3rem !important;
     --top-header-height: 2.5rem !important;
     --main-article-padding-lr: 0 !important;
     --main-article-height: calc(100% - var(--top-header-height)) !important;
@@ -18,11 +17,13 @@
     --chd-main-color-theme-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-main-color-theme-transparent) 10%, var(--chd-main-color-theme) 90%);
     --chd-main-color-theme-semi-transparent: var(--chd-lightblue-semi-transparent);
     --widget-height: 38rem !important;
+    --sidebar-width-small: 0 !important;
 }
 
     *::-webkit-scrollbar {
         display: none;
     }
+
 
 .search-container input[type=text] {
     display: none;
@@ -43,6 +44,62 @@
         }
 
 
+.chd-app-modal .bm-content .multiselect-search-modal-component {
+}
+
+    .chd-app-modal .bm-content .multiselect-search-modal-component .multiselect-search-checkboxes-all {
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 0 0.1rem 0;
+    }
+
+        .chd-app-modal .bm-content .multiselect-search-modal-component .multiselect-search-checkboxes-all button.icon-button {
+            padding: 0.2rem 0.4rem;
+            background: var(--chd-bg-lighter);
+            display: flex;
+            justify-content: center;
+            border-radius: 0.7rem;
+        }
+
+            .chd-app-modal .bm-content .multiselect-search-modal-component .multiselect-search-checkboxes-all button.icon-button .button-text {
+                font-size: 0.8rem;
+            }
+
+            .chd-app-modal .bm-content .multiselect-search-modal-component .multiselect-search-checkboxes-all button.icon-button svg {
+                display: none;
+            }
+
+
+    .chd-app-modal .bm-content .multiselect-search-modal-component .search-container .search-results-container .search-item .search-item-content.selected {
+        background: var(--chd-sub-color-theme-gradient);
+        font-weight: unset;
+    }
+
+    .chd-app-modal .bm-content .multiselect-search-modal-component button.btn.btn-secondary {
+        background: var(--chd-bg-lighter);
+    }
+
+.chd-app-modal .bm-content .search-modal-component button.btn.btn-secondary {
+    background: var(--chd-bg-lighter);
+}
+
+.chd-app-modal.ios .bm-content .multiselect-search-modal-component .search-container .search-results-container .search-item svg[fontawesome-icon=circle-check] {
+    fill: var(--chd-ios-blue);
+}
+
+.chd-app-modal.ios .bm-content .multiselect-search-modal-component .multiselect-search-checkboxes-all button.icon-button .button-text {
+    color: var(--chd-ios-blue);
+}
+
+.chd-app-modal.ios .bm-content .multiselect-search-modal-component button.btn.btn-secondary {
+    color: var(--chd-ios-blue);
+}
+
+.chd-app-modal.ios .bm-content .search-modal-component button.btn.btn-secondary {
+    color: var(--chd-ios-blue);
+}
+
+
 @media (min-width: 768px) {
     * {
         --top-header-padding-tb: 0 !important;
@@ -53,8 +110,9 @@
         flex-direction: row;
         justify-content: flex-start !important;
     }
-    .sidebar.collapsed header .image{
-        display:flex !important;
+
+    .sidebar.collapsed header .image {
+        display: flex !important;
     }
 }
 
@@ -73,14 +131,22 @@
         margin-top: 0 !important;
     }
 
-    .sidebar{
+    .sidebar {
         border-right: 1px solid var(--chd-grey) !important;
     }
-        .sidebar.collapsed header .toggle[b-79bnsfo7mq] {
-            right: calc(0.6* var(--nav-toggle-height) - 1.5rem);
+
+        .sidebar.collapsed header .toggle {
+            top: calc(var(--sidebar-toggle-top) - 0.4rem);
+            left: 0.2rem;
         }
 
-
+            .sidebar.collapsed header .toggle button.btn {
+                background: var(--chd-main-color-theme-semi-transparent);
+            }
+        .sidebar:not(.collapsed) header .toggle {
+            top: calc(var(--sidebar-toggle-top) - 0.4rem);
+            left: calc(var(--sidebar-width-wide) - 0.5rem);
+        }
 
     .top-row:not(.auth) {
         display: flex !important;

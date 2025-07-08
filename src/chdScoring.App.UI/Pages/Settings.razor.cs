@@ -17,7 +17,6 @@ namespace chdScoring.App.UI.Pages
 
         private string _baseAddress = string.Empty;
         private Version _currentVersion;
-        private bool _autocollapseNav = false;
         private bool _developerMode = false;
         private string _autoRedirect;
         private double _batteryLimit;
@@ -58,7 +57,6 @@ namespace chdScoring.App.UI.Pages
 
             this._baseAddress = await this._settingManager.MainUrl;
             this._currentVersion = await this._updateService.CurrentVersion();
-            this._autocollapseNav = await this._settingManager.GetSettingLocal<bool>(SettingConstants.AutoCollapseNavbar_Key);
             this._developerMode = await this._settingManager.GetSettingLocal<bool>(SettingConstants.DeveloperMode);
             this._autoRedirect = await this._settingManager.GetSettingLocal(SettingConstants.AutoRedirectTo);
             this._batteryLimit = await this._settingManager.GetSettingLocal<double>(SettingConstants.BatteryWarningLimit);
@@ -109,12 +107,6 @@ namespace chdScoring.App.UI.Pages
         private async Task UpdateBatteryLimit(ChangeEventArgs e)
         {
             await this._settingManager.StoreSettingLocal<double>(SettingConstants.BatteryWarningLimit, double.Parse(e.Value.ToString()));
-            await this.InvokeAsync(this.StateHasChanged);
-        }
-
-        private async Task UpdateAutoCollapeseNavBar(ChangeEventArgs e)
-        {
-            await this._settingManager.StoreSettingLocal<bool>(SettingConstants.AutoCollapseNavbar_Key, (bool)e.Value);
             await this.InvokeAsync(this.StateHasChanged);
         }
 

@@ -1,8 +1,11 @@
 ﻿@using chd.UI.Base.Components.General.ErrorHandling
-
+@inject ISettingManager settingManager
 <CascadingToolTip>
     <CascadingDropList>
-        <CascadingBlazoredModal Position="ModalPosition.Middle" AnimationType="ModalAnimationType.None" Size="ModalSize.Automatic" HideCloseButton="false">
+        <CascadingBlazoredModal Class="@($"chd-app-modal {(this.settingManager.IsiOS ? "ios" : "")}")"
+                                Position="ModalPosition.Custom"
+                                PositionCustomClass="chd-app-modal-position"
+                                AnimationType="ModalAnimationType.None" Size="ModalSize.Automatic" HideCloseButton="false">
             <CustomErrorBoundary HandleError="HandleError" IsDeveloperMode="@this._isDeveloperMode">
                 <Router AppAssembly="@typeof(Main).Assembly">
                     <Found Context="routeData">

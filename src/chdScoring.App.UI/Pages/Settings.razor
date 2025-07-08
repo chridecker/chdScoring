@@ -28,9 +28,6 @@
         <input type="number" step="0.5" value="@this._batteryLimit" @onchange="async (e)=>await this.UpdateBatteryLimit(e)" />
     </div>
     <div class="setting">
-        <SettingCheckbox SettingText="Navigation automatisch ausblenden" Checked="@this._autocollapseNav" OnChange="async (e)=> await UpdateAutoCollapeseNavBar(e)" />
-    </div>
-    <div class="setting">
         Auto Redirect:
         <Selection Values="@this._redirectOptions" @bind-SelectedValue="this.SelectedAutoRedirect" />
     </div>

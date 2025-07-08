@@ -9,17 +9,9 @@
 
 
 <div class="page">
-    @if (this._autocollapseNav)
-    {
-        <SwipeArea PixelToSwipe="10" OnSwipe="this.OnLabelSwiped">
-            <div class="sidebar-hover-toggle @(this._navCollapsed ? "auto-collapse": "")" @onmouseover="() => this._navCollapsed = false">
-            </div>
-        </SwipeArea>
-    }
+    <NavMenu Visible="true" />
 
-    <NavMenu Visible="!(this._autocollapseNav && this._navCollapsed)" />
-
-    <main class="@(this._autocollapseNav && this._navCollapsed ? "collapsed-nav" : "")" @onmouseover="() => this._navCollapsed = true">
+    <main >
         <div class="top-row">
             <Header PageTitle="@this.Title"></Header>
         </div>
@@ -42,13 +34,9 @@
 </BlazoredToasts>
 
 @code {
-    private bool _autocollapseNav = false;
-    private bool _navCollapsed = false;
 
     protected override async Task OnInitializedAsync()
     {
-        this._autocollapseNav = await clientSettings.GetSettingLocal<bool>(SettingConstants.AutoCollapseNavbar_Key);
-        this._navCollapsed = true;
 
         if (await handleUserIdLogin.IsEnabled)
         {
@@ -56,24 +44,13 @@
             if (id.HasValue)
             {
                 await profileService.LoginAsync(new()
-                    {
-                        Id = id,
-                        StayLoggedIn = true,
-                    });
+                {
+                    Id = id,
+                    StayLoggedIn = true,
+                });
             }
         }
 
         await base.OnInitializedAsync();
-    }
-
-
-
-    private async Task OnLabelSwiped(ESwipeDirection e)
-    {
-        if (e == ESwipeDirection.LeftToRight)
-        {
-            this._navCollapsed = false;
-            await this.InvokeAsync(this.StateHasChanged);
-        }
     }
 }

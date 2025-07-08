@@ -10,13 +10,13 @@ using chdScoring.App.UI.Services;
 
 namespace chdScoring.App.Services
 {
-    public class SettingManager : BaseSettingManager
+    public abstract class AppSettingManager : BaseSettingManager
     {
         private readonly IConfiguration _configuration;
 
         public event EventHandler<string> AutoRedirectToChanged;
 
-        public SettingManager(ILogger<SettingManager> logger, IConfiguration configuration,
+        public AppSettingManager(ILogger<AppSettingManager> logger, IConfiguration configuration,
             IProtecedLocalStorageHandler protecedLocalStorageHandler,
             NavigationManager navigationManager) : base(logger, configuration, protecedLocalStorageHandler, navigationManager)
         {
@@ -36,7 +36,6 @@ namespace chdScoring.App.Services
         {
             Preferences.Default.Set<T>(key, value);
         }
-
     }
 
 }

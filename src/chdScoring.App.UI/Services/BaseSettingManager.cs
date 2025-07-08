@@ -37,7 +37,9 @@ namespace chdScoring.App.UI.Services
             return this._mainUrl;
         });
 
+        public bool IsiOS => this._isiOS();
 
+        protected abstract bool _isiOS();
 
         public async Task UpdateMainUrl(string url)
         {

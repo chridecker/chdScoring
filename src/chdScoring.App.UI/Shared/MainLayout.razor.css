@@ -1,8 +1,8 @@
 main {
     position: absolute;
-    left: var(--sidebar-width-small);
+    left: 0;
     height: var(--main-article-available-height);
-    width: calc(100% - var(--sidebar-width-small));
+    width: 100%;
 }
 
     main.collapsed-nav {
@@ -22,23 +22,4 @@ article {
 
     article ::deep * {
         max-width: var(--main-article-available-width);
-    }
-
-.page ::deep .swipe-area {
-    padding: 0;
-    position: fixed;
-    height: 100%;
-    width: 2rem;
-    z-index: 900;
-}
-
-.sidebar-hover-toggle {
-    position: fixed;
-    height: 100%;
-    width: 6rem;
-    z-index: 900;
-}
-
-    .sidebar-hover-toggle.auto-collapse {
-        width: 2rem;
     }
