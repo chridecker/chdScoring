@@ -4,8 +4,9 @@
 @using Blazored.Modal.Services
 @using chd.UI.Base.Client.Implementations.Authorization
 @using chd.UI.Base.Client.Implementations.Services
+@using chdScoring.App.UI.Extensions
 @inject INotificationManagerService notificationService
-@inject IModalService modal
+@inject IModalHandler modal
 @inject IBatteryService battery
 @inject ITTSService ttsService
 
@@ -43,12 +44,14 @@
 
     private async Task Alert()
     {
+        await this.modal.ShowYesNoDialog("TEst", false);
+
         this.notificationService.SendNotification(this._title, this._message);
     }
 
     private async void NotificationReceived(object sender, NotificationEventArgs e)
     {
-        await this.modal.ShowDialog(e.Message, chd.UI.Base.Contracts.Enum.EDialogButtons.OK);
+        await this.modal.ShowSmallDialog(e.Message, chd.UI.Base.Contracts.Enum.EDialogButtons.OK);
     }
 
     private async void InfoChanged(object sender, EventArgs e)

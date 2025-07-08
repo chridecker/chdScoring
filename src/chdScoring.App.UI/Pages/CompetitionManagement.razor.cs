@@ -5,6 +5,7 @@ using chd.UI.Base.Components.Extensions;
 using chd.UI.Base.Components.General.Search;
 using chd.UI.Base.Contracts.Enum;
 using chdScoring.App.UI.Constants;
+using chdScoring.App.UI.Extensions;
 using chdScoring.App.UI.Interfaces;
 using chdScoring.App.UI.Pages.Components;
 using chdScoring.App.UI.Pages.Components.Management;
@@ -27,6 +28,7 @@ namespace chdScoring.App.UI.Pages
         [Inject] ITimerService _timerService { get; set; }
         [Inject] IDatabaseService _databaseService { get; set; }
         [Inject] IPrintHelper _printHelper { get; set; }
+        [Inject] ISettingManager _settingManager { get; set; }
 
 
         private CurrentFlight _dto;
@@ -54,7 +56,7 @@ namespace chdScoring.App.UI.Pages
         private async Task SetBreak()
         {
             if ((this._dto?.LeftTime.HasValue ?? false)
-                && (await this._modal.ShowDialog("Ein Teilnehmer ist derzeit aktiv! Fortfahren?", EDialogButtons.YesNo) != EDialogResult.Yes))
+                && (await this._modal.ShowYesNoDialog("Ein Teilnehmer ist derzeit aktiv! Fortfahren?", this._settingManager.IsiOS) != EDialogResult.Yes))
             {
                 return;
             }
@@ -100,7 +102,7 @@ namespace chdScoring.App.UI.Pages
             if (this._dto.ManeouvreLst.Values.Any(a => a.Any(aa => !aa.Score.HasValue)) || !avgScore.HasValue)
             {
                 await this._vibrationHelper.Vibrate(3, TimeSpan.FromMilliseconds(400), this._cts.Token);
-                if (await this._modal.ShowDialog("Nicht alle Judges habe alle Figuren gewertet!", EDialogButtons.OKCancel) != EDialogResult.OK)
+                if (await this._modal.ShowSmallDialog("Nicht alle Judges habe alle Figuren gewertet!", EDialogButtons.OKCancel) != EDialogResult.OK)
                 {
                     return;
                 }
@@ -117,7 +119,7 @@ namespace chdScoring.App.UI.Pages
             }, this._cts.Token))
             {
                 this._vibrationHelper.Vibrate(TimeSpan.FromSeconds(0.5));
-                if (await this._modal.ShowDialog($"Cretae PDF?", EDialogButtons.YesNo) == EDialogResult.Yes)
+                if (await this._modal.ShowYesNoDialog($"Cretae PDF?", this._settingManager.IsiOS) == EDialogResult.Yes)
                 {
                     await this._printHelper.PrintRound(pilot, round);
                 }
@@ -125,7 +127,7 @@ namespace chdScoring.App.UI.Pages
             else
             {
                 await this._vibrationHelper.Vibrate(3, TimeSpan.FromSeconds(0.4), this._cts.Token);
-                await this._modal.ShowDialog("Beim Speichern der Runde ist ein Fehler aufgetreten!", EDialogButtons.OK);
+                await this._modal.ShowSmallDialog("Beim Speichern der Runde ist ein Fehler aufgetreten!", EDialogButtons.OK);
             }
         }
 
@@ -134,7 +136,7 @@ namespace chdScoring.App.UI.Pages
             var pilots = await this._pilotService.GetOpenRound(this._dto?.Round?.Id, this._cts.Token);
             if (pilots.Any())
             {
-                await this._modal.ShowDialog($"Es sind noch offene Wertungsflüge in der aktuellen Runde!", EDialogButtons.OK);
+                await this._modal.ShowSmallDialog($"Es sind noch offene Wertungsflüge in der aktuellen Runde!", EDialogButtons.OK);
                 return;
             }
             var round = await this._timerService.GetFinishedRound(this._cts.Token);

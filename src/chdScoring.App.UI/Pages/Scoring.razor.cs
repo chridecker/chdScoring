@@ -1,15 +1,16 @@
-using Microsoft.AspNetCore.Components;
-using chdScoring.Contracts.Dtos;
-using chdScoring.Contracts.Interfaces;
+using chd.UI.Base.Client.Implementations.Services;
+using chd.UI.Base.Components.Base;
 using chd.UI.Base.Components.Extensions;
 using chd.UI.Base.Contracts.Dtos.Authentication;
-using chd.UI.Base.Components.Base;
-using chdScoring.App.UI.Constants;
-using chd.UI.Base.Client.Implementations.Services;
-using System.Collections.Concurrent;
 using chd.UI.Base.Contracts.Enum;
-using chdScoring.App.UI.Pages.Components;
+using chdScoring.App.UI.Constants;
+using chdScoring.App.UI.Extensions;
 using chdScoring.App.UI.Interfaces;
+using chdScoring.App.UI.Pages.Components;
+using chdScoring.Contracts.Dtos;
+using chdScoring.Contracts.Interfaces;
+using Microsoft.AspNetCore.Components;
+using System.Collections.Concurrent;
 
 namespace chdScoring.App.UI.Pages
 {
@@ -96,7 +97,7 @@ namespace chdScoring.App.UI.Pages
                 !(this._batteryService.Charging.HasValue && this._batteryService.Charging.Value))
             {
                 await this._vibrationHelper.Vibrate(5, TimeSpan.FromMilliseconds(200), this._cts.Token);
-                await this._modal.ShowDialog($"Batterlevel {this._batteryService.BatteryLevel}% kritisch!", EDialogButtons.OK);
+                await this._modal.ShowSmallDialog($"Batterlevel {this._batteryService.BatteryLevel}% kritisch!", EDialogButtons.OK);
             }
         }
 
@@ -119,7 +120,7 @@ namespace chdScoring.App.UI.Pages
                 __builder.AddComponentParameter(2, nameof(EditScore.Dto), dto);
                 __builder.CloseComponent();
             };
-            var change = await this._modal.ShowDialog("Wertung ändern", EDialogButtons.OKCancel, frag);
+            var change = await this._modal.ShowSmallDialog("Wertung ändern", EDialogButtons.OKCancel, frag);
             if (change == EDialogResult.OK)
             {
                 await this._scoringService.UpdateScore(new SaveScoreDto()

@@ -1,13 +1,14 @@
-using global::Microsoft.AspNetCore.Components;
+using chd.UI.Base.Client.Implementations.Services;
+using chd.UI.Base.Components.Base;
+using chd.UI.Base.Components.Extensions;
+using chd.UI.Base.Contracts.Enum;
+using chdScoring.App.UI.Constants;
+using chdScoring.App.UI.Extensions;
+using chdScoring.App.UI.Interfaces;
+using chdScoring.App.UI.Pages.Components;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
-using chdScoring.App.UI.Constants;
-using chd.UI.Base.Components.Base;
-using chdScoring.App.UI.Interfaces;
-using chd.UI.Base.Contracts.Enum;
-using chdScoring.App.UI.Pages.Components;
-using chd.UI.Base.Client.Implementations.Services;
-using chd.UI.Base.Components.Extensions;
+using global::Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
 namespace chdScoring.App.UI.Pages
@@ -52,7 +53,7 @@ namespace chdScoring.App.UI.Pages
                 __builder.AddComponentParameter(2, nameof(EditScore.Dto), man);
                 __builder.CloseComponent();
             };
-            var change = await this._modal.ShowDialog("Wertung ändern", EDialogButtons.OKCancel, frag);
+            var change = await this._modal.ShowSmallDialog("Wertung ändern", EDialogButtons.OKCancel, frag);
             if (change == EDialogResult.OK)
             {
                 await this._scoringService.UpdateScore(new SaveScoreDto()

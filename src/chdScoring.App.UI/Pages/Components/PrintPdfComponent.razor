@@ -1,14 +1,17 @@
 @using Blazored.Modal.Services
+@using chd.UI.Base.Client.Implementations.Services
 @using chd.UI.Base.Contracts.Enum
 @using chdScoring.Contracts.Dtos
 @using chdScoring.Contracts.Interfaces
+@using chdScoring.App.UI.Extensions
+
 @inject IPrintService printService
 @if (this.Dto is not null)
 {
     <div class="print-file-container">
         <div class="print-file-logo">
-            <IconButton ButtonStyle="EButtonStyle.Primary" FAClass="print" OnClick="async ()=> await this.Print()" />
-            <IconButton ButtonStyle="EButtonStyle.Cancel" FAClass="trash" OnClick="async ()=> await this.Delete()" />
+            <IconButton ButtonStyle="EButtonStyle.Primary" FAClass="print" OnClick="async () => await this.Print()" />
+            <IconButton ButtonStyle="EButtonStyle.Cancel" FAClass="trash" OnClick="async () => await this.Delete()" />
         </div>
         <div class="print-file-name">@Dto.Name</div>
         <div class="print-file-datetime">@Dto.CreationTime.ToString("HH:mm:ss dd.MM.yy")</div>
@@ -20,7 +23,8 @@
     [Parameter] public CancellationToken Token { get; set; }
     [Parameter] public EventCallback PrintSucceded { get; set; }
 
-    [Inject] private IModalService _modal { get; set; }
+    [Inject] private IModalHandler _modal { get; set; }
+    [Inject] private ISettingManager _settingManager { get; set; }
 
     private async Task Print()
     {
@@ -32,7 +36,7 @@
 
     private async Task Delete()
     {
-        var yes = await this._modal.ShowDialog("Löschen?", EDialogButtons.YesNo);
+        var yes = await this._modal.ShowYesNoDialog("Löschen?", _settingManager.IsiOS);
         if (yes == EDialogResult.Yes
             && await this.printService.DeleteFileAsync(this.Dto, this.Token))
         {
