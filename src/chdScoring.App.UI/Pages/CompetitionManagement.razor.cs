@@ -102,7 +102,7 @@ namespace chdScoring.App.UI.Pages
             if (this._dto.ManeouvreLst.Values.Any(a => a.Any(aa => !aa.Score.HasValue)) || !avgScore.HasValue)
             {
                 await this._vibrationHelper.Vibrate(3, TimeSpan.FromMilliseconds(400), this._cts.Token);
-                if (await this._modal.ShowSmallDialog("Nicht alle Judges habe alle Figuren gewertet!", EDialogButtons.OKCancel) != EDialogResult.OK)
+                if (await this._modal.ShowOkCancelDialog("Nicht alle Judges habe alle Figuren gewertet!",this._settingManager.IsiOS) != EDialogResult.OK)
                 {
                     return;
                 }

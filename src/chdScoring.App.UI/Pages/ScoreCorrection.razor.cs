@@ -21,6 +21,7 @@ namespace chdScoring.App.UI.Pages
         private RoundDataDto _dto;
 
         [Inject] IModalHandler _modal { get; set; }
+        [Inject] ISettingManager _settingManager{ get; set; }
         [Inject] ITimerService _timerService { get; set; }
         [Inject] IPilotService _pilotService { get; set; }
         [Inject] IScoringService _scoringService { get; set; }
@@ -53,7 +54,7 @@ namespace chdScoring.App.UI.Pages
                 __builder.AddComponentParameter(2, nameof(EditScore.Dto), man);
                 __builder.CloseComponent();
             };
-            var change = await this._modal.ShowSmallDialog("Wertung ändern", EDialogButtons.OKCancel, frag);
+            var change = await this._modal.ShowOkCancelDialog("Wertung ändern", this._settingManager.IsiOS, frag);
             if (change == EDialogResult.OK)
             {
                 await this._scoringService.UpdateScore(new SaveScoreDto()

@@ -120,7 +120,7 @@ namespace chdScoring.App.UI.Pages
                 __builder.AddComponentParameter(2, nameof(EditScore.Dto), dto);
                 __builder.CloseComponent();
             };
-            var change = await this._modal.ShowSmallDialog("Wertung ändern", EDialogButtons.OKCancel, frag);
+            var change = await this._modal.ShowOkCancelDialog("Wertung ändern", this._settingManager.IsiOS, frag);
             if (change == EDialogResult.OK)
             {
                 await this._scoringService.UpdateScore(new SaveScoreDto()
