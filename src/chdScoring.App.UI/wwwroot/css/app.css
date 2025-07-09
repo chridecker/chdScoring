@@ -44,68 +44,13 @@
         }
 
 
-.chd-app-modal .bm-content .multiselect-search-modal-component {
-}
-
-    .chd-app-modal .bm-content .multiselect-search-modal-component .multiselect-search-checkboxes-all {
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 0 0.1rem 0;
-    }
-
-        .chd-app-modal .bm-content .multiselect-search-modal-component .multiselect-search-checkboxes-all button.icon-button {
-            padding: 0.2rem 0.4rem;
-            background: var(--chd-bg-lighter);
-            display: flex;
-            justify-content: center;
-            border-radius: 0.7rem;
-        }
-
-            .chd-app-modal .bm-content .multiselect-search-modal-component .multiselect-search-checkboxes-all button.icon-button .button-text {
-                font-size: 0.8rem;
-            }
-
-            .chd-app-modal .bm-content .multiselect-search-modal-component .multiselect-search-checkboxes-all button.icon-button svg {
-                display: none;
-            }
-
-
-    .chd-app-modal .bm-content .multiselect-search-modal-component .search-container .search-results-container .search-item .search-item-content.selected {
-        background: var(--chd-sub-color-theme-gradient);
-        font-weight: unset;
-    }
-
-    .chd-app-modal .bm-content .multiselect-search-modal-component button.btn.btn-secondary {
-        background: var(--chd-bg-lighter);
-    }
-
-.chd-app-modal .bm-content .search-modal-component button.btn.btn-secondary {
-    background: var(--chd-bg-lighter);
-}
-
-.chd-app-modal.ios .bm-content .multiselect-search-modal-component .search-container .search-results-container .search-item svg[fontawesome-icon=circle-check] {
-    fill: var(--chd-ios-blue);
-}
-
-.chd-app-modal.ios .bm-content .multiselect-search-modal-component .multiselect-search-checkboxes-all button.icon-button .button-text {
-    color: var(--chd-ios-blue);
-}
-
-.chd-app-modal.ios .bm-content .multiselect-search-modal-component button.btn.btn-secondary {
-    color: var(--chd-ios-blue);
-}
-
-.chd-app-modal.ios .bm-content .search-modal-component button.btn.btn-secondary {
-    color: var(--chd-ios-blue);
-}
-
 
 @media (min-width: 768px) {
     * {
         --top-header-padding-tb: 0 !important;
         --top-header-height: 1.5rem !important;
     }
-
+    
 
     .sidebar.collapsed header .toggle {
         top: calc(var(--sidebar-toggle-top) - 1.2rem);

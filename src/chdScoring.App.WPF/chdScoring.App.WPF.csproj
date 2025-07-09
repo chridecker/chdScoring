@@ -12,7 +12,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="System.Management" Version="9.0.4" />
-		<PackageReference Include="chd.UI.Base.WPF" Version="1.0.25168.134" />
+		<PackageReference Include="chd.UI.Base.WPF" Version="1.0.25190.135" />
 	</ItemGroup>
 
 	<ItemGroup>

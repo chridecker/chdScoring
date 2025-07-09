@@ -45,6 +45,7 @@
     private async Task Alert()
     {
         await this.modal.ShowYesNoDialog("TEst", false);
+        await this.modal.ShowOkCancelDialog("TEst", false);
 
         this.notificationService.SendNotification(this._title, this._message);
     }
