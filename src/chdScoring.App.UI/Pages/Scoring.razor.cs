@@ -178,6 +178,12 @@ namespace chdScoring.App.UI.Pages
                 this._scrolledManually = false;
 
                 await this.InvokeAsync(this.StateHasChanged);
+
+                if(this._current is not null)
+                {
+                    await this._ttsService.SpeakAsync(this._current.Name);
+                }
+
                 return true;
             }
             catch { }

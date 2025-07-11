@@ -12,11 +12,13 @@ namespace chdScoring.App.Services
     {
         private readonly ISettingManager _settingManager;
 
+        private CancellationTokenSource _cts;
+
         public TTSService(ISettingManager settingManager)
         {
             this._settingManager = settingManager;
         }
-        public async Task SpeakAsync(string message, CancellationToken cancellation = default)
+        public async Task SpeakAsync(string message)
         {
             if (string.IsNullOrWhiteSpace(message)) { return; }
             var lang = "de";
@@ -33,7 +35,14 @@ namespace chdScoring.App.Services
                 Locale = locales.FirstOrDefault(x => x.Language.StartsWith(lang))
             };
 
-            await TextToSpeech.Default.SpeakAsync(message, options, cancelToken: cancellation);
+            if (this._cts is not null && !this._cts.IsCancellationRequested)
+            {
+                this._cts.Cancel();
+            }
+            this._cts = new();
+            await TextToSpeech.Default.SpeakAsync(message, options, cancelToken: this._cts.Token);
+            this._cts?.Cancel();
+            this._cts = null;
         }
     }
 }
