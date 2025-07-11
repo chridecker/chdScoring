@@ -45,6 +45,7 @@ namespace chdScoring.App.UI.Pages
         private IEnumerable<JudgeDto> _judges = [];
         private JudgeDto _selectedJudge;
 
+        [Inject] ITTSService _ttsService { get; set; }
         [Inject] private IModalHandler _modal { get; set; }
         [Inject] private IJudgeHubClient _judgeHubClient { get; set; }
         [Inject] private IJudgeService _judgeService { get; set; }

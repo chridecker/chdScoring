@@ -13,7 +13,7 @@ namespace chdScoring.App.UI.Pages.Components
         [Inject] private IVibrationHelper _vibrationHelper { get; set; }
 
         [Inject] private IJSRuntime _jsRuntime { get; set; }
-
+        [Inject] ITTSService _tTSService { get; set; }
 
 
         [Parameter] public Func<SaveScoreDto, Task<bool>> ScoreSaved { get; set; }
@@ -131,6 +131,11 @@ namespace chdScoring.App.UI.Pages.Components
             {
                 this._scoreValue = i;
             }
+            if (this._scoreValue.HasValue)
+            {
+                await this._tTSService.SpeakAsync(this._scoreValue.Value.ToString("#.#"));
+            }
+
             await this.InvokeAsync(this.StateHasChanged);
         }
         public async ValueTask DisposeAsync()

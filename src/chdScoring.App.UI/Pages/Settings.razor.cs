@@ -72,6 +72,7 @@ namespace chdScoring.App.UI.Pages
 
         private async Task InitSpeechLanguages()
         {
+            this._speechLanguages.Add(string.Empty, this.CreateColorOption("None", "xmark"));
             foreach (var lang in await this._availableLang)
             {
                 this._speechLanguages.Add(lang.Key, CreateColorOption(string.IsNullOrEmpty(lang.Value) ? lang.Key : lang.Value, "message"));
