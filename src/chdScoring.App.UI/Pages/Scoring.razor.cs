@@ -11,6 +11,7 @@ using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Concurrent;
+using System.Threading;
 
 namespace chdScoring.App.UI.Pages
 {
@@ -31,7 +32,7 @@ namespace chdScoring.App.UI.Pages
         {
             get
             {
-                if (this._dto?.ManeouvreLst.TryGetValue(this._judge ?? 0, out var lst) ?? false)
+                if (this._dto?.ManeouvreLst?.TryGetValue(this._judge ?? 0, out var lst) ?? false)
                 {
                     return lst;
                 }
@@ -41,9 +42,10 @@ namespace chdScoring.App.UI.Pages
 
         private int? _judge;
 
-        private BlockingCollection<SaveScoreDto> _unsavedScores = new BlockingCollection<SaveScoreDto>();
         private IEnumerable<JudgeDto> _judges = [];
         private JudgeDto _selectedJudge;
+
+        private bool _useDropPanel = false;
 
         [Inject] ITTSService _ttsService { get; set; }
         [Inject] private IModalHandler _modal { get; set; }
@@ -72,12 +74,13 @@ namespace chdScoring.App.UI.Pages
 
             this._zoom = await this._settingManager.GetScoringZoom();
 
+            this._useDropPanel = await this._settingManager.GetSettingLocal<bool>(SettingConstants.DropPanel);
+
             this._scrollInfoService.OnScroll += this._scrollInfoService_OnScroll;
             this._profileService.UserChanged += this._profileService_UserChanged;
             this._batteryService.InfoChanged += this._batteryService_InfoChanged;
 
             await this.LoadData();
-            this.ResendUnsavedScore(this._cts.Token);
 
             await base.OnInitializedAsync();
         }
@@ -85,7 +88,7 @@ namespace chdScoring.App.UI.Pages
         private async void OnJudgeChanged(JudgeDto judge)
         {
             this._selectedJudge = judge;
-            this.JudgeId = judge.Id;
+            this._judge = judge.Id;
             await this.InvokeAsync(this.StateHasChanged);
         }
 
@@ -158,10 +161,6 @@ namespace chdScoring.App.UI.Pages
 
         private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)
         {
-            if (this._dto?.Pilot != e?.Pilot || this._dto?.Round.Id != e?.Round.Id)
-            {
-                while (this._unsavedScores.TryTake(out _)) { }
-            }
             this._dto = e;
             await this.InvokeAsync(this.StateHasChanged);
         }
@@ -171,8 +170,12 @@ namespace chdScoring.App.UI.Pages
             try
             {
                 this._scrolledManually = false;
-                this._unsavedScores.Add(dto);
-                this.Maneouvres.FirstOrDefault(x => x.Id == dto.Figur).Score = dto.Value;
+                await this._scoringService.SaveScore(dto, this._cts.Token);
+
+                if (this.Maneouvres.Any(x => x.Id == dto.Figur))
+                {
+                    this.Maneouvres.FirstOrDefault(x => x.Id == dto.Figur).Score = dto.Value;
+                }
 
                 await this._scrollInfoService.ScrolltoElement("figure-table");
                 this._scrolledManually = false;
@@ -181,35 +184,14 @@ namespace chdScoring.App.UI.Pages
 
                 if (this._current is not null)
                 {
-                    this._ttsService.SpeakAsync(this._current.Name);
+                   this._ttsService.SpeakAsync(this._current.Name);
                 }
 
                 return true;
             }
-            catch { }
+            catch { await this._ttsService.SpeakAsync("Error"); }
             return false;
         }
-
-
-        private void ResendUnsavedScore(CancellationToken cancellationToken) => Task.Run(async () =>
-        {
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                if (!this._unsavedScores.Any())
-                {
-                    var dto = this._unsavedScores.Take(cancellationToken);
-                    try
-                    {
-                        await this._scoringService.SaveScore(dto, cancellationToken);
-                    }
-                    catch { this._unsavedScores.Add(dto); }
-                }
-                else
-                {
-                    await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-                }
-            }
-        }, cancellationToken);
 
         public void Dispose()
         {

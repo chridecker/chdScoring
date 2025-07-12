@@ -14,8 +14,7 @@
     <div class="score-pad">
         <div class="score-control">
             <div class="score-control-button">
-                <IconButton FAClass="0" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" OnClick="this.Zero" />
-
+                <IconButton FAClass="eye-slash" OnClick="async (x) => await this.NotObserved()" />
             </div>
             <div class="score-control-value">@_scoreValueText</div>
             <div class="score-control-button">
@@ -27,8 +26,7 @@
             <IconButton FAClass="plus" OnClick="async (x) => await this.Calc(0.5m)" />
 
             <IconButton FAClass="minus" OnClick="async (x) => await this.Calc(-0.5m)" />
-
-            <IconButton FAClass="eye-slash" OnClick="async (x) => await this.NotObserved()" />
+            <IconButton FAClass="headphones" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" OnClick="this.Repeat" />
         </div>
     </div>
 </div>

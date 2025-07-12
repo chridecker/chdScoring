@@ -10,7 +10,7 @@
                     <Found Context="routeData">
                         <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(chdScoring.App.UI.Shared.MainLayout)">
                             <NotAuthorized>
-                                <RedirectToHome Text="Keine Berechtigung" Delay="3" />
+                                <RedirectToHome Text="Keine Berechtigung" Delay="0" />
                             </NotAuthorized>
                         </AuthorizeRouteView>
                         <FocusOnNavigate RouteData="@routeData" Selector="h1" />

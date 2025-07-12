@@ -31,6 +31,9 @@
         <Selection Values="@this._redirectOptions" @bind-SelectedValue="this.SelectedAutoRedirect" />
     </div>
     <div class="setting">
+        <SettingCheckbox SettingText="Drop Panel" Checked="@this._dropPanel" OnChange="async (e) => await UpdateDropPanel(e)" />
+    </div>
+    <div class="setting">
         <SettingCheckbox SettingText="Entwickler Modus" Checked="@this._developerMode" OnChange="async (e)=> await UpdateDeveloperMode(e)" />
     </div>
     <div class="setting">

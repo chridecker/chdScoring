@@ -44,7 +44,7 @@ namespace chdScoring.DataAccess.EFCore
             modelBuilder.Entity<Wertung_History>().HasKey(x => new { x.Judge, x.Durchgang, x.Figur, x.Teilnehmer, x.Time });
             modelBuilder.Entity<Wertung>(builder =>
             {
-                builder.ToTable("wertung").HasKey(x => new { x.Judge, x.Durchgang, x.Figur, x.Teilnehmer });
+                builder.ToTable("wertung").HasKey(x => new { x.Teilnehmer, x.Durchgang, x.Figur, x.Judge });
                 builder.HasMany(m => m.Histories).WithOne(o => o.Wertung).HasForeignKey(x => new { x.Judge, x.Durchgang, x.Figur, x.Teilnehmer });
             });
 

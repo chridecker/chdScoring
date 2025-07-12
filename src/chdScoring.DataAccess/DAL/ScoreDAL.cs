@@ -38,7 +38,6 @@ namespace chdScoring.DataAccess.DAL
             {
                 return false;
             }
-            await this._wertungRepository.CreateTransaction(cancellationToken);
             try
             {
                 saved = await this._wertungRepository.SaveAsync(new Wertung()
@@ -49,11 +48,9 @@ namespace chdScoring.DataAccess.DAL
                     Teilnehmer = dto.Pilot,
                     Wert = dto.Value
                 }, cancellationToken);
-                await this._wertungRepository.Commit(cancellationToken);
             }
             catch (Exception ex)
             {
-                await this._wertungRepository.Rollback(cancellationToken);
                 this._logger?.LogError(ex, ex.Message);
                 saved = false;
             }

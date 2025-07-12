@@ -9,8 +9,6 @@ namespace chdScoring.DataAccess.DAL.Base
 {
     public abstract class BaseDAL : IBaseDAL
     {
-        private DbTransaction _currentTransaction;
-
         protected readonly ILogger<BaseDAL> _logger;
         protected readonly IWettkampfLeitungRepository _wettkampfLeitungRepository;
         protected readonly ITeilnehmerRepository _teilnehmerRepository;
@@ -68,54 +66,6 @@ namespace chdScoring.DataAccess.DAL.Base
             this._bebwerbRepository = bebwerbRepository;
             this._durchgangRepository = durchgangRepository;
             this._teilnehmerBewerbRepository = teilnehmerBewerbRepository;
-        }
-
-        public Task Commit(CancellationToken cancellationToken)
-        => this._currentTransaction.CommitAsync(cancellationToken);
-
-
-        public async Task CreateTransaction(CancellationToken cancellationToken)
-        {
-            if (this._currentTransaction == null)
-            {
-                this._currentTransaction = await this._bebwerbRepository.CreateTransaction(cancellationToken);
-                await this.SetTransaction(this._currentTransaction,cancellationToken);
-            }
-        }
-
-        public Task<DbTransaction> GetTransaction()
-        => Task.FromResult(this._currentTransaction);
-
-        public Task RollBack(CancellationToken cancellationToken)
-        => this._currentTransaction.RollbackAsync(cancellationToken);
-
-        public async Task SetTransaction(DbTransaction dbTransaction, CancellationToken cancellationToken)
-        {
-            if (this._currentTransaction == null)
-            {
-                this._currentTransaction = dbTransaction;
-            }
-            await this.SetRepositoryTransaction(dbTransaction, cancellationToken);
-        }
-        protected virtual async Task SetRepositoryTransaction(DbTransaction dbTransaction, CancellationToken cancellationToken)
-        {
-            await this._wettkampfLeitungRepository.SetTransaction(dbTransaction, cancellationToken);
-            await this._teilnehmerRepository.SetTransaction(dbTransaction, cancellationToken);
-            await this._judgeRepository.SetTransaction(dbTransaction, cancellationToken);
-            await this._figurRepository.SetTransaction(dbTransaction, cancellationToken);
-            await this._programmRepository.SetTransaction(dbTransaction, cancellationToken);
-            await this._wertungRepository.SetTransaction(dbTransaction, cancellationToken);
-            await this._klasseRepository.SetTransaction(dbTransaction, cancellationToken);
-            await this._countryImageRepository.SetTransaction(dbTransaction, cancellationToken);
-            await this._imageRepository.SetTransaction(dbTransaction, cancellationToken);
-            await this._durchgangPanelRepository.SetTransaction(dbTransaction, cancellationToken);
-            await this._durchgangProgramRepository.SetTransaction(dbTransaction, cancellationToken);
-            await this._figurProgrammRepository.SetTransaction(dbTransaction, cancellationToken);
-            await this._judgePanelRepository.SetTransaction(dbTransaction, cancellationToken);
-            await this._stammDatenRepository.SetTransaction(dbTransaction, cancellationToken);
-            await this._bebwerbRepository.SetTransaction(dbTransaction, cancellationToken);
-            await this._durchgangRepository.SetTransaction(dbTransaction, cancellationToken);
-            await this._teilnehmerBewerbRepository.SetTransaction(dbTransaction, cancellationToken);
         }
     }
 }

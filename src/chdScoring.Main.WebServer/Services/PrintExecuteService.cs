@@ -88,7 +88,8 @@ namespace chdScoring.Main.WebServer.Services
                 {
                     Format = "A4",
                     Landscape = dto.Landscape,
-                    Path = $"{FolderConstants.Folder}/{dto.Name}"
+                    Path = $"{FolderConstants.Folder}/{dto.Name}",
+                    Scale = 0.9f
                 });
                 await page.CloseAsync();
             }

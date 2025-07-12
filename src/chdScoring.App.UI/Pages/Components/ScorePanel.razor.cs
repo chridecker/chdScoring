@@ -9,7 +9,8 @@ namespace chdScoring.App.UI.Pages.Components
 {
     public partial class ScorePanel : ScoreBase
     {
-       
+
+        protected override decimal? _scoreStartValue() => null;
 
         private async Task Delete()
         {
@@ -38,6 +39,8 @@ namespace chdScoring.App.UI.Pages.Components
             {
                 this._scoreValue = i;
             }
+            this._vibrationHelper.Vibrate(TimeSpan.FromMilliseconds(100));
+
             if (this._scoreValue.HasValue)
             {
                 await this._tTSService.SpeakAsync(this._scoreValue.Value.ToString("#.#"));

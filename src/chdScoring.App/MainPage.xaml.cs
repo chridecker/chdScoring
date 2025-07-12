@@ -1,4 +1,5 @@
 ﻿#if ANDROID
+using Android.Views;
 using AndroidX.Activity;
 using chdScoring.App.Platforms.Android;
 #endif
@@ -36,7 +37,7 @@ namespace chdScoring.App
             PermissionStatus statusWifi = await Permissions.RequestAsync<WifiPermission>();
 #endif
         }
-        private  void BlazorWebViewInitialized(object? sender, BlazorWebViewInitializedEventArgs e)
+        private void BlazorWebViewInitialized(object? sender, BlazorWebViewInitializedEventArgs e)
         {
 #if ANDROID
 

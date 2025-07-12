@@ -19,7 +19,6 @@ namespace chdScoring.DataAccess.Repositories.Base
     {
         protected readonly ILogger<BaseRepository<TEntity>> _logger;
         protected readonly chdScoringContext _context;
-        protected IDbContextTransaction _currentTransaction;
 
         protected BaseRepository(ILogger<BaseRepository<TEntity>> logger, IContextFactory<chdScoringContext> contextFactory)
         {
@@ -27,23 +26,9 @@ namespace chdScoring.DataAccess.Repositories.Base
             this._context = contextFactory.Create();
         }
 
-        public Task Commit(CancellationToken cancellationToken) => this._context.Database.CommitTransactionAsync(cancellationToken);
-        public Task Rollback(CancellationToken cancellationToken) => this._context.Database.RollbackTransactionAsync(cancellationToken);
-        public async Task SetTransaction(DbTransaction transaction, CancellationToken cancellationToken)
-        => this._currentTransaction = await this._context.Database.UseTransactionAsync(transaction, cancellationToken);
 
         public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> expression) => this._context.Set<TEntity>().Where(expression);
         public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression) => await this._context.Set<TEntity>().FirstOrDefaultAsync(expression);
-
-
-        public async Task<DbTransaction> CreateTransaction(CancellationToken cancellationToken)
-        {
-            if (this._currentTransaction == null)
-            {
-                this._currentTransaction = await this._context.Database.BeginTransactionAsync(cancellationToken);
-            }
-            return this._currentTransaction.GetDbTransaction();
-        }
 
         public async Task<bool> SaveAsync(TEntity entity, CancellationToken cancellationToken)
         {

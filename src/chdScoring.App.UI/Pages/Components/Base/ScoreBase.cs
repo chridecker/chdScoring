@@ -31,15 +31,18 @@ namespace chdScoring.App.UI.Pages.Components.Base
         protected string _scoreValueText => !this._scoreValue.HasValue ? "" : this._scoreValue.Value < 0 ? "NO" : this._scoreValue.Value == 0 ? "0" : this._scoreValue.Value.ToString("#.#");
         protected decimal? _scoreValue;
 
+        protected abstract decimal? _scoreStartValue();
+
         protected string _maneouvreText => this.Maneouvre is not null ? $"#{this.Maneouvre?.Id} {this.Maneouvre?.Name}" : " ";
 
         protected async Task NotObserved()
         {
             this._scoreValue = -1;
+            await this._tTSService.SpeakAsync("N O ");
             await this.InvokeAsync(this.StateHasChanged);
         }
 
-        protected async Task Save()
+        protected  async Task Save()
         {
             if (this._scoreValue.HasValue)
             {
@@ -51,7 +54,7 @@ namespace chdScoring.App.UI.Pages.Components.Base
                 {
                     this._vibrationHelper.Vibrate(TimeSpan.FromMilliseconds(500));
                 }
-                this._scoreValue = null;
+                this._scoreValue = this._scoreStartValue();
             }
             await this.InvokeAsync(this.StateHasChanged);
         }
