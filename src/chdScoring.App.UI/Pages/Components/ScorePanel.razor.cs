@@ -93,7 +93,7 @@ namespace chdScoring.App.UI.Pages.Components
             }
             await this.InvokeAsync(this.StateHasChanged);
         }
-        public async Task<bool> SaveScore(int id, int figur, int judge, int round, decimal value, CancellationToken token)
+        private async Task<bool> SaveScore(int id, int figur, int judge, int round, decimal value, CancellationToken token)
         {
             var dto = new SaveScoreDto
             {

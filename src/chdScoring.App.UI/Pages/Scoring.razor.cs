@@ -179,9 +179,9 @@ namespace chdScoring.App.UI.Pages
 
                 await this.InvokeAsync(this.StateHasChanged);
 
-                if(this._current is not null)
+                if (this._current is not null)
                 {
-                    await this._ttsService.SpeakAsync(this._current.Name);
+                    this._ttsService.SpeakAsync(this._current.Name);
                 }
 
                 return true;

@@ -23,7 +23,9 @@ namespace chdScoring.DataAccess.Repositories
         => await this._context.Wertung.Where(x => x.Durchgang == round).ToListAsync(stoppingToken);
 
         public async Task<IEnumerable<Wertung>> GetScoresToPilotInRound(int id, int round, CancellationToken cancellationToken)
-        => await this._context.Wertung.Where(x => x.Teilnehmer == id && x.Durchgang == round).ToListAsync();
+        => await this._context.Wertung.Where(x => x.Teilnehmer == id && x.Durchgang == round)
+            .Include(i=> i.Histories)
+            .ToListAsync();
 
         public Task<bool> Exists(int pilot, int round, int figur, int judge, CancellationToken cancellationToken)
             => this._context.Wertung.AnyAsync(a => a.Teilnehmer == pilot && a.Durchgang == round && a.Figur == figur && a.Judge == judge, cancellationToken);
