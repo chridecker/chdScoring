@@ -23,6 +23,9 @@ namespace chdScoring.App.Services
             if (string.IsNullOrWhiteSpace(message)) { return; }
             var lang = "de";
             var selectedLang = await this._settingManager.GetSettingLocal(SettingConstants.SpeechLanguage);
+            if (string.IsNullOrEmpty(selectedLang)) { return; }
+
+
             var locales = await TextToSpeech.Default.GetLocalesAsync();
 
             if (!string.IsNullOrWhiteSpace(selectedLang) && locales.Any(x => x.Language.StartsWith(selectedLang.Substring(0, 2))))
