@@ -44,7 +44,7 @@ namespace chdScoring.App.Extensions
         private static async Task<Dictionary<string, string>> LoadLocales()
         {
             var langs = await TextToSpeech.Default.GetLocalesAsync();
-            return langs.GroupBy(s => s.Language, s => s).ToDictionary(d => d.Key, d => $"{d.FirstOrDefault()?.Name} ({d.FirstOrDefault()?.Language})");
+            return langs.OrderBy(o => o.Name).GroupBy(s => s.Language, s => s).ToDictionary(d => d.Key, d => $"{d.FirstOrDefault()?.Name} ({d.FirstOrDefault()?.Language})");
         }
     }
 }
