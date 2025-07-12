@@ -35,12 +35,13 @@ namespace chdScoring.App.Services
 
             var options = new SpeechOptions()
             {
-                Locale = locales.FirstOrDefault(x => x.Language.StartsWith(lang))
+                Locale = locales.FirstOrDefault(x => x.Language.StartsWith(lang)),
             };
 
             if (this._cts is not null && !this._cts.IsCancellationRequested)
             {
                 this._cts.Cancel();
+                await Task.Delay(100);
             }
             this._cts = new();
             await TextToSpeech.Default.SpeakAsync(message, options, cancelToken: this._cts.Token);
