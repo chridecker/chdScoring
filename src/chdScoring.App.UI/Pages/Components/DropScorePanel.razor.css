@@ -1,0 +1,84 @@
+﻿.drop-score-panel {
+}
+
+    .drop-score-panel .pilot {
+        text-align: center;
+        font-size: 12pt;
+        font-weight: bold;
+        border-bottom: 0.1rem solid var(--chd-font-color);
+    }
+
+    .drop-score-panel .maneouvre {
+        margin-top: 0.1rem;
+        height: 4.5rem;
+        font-size: 20pt;
+        text-align: center;
+        line-height: 1;
+        overflow: scroll;
+    }
+
+    .drop-score-panel .score-pad {
+        margin-top: 0.1rem;
+        display: grid;
+        align-items: center;
+        justify-items: center;
+    }
+
+        .drop-score-panel .score-pad .score-control {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 0.5rem;
+            text-align: center;
+        }
+
+            .drop-score-panel .score-pad .score-control .score-control-value {
+                font-size: 30pt;
+            }
+
+            .drop-score-panel .score-pad .score-control .score-control-button {
+                display: grid;
+                justify-content: center;
+            }
+
+                .drop-score-panel .score-pad .score-control .score-control-button ::deep .btn {
+                    height: 4.8rem;
+                    width: max-content;
+                    border-radius: 1rem;
+                    padding: 0.3rem;
+                }
+
+                    .drop-score-panel .score-pad .score-control .score-control-button ::deep .btn svg {
+                        height: max-content;
+                        margin: 0.3rem;
+                    }
+
+        .drop-score-panel .score-pad .score-numpad {
+            margin-top: 1rem;
+            margin-right: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-self:end;
+            justify-self:end;
+            gap: 1rem;
+        }
+
+            .drop-score-panel .score-pad .score-numpad ::deep .btn {
+                height: 4.8rem;
+                width: 4.8rem;
+                border-radius: 1rem;
+                margin: auto;
+            }
+
+                .drop-score-panel .score-pad .score-numpad ::deep .btn svg {
+                    height: max-content;
+                    margin: 0.4rem;
+                }
+
+    .drop-score-panel.panel-disabled .score-pad .score-control .score-control-button ::deep .btn {
+        background-color: var(--chd-grey);
+    }
+
+    .drop-score-panel.panel-disabled .score-pad .score-numpad ::deep .btn {
+        background-color: var(--chd-grey);
+    }

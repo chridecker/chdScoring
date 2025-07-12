@@ -1,0 +1,34 @@
+@using chdScoring.App.UI.Pages.Components.Base
+@inherits ScoreBase
+
+<div class="drop-score-panel @(this.PanelDisabled ? "panel-disabled" : "")">
+
+    <div class="pilot">
+        @this.Pilot?.Id @this.Pilot?.Name
+    </div>
+
+    <div class="maneouvre">
+        @this._maneouvreText
+    </div>
+
+    <div class="score-pad">
+        <div class="score-control">
+            <div class="score-control-button">
+                <IconButton FAClass="0" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" OnClick="this.Zero" />
+
+            </div>
+            <div class="score-control-value">@_scoreValueText</div>
+            <div class="score-control-button">
+                <IconButton FAClass="floppy-disk" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" OnClick="Save" />
+
+            </div>
+        </div>
+        <div class="score-numpad">
+            <IconButton FAClass="plus" OnClick="async (x) => await this.Calc(0.5m)" />
+
+            <IconButton FAClass="minus" OnClick="async (x) => await this.Calc(-0.5m)" />
+
+            <IconButton FAClass="eye-slash" OnClick="async (x) => await this.NotObserved()" />
+        </div>
+    </div>
+</div>

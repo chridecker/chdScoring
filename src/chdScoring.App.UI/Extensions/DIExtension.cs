@@ -4,7 +4,6 @@ using chd.UI.Base.Client.Implementations.Services;
 using chd.UI.Base.Client.Implementations.Services.Base;
 using chd.UI.Base.Contracts.Interfaces.Services;
 using chd.UI.Base.Contracts.Interfaces.Services.Base;
-using chdScoring.App.UI.Handler;
 using chdScoring.App.UI.Helper;
 using chdScoring.App.UI.Interfaces;
 using chdScoring.App.UI.Services;
@@ -31,7 +30,6 @@ namespace chdScoring.App.UI.Extensions
 
             services.AddMauiModalHandler();
 
-            services.AddSingleton<IKeyHandler, KeyHandler>();
             services.AddSingleton<IVibrationHelper, TVibrationHelper>();
             services.AddSingleton<IBatteryService, TBatteryService>();
 

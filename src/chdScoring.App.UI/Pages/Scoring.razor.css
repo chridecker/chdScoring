@@ -30,6 +30,9 @@
         .scoring ::deep div.score-panel {
             width: 40%;
         }
+        .scoring ::deep div.drop-score-panel {
+            width: 40%;
+        }
 
 
 @media only screen and (max-width: 360px) {

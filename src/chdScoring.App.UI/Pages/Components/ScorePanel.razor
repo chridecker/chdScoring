@@ -1,7 +1,8 @@
 ﻿@using chdScoring.App.UI.Helper;
+@using chdScoring.App.UI.Pages.Components.Base
 @using chdScoring.App.UI.Services;
 @using chdScoring.Contracts.Dtos;
-
+@inherits ScoreBase
 <div class="score-panel @(this.PanelDisabled ? "panel-disabled" : "")">
 
     <div class="pilot">
