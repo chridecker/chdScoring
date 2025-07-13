@@ -8,6 +8,7 @@ using AndroidX.Activity;
 using AndroidX.Core.View;
 using chd.UI.Base.Contracts.Interfaces.Services;
 using chdScoring.App.UI.Interfaces;
+using chdScoring.Contracts.Enums;
 using System.Text.Json;
 
 namespace chdScoring.App
@@ -17,11 +18,12 @@ namespace chdScoring.App
     {
         private readonly INotificationManagerService _notificationManagerService;
         private readonly IAppInfoService _appInfoService;
+        private readonly IKeyHandler _keyHandler;
         public MainActivity()
         {
             this._notificationManagerService = IPlatformApplication.Current.Services.GetService<INotificationManagerService>();
             this._appInfoService = IPlatformApplication.Current.Services.GetService<IAppInfoService>();
-
+            this._keyHandler = IPlatformApplication.Current.Services.GetService<IKeyHandler>();
         }
 
         protected override void OnCreate(Bundle? savedInstanceState)
@@ -45,6 +47,30 @@ namespace chdScoring.App
             base.OnNewIntent(intent);
             this.CreateNotificationFromIntent(intent);
         }
+
+        public override bool OnKeyDown([GeneratedEnum] Keycode keyCode, KeyEvent? e)
+        {
+            var key = this.GetInput(keyCode, e);
+            this._keyHandler.InvokeKeyInput(key);
+            if (key is not EKeyInput.None)
+            {
+                return true;
+            }
+            else
+            {
+                return base.OnKeyDown(keyCode, e);
+            }
+        }
+
+        private EKeyInput GetInput(Keycode keyCode, KeyEvent? e) => (keyCode, e.Action) switch
+        {
+            (Keycode.ButtonA, KeyEventActions.Down) => EKeyInput.A,
+            (Keycode.ButtonB, KeyEventActions.Down) => EKeyInput.B,
+            (Keycode.ButtonX, KeyEventActions.Down) => EKeyInput.X,
+            (Keycode.ButtonY, KeyEventActions.Down) => EKeyInput.Y,
+            _ => EKeyInput.None
+        };
+
 
         private void CreateNotificationFromIntent(Intent intent)
         {
