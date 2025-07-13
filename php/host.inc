@@ -5,6 +5,7 @@ session_start();
 -----------------------------------------------------------------------------------*///
 //$database = "cs";
 //$database = "cs_rc3";
+$database = "cs_sprint";
 //$database = "cs_rookie"; // rc3
 
 if(isset($_GET['db'])){$database = $_GET['db'];}

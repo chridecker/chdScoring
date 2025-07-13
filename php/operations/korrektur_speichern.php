@@ -1,8 +1,21 @@
 <?php
 require_once("../host.inc");
+
+$query_log = "SELECT wert FROM wertung WHERE teilnehmer = ".$_GET['teilnehmer']." AND durchgang = ".$_GET['durchgang']." AND figur = ".$_GET['figur']." AND judge = ".$_GET['judge'];
+$obj_log_old_value = mysqli_fetch_object(mysqli_query($link,$query_log));
+$oldValue = $obj_log_old_value->wert;
+$wert_neu = $_GET['wert'];
+$user = 0;
+if(isset($_GET['user'])){
+	$user = $_GET['user'];
+}
+
+$query_add_log ="INSERT INTO wertung_history (`teilnehmer`,`durchgang`,`figur`,`judge`,`wert_alt`,`wert_neu`,`time`,`user`) VALUES (".$_GET['teilnehmer'].",".$_GET['durchgang'].",".$_GET['figur'].",".$_GET['judge'].",".$oldValue.",".$wert_neu.",NOW(),".$user.")";
+mysqli_query($link,$query_add_log);
+
 $query_count_figur = "SELECT count(f.id) as anzahl, min(f.id) as anfang, max(f.id) as ende FROM figur f JOIN figur_programm fp ON fp.figur = f.id JOIN programm p ON p.id = fp.programm JOIN durchgang_programm dp ON dp.programm = p.id WHERE dp.durchgang = ".$_GET['durchgang'];
 $obj_count_figur = mysqli_fetch_object(mysqli_query($link,$query_count_figur));
-$query = "UPDATE wertung SET wert = ".$_GET['wert']." WHERE teilnehmer = ".$_GET['teilnehmer']." AND durchgang = ".$_GET['durchgang']." AND figur = ".$_GET['figur']." AND judge = ".$_GET['judge'];
+$query = "UPDATE wertung SET wert = ".$wert_neu." WHERE teilnehmer = ".$_GET['teilnehmer']." AND durchgang = ".$_GET['durchgang']." AND figur = ".$_GET['figur']." AND judge = ".$_GET['judge'];
 mysqli_query($link,$query);
 $count_judges = mysqli_fetch_object(mysqli_query($link,"SELECT count(j.id) as judges FROM judge j JOIN judge_panel jp ON (jp.judge = j.id) JOIN durchgang_panel dp ON (dp.panel = jp.panel) JOIN durchgang_airfield da ON (da.durchgang = dp.durchgang) WHERE da.durchgang = ".$_GET['durchgang']));
 $judges = $count_judges->judges;

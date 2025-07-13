@@ -1,0 +1,20 @@
+table {
+    width: 70rem;
+    border: none;
+}
+
+table > thead > tr > th {
+    background-color: lightblue;
+    border-bottom: 2px solid black;
+}
+
+
+table > tbody > tr > td{
+    background-color: white;
+    text-align: center;
+    height: 2rem;
+}
+
+table > tbody > tr:nth-child(odd) > td{
+    background-color: lightgrey;
+}

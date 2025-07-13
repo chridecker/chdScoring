@@ -11,6 +11,7 @@ $year = $xml->information->year;
 if(isset($_GET['bewerb']))$bewerb = $_GET['bewerb'];
 else $bewerb = 1;
 if(isset($_GET['logo']))$logo = $_GET['logo'];
+if(isset($_GET['fedlogo']))$fedlogo = $_GET['fedlogo'];
 //Bewerb
 $query_bewerb = "SELECT name , number FROM bewerb WHERE id = ".$bewerb;
 $res_bewerb = mysqli_fetch_object(mysqli_query($link,$query_bewerb));
@@ -73,13 +74,13 @@ else {
 <body>
 <table>
 <tr class="kopf">
-<td colspan="2" style="padding:0px;"><img src="../operations/load_image.php?id=<?php echo $result_config->fed_id;?>" class="logo"></td>
+<td colspan="2" style="padding:0px;"><img src="../operations/load_image.php?id=<?php if(isset($fedlogo)){echo $fedlogo;} else {  echo $result_config->fed_id;}?>&db=<?php echo $database;?>" class="logo"></td>
 <th colspan="<?php echo (1 + $durchgaenge);?>" style="text-align:center; font-size:18pt;">
 <?php echo $turnier;?><br>
 <i style="font-size:10pt; font-style:normal;"><?php echo $turnier_ort.", ".$turnier_date;?><br>
 <?php echo $veranstalter;?></i>
 </th>
-<td colspan="2" style="padding:0px; text-align:right;"><img src="../operations/load_image.php?id=<?php if(isset($logo)){echo $logo;} else { echo $result_config->img_id;}?>" class="logo"></td>
+<td colspan="2" style="padding:0px; text-align:right;"><img src="../operations/load_image.php?id=<?php if(isset($logo)){echo $logo;} else { echo $result_config->img_id;}?>&db=<?php echo $database;?>" class="logo"></td>
 </tr>
 <tr class="headline">
 <th colspan="<?php echo (5 + $durchgaenge);?>">Final Results</th></tr>
@@ -105,14 +106,15 @@ $query_teilnehmer = "SELECT t.*, b.teilnehmer, b.declined, b.prom as gesamt FROM
 if($result_teilnehmer = mysqli_query($link,$query_teilnehmer)){
 while($teilnehmer = mysqli_fetch_object($result_teilnehmer)){
 	$line_trough = false;
+	$country = mysqli_fetch_object(mysqli_query($link,"SELECT name, UPPER(short) as code FROM country_images WHERE img_id = ".$teilnehmer->land));
 	if($res_durchgaenge->md <=1)$line_trough = true;
 	?>
 	<tr class="<?php if($count % 2 == 0) echo "gerade";else echo "ungerade";?>">
     <td><?php echo $count;?></td>
     <td><?php echo strtoupper($teilnehmer->nachname)." ".$teilnehmer->vorname;?></td>
-    <td><?php echo $teilnehmer->club."<br>";
+    <td><?php //echo $teilnehmer->club."<br>";
 	echo mysqli_fetch_object(mysqli_query($link,"SELECT name FROM country_images WHERE img_id = ".$teilnehmer->land))->name;?></td>
-    <td><?php echo $teilnehmer->license;?></td>
+    <td><?php echo $country->code."-".$teilnehmer->license;?></td>
     <?php
 	$query_min = "SELECT min(prom) as min FROM bewerb".$bewerb." WHERE teilnehmer = ".$teilnehmer->id;
 	$res_min = mysqli_fetch_object(mysqli_query($link,$query_min));
@@ -128,7 +130,7 @@ while($teilnehmer = mysqli_fetch_object($result_teilnehmer)){
         </td>
         <?php
 	}?>
-    <td class="zahl" style="font-weight:bold;"><?php echo number_format($teilnehmer->gesamt,2,",","");?></td>
+    <td class="zahl" style="font-weight:bold;"><?php echo number_format($teilnehmer->gesamt,2,",","");?>&permil;</td>
     </tr>
 	<?php
 	if($count % $limit == 0){?>
@@ -162,5 +164,39 @@ while($teilnehmer = mysqli_fetch_object($result_teilnehmer)){
 }
 ?>
         <tr class="footer"><td colspan="<?php echo $durchgaenge+3;?>" style="text-align:left;"><?php echo $system_name." ".$version." &copy;".$year;?></td><td colspan="2" style="text-align:right;">Page <?php echo ceil($count/$limit)."/".$gesamt;?></td></tr>
-</table>
+		<tr>
+<th style="text-align:left;" colspan="2">Contest Director</th></tr>
+<?php
+$sql = "SELECT * FROM official WHERE club = 'Wettbewerbsleiter' ORDER BY id";
+$res = mysqli_query($link,$sql);
+while($obj = mysqli_fetch_object($res)){?>
+	<tr><td colspan="2"><?php echo $obj->vorname . " " . $obj->nachname; ?></td>
+	<td><?php echo mysqli_fetch_object(mysqli_query($link,"SELECT name FROM country_images WHERE img_id = ".$obj->land))->name; ?></td>
+	<td><?php echo $obj->license; ?></td></tr>
+<?php
+}?>
+<tr>
+<th style="text-align:left;" colspan="2">Jury Members</th></tr>
+<?php
+$sql = "SELECT * FROM official WHERE club = 'Jury' ORDER BY id";
+$res = mysqli_query($link,$sql);
+while($obj = mysqli_fetch_object($res)){?>
+	<tr><td colspan="2"><?php echo $obj->vorname . " " . $obj->nachname; ?></td>
+	<td><?php echo mysqli_fetch_object(mysqli_query($link,"SELECT name FROM country_images WHERE img_id = ".$obj->land))->name; ?></td>
+	<td><?php echo $obj->license; ?></td></tr>
+<?php
+}?>
+<tr><td><br/></td></tr>
+<tr>
+<th style="text-align:left;" colspan="2">Judges</th></tr>
+<?php
+$sql = "SELECT * FROM judge ORDER BY id";
+$res = mysqli_query($link,$sql);
+while($obj = mysqli_fetch_object($res)){?>
+	<tr><td colspan="2"><?php echo $obj->vorname . " " . $obj->name; ?></td>
+	<td><?php echo mysqli_fetch_object(mysqli_query($link,"SELECT name FROM country_images WHERE img_id = ".$obj->land))->name; ?></td>
+	<td><?php //echo $obj->license; ?></td></tr>
+<?php
+}?>
+	</table>
 </body>

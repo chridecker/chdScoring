@@ -34,6 +34,11 @@ body{
 <tr><td colspan="2"><br /></td>
 </tr>
 <tr>
+<th>Edit Scores</th><td><input type="checkbox" id="editscore" <?php if($teilnehmer->editscore == 1){echo "checked";}?> onchange="speichern();"></td>
+</tr>
+<tr><td colspan="2"><br /></td>
+</tr>
+<tr>
 <th>Club</th><td><input type="text" id="c" value="<?php echo $teilnehmer->club;?>" onchange="speichern();"></td>
 <td colspan="2" class="profilbild">
 <button onclick="oeffnen('../image_admin.php');" title="Go to Images"><img src="../bilder/buttons/photos.png" /></button>

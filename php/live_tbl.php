@@ -137,18 +137,42 @@ if($round = $d->durchgang){
 			echo "</tr>";
 		}
 		else {
+			$j_max_count = 0;
 			echo "<tr><td colspan='2'style='border-top:1px solid;'></td>";
 			$res_judges = mysqli_query($link,"SELECT j.* FROM judge j JOIN judge_panel jp ON (jp.judge = j.id) JOIN durchgang_panel dp ON (dp.panel = jp.panel) JOIN durchgang_airfield da ON (da.durchgang = dp.durchgang) WHERE da.airfield = ".$airfield." AND da.durchgang = ".$durchgang);
 			while($obj_judges = mysqli_fetch_object($res_judges)){
 				$i = $obj_judges->id;
 				$endwert = 0;
+				$j_anzahl = 0;
+				$j_count = 0;
 				$query_count_figur = "SELECT count(f.id) as anzahl, min(f.id) as anfang, max(f.id) as ende FROM figur f JOIN figur_programm fp ON fp.figur = f.id JOIN programm p ON p.id = fp.programm JOIN durchgang_programm dp ON dp.programm = p.id WHERE dp.durchgang = ".$durchgang;
 				$obj_count_figur = mysqli_fetch_object(mysqli_query($link,$query_count_figur));
+				$j_anzahl = $obj_count_figur->anzahl;
 				for($figur=$obj_count_figur->anfang;$figur<=$obj_count_figur->ende;$figur++){
 					$query = "SELECT (f.wert * ABS(w.wert)) as wertung FROM wertung as w, figur as f WHERE w.teilnehmer = ".$teilnehmer." AND w.durchgang = ".$durchgang." AND w.judge = ".$i." AND f.id = ".$figur." AND w.figur = f.id + 1 - ".($obj_count_figur->anfang);
 					if($res = mysqli_fetch_object(mysqli_query($link,$query)))$endwert += $res->wertung;
 				}
-				echo "<th class='gesamt' style='text-align: center; border-top:1px solid;'>".$endwert."</th>";
+				$query_count_j = "SELECT COUNT(*)  as anzahl FROM wertung as w WHERE w.teilnehmer = ".$teilnehmer." AND w.durchgang = ".$durchgang." AND w.judge = ".$i;
+				if($res_count_j = mysqli_fetch_object(mysqli_query($link,$query_count_j))){
+					$j_count = $res_count_j->anzahl;
+					if($j_count > $j_max_count){
+						$j_max_count = $j_count;
+					}
+				}
+				
+				$bg_col = "";
+				//echo $j_anzahl;
+				if($j_max_count == $j_anzahl && $j_count < $j_max_count && $j_max_count > 0){
+					$bg_col = "red";
+				}
+				else if($j_count < $j_max_count && $j_max_count > 0){
+					$bg_col = "yellow";
+				}
+				else if($j_count == $j_anzahl && $j_max_count > 0) {
+					$bg_col = "green";
+				}
+				
+				echo "<th class='gesamt' style='text-align: center; border-top:1px solid;background-color:" .$bg_col.";'>".$endwert."</th>";
 				$wert_durchgang += $endwert;
 			}
 			echo "</tr>";

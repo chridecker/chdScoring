@@ -4,6 +4,7 @@ require_once("host.inc");
 <script type="text/javascript">
 var xmlHttp = createXmlHttpRequestObject();
 var xmlHttp2 = createXmlHttpRequestObject();
+var database = '<?php echo $database;?>';
 
 function createXmlHttpRequestObject(){
 	var xmlHttp;
@@ -17,7 +18,7 @@ function load(){
 		var teilnehmer = document.getElementById("teilnehmer").value;
 		var durchgang = document.getElementById("durchgang").value;
 		try{
-			xmlHttp.open("GET","operations/korrektur_daten.php?teilnehmer=" + teilnehmer + "&durchgang=" + durchgang,true);
+			xmlHttp.open("GET","operations/korrektur_daten.php?teilnehmer=" + teilnehmer + "&durchgang=" + durchgang + "&db=" + database,true);
 			xmlHttp.onreadystatechange = handleRequestStateChange;
 			xmlHttp.send(null);
 		}
@@ -31,7 +32,7 @@ function speichern(teilnehmer,durchgang,figur,judge,id){
 	var wert = document.getElementById(id).value;
 	if(xmlHttp2){
 		try{
-			xmlHttp2.open("GET","operations/korrektur_speichern.php?teilnehmer=" + teilnehmer + "&durchgang=" + durchgang + "&figur=" + figur + "&judge=" + judge + "&wert=" + wert,true);
+			xmlHttp2.open("GET","operations/korrektur_speichern.php?teilnehmer=" + teilnehmer + "&durchgang=" + durchgang + "&figur=" + figur + "&judge=" + judge + "&wert=" + wert + "&db=" + database,true);
 			xmlHttp2.send(null);
 			load();
 		}

@@ -1,5 +1,6 @@
 <?php
 require_once("host.inc");
+
 ?>
 <script type="text/javascript">
 var xmlHttp = createXmlHttpRequestObject();
@@ -9,6 +10,7 @@ var xmlHttp2 = createXmlHttpRequestObject();
 $query_programm = "SELECT min(id) as min FROM programm ORDER BY id ASC";
 $res_programm = mysqli_query($link,$query_programm);
 if($obj_programm = mysqli_fetch_object($res_programm))echo "var programm = ".$obj_programm->min.";";
+echo "var db='".$database."';";
 ?>
 
 function createXmlHttpRequestObject(){
@@ -19,7 +21,7 @@ function createXmlHttpRequestObject(){
 }
 
 function load(){
-	var file = "operations/figuren_liste.php?programm=" + programm;
+	var file = "operations/figuren_liste.php?programm=" + programm + "&db=" + db;
 	if(xmlHttp){
 		try{
 			xmlHttp.open("GET",file,true);

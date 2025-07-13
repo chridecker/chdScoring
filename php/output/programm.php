@@ -89,7 +89,7 @@ else {
     <tr class="header">
     <th colspan="4" style="font-size:22pt; border-bottom:1px solid black;"><?php echo $obj_name->title;?></th></tr>
     <tr class="header">
-    <th colspan="4"><?php echo $obj_name->beschreibung;?></th></tr>
+    <th colspan="4"><?php echo $obj_name->description;?></th></tr>
     <tr class="headline">
     <th> # </th><th>Manoeuvre</th><th>K</th><th>Score</th></tr>
     <?php

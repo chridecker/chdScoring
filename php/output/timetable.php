@@ -65,16 +65,19 @@ th{
 </style>
 <?php
 //Loading Variables
-$durchgaenge = 2;
+$durchgaenge = 3;
+$durchgaenge_start = 1;
+
 $teilnehmer_anzahl = $teilnehmer_anzahl;
 // Setting Params
-$breaks_in_round = 5;
+$breaks_in_round = 1;
 $break_small = 5;
-$break = 30;
+$break = 10;
+$lunch_after_round = 2;
+$lunch=60;
 $starttime = "07:35";
 if(isset($_GET['starttime']))$starttime = $_GET['starttime'];
 $time = mysqli_fetch_object(mysqli_query($link,"SELECT zeit FROM klassen WHERE id = ".$result_config->klasse))->zeit;
-$time--;
 $time_between = 1;
 $start = strtotime($result_config->datum." ".$starttime); //strtotime("2016-07-16 08:00");
 ?>
@@ -95,11 +98,18 @@ $count++;
 if($count % 2 == 0)echo "<tr class='grey'>";
 else echo "<tr>";
 echo "<td>".date("H:i",$start)."</td><td>Vorflieger 00</td></tr>";
-$start += ($time + $time_between) * 60;
-$rounds = 0;
-for($d=1;$d<=$durchgaenge;$d++){
+$start += ($time + $time_between + 5) * 60;
+$rounds = $durchgaenge_start-1;
+for($d=$durchgaenge_start;$d<=$durchgaenge;$d++){
 	$breaks = 0;
 	$rounds++;
+
+	$count++;
+	if(($count % 2) == 0)echo "<tr class='grey' style='border-top:solid black;'>";
+	else echo "<tr style=' background-color:white; border-top:solid black;'>";
+	echo "<th>".date("H:i",$start)."</th>";
+	echo "<th colspan='1'>ROUND ".$d." START</th></tr>";
+
 	for($i=1;$i<=$teilnehmer_anzahl;$i++){
 		$count++;
 		if($count % 2 == 0)echo "<tr class='grey'>";
@@ -108,6 +118,7 @@ for($d=1;$d<=$durchgaenge;$d++){
 		echo "<td>&#8470; ";
 		echo mysqli_fetch_object(mysqli_query($link,"SELECT CONCAT(t.id,' ',t.vorname,' ',UPPER(t.nachname)) as name FROM teilnehmer t JOIN wettkampf_leitung wl ON (wl.teilnehmer = t.id) WHERE wl.durchgang = ".$rounds." AND wl.start = ".$i))->name;
 		echo "</td></tr>";
+		$start += ($time + $time_between) * 60;
 		if($i % round($teilnehmer_anzahl / ($breaks_in_round + 1)) == 0 && $breaks < $breaks_in_round){
 			$breaks++;
 			$count++;
@@ -117,14 +128,22 @@ for($d=1;$d<=$durchgaenge;$d++){
 			echo "<td colspan='1'>BREAK [".$break_small."]</td></tr>";
 			$start += ($break_small*60);
 		}
-		$start += ($time + $time_between) * 60;
 	}
 	$count++;
 	if(($count % 2) == 0)echo "<tr class='grey' style='border-top:solid black;'>";
 	else echo "<tr style=' background-color:white; border-top:solid black;'>";
 	echo "<th>".date("H:i",$start)."</th>";
-	echo "<th colspan='1'>ROUND ".$d." ENDE</th></tr>";
-	if($rounds < $durchgaenge){
+	echo "<th colspan='1'>ROUND ".$d." END</th></tr>";
+
+	if($lunch_after_round == $d){
+		if(($count % 2) == 0)echo "<tr class='grey' style='border-top:solid black;'>";
+		else echo "<tr style=' background-color:white; border-top:solid black;'>";
+		echo "<th>".date("H:i",$start)."</th>";
+		echo "<th colspan='1'>LUNCH BREAK [".$lunch."]</th></tr>";
+		$start += ($lunch) * 60;
+	}
+
+	else if($rounds < $durchgaenge){
 		$count++;
 		if($count % 2 == 0)echo "<tr class='grey'>";
 		else echo "<tr>";
@@ -137,12 +156,15 @@ for($d=1;$d<=$durchgaenge;$d++){
     <td colspan="1" style="text-align:left;"><?php echo $system_name." ".$version." &copy; ".$year; ?></td>
     <td colspan="1" style="text-align:right;">Page <?php echo $rounds."/".$durchgaenge;?></td></tr>
     </table>
+	<?php
+	if($rounds < $durchgaenge){?>
     <table>
     <tr class="headline">
     <th colspan="2">Timetable</th></tr>
     <tr class="header">
-	<th>Approx. Time</th><th>&#8470;</th></tr
-    ><?php 
+	<th>Approx. Time</th><th>&#8470;</th></tr>
+	<?php 
+	}
 }?>
 <tr>
 <tr class="footer">

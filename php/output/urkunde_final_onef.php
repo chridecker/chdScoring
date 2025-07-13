@@ -7,6 +7,8 @@ $system_name = $xml->information->name;
 $version = $xml->information->version;
 $year = $xml->information->year;
 
+
+
 //$durchgaenge = $result_config->durchgaenge;
 if(isset($_GET['bewerb'])){$bewerb = $_GET['bewerb'];}
 else {$bewerb = 1;}
@@ -78,7 +80,7 @@ if($result_teilnehmer = mysqli_query($link,$query_teilnehmer)){
 	<tr><th class="veranstalter" colspan="3"><?php echo $veranstalter;?></th></tr>
 		<tr><td><br></td></tr>
 		<tr><td><br></td></tr>
-		<tr><td colspan="3" class="logo"><img src="../operations/load_image.php?id=<?php echo $result_config->urkunde_id;?>"></td></tr>
+		<tr><td colspan="3" class="logo"><img src="../operations/load_image.php?id=<?php echo $result_config->urkunde_id;?>&db=<?php echo $database;?>"></td></tr>
 		<tr><td><br></td></tr>
 		<tr class="headline"><th colspan='3'>URKUNDE</th></tr>
 		<tr><td><br></td></tr>

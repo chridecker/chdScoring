@@ -106,7 +106,7 @@ function processResponse(response){
 		recent_figur = recent_figur.getAttribute('id') - start + 1;
 	}
 // Judge Timer Sperre
-	if(scores.getAttribute('timer') >= 480)deactivate(" Timer Over ");
+	if(scores.getAttribute('timer') >= 500)deactivate(" Timer Over ");
 	else activate();
 	if(recent_figur == null && confirmS == 0){
 		deactivate("");
@@ -436,6 +436,7 @@ window.onkeydown = function (e){
 				 break;
 			case 13:
 			case 0:
+				showPressedValue("pOk");
 				saveNew();
 				 break;
 			case 8:

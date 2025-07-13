@@ -44,8 +44,9 @@ if(isset($query_timer)){
 	}
 	elseif(floor($diff/60) == ($timelimit - 1) && ($diff % 60) >= 30){
 		if(!$timer_edit)echo "<img class='timer_point' src='../bilder/buttons/point_green.png' style='padding-right:5px;'></div>";
-		echo str_pad(($timelimit ) - floor($diff/60),2,"0",STR_PAD_LEFT).":".str_pad(59 - ($diff % 60),2,"0",STR_PAD_LEFT);
-		if($timer_edit){?>
+		echo str_pad(($timelimit-1 ) - floor($diff/60),2,"0",STR_PAD_LEFT).":".str_pad(59 - ($diff % 60),2,"0",STR_PAD_LEFT);
+		if($timer_edit){
+			?>
             <br /><button id="bstoptimer" class="durchgang" title="Stop Timer" onclick="timer('stop',<?php echo $airfield;?>);">
             <img src="../bilder/buttons/stop_timer.png" /></button>
             <?php
@@ -54,7 +55,8 @@ if(isset($query_timer)){
 	else{
 		if(!$timer_edit)echo "<img class='timer_point' src='../bilder/buttons/point_green.png' style='padding-right:5px;'></div>";
 		echo str_pad(($timelimit - 1) - floor($diff/60),2,"0",STR_PAD_LEFT).":".str_pad(59 - ($diff % 60),2,"0",STR_PAD_LEFT);
-		if($timer_edit){?>
+		if($timer_edit){
+			?>
 			<br /><button id="bstoptimer" class="durchgang" title="Stop Timer" onclick="timer('stop',<?php echo $airfield;?>);">
             <img src="../bilder/buttons/stop_timer.png" /></button>
     		<?php

@@ -47,20 +47,9 @@ $keys = array_keys($judgePointDict[1]);
 $keysJudges = array_keys($judgeNames);
 ?>
 
-<?php
-/* $canvas = imagecreatetruecoloro(800,600);
-$pink = imagecolorallocate($canvas, 255, 105, 180);
-
-imagerectangle($canvas, 50, 50, 150, 150, $pink);
-
-header("Content-Type: image/jpeg");
-imagejpeg($canvas);
-imagedestroy($canvas); */
-?>
-
-
 <table>
-<thead><tr><th>Value</th>
+<thead>
+<tr><th>Value</th>
 <?php
 for($i = 1; $i<=count($judgeNames);$i++){?>
 	<th><?php echo $judgeNames[$i]; ?>
@@ -81,7 +70,6 @@ foreach($keys as $key){?>
 		if(array_key_exists($key,$judgePointDict[$judgeId])){
 			$sum += $judgePointDict[$judgeId][strval($key)];
 			echo $judgePointDict[$judgeId][strval($key)];
-			// echo $judgePointDict[1]["7.5"];
 		}
 		else {
 			echo "-";

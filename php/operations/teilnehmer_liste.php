@@ -113,12 +113,10 @@ if($res){
 		$res_sub = mysqli_query($link,$query_sub);
 		while($sub = mysqli_fetch_object($res_sub)){?>
 			<td>
-			<input type="checkbox" id="sub<?php echo $sub->id.$obj->id;?>"
 			<?php
 			$query_bewerb = "SELECT tb.bewerb FROM teilnehmer_bewerb as tb WHERE tb.bewerb = ".$sub->id." AND tb.teilnehmer = ".$obj->id;
 			$res_bewerb = mysqli_query($link,$query_bewerb);
-			if($bewerb = mysqli_fetch_object($res_bewerb))echo " checked";
-			?> onChange="speichern(<?php echo $obj->id;?>);"  /></td>
+			if($bewerb = mysqli_fetch_object($res_bewerb))echo " x"; ?></td>
 			<?php
 		}?>
 		<?php if($start->count == 0){?>
@@ -150,7 +148,7 @@ if($res){
 $query_sub = "SELECT * FROM bewerb WHERE id != 1 ORDER BY id ASC";
 $res_sub = mysqli_query($link,$query_sub);
 while($sub = mysqli_fetch_object($res_sub)){?>
-	<td><input type="checkbox" id="<?php echo "sub".$sub->id."*";?>" /></td>
+	<td></td>
     <?php
 }?>
 <td style="border-right:1px solid;" colspan="4"><input type="button" value="Save" onclick="speichern('*');" /></td>

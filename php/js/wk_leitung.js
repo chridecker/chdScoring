@@ -172,6 +172,11 @@ function printer(datei){
 	win.focus();
 	win.print();
 }
+
+function exportCSV(datei){
+	window.open("output/" + datei,"_blank");
+}
+
 function timer(action,airfield){
 	if(xmlHttp3){
 		try{

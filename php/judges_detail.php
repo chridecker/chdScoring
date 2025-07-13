@@ -13,6 +13,7 @@ var land = "";
 var license = "";
 var bild = "";
 var id = "";
+var editscore = "";
 var change = 0;
 
 function createXmlHttpRequestObject(){
@@ -25,7 +26,7 @@ function createXmlHttpRequestObject(){
 function load(i){
 	id = i;
 	if(xmlHttp){
-		var file = "operations/judges_detail.php?id=" + id + "&vorname=" + vorname + "&nachname=" + nachname + "&club=" + club + "&land=" + land + "&license=" + license + "&bild=" + bild + "&change=" + change;
+		var file = "operations/judges_detail.php?id=" + id + "&vorname=" + vorname + "&nachname=" + nachname + "&club=" + club + "&land=" + land + "&license=" + license + "&bild=" + bild + "&change=" + change + "&editscore=" + editscore;
 		try{
 			xmlHttp.open("GET",file,true);
 			xmlHttp.onreadystatechange = handleRequestStateChange;
@@ -70,6 +71,8 @@ function speichern(){
 	land = document.getElementById("l").value;
 	license = document.getElementById("li").value;
 	bild = document.getElementById("bild").value;
+	editscore = document.getElementById("editscore").value;
+
 	if(vorname != '' && nachname !='' && club != '' && land != '' && license != ''){
 		change = 1;
 		load(id);

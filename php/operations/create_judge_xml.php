@@ -8,9 +8,7 @@ $query_teilnehmer = "SELECT wl.teilnehmer, wl.durchgang, wl.start_time FROM judg
 if($res_teilnehmer = mysqli_fetch_object(mysqli_query($link,$query_teilnehmer)))$durchgang = $res_teilnehmer->durchgang;
 
 $diff =  strtotime(date("H:i:s")) - strtotime($res_teilnehmer->start_time);
-if($diff <= 0 && $diff > -10){
-	$diff +=10;
-}
+
 $query_judge = "SELECT t.* FROM teilnehmer as t, wettkampf_leitung as w WHERE t.id = w.teilnehmer AND w.status = 1 AND t.id = ".$res_teilnehmer->teilnehmer;
 if($result_judge = mysqli_fetch_object(mysqli_query($link,$query_judge)))$teilnehmer = $result_judge->id;
 
@@ -21,9 +19,13 @@ $figuren =  $obj_count_figur->anzahl;
 if($confirm = mysqli_fetch_object(mysqli_query($link,"SELECT confirm FROM judge_log WHERE judge = ".$judge." AND teilnehmer = ".$result_judge->id." AND durchgang = ".$durchgang)))$confirm = $confirm->confirm;
 else $confirm = 0;
 if($judge_pin == 0)$confirm = 1;
+$editScores = 0;
+if($res_online->editscore == 1){
+$editScores = $edit;
+}
 
 header('Content-Type: application/xml');
-echo "<scores judge='".$judge."' name='".$res_online->name." ".$res_online->vorname."' durchgang ='".$durchgang."' timer='".$diff."' confirm='".$confirm."' edit='".$edit."'>";
+echo "<scores judge='".$judge."' name='".$res_online->name." ".$res_online->vorname."' durchgang ='".$durchgang."' timer='".$diff."' confirm='".$confirm."' edit='".$editScores."'>";
 echo "<teilnehmer id='".$result_judge->id."' name='".$result_judge->vorname." ".$result_judge->nachname."' />";
 echo "<figuren anzahl='".$obj_count_figur->anzahl."' start='".$obj_count_figur->anfang."'>";
 $query = "SELECT * FROM figur WHERE id BETWEEN ".$obj_count_figur->anfang." AND ".$obj_count_figur->ende." ORDER BY id ASC";

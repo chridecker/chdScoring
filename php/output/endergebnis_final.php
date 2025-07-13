@@ -8,6 +8,12 @@ $year = $xml->information->year;
 
 if(isset($_GET['bewerb']))$bewerb = $_GET['bewerb'];
 else $bewerb = 1;
+
+if(isset($_GET['useLic']))$useLic = $_GET['useLic'];
+else $useLic = true;
+
+if(isset($_GET['useLicJury']))$useLicJury = $_GET['useLicJury'];
+else $useLicJury = true;
 //Bewerb
 $query_bewerb = "SELECT name,number FROM bewerb WHERE id = ".$bewerb;
 $res_bewerb = mysqli_fetch_object(mysqli_query($link,$query_bewerb));
@@ -107,7 +113,7 @@ else {
 <tr class="headline">
 <th colspan="<?php echo (5 + $durchgaenge);?>"><?php if($end_finale == 1) echo "Semi-";?>Final Results</th></tr>
 <tr class="header">
-<th colspan="4">Competition No.: <?php echo $turnier_no;?></th>
+<th colspan="4"><?php if($turnier_no != " "){ echo "Competition No.: ".$turnier_no; } else { echo "</br>"; }?></th>
 <th colspan="<?php echo (5 + $durchgaenge - 4);?>"></th>
 </tr>
 <tr class="header_small">
@@ -200,12 +206,12 @@ while($teilnehmer = mysqli_fetch_object($result_teilnehmer)){
 <tr>
 <th style="text-align:left;" colspan="2">Contest Director</th></tr>
 <?php
-$sql = "SELECT * FROM official WHERE club = 'Wettbewerbsleiter' ORDER BY id";
+$sql = "SELECT * FROM official WHERE id = ".$result_config->wettkampf_leiter." ORDER BY id";
 $res = mysqli_query($link,$sql);
 while($obj = mysqli_fetch_object($res)){?>
 	<tr><td colspan="2"><?php echo $obj->vorname . " " . $obj->nachname; ?></td>
 	<td><?php echo mysqli_fetch_object(mysqli_query($link,"SELECT name FROM country_images WHERE img_id = ".$obj->land))->name; ?></td>
-	<td><?php echo $obj->license; ?></td></tr>
+	<td><?php if($useLicJury){ echo $obj->license;} ?></td></tr>
 <?php
 }?>
 <tr>
@@ -216,7 +222,7 @@ $res = mysqli_query($link,$sql);
 while($obj = mysqli_fetch_object($res)){?>
 	<tr><td colspan="2"><?php echo $obj->vorname . " " . $obj->nachname; ?></td>
 	<td><?php echo mysqli_fetch_object(mysqli_query($link,"SELECT name FROM country_images WHERE img_id = ".$obj->land))->name; ?></td>
-	<td><?php echo $obj->license; ?></td></tr>
+	<td><?php if($useLicJury){ echo $obj->license;} ?></td></tr>
 <?php
 }?>
 <tr><td><br/></td></tr>
@@ -228,7 +234,7 @@ $res = mysqli_query($link,$sql);
 while($obj = mysqli_fetch_object($res)){?>
 	<tr><td colspan="2"><?php echo $obj->vorname . " " . $obj->name; ?></td>
 	<td><?php echo mysqli_fetch_object(mysqli_query($link,"SELECT name FROM country_images WHERE img_id = ".$obj->land))->name; ?></td>
-	<td><?php echo $obj->license; ?></td></tr>
+	<td><?php if($useLic){ echo $obj->license;} ?></td></tr>
 <?php
 }?>
 </table>

@@ -10,7 +10,19 @@ $year = $xml->information->year;
 $wert_durchgang = 0;
 $teilnehmer = $_GET['teilnehmer'];
 if(strlen($teilnehmer)>3)$teilnehmer = getIdFromLic($teilnehmer,$link);
+if(!isset($teilnehmer) || $teilnehmer <= 0){
+	$query_tn = "SELECT  teilnehmer from wettkampf_leitung where status = 2 ORDER BY start_time DESC LIMIT 1;";
+	$result_tn = mysqli_fetch_object(mysqli_query($link,$query_tn));
+	$teilnehmer = $result_tn->teilnehmer;
+}
 $durchgang = $_GET['durchgang'];
+if(!isset($durchgang) || $durchgang <= 0){
+	$query_dg = "SELECT max(durchgang) as dg FROM wertung  WHERE teilnehmer = ".$teilnehmer;
+	$result_dg = mysqli_fetch_object(mysqli_query($link,$query_dg));
+	$durchgang = $result_dg->dg;
+}
+
+
 $query_teilnehmer = "SELECT * FROM teilnehmer WHERE id = ".$teilnehmer;
 $result_teilnehmer = mysqli_fetch_object(mysqli_query($link,$query_teilnehmer));
 $query_count_figur = "SELECT count(f.id) as anzahl, min(f.id) as anfang, max(f.id) as ende FROM figur f JOIN figur_programm fp ON fp.figur = f.id JOIN programm p ON p.id = fp.programm JOIN durchgang_programm dp ON dp.programm = p.id WHERE dp.durchgang = ".$durchgang;

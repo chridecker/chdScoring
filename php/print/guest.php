@@ -63,5 +63,7 @@ while($obj = mysqli_fetch_object($res)){?>
 	<input class="printer" type="button" value="Placment R<?php echo $obj->durchgang;?>" onClick="printer('?file=judge_placment&durchgang=<?php echo $obj->durchgang;?>');">
     <?php
 }?>
-
+<h2 style="background-color:lightgrey; padding:10px;">Export</h2>
+<input class="printer" type="button" value="Export Prelim CSV" onClick="exportCSV('export_preliminary.php');">
+<input class="printer" type="button" value="Export Final CSV" onClick="exportCSV('export_final.php');">
 </body>

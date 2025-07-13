@@ -9,7 +9,7 @@ $year = $xml->information->year;?>
 <script src="js/wk_leitung.js" language="javascript" type="text/javascript"></script>
 <script type="text/javascript">
 var airfield = 1;
-setInterval(function () {process(airfield);}, 200);
+setInterval(function () {process(airfield);}, 1000);
 </script>
 <link rel="shortcut icon" href="bilder/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="css/wk_leitung.css">
@@ -21,7 +21,7 @@ setInterval(function () {process(airfield);}, 200);
 <th colspan="4" style="text-align:center;" class="title">chdScoring - COMPETITION BOARD</th>
 </tr>
 <tr class="header">
-<th>Settings</th><th>Scoring</th><th>Flight Control</th>
+<th>Settings [<?php echo $database;?>]</th><th>Scoring</th><th>Flight Control</th>
 <td class="controlButtons" rowspan="2">
 <button title="Keyboard Control" id="keyboard" onClick="changeControl('keyboard');"><img src="bilder/buttons/keyboard.png" height="20"></button>
 <button title="Go to FullScreen [F11]" id="fullscreen" onClick="goFullScreen();"><img src="bilder/buttons/fullscreen.png" height="20"></button>

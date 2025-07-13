@@ -9,6 +9,7 @@ $year = $xml->information->year;
 
 if(isset($_GET['bewerb']))$bewerb = $_GET['bewerb'];
 else $bewerb = 1;
+if(isset($_GET['logo']))$logo = $_GET['logo'];
 //Bewerb
 $query_bewerb = "SELECT name, number FROM bewerb WHERE id = ".$bewerb;
 $res_bewerb = mysqli_fetch_object(mysqli_query($link,$query_bewerb));
@@ -79,7 +80,7 @@ else {
 <tr class="headline">
 <th colspan="<?php echo (5 + $durchgaenge);?>">Preliminary Results</th></tr>
 <tr class="header">
-<th colspan="4">Competition No.: <?php echo $turnier_no;?></th>
+<th colspan="4"><?php if($turnier_no != " "){ echo "Competition No.: ".$turnier_no; } else { echo "</br>"; }?></th>
 <th colspan="<?php echo (5 + $durchgaenge - 4);?>"></th>
 </tr>
 <tr class="header_small">

@@ -96,7 +96,7 @@ while($panels = mysqli_fetch_object($res_panels)){
 	$res_judges = mysqli_query($link,"SELECT j.* FROM judge j JOIN judge_panel jp ON (jp.judge = j.id) JOIN durchgang_panel dp ON (dp.panel = jp.panel) JOIN durchgang_airfield da ON (da.durchgang = dp.durchgang) WHERE da.durchgang = ".$durchgang." AND jp.panel = ".$panels->panel);
 	while($obj_judges = mysqli_fetch_object($res_judges)){
 		$i = $obj_judges->id;?>
-		<th colspan="2" style="text-align:center;">Judge <?php echo $i;?></th>
+		<th colspan="2" style="text-align:center;"><?php echo $obj_judges->name." ".$obj_judges->vorname;?></th>
 		<?php
 	}?>
 	</tr>

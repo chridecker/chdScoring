@@ -12,6 +12,8 @@ var name = "";
 var vorname = "";
 var license = "";
 var pin = "";
+var editscore = 0;
+
 function createXmlHttpRequestObject(){
 	var xmlHttp;
 	xmlHttp = new XMLHttpRequest();
@@ -21,7 +23,7 @@ function createXmlHttpRequestObject(){
 
 function load(){
 	if(xmlHttp){
-		var file = "operations/judges_edit.php?id=" + id + "&name=" + name + "&vorname=" + vorname + "&license=" + license + "&pin=" + pin;
+		var file = "operations/judges_edit.php?id=" + id + "&name=" + name + "&vorname=" + vorname + "&license=" + license + "&pin=" + pin + "&editscore=" + editscore;
 		try{
 			xmlHttp.open("GET",file,true);
 			xmlHttp.onreadystatechange = handleRequestStateChange;
@@ -47,6 +49,10 @@ function speichern(i){
 	vorname = document.getElementById("vorname" + id).value;
 	license = document.getElementById("license" + id).value;
 	pin = document.getElementById("pin" + id).value;
+	var editscoreVal = document.getElementById("editscore"+id).checked;
+	if(editscoreVal){editscore=1;}
+	else {editscore=0;}
+	// alert(editscoreVal);
 	if(name	 != '' )load();
 	else alert("Bitte vollständige Eingabe machen");
 	if(i == '*') i = "";

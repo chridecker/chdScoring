@@ -2,11 +2,20 @@
 require_once("host.inc");
 if(isset($_GET["db"])){$link = mysqli_connect($host,$user,$password,$_GET["db"]);}
 $durchgaenge = $result_config->durchgaenge;
+
+$tN = 0;
+if(isset($_GET["teilnehmer"])){$tN = $_GET["teilnehmer"];}
+
+
+$round = 0;
+if(isset($_GET["round"])){$round = $_GET["round"];}
+
 ?>
 <script type="text/javascript">
 var xmlHttp = createXmlHttpRequestObject();
-var teilnehmer = 0;
-var durchgang = 0;
+var teilnehmer = <?php echo $tN; ?>;
+var durchgang = <?php echo $round; ?>;
+var db = '<?php echo $database; ?>';
 function createXmlHttpRequestObject(){
 	var xmlHttp;
 	xmlHttp = new XMLHttpRequest();
@@ -22,7 +31,7 @@ function load(){
 	}
 	if(xmlHttp){
 		try{
-			xmlHttp.open("GET","operations/print.php?teilnehmer=" + teilnehmer + "&durchgang=" + durchgang,true);
+			xmlHttp.open("GET","operations/print.php?teilnehmer=" + teilnehmer + "&durchgang=" + durchgang + "&db="+db,true);
 			xmlHttp.onreadystatechange = handleRequestStateChange;
 			xmlHttp.send(null);
 		}
@@ -48,16 +57,34 @@ function printPage(){
 	document.getElementById("printer").style.display="none";
 	window.print();
 }
+
 window.onkeydown = function(e) {
 	var key = e.keyCode ? e.keyCode : e.which;
-	if(e.ctrlKey && key === 80)document.getElementById('printer').click();
+	//if(e.ctrlKey && key === 80)document.getElementById('printer').click();
 	if(key == 27)window.close();
-	if(key == 114){
+	if(key == 115){ // F4
 		e.preventDefault();
 		teilnehmer = prompt("Teilnehmer License");
 		durchgang = prompt("Durchgang");
 		load();
 		//printPage();
+	}
+	if(key == 114){ // F3
+		e.preventDefault();
+		teilnehmer = prompt("Teilnehmer License");
+		durchgang = -1;
+		load();
+		//printPage();
+	}
+	if(key == 113){ // F2
+		e.preventDefault();
+		teilnehmer = -1;
+		durchgang = -1;
+		load();
+		setTimeout(() => {
+			printPage();
+		}, 1000);
+		
 	}
 }
 
@@ -65,7 +92,7 @@ window.onkeydown = function(e) {
 <link rel="stylesheet" type="text/css" href="css/print.css" />
 
 <body onLoad="load();">
-<select id="teilnehmer" onChange="load();">
+<select id="teilnehmer" onChange="load();" style="<?php if($tN > 0 && $round > 0){echo "display: none;";}?>">
 <?php 
 $query_teilnehmer = "SELECT * FROM teilnehmer";
 $res_teilnehmer = mysqli_query($link,$query_teilnehmer);
@@ -74,12 +101,12 @@ while($teilnehmer = mysqli_fetch_object($res_teilnehmer)){?>
     <?php
 }?>
 </select>
-<select id="durchgang" onChange="load();">
+<select id="durchgang" onChange="load();" style="<?php if($tN > 0 && $round > 0){echo "display: none;";}?>">
 <?php 
 for($durchgang = 1;$durchgang<=$durchgaenge;$durchgang++){?>
 	<option value="<?php echo $durchgang;?>"><?php echo $durchgang;?></option>
     <?php
 }?>
 </select>
-<input type="button" value="Drucken" onClick="printPage();" id="printer">
+<input type="button" value="Drucken" onClick="printPage();" id="printer" style="<?php if($tN > 0 && $round > 0){echo "display: none;";}?>">
 <div id="daten"></div>
