@@ -22,7 +22,15 @@ namespace chdScoring.App.WPF
             this.WindowStyle = WindowStyle.SingleBorderWindow;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             base.OnInitialized(e);
+
+            this.blazorWebView.KeyDown += this.BlazorWebView_KeyDown;
+
         }
+
+        private void BlazorWebView_KeyDown(object sender, KeyEventArgs e)
+        {
+        }
+            
         public void Reload() => this.blazorWebView.WebView.Reload();
     }
 }

@@ -14,7 +14,7 @@ using System.Text.Json;
 
 namespace chdScoring.App
 {
-    [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density | ConfigChanges.Keyboard | ConfigChanges.Keyboard | ConfigChanges.Navigation, LaunchMode = LaunchMode.SingleTop)]
+    [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden | ConfigChanges.Navigation, LaunchMode = LaunchMode.SingleTop)]
     public class MainActivity : MauiAppCompatActivity
     {
         private readonly INotificationManagerService _notificationManagerService;

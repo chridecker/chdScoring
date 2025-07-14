@@ -15,15 +15,6 @@
         <Timer CancellationToken="this._cts.Token" Dto="this._dto" Airfield="1" />
     </div>
 }
-<SideWidgetContainer>
-    <SideWidget FAClass="whistle">
-        <JudgeCompact Dto="this._dto" />
-    </SideWidget>
-    <SideWidget OnClick="this.LoadRoundResult" FAClass="ranking-star">
-        <RoundResultCompact Results="this._results" />
-    </SideWidget>
-</SideWidgetContainer>
-
 <FloatingActionNavigation FAIconActive="floppy-disk" OnClick="async () => await this.SaveRound()" TextActive="Save Round">
     @if (this._dto is not null)
     {

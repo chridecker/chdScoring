@@ -32,7 +32,6 @@ namespace chdScoring.App.UI.Pages
 
 
         private CurrentFlight _dto;
-        private IEnumerable<RoundResultDto> _results;
         private IEnumerable<string> _databaseConnections;
         private string _currentDatabaseConnection;
 
@@ -67,11 +66,6 @@ namespace chdScoring.App.UI.Pages
             }, this._cts.Token);
         }
 
-        private async Task LoadRoundResult()
-        {
-            this._results = null;
-            this._results = await this._pilotService.GetRoundResult(this._dto?.Round?.Id, this._cts.Token);
-        }
         private async Task LoadDatabaseData()
         {
             this._databaseConnections = await this._databaseService.GetDatabaseConnections();

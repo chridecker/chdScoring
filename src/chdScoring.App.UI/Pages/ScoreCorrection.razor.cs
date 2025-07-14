@@ -22,7 +22,6 @@ namespace chdScoring.App.UI.Pages
 
         [Inject] IModalHandler _modal { get; set; }
         [Inject] ISettingManager _settingManager{ get; set; }
-        [Inject] ITimerService _timerService { get; set; }
         [Inject] IPilotService _pilotService { get; set; }
         [Inject] IScoringService _scoringService { get; set; }
 
