@@ -10,6 +10,7 @@ namespace chdScoring.Contracts.Enums
         X,
         Y,
         A,
-        B
+        B,
+        Menu
     }
 }

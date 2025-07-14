@@ -7,23 +7,27 @@ using Android.Views;
 using AndroidX.Activity;
 using AndroidX.Core.View;
 using chd.UI.Base.Contracts.Interfaces.Services;
+using chdScoring.App.Services;
 using chdScoring.App.UI.Interfaces;
 using chdScoring.Contracts.Enums;
 using System.Text.Json;
 
 namespace chdScoring.App
 {
-    [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density, LaunchMode = LaunchMode.SingleTop)]
+    [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density | ConfigChanges.Keyboard | ConfigChanges.Keyboard | ConfigChanges.Navigation, LaunchMode = LaunchMode.SingleTop)]
     public class MainActivity : MauiAppCompatActivity
     {
         private readonly INotificationManagerService _notificationManagerService;
         private readonly IAppInfoService _appInfoService;
         private readonly IKeyHandler _keyHandler;
+        private readonly IToastHandler _toastHandler;
+
         public MainActivity()
         {
             this._notificationManagerService = IPlatformApplication.Current.Services.GetService<INotificationManagerService>();
             this._appInfoService = IPlatformApplication.Current.Services.GetService<IAppInfoService>();
             this._keyHandler = IPlatformApplication.Current.Services.GetService<IKeyHandler>();
+            this._toastHandler = IPlatformApplication.Current.Services.GetService<IToastHandler>();
         }
 
         protected override void OnCreate(Bundle? savedInstanceState)
@@ -48,18 +52,27 @@ namespace chdScoring.App
             this.CreateNotificationFromIntent(intent);
         }
 
+
         public override bool OnKeyDown([GeneratedEnum] Keycode keyCode, KeyEvent? e)
         {
+            this._toastHandler.ShowInfo(keyCode.ToString());
             var key = this.GetInput(keyCode, e);
             this._keyHandler.InvokeKeyInput(key);
             if (key is not EKeyInput.None)
             {
                 return true;
             }
-            else
+            return base.OnKeyDown(keyCode, e);
+        }
+        public override bool OnGenericMotionEvent(MotionEvent e)
+        {
+            if ((e.Source & InputSourceType.Joystick) == InputSourceType.Joystick)
             {
-                return base.OnKeyDown(keyCode, e);
+                float x = e.GetAxisValue(Axis.X);
+                float y = e.GetAxisValue(Axis.Y); // 0,003921509
+                // Reagiere auf Joystick
             }
+            return base.OnGenericMotionEvent(e);
         }
 
         private EKeyInput GetInput(Keycode keyCode, KeyEvent? e) => (keyCode, e.Action) switch
@@ -68,6 +81,7 @@ namespace chdScoring.App
             (Keycode.ButtonB, KeyEventActions.Down) => EKeyInput.B,
             (Keycode.ButtonX, KeyEventActions.Down) => EKeyInput.X,
             (Keycode.ButtonY, KeyEventActions.Down) => EKeyInput.Y,
+            (Keycode.Menu, KeyEventActions.Down)=> EKeyInput.Menu,
             _ => EKeyInput.None
         };
 
