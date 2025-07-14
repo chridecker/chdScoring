@@ -1,7 +1,0 @@
-﻿.device-list {
-    display: flex;
-    padding: 0.5rem;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 95%;
-}

@@ -3,9 +3,9 @@
 @using chdScoring.Contracts.Dtos
 @inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
 @page "/correction"
-@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.Correction })]
+@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.AdminId })]
 
-<ChdAuthorizeView TRightId="int" TUserId="int" Rights="new int[] { RightConstants.Correction }">
+<ChdAuthorizeView TRightId="int" TUserId="int" Rights="new int[] { RightConstants.AdminId }">
     @if (this._roundSets?.Any() ?? false)
     {
         <div class="rounds-dropdown">

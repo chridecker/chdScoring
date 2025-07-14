@@ -55,25 +55,59 @@ namespace chdScoring.App
 
         public override bool OnKeyDown([GeneratedEnum] Keycode keyCode, KeyEvent? e)
         {
-            this._toastHandler.ShowInfo(keyCode.ToString());
-            var key = this.GetInput(keyCode, e);
-            this._keyHandler.InvokeKeyInput(key);
-            if (key is not EKeyInput.None)
+            if ((e.Source & InputSourceType.Gamepad) == InputSourceType.Gamepad)
             {
-                return true;
+
             }
             return base.OnKeyDown(keyCode, e);
         }
         public override bool OnGenericMotionEvent(MotionEvent e)
         {
-            if ((e.Source & InputSourceType.Joystick) == InputSourceType.Joystick)
+            if ((e.Source & InputSourceType.Joystick) == InputSourceType.Joystick
+                && e.Action == MotionEventActions.Move)
             {
-                float x = e.GetAxisValue(Axis.X);
-                float y = e.GetAxisValue(Axis.Y); // 0,003921509
-                // Reagiere auf Joystick
+                // l r
+                var x = __getCenteredAxis(e, e.Device, Axis.X);
+                // o u
+                var y = __getCenteredAxis(e, e.Device, Axis.Y); // 0,003921509
+
+
+
+
+                return true;
             }
             return base.OnGenericMotionEvent(e);
+
+            float __getCenteredAxis(MotionEvent e, InputDevice device, Axis axis)
+            {
+                InputDevice.MotionRange range = device.GetMotionRange(axis, e.Source);
+                if (range != null)
+                {
+                    return e.GetAxisValue(axis);
+                }
+                return 0;
+            }
+            EJoystickMotionDirection __getDirection(float x, float y)
+            {
+                const float deadZone = 0.25f; // kleiner Bereich, um ungewollte Bewegungen zu ignorieren
+
+                if (Math.Abs(x) < deadZone && Math.Abs(y) < deadZone)
+                {
+                    return EJoystickMotionDirection.Center;
+                }
+
+                if (Math.Abs(x) > Math.Abs(y))
+                {
+                    return x > 0 ? EJoystickMotionDirection.Right : EJoystickMotionDirection.Left;
+                }
+                else
+                {
+                    return y > 0 ? EJoystickMotionDirection.Down : EJoystickMotionDirection.Up;
+                }
+            }
         }
+
+
 
         private EKeyInput GetInput(Keycode keyCode, KeyEvent? e) => (keyCode, e.Action) switch
         {
@@ -81,7 +115,7 @@ namespace chdScoring.App
             (Keycode.ButtonB, KeyEventActions.Down) => EKeyInput.B,
             (Keycode.ButtonX, KeyEventActions.Down) => EKeyInput.X,
             (Keycode.ButtonY, KeyEventActions.Down) => EKeyInput.Y,
-            (Keycode.Menu, KeyEventActions.Down)=> EKeyInput.Menu,
+            (Keycode.Menu, KeyEventActions.Down) => EKeyInput.Menu,
             _ => EKeyInput.None
         };
 

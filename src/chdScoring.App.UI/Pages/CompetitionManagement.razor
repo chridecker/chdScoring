@@ -6,7 +6,7 @@
 @using chdScoring.App.UI.Pages.Components.Management
 @inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
 @page "/competitionmanagement"
-@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.CompMgmt })]
+@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.AdminId })]
 
 
 @if (this._dto is not null)
@@ -48,7 +48,7 @@
                           Title="Calculate Round (TBL)"
                           CssClass="dot-btn-save large" />
 
-    <ChdAuthorizeView TRightId="int" TUserId="int" Rights="new []{RightConstants.Database}">
+    <ChdAuthorizeView TRightId="int" TUserId="int" Rights="new []{RightConstants.AdminId}">
         <FloatingActionButton FAClass="database"
                               OnClick="async () => await this.LoadDatabaseData()"
                               Title="Choose Database"

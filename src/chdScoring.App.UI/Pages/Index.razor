@@ -1,2 +1,36 @@
-@page "/"
+﻿@page "/"
+@page "/scoring"
+@page "/scoring/{JudgeId:int}"
+@using chd.UI.Base.Client.Implementations.Authorization
+@using chdScoring.App.UI.Pages.Components
+@using chdScoring.Contracts.Dtos
+@inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
 
+@if (this._judges.Any())
+{
+    <div class="judges-dropdown">
+        <DropListWrapper T="JudgeDto" Values="this._judges" Value="this._selectedJudge" ValueChanged="this.OnJudgeChanged" Context="judge">
+            @judge.Id - @judge.Name
+        </DropListWrapper>
+    </div>
+}
+
+<div class="scoring" style="zoom: @(this._zoom)%">
+    <FigurTable Maneouvres="this.Maneouvres" Current="this._current"
+                EditManeouvre="this.OpenEditScoreModal"
+                EditManeouvreEnabled="(this._isAdmin || (this._dto?.EditScoreEnabled ?? false) && (this.Judge?.EditScore ?? false))" />
+
+    @if (this._useDropPanel)
+    {
+        <DropScorePanel ScoreSaved="this.ScoreSaved"
+                        CancellationToken="this._cts.Token"
+                        Judge="this.Judge" Pilot="this._dto?.Pilot" PanelDisabled="this._panelDisabled" Round="(this._dto?.Round?.Id ?? 0)" Maneouvre="this._current" />
+    }
+    else
+    {
+        <ScorePanel ScoreSaved="this.ScoreSaved"
+                    CancellationToken="this._cts.Token"
+                    Judge="this.Judge" Pilot="this._dto?.Pilot" PanelDisabled="this._panelDisabled" Round="(this._dto?.Round?.Id ?? 0)" Maneouvre="this._current" />
+    }
+
+</div>

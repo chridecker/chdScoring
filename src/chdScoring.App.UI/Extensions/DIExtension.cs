@@ -30,6 +30,8 @@ namespace chdScoring.App.UI.Extensions
 
             services.AddMauiModalHandler();
 
+            services.AddSingleton<IKeyHandler, KeyHandler>();
+            services.AddSingleton<IJoystickHandler, JoystickHandler>();
             services.AddSingleton<IVibrationHelper, TVibrationHelper>();
             services.AddSingleton<IBatteryService, TBatteryService>();
 

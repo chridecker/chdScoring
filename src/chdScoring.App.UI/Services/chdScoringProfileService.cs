@@ -28,15 +28,7 @@ namespace chdScoring.App.UI.Services
                     return new UserPermissionDto<int>()
                     {
                         UserRightLst = new List<UserRightDto<int>> {
-                        new() { Id = RightConstants.Setting, Name = "Einstellungen" },
-                    new() { Id = RightConstants.ControlBoard, Name = "Scorboard" },
-                    new() { Id = RightConstants.CompMgmt, Name = "Comp Mgmt" },
-                        new() { Id = RightConstants.Scoring, Name = "Scoring" },
-                        new() { Id = RightConstants.UIX, Name = "UIX" },
-                        new() { Id = RightConstants.Devices, Name = "Devices" },
-                        new() { Id = RightConstants.Database, Name = "Database" },
-                        new() { Id = RightConstants.Print, Name = "Drucken" },
-                        new() { Id = RightConstants.Correction, Name = "Korrektur" },
+                        new() { Id = RightConstants.AdminId, Name = "Administrator" },
                         }
                     };
                 }
@@ -44,8 +36,7 @@ namespace chdScoring.App.UI.Services
                 {
                     return new UserPermissionDto<int>()
                     {
-                        UserRightLst = new List<UserRightDto<int>> {
-                    new() { Id = RightConstants.Scoring, Name = "Scoring" } },
+                        UserRightLst = new List<UserRightDto<int>>()
                     };
                 }
             }
@@ -78,7 +69,7 @@ namespace chdScoring.App.UI.Services
             }
             else if ((dto.Username?.ToLower() ?? "").StartsWith($"judge"))
             {
-                dto.Id = int.TryParse(dto.Username.Substring(dto.Username.Length - 1, 1), out var id) ? id : 0;
+                dto.Id = int.TryParse(dto.Username.Trim().Substring(dto.Username.Length - 1, 1), out var id) ? id : 0;
                 var judge = (await this._judgeService.GetJudges(cancellationToken)).FirstOrDefault(x => x.Id == dto.Id && x.Password == dto.Password)
                      ?? throw new Exception("Kein Judge gefunden");
                 return new csUserDto

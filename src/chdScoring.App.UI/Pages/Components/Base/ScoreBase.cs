@@ -42,8 +42,10 @@ namespace chdScoring.App.UI.Pages.Components.Base
             await this.InvokeAsync(this.StateHasChanged);
         }
 
-        protected  async Task Save()
+        protected async Task Save()
         {
+            if (this.PanelDisabled) { return; }
+
             if (this._scoreValue.HasValue)
             {
                 if (!(await this.SaveScore(this.Pilot.Id, this.Maneouvre.Id, this.Judge.Id, this.Round, this._scoreValue.Value, this.CancellationToken)))

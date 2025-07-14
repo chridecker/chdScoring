@@ -14,16 +14,34 @@ namespace chdScoring.App.UI.Pages.Components
     public partial class DropScorePanel : ScoreBase, IDisposable
     {
         [Inject] IKeyHandler _keyHandler { get; set; }
+        [Inject] IJoystickHandler _joystickHandler { get; set; }
 
         protected override Task OnInitializedAsync()
         {
             this._keyHandler.KeyInput += this._keyHandler_KeyInput;
+            this._joystickHandler.Motion += this._joystickHandler_Motion;
 
             this._scoreValue = 10;
 
 
             return base.OnInitializedAsync();
         }
+
+        private async void _joystickHandler_Motion(object? sender, EJoystickMotionDirection e)
+        {
+            if (this.PanelDisabled) { return; }
+            await this.HandleTask(e);
+        }
+
+        private Task HandleTask(EJoystickMotionDirection motion) => motion switch
+        {
+            EJoystickMotionDirection.Left => this.Calc(-1m),
+            EJoystickMotionDirection.Right => this.Calc(1m),
+            EJoystickMotionDirection.Up => this.Calc(0.5m),
+            EJoystickMotionDirection.Down => this.Calc(-0.5m),
+            _ => Task.CompletedTask,
+
+        };
 
         private async void _keyHandler_KeyInput(object? sender, EKeyInput e)
         {
@@ -74,6 +92,7 @@ namespace chdScoring.App.UI.Pages.Components
         public void Dispose()
         {
             this._keyHandler.KeyInput -= this._keyHandler_KeyInput;
+            this._joystickHandler.Motion -= this._joystickHandler_Motion;
         }
     }
 }

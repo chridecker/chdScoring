@@ -7,7 +7,7 @@ using chd.UI.Base.Contracts.Interfaces.Update;
 
 namespace chdScoring.App.UI.Pages
 {
-    public partial class Settings : PageComponentBase<int, int>
+    public partial class Settings : PageComponentBase<int,int>
     {
         [Inject] private ISettingManager _settingManager { get; set; }
         [Inject] private IUpdateService _updateService { get; set; }

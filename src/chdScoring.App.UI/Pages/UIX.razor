@@ -9,8 +9,7 @@
 @inject IModalHandler modal
 @inject IBatteryService battery
 @inject ITTSService ttsService
-
-@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.UIX })]
+@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.AdminId })]
 
 
 <div class="notifications">

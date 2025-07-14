@@ -3,7 +3,7 @@
 @using chdScoring.Contracts.Dtos
 @inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
 @page "/controlcenter"
-@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.ControlBoard })]
+@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.AdminId })]
 
 @if (this._dto is not null)
 {

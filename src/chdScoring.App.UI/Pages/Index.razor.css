@@ -1,4 +1,5 @@
 ﻿.judges-dropdown {
+    position: absolute;
     width: 100%;
     display: flex;
     flex-flow: row-reverse;
@@ -10,7 +11,6 @@
 
 .scoring {
     display: flex;
-    flex-direction: row;
     gap: 0.1rem;
     height: 100%;
     overflow: hidden;
@@ -27,9 +27,7 @@
             height: auto;
         }
 
-        .scoring ::deep div.score-panel {
-            width: 40%;
-        }
+        .scoring ::deep div.score-panel,
         .scoring ::deep div.drop-score-panel {
             width: 40%;
         }
@@ -41,14 +39,15 @@
     }
 
     .scoring {
-        flex-direction: column;
+        display: grid;
         height: auto;
         gap: 2rem;
     }
 
         .scoring ::deep div.figure-table {
-            width: 100%;
+            width: var(--main-article-available-width);
             height: 100%;
+            order: 2;
         }
 
             .scoring ::deep div.figure-table .custom-table thead tr .custom-table-head {
@@ -63,7 +62,9 @@
                 white-space: nowrap;
             }
 
+        .scoring ::deep div.drop-score-panel,
         .scoring ::deep div.score-panel {
-            width: 100%;
+            width: 97%;
+            order: 1;
         }
 }

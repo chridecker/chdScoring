@@ -9,7 +9,7 @@
     </div>
     <div class="setting">
         Scoring Zoom (@(this._scoringZoom)%):
-        <input type="range" min="50" max="200" value="@this._scoringZoom" @onchange="async (e)=>await this.UpdateScoringZoom(e)" />
+        <input type="range" min="50" max="200" value="@this._scoringZoom" @onchange="async (e) => await this.UpdateScoringZoom(e)" />
     </div>
     <div class="setting">
         Speech:
@@ -19,26 +19,27 @@
         Theme: <ThemeModeButton />
     </div>
     <div class="setting">
-        Basis Adresse:
-        <input type="text" value="@this._baseAddress" @onchange="async (e)=>await this.UpdateMainUrl(e)" />
-    </div>
-    <div class="setting">
-        Battery Limit:
-        <input type="number" step="0.5" value="@this._batteryLimit" @onchange="async (e)=>await this.UpdateBatteryLimit(e)" />
-    </div>
-    <div class="setting">
-        Auto Redirect:
-        <Selection Values="@this._redirectOptions" @bind-SelectedValue="this.SelectedAutoRedirect" />
-    </div>
-    <div class="setting">
         <SettingCheckbox SettingText="Drop Panel" Checked="@this._dropPanel" OnChange="async (e) => await UpdateDropPanel(e)" />
     </div>
-    <div class="setting">
-        <SettingCheckbox SettingText="Entwickler Modus" Checked="@this._developerMode" OnChange="async (e)=> await UpdateDeveloperMode(e)" />
-    </div>
-    <div class="setting">
-        <SettingCheckbox SettingText="Use UIX" Checked="@this._useUix" OnChange="async (e)=> await UpdateUIX(e)" />
-    </div>
-
+    <ChdAuthorizeView TRightId="int" TUserId="int" Rights="[RightConstants.AdminId]">
+        <div class="setting">
+            Basis Adresse:
+            <input type="text" value="@this._baseAddress" @onchange="async (e) => await this.UpdateMainUrl(e)" />
+        </div>
+        <div class="setting">
+            Battery Limit:
+            <input type="number" step="0.5" value="@this._batteryLimit" @onchange="async (e) => await this.UpdateBatteryLimit(e)" />
+        </div>
+        <div class="setting">
+            Auto Redirect:
+            <Selection Values="@this._redirectOptions" @bind-SelectedValue="this.SelectedAutoRedirect" />
+        </div>
+        <div class="setting">
+            <SettingCheckbox SettingText="Entwickler Modus" Checked="@this._developerMode" OnChange="async (e) => await UpdateDeveloperMode(e)" />
+        </div>
+        <div class="setting">
+            <SettingCheckbox SettingText="Use UIX" Checked="@this._useUix" OnChange="async (e) => await UpdateUIX(e)" />
+        </div>
+    </ChdAuthorizeView>
 
 </div>

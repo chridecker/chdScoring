@@ -33,8 +33,6 @@ namespace chdScoring.App.Extensions
             services.AddSingleton<IDeviceInfo>(_ => DeviceInfo.Current);
             services.AddSingleton<IAppInfo>(_ => AppInfo.Current);
 
-            services.AddSingleton<IKeyHandler, KeyHandler>();
-
             services.RemoveAll<IToastService>();
             services.AddSingleton<ToastHandler>();
             services.AddSingleton<IToastService>(sp => sp.GetRequiredService<ToastHandler>());

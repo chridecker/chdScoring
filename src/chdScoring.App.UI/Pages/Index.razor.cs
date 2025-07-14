@@ -11,41 +11,32 @@ using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace chdScoring.App.UI.Pages
 {
 
-    public partial class Scoring : PageComponentBase<int, int>, IDisposable
+    public partial class Index : PageComponentBase<int, int>, IDisposable
     {
         private CancellationTokenSource _cts = new();
         private CurrentFlight _dto;
-        private ManeouvreDto _current => this.Maneouvres.Where(x => !x.Score.HasValue).OrderBy(o => o.Id).FirstOrDefault();
-
-        private JudgeDto Judge => this._dto?.Judges.FirstOrDefault(x => x.Id == (this._judge ?? 0));
-        private bool _panelDisabled => this._dto is null || !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero ? true : this._current is null;
         private bool _scrolledManually = false;
         private int _zoom;
-        private int[] _rights => new int[] { RightConstants.CompMgmt };
-
-        private IEnumerable<ManeouvreDto> Maneouvres
-        {
-            get
-            {
-                if (this._dto?.ManeouvreLst?.TryGetValue(this._judge ?? 0, out var lst) ?? false)
-                {
-                    return lst;
-                }
-                return Enumerable.Empty<ManeouvreDto>();
-            }
-        }
 
         private int? _judge;
-
+        private bool _useDropPanel = false;
         private IEnumerable<JudgeDto> _judges = [];
         private JudgeDto _selectedJudge;
 
-        private bool _useDropPanel = false;
+        private ManeouvreDto _current => this.Maneouvres.Where(x => !x.Score.HasValue).OrderBy(o => o.Id).FirstOrDefault();
+        private JudgeDto Judge => this._dto?.Judges.FirstOrDefault(x => x.Id == (this._judge ?? 0));
+        private bool _panelDisabled => this._dto is null || !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero ? true : this._current is null;
+
+        private IEnumerable<ManeouvreDto> Maneouvres => (this._dto?.ManeouvreLst?.TryGetValue(this._judge ?? 0, out var lst) ?? false) ? lst : [];
+
+
+        private bool _isAdmin => this._profileService.HasUserRight(RightConstants.AdminId);
 
         [Inject] ITTSService _ttsService { get; set; }
         [Inject] private IModalHandler _modal { get; set; }
@@ -76,6 +67,7 @@ namespace chdScoring.App.UI.Pages
 
             this._useDropPanel = await this._settingManager.GetSettingLocal<bool>(SettingConstants.DropPanel);
 
+            this._judgeHubClient.Connected += this._judgeHubClient_Connected;
             this._scrollInfoService.OnScroll += this._scrollInfoService_OnScroll;
             this._profileService.UserChanged += this._profileService_UserChanged;
             this._batteryService.InfoChanged += this._batteryService_InfoChanged;
@@ -85,29 +77,33 @@ namespace chdScoring.App.UI.Pages
             await base.OnInitializedAsync();
         }
 
+        private async void _judgeHubClient_Connected(object? sender, EventArgs e)
+        {
+            if (this._judge.HasValue && this._judge.Value > 0
+               && this._judgeHubClient.IsConnected)
+            {
+                await this._judgeHubClient.Register(this._judge.Value, this._cts.Token);
+            }
+            this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
+        }
+
         private async void OnJudgeChanged(JudgeDto judge)
         {
             this._selectedJudge = judge;
             this._judge = judge.Id;
+
+            if (this._judge.HasValue && this._judge.Value != RightConstants.AdminId)
+            {
+                await this._judgeHubClient.Register(this._judge.Value, this._cts.Token);
+            }
+
             await this.InvokeAsync(this.StateHasChanged);
         }
 
-        private async void _batteryService_InfoChanged(object? sender, EventArgs e)
+        private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)
         {
-            var limit = await this._settingManager.GetSettingLocal<double>(SettingConstants.BatteryWarningLimit);
-            limit = limit > 0 ? limit : 15;
-
-            if (this._batteryService.BatteryLevel < limit &&
-                !(this._batteryService.Charging.HasValue && this._batteryService.Charging.Value))
-            {
-                await this._vibrationHelper.Vibrate(5, TimeSpan.FromMilliseconds(200), this._cts.Token);
-                await this._modal.ShowSmallDialog($"Batterlevel {this._batteryService.BatteryLevel}% kritisch!", EDialogButtons.OK);
-            }
-        }
-
-        private void _scrollInfoService_OnScroll(object sender, int e)
-        {
-            this._scrolledManually = true;
+            this._dto = e;
+            await this.InvokeAsync(this.StateHasChanged);
         }
 
         private async void _profileService_UserChanged(object sender, UserDto<int, int> e)
@@ -141,28 +137,46 @@ namespace chdScoring.App.UI.Pages
 
         private async Task LoadData()
         {
-            if (this._profileService.User?.Id is null)
+            if (this._profileService.User?.Id is null || this._profileService.HasUserRight(RightConstants.AdminId))
             {
-                return;
+                await this.LoadJudges();
             }
 
-            this._judges = await this._judgeService.GetJudges(this._cts.Token);
-            this._judge ??= this._profileService.User.Id;
-            if (this._judge.HasValue)
+            this._judge ??= this._profileService.User?.Id;
+            if (this._judge.HasValue && this._judge.Value > 0 && this._judges.Any())
             {
                 this._selectedJudge = this._judges.FirstOrDefault(x => x.Id == this._judge.Value);
             }
 
-            if (!this._judgeHubClient.IsConnected) { await this._judgeHubClient.StartAsync(this._cts.Token); }
-            await this._judgeHubClient.Register(this._judge.Value, this._cts.Token);
-            this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
-            this._dto = this._judgeDataCache.Data ?? await this._judgeService.GetCurrentFlight();
+            if (!this._judgeHubClient.IsConnected) { this._judgeHubClient.StartAsync(this._cts.Token); }
+
+            await this.LoadCurrentData();
         }
 
-        private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)
+        private async Task LoadJudges()
         {
-            this._dto = e;
-            await this.InvokeAsync(this.StateHasChanged);
+            try
+            {
+                this._judges = await this._judgeService.GetJudges(this._cts.Token);
+            }
+            catch (Exception ex)
+            {
+                _ = await this._modal.ShowSmallDialog(ex.Message, EDialogButtons.OK);
+            }
+        }
+
+
+        private async Task LoadCurrentData()
+        {
+            try
+            {
+                this._dto = this._judgeDataCache.Data ?? await this._judgeService.GetCurrentFlight();
+
+            }
+            catch (Exception ex)
+            {
+                _ = await this._modal.ShowSmallDialog(ex.Message, EDialogButtons.OK);
+            }
         }
 
         private async Task<bool> ScoreSaved(SaveScoreDto dto)
@@ -184,7 +198,7 @@ namespace chdScoring.App.UI.Pages
 
                 if (this._current is not null)
                 {
-                   this._ttsService.SpeakAsync(this._current.Name);
+                    this._ttsService.SpeakAsync(this._current.Name);
                 }
 
                 return true;
@@ -193,8 +207,26 @@ namespace chdScoring.App.UI.Pages
             return false;
         }
 
+        private async void _batteryService_InfoChanged(object? sender, EventArgs e)
+        {
+            var limit = await this._settingManager.GetSettingLocal<double>(SettingConstants.BatteryWarningLimit);
+            limit = limit > 0 ? limit : 15;
+
+            if (this._batteryService.BatteryLevel < limit &&
+                !(this._batteryService.Charging.HasValue && this._batteryService.Charging.Value))
+            {
+                await this._vibrationHelper.Vibrate(5, TimeSpan.FromMilliseconds(200), this._cts.Token);
+                await this._modal.ShowSmallDialog($"Batterlevel {this._batteryService.BatteryLevel}% kritisch!", EDialogButtons.OK);
+            }
+        }
+        private void _scrollInfoService_OnScroll(object sender, int e)
+        {
+            this._scrolledManually = true;
+        }
+
         public void Dispose()
         {
+            this._judgeHubClient.Connected -= this._judgeHubClient_Connected;
             this._profileService.UserChanged -= this._profileService_UserChanged;
             this._scrollInfoService.OnScroll -= this._scrollInfoService_OnScroll;
             this._batteryService.InfoChanged -= this._batteryService_InfoChanged;

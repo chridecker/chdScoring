@@ -6,15 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace chdScoring.App.Services
+namespace chdScoring.App.UI.Services
 {
     public class KeyHandler : IKeyHandler
     {
         public event EventHandler<EKeyInput> KeyInput;
 
-        public void InvokeKeyInput(EKeyInput key)
-        {
-            this.KeyInput?.Invoke(this, key);
-        }
+        public void InvokeKeyInput(EKeyInput key) => this.KeyInput?.Invoke(this, key);
     }
 }

@@ -2,7 +2,7 @@
 @using chd.UI.Base.Client.Implementations.Authorization
 @using chdScoring.App.UI.Pages.Components
 @inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
-@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.Print })]
+@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.AdminId })]
 
 
 @if (this._printDtos?.Any() ?? false)
