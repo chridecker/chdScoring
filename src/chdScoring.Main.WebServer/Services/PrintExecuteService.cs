@@ -86,10 +86,13 @@ namespace chdScoring.Main.WebServer.Services
                 await Task.Delay(500, cancellationToken);
                 await page.PdfAsync(new PagePdfOptions()
                 {
+                    Margin = new Margin()
+                    {
+                        Left = "0.5cm"
+                    },
                     Format = "A4",
                     Landscape = dto.Landscape,
                     Path = $"{FolderConstants.Folder}/{dto.Name}",
-                    Scale = 0.9f
                 });
                 await page.CloseAsync();
             }
