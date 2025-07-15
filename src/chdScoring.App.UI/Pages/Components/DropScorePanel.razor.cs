@@ -33,8 +33,8 @@ namespace chdScoring.App.UI.Pages.Components
         {
             (true,_) when (code is 109 or 189 or 38)=> this.Calc(-0.5m),
             (true,_) when (code is 107 or 187 or 40)=> this.Calc(0.5m),
-            (true,_) when (code is 37)=> this.Calc(-1m),
-            (true,_) when (code is 39)=> this.Calc(1m),
+            (true,_) when (code is 39)=> this.Calc(-1m),
+            (true,_) when (code is 37)=> this.Calc(1m),
             (true,111) => this.NotObserved(),
             (true,13) => this.Save(),
             _ => Task.CompletedTask
