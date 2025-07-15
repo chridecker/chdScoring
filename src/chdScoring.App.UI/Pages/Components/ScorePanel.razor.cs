@@ -13,7 +13,6 @@ namespace chdScoring.App.UI.Pages.Components
     {
 
         [Inject] private IJSRuntime _jsRuntime { get; set; }
-        [Inject] IKeyHandler _keyHandler { get; set; }
 
         protected override decimal? _scoreStartValue() => null;
 
@@ -21,18 +20,15 @@ namespace chdScoring.App.UI.Pages.Components
         {
             if (firstRender)
             {
-                await this._jsRuntime.InvokeVoidAsync("JsFunctions.addKeyboardListenerEvent", DotNetObjectReference.Create(_keyHandler));
+                var dotNetReference = DotNetObjectReference.Create(this);
+                await this._jsRuntime.InvokeVoidAsync("JsFunctions.addKeyboardListenerEvent", dotNetReference);
             }
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        protected override Task OnInitializedAsync()
-        {
-            this._keyHandler.KeyDown += this.KeyDown;
-            return base.OnInitializedAsync();
-        }
 
-        private async void KeyDown(object sender, KeyboardEventArgs e)
+        [JSInvokable("KeyDown")]
+        public async Task KeyDown(KeyboardEventArgs e)
         {
             var t = (int.TryParse(e.Code, out int code), code) switch
             {
@@ -94,8 +90,6 @@ namespace chdScoring.App.UI.Pages.Components
 
         public async ValueTask DisposeAsync()
         {
-            this._keyHandler.KeyDown -= this.KeyDown;
-
             await this._jsRuntime.InvokeVoidAsync("JsFunctions.removeKeyboardListenerEvent");
         }
     }
