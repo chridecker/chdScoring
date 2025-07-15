@@ -1,6 +1,8 @@
 ﻿using chdScoring.App.UI.Interfaces;
 using chdScoring.Contracts.Dtos;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,11 @@ using System.Threading.Tasks;
 
 namespace chdScoring.App.UI.Pages.Components.Base
 {
-    public abstract class ScoreBase : ComponentBase
+    public abstract class ScoreBase : ComponentBase, IAsyncDisposable
     {
         [Inject] protected IVibrationHelper _vibrationHelper { get; set; }
 
+        [Inject] protected IJSRuntime _jsRuntime { get; set; }
         [Inject] protected ITTSService _tTSService { get; set; }
 
         [Parameter] public Func<SaveScoreDto, Task<bool>> ScoreSaved { get; set; }
@@ -28,12 +31,36 @@ namespace chdScoring.App.UI.Pages.Components.Base
 
         [Parameter] public CancellationToken CancellationToken { get; set; }
 
+
+        protected DotNetObjectReference<ScoreBase> _dotNetReference;
+        protected abstract Task KeyDownHandle(KeyboardEventArgs e);
+
+
         protected string _scoreValueText => !this._scoreValue.HasValue ? "" : this._scoreValue.Value < 0 ? "NO" : this._scoreValue.Value == 0 ? "0" : this._scoreValue.Value.ToString("#.#");
         protected decimal? _scoreValue;
 
         protected abstract decimal? _scoreStartValue();
 
+
         protected string _maneouvreText => this.Maneouvre is not null ? $"#{this.Maneouvre?.Id} {this.Maneouvre?.Name}" : " ";
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                this._dotNetReference = DotNetObjectReference.Create(this);
+                await this._jsRuntime.InvokeVoidAsync("JsFunctions.addKeyboardListenerEvent", this._dotNetReference);
+            }
+            await base.OnAfterRenderAsync(firstRender);
+        }
+
+        [JSInvokable("KeyDown")]
+        public Task KeyDown(KeyboardEventArgs e) => this.KeyDownHandle(e);
+
+        protected async Task Repeat()
+        {
+            await this._tTSService.SpeakAsync(this.Maneouvre?.Name);
+        }
 
         protected async Task NotObserved()
         {
@@ -71,6 +98,15 @@ namespace chdScoring.App.UI.Pages.Components.Base
                 Value = value
             };
             return await this.ScoreSaved?.Invoke(dto);
+        }
+
+        public virtual async ValueTask DisposeAsync()
+        {
+            await this._jsRuntime.InvokeVoidAsync("JsFunctions.removeKeyboardListenerEvent");
+            if (this._dotNetReference is not null)
+            {
+                this._dotNetReference.Dispose();
+            }
         }
     }
 }

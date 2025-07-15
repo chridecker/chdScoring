@@ -21,7 +21,6 @@ namespace chdScoring.App.UI.Pages
     {
         private CancellationTokenSource _cts = new();
         private CurrentFlight _dto;
-        private bool _scrolledManually = false;
         private int _zoom;
 
         private int? _judge;
@@ -68,7 +67,6 @@ namespace chdScoring.App.UI.Pages
             this._useDropPanel = await this._settingManager.GetSettingLocal<bool>(SettingConstants.DropPanel);
 
             this._judgeHubClient.Connected += this._judgeHubClient_Connected;
-            this._scrollInfoService.OnScroll += this._scrollInfoService_OnScroll;
             this._profileService.UserChanged += this._profileService_UserChanged;
             this._batteryService.InfoChanged += this._batteryService_InfoChanged;
 
@@ -96,8 +94,9 @@ namespace chdScoring.App.UI.Pages
             {
                 await this._judgeHubClient.Register(this._judge.Value, this._cts.Token);
             }
-
+            this._judge = judge.Id;
             await this.InvokeAsync(this.StateHasChanged);
+            this._judge = judge.Id;
         }
 
         private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)
@@ -183,7 +182,6 @@ namespace chdScoring.App.UI.Pages
         {
             try
             {
-                this._scrolledManually = false;
                 await this._scoringService.SaveScore(dto, this._cts.Token);
 
                 if (this.Maneouvres.Any(x => x.Id == dto.Figur))
@@ -192,7 +190,6 @@ namespace chdScoring.App.UI.Pages
                 }
 
                 await this._scrollInfoService.ScrolltoElement("figure-table");
-                this._scrolledManually = false;
 
                 await this.InvokeAsync(this.StateHasChanged);
 
@@ -219,16 +216,12 @@ namespace chdScoring.App.UI.Pages
                 await this._modal.ShowSmallDialog($"Batterlevel {this._batteryService.BatteryLevel}% kritisch!", EDialogButtons.OK);
             }
         }
-        private void _scrollInfoService_OnScroll(object sender, int e)
-        {
-            this._scrolledManually = true;
-        }
+
 
         public void Dispose()
         {
             this._judgeHubClient.Connected -= this._judgeHubClient_Connected;
             this._profileService.UserChanged -= this._profileService_UserChanged;
-            this._scrollInfoService.OnScroll -= this._scrollInfoService_OnScroll;
             this._batteryService.InfoChanged -= this._batteryService_InfoChanged;
             this._cts.Cancel();
         }
