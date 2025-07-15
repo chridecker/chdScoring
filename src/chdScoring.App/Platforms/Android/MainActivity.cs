@@ -20,6 +20,7 @@ namespace chdScoring.App
         private readonly INotificationManagerService _notificationManagerService;
         private readonly IAppInfoService _appInfoService;
         private readonly IKeyHandler _keyHandler;
+        private readonly IJoystickHandler _joystickHandler;
         private readonly IToastHandler _toastHandler;
 
         public MainActivity()
@@ -28,6 +29,7 @@ namespace chdScoring.App
             this._appInfoService = IPlatformApplication.Current.Services.GetService<IAppInfoService>();
             this._keyHandler = IPlatformApplication.Current.Services.GetService<IKeyHandler>();
             this._toastHandler = IPlatformApplication.Current.Services.GetService<IToastHandler>();
+            this._joystickHandler = IPlatformApplication.Current.Services.GetService<IJoystickHandler>();
         }
 
         protected override void OnCreate(Bundle? savedInstanceState)
@@ -72,7 +74,7 @@ namespace chdScoring.App
                 var y = __getCenteredAxis(e, e.Device, Axis.Y); // 0,003921509
 
 
-
+                this._joystickHandler.InvokeMotion(__getDirection(x, y));
 
                 return true;
             }
@@ -89,7 +91,7 @@ namespace chdScoring.App
             }
             EJoystickMotionDirection __getDirection(float x, float y)
             {
-                const float deadZone = 0.25f; // kleiner Bereich, um ungewollte Bewegungen zu ignorieren
+                const float deadZone = 0.004f; // kleiner Bereich, um ungewollte Bewegungen zu ignorieren
 
                 if (Math.Abs(x) < deadZone && Math.Abs(y) < deadZone)
                 {

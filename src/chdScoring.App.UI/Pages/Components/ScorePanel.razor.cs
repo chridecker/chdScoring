@@ -1,16 +1,59 @@
+using chdScoring.App.UI.Interfaces;
+using chdScoring.App.UI.Pages.Components.Base;
+using chdScoring.App.UI.Services;
+using chdScoring.Contracts.Dtos;
+using DocumentFormat.OpenXml.Presentation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
-using chdScoring.Contracts.Dtos;
-using chdScoring.App.UI.Interfaces;
-using chdScoring.App.UI.Pages.Components.Base;
 
 namespace chdScoring.App.UI.Pages.Components
 {
-    public partial class ScorePanel : ScoreBase
+    public partial class ScorePanel : ScoreBase, IAsyncDisposable
     {
 
+        [Inject] private IJSRuntime _jsRuntime { get; set; }
+        [Inject] IKeyHandler _keyHandler { get; set; }
+
         protected override decimal? _scoreStartValue() => null;
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                await this._jsRuntime.InvokeVoidAsync("JsFunctions.addKeyboardListenerEvent", DotNetObjectReference.Create(_keyHandler));
+            }
+            await base.OnAfterRenderAsync(firstRender);
+        }
+
+        protected override Task OnInitializedAsync()
+        {
+            this._keyHandler.KeyDown += this.KeyDown;
+            return base.OnInitializedAsync();
+        }
+
+        private async void KeyDown(object sender, KeyboardEventArgs e)
+        {
+            var t = (int.TryParse(e.Code, out int code), code) switch
+            {
+                (true, _) when (code is 8 or 46 or 166) => this.Delete(),
+                (true, _) when (code is 96 or 48) => this.Calc(10),
+                (true, _) when (code is 97 or 49) => this.Calc(1),
+                (true, _) when (code is 98 or 50) => this.Calc(2),
+                (true, _) when (code is 99 or 51) => this.Calc(3),
+                (true, _) when (code is 100 or 52) => this.Calc(4),
+                (true, _) when (code is 101 or 53) => this.Calc(5),
+                (true, _) when (code is 102 or 54) => this.Calc(6),
+                (true, _) when (code is 103 or 55) => this.Calc(7),
+                (true, _) when (code is 104 or 56) => this.Calc(8),
+                (true, _) when (code is 105 or 57) => this.Calc(9),
+                (true, 111) => this.NotObserved(),
+                (true, 13) => this.Save(),
+                _ => Task.CompletedTask
+            };
+            await t;
+        }
+
 
         private async Task Delete()
         {
@@ -18,7 +61,7 @@ namespace chdScoring.App.UI.Pages.Components
             await this.InvokeAsync(this.StateHasChanged);
         }
 
-        
+
 
         private async Task Calc(decimal i)
         {
@@ -47,6 +90,13 @@ namespace chdScoring.App.UI.Pages.Components
             }
 
             await this.InvokeAsync(this.StateHasChanged);
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            this._keyHandler.KeyDown -= this.KeyDown;
+
+            await this._jsRuntime.InvokeVoidAsync("JsFunctions.removeKeyboardListenerEvent");
         }
     }
 }

@@ -35,10 +35,10 @@ namespace chdScoring.App.UI.Pages.Components
 
         private Task HandleTask(EJoystickMotionDirection motion) => motion switch
         {
-            EJoystickMotionDirection.Left => this.Calc(-1m),
-            EJoystickMotionDirection.Right => this.Calc(1m),
-            EJoystickMotionDirection.Up => this.Calc(0.5m),
-            EJoystickMotionDirection.Down => this.Calc(-0.5m),
+            EJoystickMotionDirection.Left => this.Calc(0.5m),
+            EJoystickMotionDirection.Right => this.Calc(-0.5m),
+            EJoystickMotionDirection.Up => this.Calc(1m),
+            EJoystickMotionDirection.Down => this.Calc(-1m),
             _ => Task.CompletedTask,
 
         };
