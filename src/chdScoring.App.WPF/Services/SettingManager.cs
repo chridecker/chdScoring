@@ -38,6 +38,6 @@ namespace chdScoring.App.WPF.Services
             return Task.CompletedTask;
         }
 
-        protected override bool _isiOS()=> true;
+        protected override bool _isiOS()=> false;
     }
 }
