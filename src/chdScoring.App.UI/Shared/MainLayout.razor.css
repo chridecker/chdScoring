@@ -23,3 +23,14 @@ article {
     article ::deep * {
         max-width: var(--main-article-available-width);
     }
+
+
+
+
+@media only screen and (orientation:portrait) {
+
+    .page.ios main article {
+        --main-article-height: calc(100vh - var(--top-header-height) - var(--chd-ios-navbar-height)) !important;
+        height: var(--main-article-height) !important;
+    }
+}
