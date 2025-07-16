@@ -18,7 +18,7 @@ main {
 
 
 .page.ios {
-    --main-article-height: calc(100vh - calc(var(--top-header-height) - 2rem)) !important;
+    --main-article-height: calc(100vh - var(--top-header-height) - 2rem - var(--chd-ios-navbar-statusheight)) !important;
     font-family: var(--chd-ios-font-family);
 }
 
@@ -29,9 +29,9 @@ main {
     }
 
 
-    .page.ios main .top-row {
-        margin-top: var(--chd-ios-navbar-height);
-    }
+        .page.ios main .top-row {
+            margin-top: var(--chd-ios-navbar-statusheight);
+        }
 
 article {
     position: relative;
@@ -48,7 +48,7 @@ article {
 @media only screen and (orientation:portrait) {
 
     .page.ios main article {
-        --main-article-height: calc(100vh - var(--top-header-height) - var(--chd-ios-navbar-height)) !important;
+        --main-article-height: calc(100vh - var(--top-header-height) - var(--chd-ios-navbar-statusheight)) !important;
         height: var(--main-article-height) !important;
     }
 }
