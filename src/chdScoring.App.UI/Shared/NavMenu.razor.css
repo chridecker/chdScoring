@@ -39,7 +39,8 @@
 
 @media only screen and (orientation: portrait) and (max-width: 400px) {
 
-    .nav-menu.ios ::deep .sidebar:not(.collapsed) .menu-bar .menu .nav-item .nav-link svg {
+    .nav-menu.ios ::deep .sidebar:not(.collapsed) .menu-bar .menu .nav-item .nav-link svg ,
+    .nav-menu.ios ::deep .sidebar:not(.collapsed) .bottom-content .nav-item .nav-link svg {
         height: 1.5rem !important;
     }
 

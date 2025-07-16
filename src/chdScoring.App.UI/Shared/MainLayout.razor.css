@@ -29,9 +29,7 @@ main {
     }
 
 
-        .page.ios main .top-row {
-            margin-top: var(--chd-ios-navbar-statusheight);
-        }
+      
 
 article {
     position: relative;
@@ -48,7 +46,7 @@ article {
 @media only screen and (orientation:portrait) {
 
     .page.ios main article {
-        --main-article-height: calc(100vh - var(--top-header-height) - var(--chd-ios-navbar-statusheight)) !important;
+        --main-article-height: calc(100vh - var(--top-header-height) - var(--chd-ios-navbar-statusheight) * 3.5) !important;
         height: var(--main-article-height) !important;
     }
 }
