@@ -9,7 +9,7 @@
 @inject IAppInfoService appInfoService
 @implements IAsyncDisposable
 
-<div class="page">
+<div class="page @(this.clientSettings.IsiOS ? "ios" : "")">
     <NavMenu Visible="true" />
 
     <main>

@@ -42,13 +42,13 @@
         --top-header-padding-tb: 0 !important;
         --top-header-height: 1.5rem !important;
     }
-    
+
 
     .sidebar.collapsed header .toggle {
         top: calc(var(--sidebar-toggle-top) - 1.2rem);
         left: 0.2rem;
     }
-
+ 
         .sidebar.collapsed header .toggle button.btn {
             background: var(--chd-main-color-theme-semi-transparent);
         }
@@ -64,7 +64,7 @@
 }
 
 
-@media (max-width: 400px) {
+@media only screen and (orientation: portrait) and (max-width: 400px) {
     * {
         --nav-toggle-height: 1.2rem !important;
         --top-header-padding-tb: 0.2 !important;
@@ -78,19 +78,27 @@
         margin-top: 0 !important;
     }
 
-        .sidebar.collapsed header .toggle {
-            top: calc(var(--sidebar-toggle-top) - 1.1rem);
-            left: 0.2rem;
-        }
+    .sidebar.collapsed header .toggle {
+        top: calc(var(--sidebar-toggle-top) - 1.1rem);
+        left: 0.2rem;
+    }
 
-            .sidebar.collapsed header .toggle button.btn {
-                background: var(--chd-main-color-theme-semi-transparent);
-            }
+    .nav-menu.ios .sidebar.collapsed header .toggle {
+        top: calc(var(--sidebar-toggle-top) - 1.1rem + var(--chd-ios-navbar-statusheight)) !important;
+    }
 
-        .sidebar:not(.collapsed) header .toggle {
-            top: calc(var(--sidebar-toggle-top) - 0.4rem);
-            left: calc(var(--sidebar-width-wide) - 0.5rem);
-        }
+    .sidebar.collapsed header .toggle button.btn {
+        background: var(--chd-main-color-theme-semi-transparent);
+    }
+
+    .sidebar:not(.collapsed) header .toggle {
+        top: calc(var(--sidebar-toggle-top) - 0.4rem);
+        left: calc(var(--sidebar-width-wide) - 0.5rem);
+    }
+
+    .nav-menu.ios .sidebar:not(.collapsed) header .toggle {
+        top: calc(var(--sidebar-toggle-top) - 0.4rem + var(--chd-ios-navbar-statusheight));
+    }
 
     .top-row:not(.auth) {
         display: flex !important;
