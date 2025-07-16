@@ -83,7 +83,7 @@
     }
 
     .nav-menu.ios .sidebar.collapsed header .toggle {
-        top: calc(var(--sidebar-toggle-top) - 1.1rem + var(--chd-ios-navbar-statusheight) * 2) !important;
+        top: calc(var(--sidebar-toggle-top) - 1.1rem + var(--chd-ios-navbar-height) ) !important;
     }
 
     .sidebar.collapsed header .toggle button.btn {
@@ -96,7 +96,7 @@
     }
 
     .nav-menu.ios .sidebar:not(.collapsed) header .toggle {
-        top: calc(var(--sidebar-toggle-top) - 0.4rem + var(--chd-ios-navbar-statusheight) * 2);
+        top: calc(var(--sidebar-toggle-top) - 0.4rem + var(--chd-ios-navbar-height) );
     }
 
     .top-row:not(.auth) {

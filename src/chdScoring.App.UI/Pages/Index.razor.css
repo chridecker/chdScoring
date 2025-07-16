@@ -62,9 +62,19 @@
                 white-space: nowrap;
             }
 
-        .scoring ::deep div.drop-score-panel,
-        .scoring ::deep div.score-panel {
-            width: 97%;
-            order: 1;
-        }
+    .page.ios {
+        --main-article-height: calc(100vh - var(--top-header-height) - var(--chd-ios-navbar-height)) !important;
+    }
+
+    .scoring ::deep div.drop-score-panel,
+    .scoring ::deep div.score-panel {
+        height: var(--main-article-height);
+        width: 97%;
+        order: 1;
+    }
+
+    .page.ios .scoring ::deep div.drop-score-panel,
+    .page.ios .scoring ::deep div.score-panel {
+        --main-article-height: calc(100vh - var(--top-header-height) - var(--chd-ios-navbar-height) - var(--chd-ios-navbar-statusheight)) !important;
+    }
 }

@@ -18,14 +18,14 @@ main {
 
 
 .page.ios {
-    --main-article-height: calc(100vh - var(--top-header-height) - 2rem - var(--chd-ios-navbar-statusheight)) !important;
+    --main-article-height: calc(100vh - var(--top-header-height) - 2rem) !important;
     font-family: var(--chd-ios-font-family);
 }
 
     .page.ios main {
         padding: 0;
         margin-top: var(--chd-ios-navbar-height);
-        height: calc(var(--main-article-height) - var(--chd-ios-navbar-statusheight) - 0.5rem);
+        height: calc(var(--main-article-height) - var(--chd-ios-navbar-available-height) - var(--chd-ios-navbar-statusheight));
     }
 
 
@@ -46,7 +46,7 @@ article {
 @media only screen and (orientation:portrait) {
 
     .page.ios main article {
-        --main-article-height: calc(100vh - var(--top-header-height) - var(--chd-ios-navbar-statusheight) * 3.5) !important;
+        --main-article-height: calc(100vh - var(--top-header-height) - var(--chd-ios-navbar-height) - var(--chd-ios-navbar-statusheight)) !important;
         height: var(--main-article-height) !important;
     }
 }
