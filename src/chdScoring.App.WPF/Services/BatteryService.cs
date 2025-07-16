@@ -61,7 +61,6 @@ namespace chdScoring.App.WPF.Services
         public void Dispose()
         {
             this._cts?.Cancel();
-            this.Dispose();
         }
     }
 }

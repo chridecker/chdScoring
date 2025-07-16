@@ -163,7 +163,6 @@ namespace chdScoring.App.UI.Pages
             var parameters = new ModalParameters
                      {
                          { nameof(SearchModalComponent<OpenRoundDto, int>.Items), pilots },
-
                          { nameof(SearchModalComponent<OpenRoundDto, int>.RenderType),typeof(NextPilotSearchItem) },
                          { nameof(SearchModalComponent<OpenRoundDto, int>.RenderParameterDict),(OpenRoundDto dto)=> SearchModalComponent<OpenRoundDto,int>.CreateRenderParameterDict(dto,((x)=> nameof(NextPilotSearchItem.Dto),(x)=>x))},
                          { nameof(SearchModalComponent<OpenRoundDto, int>.DisableOrder), true },
@@ -171,7 +170,7 @@ namespace chdScoring.App.UI.Pages
             var modalInstance = this._modal.Show<SearchModalComponent<OpenRoundDto, int>>("Nächster Pilot", parameters);
 
             var result = await modalInstance.Result;
-            if (result.Confirmed && result.Data is OpenRoundDto dto)
+            if (result.Confirmed && result.Data is OpenRoundDto dto) 
             {
                 return dto;
             }
