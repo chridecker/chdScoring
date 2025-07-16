@@ -8,16 +8,20 @@
 		<UseWPF>true</UseWPF>
 		<EnableWindowsTargeting>true</EnableWindowsTargeting>
 		<InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.Extensions.Configuration.Binder.SourceGeneration</InterceptorsPreviewNamespaces>
+		<ApplicationIcon>Assets/favicon.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="System.Management" Version="9.0.4" />
+		<PackageReference Include="System.Management" Version="9.0.4" />
 		<PackageReference Include="chd.UI.Base.WPF" Version="1.0.25191.137" />
 		<PackageReference Include="System.Speech" Version="9.0.7" />
 	</ItemGroup>
-
 	<ItemGroup>
-	  <ProjectReference Include="..\chdScoring.App.UI\chdScoring.App.UI.csproj" />
+		<Folder Include="Assets\" />
+		<Resource Include="Assets/favicon.ico" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\chdScoring.App.UI\chdScoring.App.UI.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@
         xmlns:ui="clr-namespace:chdScoring.App.UI;assembly=chdScoring.App.UI" 
           xmlns:blazor="http://schemas.microsoft.com/winfx/2006/xaml/presentation/blazor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="chdScoring" Height="450" Width="800" Icon="/Assets/favicon.ico">
     <Grid>
         <blazor:BlazorWebView x:Name="blazorWebView" HostPage="wwwroot\index.html" Services="{DynamicResource services}">
             <blazor:BlazorWebView.RootComponents>

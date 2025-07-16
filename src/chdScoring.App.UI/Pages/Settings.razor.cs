@@ -85,9 +85,8 @@ namespace chdScoring.App.UI.Pages
 
         private async Task InitSelection()
         {
-            this._redirectOptions.Add("", CreateColorOption(PageTitleConstants.Index, "house"));
+            this._redirectOptions.Add("", CreateColorOption(PageTitleConstants.Scoring, "whistle"));
             this._redirectOptions.Add("controlcenter", CreateColorOption(PageTitleConstants.ControlCenter, "calculator"));
-            this._redirectOptions.Add("scoring", CreateColorOption(PageTitleConstants.Scoring, "whistle"));
             this._redirectOptions.Add("competitionmanagement", CreateColorOption(PageTitleConstants.CompetitionManagement, "stopwatch"));
             this._selectedAutoRedirect = this._redirectOptions.FirstOrDefault(x => x.Key == this._autoRedirect);
         }
