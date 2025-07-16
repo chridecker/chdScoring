@@ -15,6 +15,24 @@ main {
         }
 
 
+
+
+.page.ios {
+    --main-article-height: calc(100vh - calc(var(--top-header-height) - 2rem)) !important;
+    font-family: var(--chd-ios-font-family);
+}
+
+    .page.ios main {
+        padding: 0;
+        margin-top: var(--chd-ios-navbar-height);
+        height: calc(var(--main-article-height) - var(--chd-ios-navbar-statusheight) - 0.5rem);
+    }
+
+
+    .page.ios main .top-row {
+        margin-top: var(--chd-ios-navbar-height);
+    }
+
 article {
     position: relative;
     padding: 0 !important;

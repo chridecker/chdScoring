@@ -2,7 +2,7 @@
 @using chdScoring.App.UI.Services;
 @inject ISettingManager settingManager
 
-<div class="nav-menu">
+<div class="nav-menu @(this.settingManager.IsiOS ? "ios" : "")">
     <NavMenuBase Visible="this.Visible">
         <ImageContent>
             <IconButton FAClass="plane" OnClick="()=>this.GoHome()" />

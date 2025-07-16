@@ -36,8 +36,18 @@
                 }
 
 
+
+@media only screen and (orientation: portrait) and (max-width: 400px) {
+
+    .nav-menu.ios ::deep .sidebar:not(.collapsed) .menu-bar {
+        margin-top: var(--chd-ios-navbar-height);
+        height: calc(var(--main-article-available-height) - var(--top-header-height)  - var(--chd-ios-navbar-height));
+    }
+}
+
+
 @container style(--sidebar-width-small: 0) {
     .nav-menu ::deep .sidebar header .image .logo {
-        display:none;
+        display: none;
     }
 }
