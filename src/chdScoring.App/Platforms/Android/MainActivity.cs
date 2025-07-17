@@ -19,17 +19,11 @@ namespace chdScoring.App
     {
         private readonly INotificationManagerService _notificationManagerService;
         private readonly IAppInfoService _appInfoService;
-        private readonly IKeyHandler _keyHandler;
-        private readonly IJoystickHandler _joystickHandler;
-        private readonly IToastHandler _toastHandler;
 
         public MainActivity()
         {
             this._notificationManagerService = IPlatformApplication.Current.Services.GetService<INotificationManagerService>();
             this._appInfoService = IPlatformApplication.Current.Services.GetService<IAppInfoService>();
-            this._keyHandler = IPlatformApplication.Current.Services.GetService<IKeyHandler>();
-            this._toastHandler = IPlatformApplication.Current.Services.GetService<IToastHandler>();
-            this._joystickHandler = IPlatformApplication.Current.Services.GetService<IJoystickHandler>();
         }
 
         protected override void OnCreate(Bundle? savedInstanceState)
@@ -53,73 +47,6 @@ namespace chdScoring.App
             base.OnNewIntent(intent);
             this.CreateNotificationFromIntent(intent);
         }
-
-
-        public override bool OnKeyDown([GeneratedEnum] Keycode keyCode, KeyEvent? e)
-        {
-            if ((e.Source & InputSourceType.Gamepad) == InputSourceType.Gamepad)
-            {
-
-            }
-            return base.OnKeyDown(keyCode, e);
-        }
-        public override bool OnGenericMotionEvent(MotionEvent e)
-        {
-            if ((e.Source & InputSourceType.Joystick) == InputSourceType.Joystick
-                && e.Action == MotionEventActions.Move)
-            {
-                // l r
-                var x = __getCenteredAxis(e, e.Device, Axis.X);
-                // o u
-                var y = __getCenteredAxis(e, e.Device, Axis.Y); // 0,003921509
-
-
-                this._joystickHandler.InvokeMotion(__getDirection(x, y));
-
-                return true;
-            }
-            return base.OnGenericMotionEvent(e);
-
-            float __getCenteredAxis(MotionEvent e, InputDevice device, Axis axis)
-            {
-                InputDevice.MotionRange range = device.GetMotionRange(axis, e.Source);
-                if (range != null)
-                {
-                    return e.GetAxisValue(axis);
-                }
-                return 0;
-            }
-            EJoystickMotionDirection __getDirection(float x, float y)
-            {
-                const float deadZone = 0.004f; // kleiner Bereich, um ungewollte Bewegungen zu ignorieren
-
-                if (Math.Abs(x) < deadZone && Math.Abs(y) < deadZone)
-                {
-                    return EJoystickMotionDirection.Center;
-                }
-
-                if (Math.Abs(x) > Math.Abs(y))
-                {
-                    return x > 0 ? EJoystickMotionDirection.Right : EJoystickMotionDirection.Left;
-                }
-                else
-                {
-                    return y > 0 ? EJoystickMotionDirection.Down : EJoystickMotionDirection.Up;
-                }
-            }
-        }
-
-
-
-        private EKeyInput GetInput(Keycode keyCode, KeyEvent? e) => (keyCode, e.Action) switch
-        {
-            (Keycode.ButtonA, KeyEventActions.Down) => EKeyInput.A,
-            (Keycode.ButtonB, KeyEventActions.Down) => EKeyInput.B,
-            (Keycode.ButtonX, KeyEventActions.Down) => EKeyInput.X,
-            (Keycode.ButtonY, KeyEventActions.Down) => EKeyInput.Y,
-            (Keycode.Menu, KeyEventActions.Down) => EKeyInput.Menu,
-            _ => EKeyInput.None
-        };
 
 
         private void CreateNotificationFromIntent(Intent intent)
