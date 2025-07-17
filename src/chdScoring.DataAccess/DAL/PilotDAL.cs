@@ -2,6 +2,7 @@
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Enums;
 using chdScoring.DataAccess.Contracts.DAL;
+using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
 using chdScoring.DataAccess.DAL.Base;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,7 @@ namespace chdScoring.DataAccess.DAL
                     Id = wl.Teilnehmer,
                     Name = wl.Pilot.FullName,
                     Club = wl.Pilot.Club,
+                    CountryId = wl.Pilot.Land,
                     Country = wl.Pilot.Country_Image.Name,
                     CountryCode = wl.Pilot.Country_Image.Short,
                     CountryImage = new ImageDto
@@ -152,6 +154,11 @@ namespace chdScoring.DataAccess.DAL
                 return await this._wettkampfLeitungRepository.SaveAsync(wl, cancellationToken);
             }
             return false;
+        }
+
+        public async Task<Country_Images> GetCountryImage(int id, CancellationToken cancellationToken)
+        {
+            return await this._countryImageRepository.FindById(id, cancellationToken);
         }
     }
 }

@@ -7,6 +7,7 @@
         public class Pilot
         {
             public const string ROUTE = "pilot";
+            public const string GET_Img= "getimg";
             public const string GET_OpenRound = "openround";
             public const string GET_RoundResult = "roundresult";
             public const string GET_FinishedRounds= "finishedrounds";

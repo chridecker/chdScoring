@@ -42,6 +42,9 @@ namespace chdScoring.Main.WebServer.Extensions
             device.MapGet(Device.GET, async ([FromServices] IDeviceService service, CancellationToken token) => await service.GetAll(token));
             device.MapGet(Device.GET_DeviceStatus, async ([FromQuery] string name, [FromServices] IDeviceService service, CancellationToken cancellation) => await service.GetByName(name, cancellation));
 
+            pilot.MapGet(EndpointConstants.Pilot.GET_Img, async (int id, IPilotService service, CancellationToken cancellationToken)
+                => await service.GetCountryImage(id, cancellationToken));
+           
             pilot.MapGet(EndpointConstants.Pilot.GET_OpenRound, async (int? round, IPilotService service, CancellationToken cancellationToken)
                 => await service.GetOpenRound(round, cancellationToken));
 

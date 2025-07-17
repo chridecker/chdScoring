@@ -21,6 +21,9 @@ namespace chdScoring.Main.Client.Clients
         public Task<RoundDataDto> GetRoundData(int pilot, int round, CancellationToken cancellationToken)
            => base.Get<RoundDataDto>(EndpointConstants.Pilot.GET_Round.SetUrlParameters((nameof(pilot), pilot), (nameof(round), round)), cancellationToken);
 
+        public Task<ImageDto> GetCountryImage(int id, CancellationToken cancellationToken)
+           => base.Get<ImageDto>(EndpointConstants.Pilot.GET_Img.SetUrlParameters((nameof(id), id)), cancellationToken);
+
 
         public Task<IEnumerable<RoundResultDto>> GetRoundResult(int? round, CancellationToken cancellationToken)
            => base.Get<IEnumerable<RoundResultDto>>(round.HasValue ? EndpointConstants.Pilot.GET_RoundResult.SetUrlParameters(("round", round)) : EndpointConstants.Pilot.GET_RoundResult, cancellationToken);

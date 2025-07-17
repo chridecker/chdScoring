@@ -81,7 +81,7 @@ namespace chdScoring.DataAccess.DAL
             var maneouvreLst = (await this._figurRepository.GetProgramToRound(round, cancellationToken)).OrderBy(o => o.Id);
             var scores = await this._wertungRepository.GetScoresToPilotInRound(wl.Teilnehmer, round, cancellationToken);
 
-            dto.Pilot = new PilotDto { Id = wl.Pilot.Id, Name = wl.Pilot.FullName };
+            dto.Pilot = new PilotDto { Id = wl.Pilot.Id, Name = wl.Pilot.FullName, CountryId = wl.Pilot.Land };
             dto.Judges = judges.Select(judge => new JudgeDto { Id = judge.Id, Name = $"{judge.Vorname} {judge.Name.ToUpper()}", EditScore = judge.EditScore });
             dto.Round = new RoundDto
             {

@@ -1,0 +1,101 @@
+﻿@page "/"
+@using chd.UI.Base.Contracts.Enum
+@using chdScoring.Contracts.Dtos
+@using chdScoring.Contracts.Interfaces
+@using chdScoring.Web.Services
+@implements IDisposable
+
+<PageTitle>Home</PageTitle>
+
+@if (this._dto?.Pilot is not null)
+{
+    <div class="timer-container">
+        <div class="pilot">
+            <div class="country">
+                @if (this._countryImg is not null && this._countryImg.Data.Length > 0)
+                {
+                    <CustomImage Class="pilot-image" Data="this._countryImg.Data" Type="@this._countryImg.Type" />
+                }
+            </div>
+            <div class="name">@this._dto.Pilot.Id - @this._dto.Pilot.Name</div>
+        </div>
+        <div class="time">
+            <div class="icon">
+                @if (!this._dto.LeftTime.HasValue)
+                {
+                    <CustomIcon Style="EIconStyle.Thin" FAClass="hand" />
+                }
+                else if (this._dto.LeftTime.Value <= this._dto.Round.Time)
+                {
+                    if (this._dto.LeftTime.Value > TimeSpan.Zero)
+                    {
+                        <CustomIcon Style="EIconStyle.Thin" FAClass="plane-departure" />
+                    }
+                    else
+                    {
+                        <CustomIcon Style="EIconStyle.Thin" FAClass="plane-slash" />
+                    }
+                }
+                else
+                {
+                    <CustomIcon Style="EIconStyle.Thin" FAClass="play-pause" />
+                }
+            </div>
+            <div class="left-time">@_leftTime</div>
+        </div>
+    </div>
+}
+<div class="pause-container">
+    <CustomIcon FAClass="circle-pause" Style="EIconStyle.Thin" />
+</div>
+
+@code {
+    [Inject] HubClient hubClient { get; set; }
+    [Inject] IPilotService pilotService { get; set; }
+
+    ImageDto _countryImg;
+    CurrentFlight _dto;
+    int? _lastImage;
+
+    private string _leftTime => (this._dto?.LeftTime.HasValue ?? false) && this._dto.LeftTime.Value <= this._dto.Round.Time ?
+            this._dto.LeftTime.Value > TimeSpan.Zero ? this._dto.LeftTime.Value.ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : this._dto.Round.Time.ToString("mm\\:ss");
+
+    private string _icon => (this._dto?.LeftTime.HasValue ?? false) && this._dto.LeftTime.Value <= this._dto.Round.Time ?
+            this._dto.LeftTime.Value > TimeSpan.Zero ? this._dto.LeftTime.Value.ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : this._dto.Round.Time.ToString("mm\\:ss");
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!this.hubClient.IsConnected)
+        {
+            await this.hubClient.StartAsync();
+        }
+        await this.hubClient.RegisterControlCenter();
+        this.hubClient.DataReceived += this.HubClient_DataReceived;
+        await base.OnInitializedAsync();
+    }
+
+    private async void HubClient_DataReceived(object? sender, CurrentFlight dto)
+    {
+        this._dto = dto;
+        if (!this._lastImage.HasValue || this._lastImage.Value != dto?.Pilot?.CountryId)
+        {
+            this._lastImage = dto?.Pilot?.CountryId;
+            if (dto?.Pilot is not null)
+            {
+                this._countryImg = await this.pilotService.GetCountryImage(dto.Pilot.CountryId);
+            }
+            else
+            {
+                _countryImg = null;
+            }
+        }
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+
+    public void Dispose()
+    {
+        this.hubClient.DataReceived -= this.HubClient_DataReceived;
+    }
+}
