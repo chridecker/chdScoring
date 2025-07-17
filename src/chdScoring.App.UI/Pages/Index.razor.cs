@@ -119,8 +119,8 @@ namespace chdScoring.App.UI.Pages
                 __builder.AddComponentParameter(2, nameof(EditScore.Dto), dto);
                 __builder.CloseComponent();
             };
-            var change = await this._modal.ShowOkCancelDialog("Wertung ändern", this._settingManager.IsiOS, frag);
-            if (change == EDialogResult.OK)
+            var change = await this._modal.ShowOkCancelDialog("Change Score", this._settingManager.IsiOS, frag);
+            if (change == EDialogResult.OK && dto.Score.HasValue)
             {
                 await this._scoringService.UpdateScore(new SaveScoreDto()
                 {

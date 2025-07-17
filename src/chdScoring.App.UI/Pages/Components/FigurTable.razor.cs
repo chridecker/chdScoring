@@ -15,5 +15,13 @@ namespace chdScoring.App.UI.Pages.Components
 
         private string _cssFigur(ManeouvreDto dto) => dto?.Id == this.Current?.Id ? " current scroll-to-element " : "";
         private string _score(ManeouvreDto dto) => dto.Score.HasValue ? dto.Score.Value.ToString("n1") : "";
+
+        private async Task ClickEditScore(ManeouvreDto dto)
+        {
+            if (this.EditManeouvreEnabled && dto.Saved && dto.Score.HasValue)
+            {
+                this.EditManeouvre?.Invoke(dto);
+            }
+        }
     }
 }

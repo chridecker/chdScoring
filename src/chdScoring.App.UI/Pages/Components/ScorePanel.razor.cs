@@ -9,7 +9,7 @@ using Microsoft.JSInterop;
 
 namespace chdScoring.App.UI.Pages.Components
 {
-    public partial class ScorePanel : ScoreBase, IAsyncDisposable
+    public partial class ScorePanel : ScoreBase
     {
         protected override decimal? _scoreStartValue() => null;
 
@@ -32,14 +32,7 @@ namespace chdScoring.App.UI.Pages.Components
         };
 
 
-        private async Task Delete()
-        {
-            this._scoreValue = null;
-            await this.InvokeAsync(this.StateHasChanged);
-        }
-
-
-
+        
         private async Task Calc(decimal i)
         {
             if (this.PanelDisabled)

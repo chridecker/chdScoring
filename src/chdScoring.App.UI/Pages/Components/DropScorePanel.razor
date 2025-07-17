@@ -1,7 +1,7 @@
 @using chdScoring.App.UI.Pages.Components.Base
 @inherits ScoreBase
 
-<div class="drop-score-panel @(this.PanelDisabled ? "panel-disabled" : "")">
+<div class="drop-score-panel">
 
     <div class="pilot">
         @this.Pilot?.Id @this.Pilot?.Name
@@ -12,12 +12,12 @@
     </div>
 
     <div class="score-pad">
-        <IconButton FAClass="eye-slash" OnClick="async (x) => await this.NotObserved()" />
-        <IconButton FAClass="0" OnClick="this.Zero" />
+        <IconButton Disabled="@this.PanelDisabled" FAClass="eye-slash" OnClick="async (x) => await this.NotObserved()" />
+        <IconButton Disabled="@this.PanelDisabled" FAClass="0" OnClick="this.Zero" />
         <div class="score-control-value">@_scoreValueText</div>
-        <IconButton FAClass="floppy-disk" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" OnClick="Save" />
-        <IconButton FAClass="plus" OnClick="async (x) => await this.Calc(0.5m)" />
-        <IconButton FAClass="minus" OnClick="async (x) => await this.Calc(-0.5m)" />
-        <IconButton FAClass="headphones" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" OnClick="this.Repeat" />
+        <IconButton Disabled="@this.PanelDisabled"  FAClass="floppy-disk" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" OnClick="Save" />
+        <IconButton Disabled="@this.PanelDisabled" FAClass="plus" OnClick="async (x) => await this.Calc(0.5m)" />
+        <IconButton Disabled="@this.PanelDisabled" FAClass="minus" OnClick="async (x) => await this.Calc(-0.5m)" />
+        <IconButton Disabled="@this.PanelDisabled" FAClass="headphones" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" OnClick="this.Repeat" />
     </div>
 </div>

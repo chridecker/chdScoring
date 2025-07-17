@@ -29,9 +29,10 @@
 
         .drop-score-panel .score-pad ::deep .btn {
             height: 4.8rem;
-            width: 4.8rem;
+            aspect-ratio: 1/1;
             border-radius: 1rem;
-            margin: auto;
+            background: var(--chd-bg-lighter);
+            padding: 0.375rem 0.75rem;
         }
 
             .drop-score-panel .score-pad ::deep .btn svg {
@@ -51,7 +52,8 @@
 
             .drop-score-panel .score-pad ::deep .btn.icon-button-floppy-disk {
                 grid-column: 3;
-                grid-row: 1;
+                grid-row: 4;
+                background: var(--chd-main-color-theme);
             }
 
             .drop-score-panel .score-pad ::deep .btn.icon-button-plus {
@@ -66,17 +68,16 @@
 
             .drop-score-panel .score-pad ::deep .btn.icon-button-headphones {
                 grid-column: 3;
-                grid-row: 4;
+                grid-row: 1;
             }
-
-        .drop-score-panel .score-pad .score-control-value {
+            .drop-score-panel .score-pad ::deep .btn.icon-button-floppy-disk.disabled {
+                background: var(--chd-bg);
+                border: 1px solid var(--chd-main-color-theme);
+            }
+                .drop-score-panel .score-pad .score-control-value {
             font-size: 4rem;
             text-align: center;
             align-content: center;
             grid-column: 1/2;
             grid-row: 2/4;
         }
-
-    .drop-score-panel.panel-disabled .score-pad ::deep .btn {
-        background-color: var(--chd-grey);
-    }

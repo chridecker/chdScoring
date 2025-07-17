@@ -1,51 +1,53 @@
 ﻿.figure-table {
+    display: flex;
+    flex-direction: column;
 }
 
-    .figure-table ::deep .custom-table {
+
+    .figure-table .ft-row {
+        padding: 0.1rem 0;
+        display: grid;
+        grid-template-columns: max-content auto max-content;
+        gap: 0.5rem 0.2rem;
+        border-bottom: 1px solid var(--chd-bg-lighter);
+        border-radius: 0.1rem;
     }
-
-        .figure-table ::deep .custom-table thead {
+        .figure-table .ft-row:last-child {
+            border-bottom:none;
+        }
+        .figure-table .ft-row:nth-child(odd) {
+            /*background: var(--chd-bg-lighter);*/
         }
 
-        .figure-table ::deep .custom-table tbody {
+        .figure-table .ft-row:active,
+        .figure-table .ft-row:hover {
+            background:var(--chd-main-color-theme-transparent);
         }
 
-            .figure-table ::deep .custom-table tbody tr {
+        .figure-table .ft-row.ft-header {
+            background: var(--chd-main-color-theme-semi-transparent);
+            display: grid;
+            grid-template-columns: max-content auto max-content;
+        }
+
+        .figure-table .ft-row.current {
+            background-color: var(--chd-green-semi-transparent);
+            border: 1px solid var(--chd-green);
+        }
+
+
+        .figure-table .ft-row .ft-content {
+            padding: 0 0.1rem;
+            display: flex;
+            gap: 0.2rem
+        }
+
+            .figure-table .ft-row .ft-content.score {
+                padding-right: 0.5rem;
+                font-size: 1.1rem;
             }
 
-                .figure-table ::deep .custom-table tbody tr td {
-                    font-size: 1rem;
+                .figure-table .ft-row .ft-content.score.saved {
+                    font-weight: bold;
+                    text-align: right;
                 }
-
-                    .figure-table ::deep .custom-table tbody tr td.custom-table-data {
-                        padding: 0 0.1rem;
-                    }
-
-                        .figure-table ::deep .custom-table tbody tr td.custom-table-data.score {
-                            padding-right: 0.5rem;
-                            font-size: 1.1rem;
-                            display: flex;
-                            flex-direction:row-reverse;
-                            gap: 0.2rem;
-                        }
-
-                            .figure-table ::deep .custom-table tbody tr td.custom-table-data.score.saved {
-                                font-weight: bold;
-                                text-align: right;
-                            }
-
-                            .figure-table ::deep .custom-table tbody tr td.custom-table-data.score .btn {
-                                height: 1.5rem;
-                                padding: 0.2rem;
-                            }
-
-                                .figure-table ::deep .custom-table tbody tr td.custom-table-data.score .btn svg {
-                                }
-
-                        .figure-table ::deep .custom-table tbody tr td.custom-table-data.current {
-                            background-color: var(--chd-green);
-                        }
-
-.light-mode .figure-table ::deep .custom-table tbody tr td.custom-table-data.current {
-    background-color: var(--chd-green-semi-transparent);
-}

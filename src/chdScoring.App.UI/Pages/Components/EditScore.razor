@@ -1,29 +1,101 @@
+@using Blazored.Modal.Services
+@using chd.UI.Base.Contracts.Enum
 @using chdScoring.Contracts.Dtos
-
+@implements IAsyncDisposable
 <div class="score-edit">
     <div class="score-title">
         #@this.Dto.Id-@this.Dto.Name
     </div>
     <div class="change-value">
-        <IconButton FAClass="minus" OnClick="()=>this.AlterScore(-1)">1</IconButton>
-        <IconButton FAClass="minus" OnClick="()=>this.AlterScore(-0.5m)">0.5</IconButton>
+        <IconButton FAClass="minus" OnClick="() => this.AlterScore(-0.5m)" />
         <div>@this._scoreValue</div>
-        <IconButton FAClass="plus" OnClick="()=>this.AlterScore(0.5m)">0.5</IconButton>
-        <IconButton FAClass="plus" OnClick="()=>this.AlterScore(1)">1</IconButton>
+        <IconButton FAClass="plus" OnClick="() => this.AlterScore(0.5m)" />
     </div>
 </div>
 
 @code {
+    [Inject] private IJSRuntime _jsRuntime { get; set; }
+
     [Parameter] public ManeouvreDto Dto { get; set; }
 
-    private string _scoreValue => this.Dto.Score.Value < 0 ? "NO" : this.Dto.Score.Value.ToString("n1");
+    [CascadingParameter] public BlazoredModalInstance Modal{ get; set; }
 
-    private void AlterScore(decimal val)
+
+    private DotNetObjectReference<EditScore> _dotNetReference;
+    private string _scoreValue => !this.Dto.Score.HasValue ? "" : this.Dto.Score.Value < 0 ? "NO" : this.Dto.Score.Value.ToString("n1");
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            this._dotNetReference = DotNetObjectReference.Create(this);
+            await this._jsRuntime.InvokeVoidAsync("JsFunctions.addKeyboardListenerEvent", this._dotNetReference);
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    [JSInvokable("KeyDown")]
+    public Task KeyDown(KeyboardEventArgs e) => (int.TryParse(e.Code, out int code), code) switch
+    {
+        (true, _) when (code is 109 or 189 or 40) => this.AlterScore(-0.5m),
+        (true, _) when (code is 107 or 187 or 38) => this.AlterScore(0.5m),
+        (true, _) when (code is 37) => this.AlterScore(-1m),
+        (true, _) when (code is 39) => this.AlterScore(1m),
+        (true, _) when (code is 8 or 46 or 166) => this.Delete(),
+        (true, _) when (code is 96 or 48) => this.Calc(0),
+        (true, _) when (code is 97 or 49) => this.Calc(1),
+        (true, _) when (code is 98 or 50) => this.Calc(2),
+        (true, _) when (code is 99 or 51) => this.Calc(3),
+        (true, _) when (code is 100 or 52) => this.Calc(4),
+        (true, _) when (code is 101 or 53) => this.Calc(5),
+        (true, _) when (code is 102 or 54) => this.Calc(6),
+        (true, _) when (code is 103 or 55) => this.Calc(7),
+        (true, _) when (code is 104 or 56) => this.Calc(8),
+        (true, _) when (code is 105 or 57) => this.Calc(9),
+        (true, 13) => this.Modal.CloseAsync(ModalResult.Ok(EDialogResult.OK)),
+        _ => Task.CompletedTask
+    };
+
+    protected async Task Delete()
+    {
+        this.Dto.Score = null;
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+    private async Task AlterScore(decimal val)
     {
         if (!(this.Dto.Score.Value + val > 10
             || this.Dto.Score.Value + val < 0))
         {
             this.Dto.Score = this.Dto.Score.Value + val;
+        }
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+    private async Task Calc(decimal i)
+    {
+        if (this.Dto.Score.HasValue && Dto.Score == 1 && i == 0)
+        {
+            this.Dto.Score = 10;
+        }
+        else if (this.Dto.Score.HasValue && Dto.Score < 10 && i == 5)
+        {
+            this.Dto.Score += 0.5m;
+        }
+        else if (!this.Dto.Score.HasValue)
+        {
+            this.Dto.Score = i;
+        }
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+    public virtual async ValueTask DisposeAsync()
+    {
+        await this._jsRuntime.InvokeVoidAsync("JsFunctions.removeKeyboardListenerEvent");
+        if (this._dotNetReference is not null)
+        {
+            this._dotNetReference.Dispose();
         }
     }
 }

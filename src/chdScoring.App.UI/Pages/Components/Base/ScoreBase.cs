@@ -32,17 +32,15 @@ namespace chdScoring.App.UI.Pages.Components.Base
         [Parameter] public CancellationToken CancellationToken { get; set; }
 
 
-        protected DotNetObjectReference<ScoreBase> _dotNetReference;
         protected abstract Task KeyDownHandle(KeyboardEventArgs e);
-
-
-        protected string _scoreValueText => !this._scoreValue.HasValue ? "" : this._scoreValue.Value < 0 ? "NO" : this._scoreValue.Value == 0 ? "0" : this._scoreValue.Value.ToString("#.#");
-        protected decimal? _scoreValue;
-
         protected abstract decimal? _scoreStartValue();
 
 
         protected string _maneouvreText => this.Maneouvre is not null ? $"#{this.Maneouvre?.Id} {this.Maneouvre?.Name}" : " ";
+        protected string _scoreValueText => !this._scoreValue.HasValue ? "-" : this._scoreValue.Value < 0 ? "NO" : this._scoreValue.Value == 0 ? "0" : this._scoreValue.Value.ToString("0.#");
+
+        protected decimal? _scoreValue;
+        protected DotNetObjectReference<ScoreBase> _dotNetReference;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -57,10 +55,14 @@ namespace chdScoring.App.UI.Pages.Components.Base
         [JSInvokable("KeyDown")]
         public Task KeyDown(KeyboardEventArgs e) => this.KeyDownHandle(e);
 
-        protected async Task Repeat()
+        protected Task Repeat() => this._tTSService.SpeakAsync(this.Maneouvre?.Name);
+
+        protected async Task Delete()
         {
-            await this._tTSService.SpeakAsync(this.Maneouvre?.Name);
+            this._scoreValue = null;
+            await this.InvokeAsync(this.StateHasChanged);
         }
+
 
         protected async Task NotObserved()
         {

@@ -9,7 +9,7 @@
     }
 
     .score-panel .maneouvre {
-        margin-top:0.1rem;
+        margin-top: 0.1rem;
         height: 4.5rem;
         font-size: 20pt;
         text-align: center;
@@ -19,64 +19,122 @@
 
     .score-panel .score-pad {
         margin-top: 0.1rem;
-        display:grid;
-        align-items:center;
-        justify-items:center;
+        display: grid;
+        align-items: center;
+        justify-items: center;
     }
 
         .score-panel .score-pad .score-control {
             width: 100%;
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-gap: 0.5rem;
-            text-align: center;
+            grid-template-columns: 3fr 1fr;
+            gap: 0.5rem;
+            margin-right: 0.5rem;
         }
 
             .score-panel .score-pad .score-control .score-control-value {
-                font-size: 30pt;
+                font-size: 2.8rem;
+                text-align: center;
             }
 
             .score-panel .score-pad .score-control .score-control-button {
-                display: grid;
-                justify-content: center;
+                justify-self: center;
+                align-self: center;
             }
 
-                .score-panel .score-pad .score-control .score-control-button ::deep .btn {
-                    height: 4rem;
-                    width: max-content;
-                    border-radius: 1rem;
-                    padding: 0.3rem;
+                .score-panel .score-pad .score-control .score-control-button ::deep button.btn {
+                    height: 2.5rem;
+                    aspect-ratio: 1/1;
+                    padding: 0.1rem 0.2rem;
+                    background: none;
                 }
 
-                    .score-panel .score-pad .score-control .score-control-button ::deep .btn svg {
+                    .score-panel .score-pad .score-control .score-control-button ::deep button.btn svg {
                         height: max-content;
-                        margin: 0.3rem;
                     }
 
         .score-panel .score-pad .score-numpad {
             margin-top: 0.5rem;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
             display: grid;
             grid-gap: 0.4rem;
-            grid-template-columns: repeat(3, 1fr);
-            width:80%;
+            grid-template-columns: repeat(4, 1fr);
         }
 
-            .score-panel .score-pad .score-numpad ::deep .btn {
+            .score-panel .score-pad .score-numpad ::deep button.btn {
                 height: 4.8rem;
-                width: 4.8rem;
+                aspect-ratio: 1/1;
                 border-radius: 1rem;
-                margin: auto;
+                background: var(--chd-bg-lighter);
+                padding: 0.375rem 0.75rem;
             }
 
-                .score-panel .score-pad .score-numpad ::deep .btn svg {
+                .score-panel .score-pad .score-numpad ::deep button.btn svg {
                     height: max-content;
-                    margin: 0.4rem;
                 }
 
-    .score-panel.panel-disabled .score-pad .score-control .score-control-button ::deep .btn {
-        background-color: var(--chd-grey);
-    }
+                .score-panel .score-pad .score-numpad ::deep button.btn.icon-button-1,
+                .score-panel .score-pad .score-numpad ::deep button.btn.icon-button-2 {
+                    grid-row: 1;
+                }
 
-    .score-panel.panel-disabled .score-pad .score-numpad ::deep .btn {
-        background-color: var(--chd-grey);
-    }
+                .score-panel .score-pad .score-numpad ::deep button.btn.icon-button-3 {
+                    grid-row: 1;
+                    grid-column: 3/5;
+                }
+
+                .score-panel .score-pad .score-numpad ::deep button.btn.icon-button-4,
+                .score-panel .score-pad .score-numpad ::deep button.btn.icon-button-5 {
+                    grid-row: 2;
+                }
+
+                .score-panel .score-pad .score-numpad ::deep button.btn.icon-button-6 {
+                    grid-row: 2;
+                    grid-column: 3/5;
+                }
+
+                .score-panel .score-pad .score-numpad ::deep button.btn.icon-button-7,
+                .score-panel .score-pad .score-numpad ::deep button.btn.icon-button-8 {
+                    grid-row: 3;
+                }
+
+                .score-panel .score-pad .score-numpad ::deep button.btn.icon-button-9 {
+                    grid-row: 3;
+                    grid-column: 3/5;
+                }
+
+                .score-panel .score-pad .score-numpad ::deep button.btn.icon-button-comma {
+                    grid-row: 4;
+                    grid-column: 3;
+                }
+
+                .score-panel .score-pad .score-numpad ::deep button.btn.icon-button-0 {
+                    grid-row: 4;
+                    grid-column: 2/4;
+                }
+
+                .score-panel .score-pad .score-numpad ::deep button.btn.icon-button-floppy-disk {
+                    grid-column: 4;
+                    grid-row: 4;
+                    background: var(--chd-main-color-theme);
+                }
+
+                .score-panel .score-pad .score-numpad ::deep button.btn.icon-button-eye-slash {
+                    grid-column: 4;
+                    grid-row: 3;
+                }
+
+                .score-panel .score-pad .score-numpad ::deep button.btn.icon-button-floppy-disk.disabled {
+                    background:var(--chd-bg);
+                    border:1px solid var(--chd-main-color-theme);
+                }
+
+}
+
+.score-panel.disabled .score-pad .score-control .score-control-button ::deep .btn {
+}
+
+.score-panel.disabled .score-pad .score-numpad ::deep .btn {
+}
