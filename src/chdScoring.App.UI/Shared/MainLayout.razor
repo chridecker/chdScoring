@@ -7,7 +7,7 @@
 @inject IchdScoringProfileService profileService
 @inject IHandleUserIdLogin<int> handleUserIdLogin
 @inject IAppInfoService appInfoService
-@implements IAsyncDisposable
+@implements IDisposable
 
 <div class="page @(this.clientSettings.IsiOS ? "ios" : "")">
     <NavMenu Visible="true" />
@@ -64,7 +64,7 @@
         }
         this.clientSettings.CloseApp();
     }
-    public async ValueTask DisposeAsync()
+    public void Dispose()
     {
         this.appInfoService.ExitApplication -= this.ExitApplication;
         this._cts.Cancel();

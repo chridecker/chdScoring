@@ -19,28 +19,24 @@ namespace chdScoring.App.UI.Services
 
         public csUserDto? CsUser => this.User is csUserDto cs ? cs : null;
 
-        protected override async Task<UserPermissionDto<int>> GetPermissions(UserDto<int, int> dto, CancellationToken cancellationToken = default)
+        protected override Task<UserPermissionDto<int>> GetPermissions(UserDto<int, int> dto, CancellationToken cancellationToken = default)
         {
+            var perm = new UserPermissionDto<int>();
             if (dto is csUserDto user)
             {
                 if (user.Role == EUserRole.Admin)
                 {
-                    return new UserPermissionDto<int>()
-                    {
-                        UserRightLst = new List<UserRightDto<int>> {
+                    perm.UserRightLst = new List<UserRightDto<int>> {
                         new() { Id = RightConstants.AdminId, Name = "Administrator" },
-                        }
-                    };
+                        };
                 }
                 else if (user.Role == EUserRole.Judge)
                 {
-                    return new UserPermissionDto<int>()
-                    {
-                        UserRightLst = new List<UserRightDto<int>>()
-                    };
+                    perm.UserRightLst = new List<UserRightDto<int>>();
+                    
                 }
             }
-            return new UserPermissionDto<int>();
+            return Task.FromResult(perm);
         }
 
         protected override async Task<UserDto<int, int>> GetUser(LoginDto<int> dto, CancellationToken cancellationToken = default)

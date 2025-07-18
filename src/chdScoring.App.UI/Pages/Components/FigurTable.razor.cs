@@ -20,7 +20,7 @@ namespace chdScoring.App.UI.Pages.Components
         {
             if (this.EditManeouvreEnabled && dto.Saved && dto.Score.HasValue)
             {
-                this.EditManeouvre?.Invoke(dto);
+                await this.EditManeouvre?.Invoke(dto);
             }
         }
     }

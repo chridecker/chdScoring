@@ -13,6 +13,7 @@ using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Components;
+using static chdScoring.Contracts.Constants.EndpointConstants;
 
 namespace chdScoring.App.UI.Pages
 {
@@ -28,12 +29,16 @@ namespace chdScoring.App.UI.Pages
         [Inject] ITimerService _timerService { get; set; }
         [Inject] IDatabaseService _databaseService { get; set; }
         [Inject] IPrintHelper _printHelper { get; set; }
+        [Inject] IPrintService _printService { get; set; }
         [Inject] ISettingManager _settingManager { get; set; }
 
 
         private CurrentFlight _dto;
         private IEnumerable<string> _databaseConnections;
         private string _currentDatabaseConnection;
+        private bool _autoPrint;
+
+        private string _autoPrintIco => this._autoPrint ? "print-slash" : "bolt-auto";
 
         protected override async Task OnInitializedAsync()
         {
@@ -49,9 +54,15 @@ namespace chdScoring.App.UI.Pages
 
             this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
 
+            this._autoPrint = await this._printService.GetAutoPrintSetting(this._cts.Token);
+
             await base.OnInitializedAsync();
         }
-
+        private async Task ChangeAutoPrint()
+        {
+            this._autoPrint = await this._printService.ChangeAutoPrint(this._cts.Token);
+            await this.InvokeAsync(this.StateHasChanged);
+        }
         private async Task SetBreak()
         {
             if ((this._dto?.LeftTime.HasValue ?? false)
@@ -96,7 +107,7 @@ namespace chdScoring.App.UI.Pages
             if (this._dto.ManeouvreLst.Values.Any(a => a.Any(aa => !aa.Score.HasValue)) || !avgScore.HasValue)
             {
                 await this._vibrationHelper.Vibrate(3, TimeSpan.FromMilliseconds(400), this._cts.Token);
-                if (await this._modal.ShowOkCancelDialog("Nicht alle Judges habe alle Figuren gewertet!",this._settingManager.IsiOS) != EDialogResult.OK)
+                if (await this._modal.ShowOkCancelDialog("Nicht alle Judges habe alle Figuren gewertet!", this._settingManager.IsiOS) != EDialogResult.OK)
                 {
                     return;
                 }
@@ -125,6 +136,44 @@ namespace chdScoring.App.UI.Pages
             }
         }
 
+
+        private async Task PrintPdf()
+        {
+            var printDtos = await this._printService.GetPdfLst(this._cts.Token);
+            if (!printDtos.Any()) { return; }
+            var parameters = new ModalParameters
+                     {
+                         { nameof(SearchModalComponent<PrintPdfDto, int>.Items), printDtos.OrderBy(o=>o.CreationTime).ToList() },
+                         { nameof(SearchModalComponent<PrintPdfDto, int>.RenderType),typeof(PrintPdfComponent)},
+                         { nameof(SearchModalComponent<PrintPdfDto, int>.RenderParameterDict),(PrintPdfDto dto)=> SearchModalComponent<PrintPdfDto,int>.CreateRenderParameterDict(dto,((x)=> nameof(PrintPdfComponent.Dto),(x)=>x),((x)=> nameof(PrintPdfComponent.Token),(x)=> this._cts.Token))},
+                        { nameof(SearchModalComponent<PrintPdfDto, int>.DisableOrder), true },
+                     };
+            var modalInstance = this._modal.Show<SearchModalComponent<PrintPdfDto, int>>("PDF erstellen", parameters);
+
+            var result = await modalInstance.Result;
+            if (result.Confirmed && result.Data is PrintPdfDto dto)
+            {
+                _ = await this._printService.AddToPrintCache(dto, this._cts.Token);
+            }
+        }
+
+        private async Task CreatePdf()
+        {
+            var finishedRounds = await this._pilotService.GetFinishedFlights();
+            var parameters = new ModalParameters
+                     {
+                         { nameof(SearchModalComponent<FinishedRoundDto, int>.Items), finishedRounds.OrderBy(o=>o.Pilot.Name).ThenBy(o=>o.Round.Id).ThenBy(o => o.Start).ToList() },
+                         { nameof(SearchModalComponent<FinishedRoundDto, int>.Name),(FinishedRoundDto r)=> $"{r.Pilot.Name}, Runde {r.Round.Id}" },
+                         { nameof(SearchModalComponent<FinishedRoundDto, int>.DisableOrder), true },
+                     };
+            var modalInstance = this._modal.Show<SearchModalComponent<FinishedRoundDto, int>>("PDF erstellen", parameters);
+
+            var result = await modalInstance.Result;
+            if (result.Confirmed && result.Data is FinishedRoundDto dto)
+            {
+                await this._printHelper.PrintRound(dto.Pilot.Id, dto.Round.Id);
+            }
+        }
         private async Task CalculateTBL()
         {
             var pilots = await this._pilotService.GetOpenRound(this._dto?.Round?.Id, this._cts.Token);
@@ -170,7 +219,7 @@ namespace chdScoring.App.UI.Pages
             var modalInstance = this._modal.Show<SearchModalComponent<OpenRoundDto, int>>("Nächster Pilot", parameters);
 
             var result = await modalInstance.Result;
-            if (result.Confirmed && result.Data is OpenRoundDto dto) 
+            if (result.Confirmed && result.Data is OpenRoundDto dto)
             {
                 return dto;
             }

@@ -1,13 +1,14 @@
-using Microsoft.AspNetCore.Components;
-using chdScoring.App.UI.Constants;
 using chd.UI.Base.Components.Base;
 using chd.UI.Base.Components.General;
-using chdScoring.App.UI.Interfaces;
 using chd.UI.Base.Contracts.Interfaces.Update;
+using chdScoring.App.UI.Constants;
+using chdScoring.App.UI.Interfaces;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.AspNetCore.Components;
 
 namespace chdScoring.App.UI.Pages
 {
-    public partial class Settings : PageComponentBase<int,int>
+    public partial class Settings : PageComponentBase<int, int>
     {
         [Inject] private ISettingManager _settingManager { get; set; }
         [Inject] private IUpdateService _updateService { get; set; }
@@ -67,7 +68,7 @@ namespace chdScoring.App.UI.Pages
             this._useUix = await this._settingManager.GetSettingLocal<bool>(SettingConstants.Use_UIX);
 
             await this.InitSpeechLanguages();
-            await this.InitSelection();
+            this.InitSelection();
 
             await base.OnInitializedAsync();
         }
@@ -83,7 +84,7 @@ namespace chdScoring.App.UI.Pages
         }
 
 
-        private async Task InitSelection()
+        private void InitSelection()
         {
             this._redirectOptions.Add("", CreateColorOption(PageTitleConstants.Scoring, "whistle"));
             this._redirectOptions.Add("controlcenter", CreateColorOption(PageTitleConstants.ControlCenter, "calculator"));
@@ -101,20 +102,27 @@ namespace chdScoring.App.UI.Pages
 
         private async Task UpdateMainUrl(ChangeEventArgs e)
         {
-            await this._settingManager.UpdateMainUrl((string)e.Value);
-            this._settingManager.SetNativSetting(SettingConstants.BaseAddress, (string)e.Value);
+            if (e.Value is not string val) { return; }
+            await this._settingManager.UpdateMainUrl(val);
+            this._settingManager.SetNativSetting(SettingConstants.BaseAddress, val);
             await this.InvokeAsync(this.StateHasChanged);
         }
 
         private async Task UpdateBatteryLimit(ChangeEventArgs e)
         {
-            await this._settingManager.StoreSettingLocal<double>(SettingConstants.BatteryWarningLimit, double.Parse(e.Value.ToString()));
+            if (e.Value is not string val || !double.TryParse(val, out var limit)) { return; }
+            await this._settingManager.StoreSettingLocal<double>(SettingConstants.BatteryWarningLimit, limit);
             await this.InvokeAsync(this.StateHasChanged);
         }
 
         private async Task UpdateScoringZoom(ChangeEventArgs e)
         {
-            this._scoringZoom = int.TryParse(e.Value.ToString(), out var val) ? val : 100;
+            if (e.Value is not string val || !int.TryParse(val, out var zoom))
+            {
+                this._scoringZoom = 100;
+                return;
+            }
+            this._scoringZoom = zoom;
             await this._settingManager.StoreSettingLocal<int>(SettingConstants.ScoringZoom, this._scoringZoom);
             await this.InvokeAsync(this.StateHasChanged);
         }
@@ -134,7 +142,7 @@ namespace chdScoring.App.UI.Pages
             await this._settingManager.StoreSettingLocal<bool>(SettingConstants.DeveloperMode, (bool)e.Value);
             await this.InvokeAsync(this.StateHasChanged);
         }
-        
+
         private async Task UpdateDropPanel(ChangeEventArgs e)
         {
             await this._settingManager.StoreSettingLocal<bool>(SettingConstants.DropPanel, (bool)e.Value);

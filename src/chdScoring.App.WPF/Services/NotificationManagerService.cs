@@ -13,8 +13,6 @@ namespace chdScoring.App.WPF.Services
 
         public const string IdKey = "intentid";
 
-        private int messageId = 0;
-
         public NotificationManagerService()
         {
         }
