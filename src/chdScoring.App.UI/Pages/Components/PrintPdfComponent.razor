@@ -9,8 +9,7 @@
 @if (this.Dto is not null)
 {
     <div class="print-file-container">
-        <div class="print-file-logo">
-            <IconButton ButtonStyle="EButtonStyle.Primary" FAClass="print" OnClick="async () => await this.Print()" />
+        <div class="print-file-logo" @onclick:stopPropagation>
             <IconButton ButtonStyle="EButtonStyle.Cancel" FAClass="trash" OnClick="async () => await this.Delete()" />
         </div>
         <div class="print-file-name">@Dto.Name</div>
@@ -21,18 +20,11 @@
 @code {
     [Parameter] public PrintPdfDto Dto { get; set; }
     [Parameter] public CancellationToken Token { get; set; }
-    [Parameter] public EventCallback PrintSucceded { get; set; }
 
     [Inject] private IModalHandler _modal { get; set; }
     [Inject] private ISettingManager _settingManager { get; set; }
 
-    private async Task Print()
-    {
-        if (await this.printService.AddToPrintCache(this.Dto, this.Token))
-        {
-            await this.PrintSucceded.InvokeAsync();
-        }
-    }
+    [CascadingParameter] public BlazoredModalInstance Modal { get; set; }
 
     private async Task Delete()
     {
@@ -40,7 +32,7 @@
         if (yes == EDialogResult.Yes
             && await this.printService.DeleteFileAsync(this.Dto, this.Token))
         {
-            await this.PrintSucceded.InvokeAsync();
+            await this.Modal.CancelAsync();
         }
     }
 }

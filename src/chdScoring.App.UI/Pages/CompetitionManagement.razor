@@ -39,11 +39,24 @@
                           Title="Calculate Round (TBL)"
                           CssClass="dot-btn-save large" />
 
-    <ChdAuthorizeView TRightId="int" TUserId="int" Rights="new []{RightConstants.AdminId}">
-        <FloatingActionButton FAClass="database"
-                              OnClick="async () => await this.LoadDatabaseData()"
-                              Title="Choose Database"
-                              CssClass="dot-btn-save large" />
-    </ChdAuthorizeView>
+    <FloatingActionButton FAClass="file-pdf"
+                          OnClick="async () => await this.CreatePdf()"
+                          Title="Create Pdf"
+                          CssClass="dot-btn-save large" />
+
+    <FloatingActionButton FAClass="print"
+                          OnClick="async () => await this.PrintPdf()"
+                          Title="Print Pdf"
+                          CssClass="dot-btn-save large" />
+
+    <FloatingActionButton FAClass="@_autoPrintIco"
+                          OnClick="async () => await this.ChangeAutoPrint()"
+                          Title="Auto Print"
+                          CssClass="dot-btn-save large" />
+
+    <FloatingActionButton FAClass="database"
+                          OnClick="async () => await this.LoadDatabaseData()"
+                          Title="Choose Database"
+                          CssClass="dot-btn-save large" />
 </FloatingActionNavigation>
 
