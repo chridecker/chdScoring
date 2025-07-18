@@ -2,8 +2,9 @@
 @using chd.UI.Base.Contracts.Enum
 @using chdScoring.Contracts.Dtos
 @using chdScoring.Contracts.Interfaces
+@using chdScoring.Web.Components.Pages.Base
 @using chdScoring.Web.Services
-@implements IDisposable
+@inherits HubPage
 
 <PageTitle>Home</PageTitle>
 
@@ -45,57 +46,13 @@
         </div>
     </div>
 }
-<div class="pause-container">
-    <CustomIcon FAClass="circle-pause" Style="EIconStyle.Thin" />
-</div>
+else
+{
+    <div class="pause-container">
+        <CustomIcon FAClass="circle-pause" Style="EIconStyle.Regular" />
+    </div>
+}
 
 @code {
-    [Inject] HubClient hubClient { get; set; }
-    [Inject] IPilotService pilotService { get; set; }
 
-    ImageDto _countryImg;
-    CurrentFlight _dto;
-    int? _lastImage;
-
-    private string _leftTime => (this._dto?.LeftTime.HasValue ?? false) && this._dto.LeftTime.Value <= this._dto.Round.Time ?
-            this._dto.LeftTime.Value > TimeSpan.Zero ? this._dto.LeftTime.Value.ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : this._dto.Round.Time.ToString("mm\\:ss");
-
-    private string _icon => (this._dto?.LeftTime.HasValue ?? false) && this._dto.LeftTime.Value <= this._dto.Round.Time ?
-            this._dto.LeftTime.Value > TimeSpan.Zero ? this._dto.LeftTime.Value.ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : this._dto.Round.Time.ToString("mm\\:ss");
-
-
-    protected override async Task OnInitializedAsync()
-    {
-        if (!this.hubClient.IsConnected)
-        {
-            await this.hubClient.StartAsync();
-        }
-        await this.hubClient.RegisterControlCenter();
-        this.hubClient.DataReceived += this.HubClient_DataReceived;
-        await base.OnInitializedAsync();
-    }
-
-    private async void HubClient_DataReceived(object? sender, CurrentFlight dto)
-    {
-        this._dto = dto;
-        if (!this._lastImage.HasValue || this._lastImage.Value != dto?.Pilot?.CountryId)
-        {
-            this._lastImage = dto?.Pilot?.CountryId;
-            if (dto?.Pilot is not null)
-            {
-                this._countryImg = await this.pilotService.GetCountryImage(dto.Pilot.CountryId);
-            }
-            else
-            {
-                _countryImg = null;
-            }
-        }
-        await this.InvokeAsync(this.StateHasChanged);
-    }
-
-
-    public void Dispose()
-    {
-        this.hubClient.DataReceived -= this.HubClient_DataReceived;
-    }
 }
