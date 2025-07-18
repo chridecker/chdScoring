@@ -64,7 +64,7 @@ namespace chdScoring.Main.WebServer.Services
                 }
                 catch (Exception ex)
                 {
-                    this._logger.Log(ex.Message);
+                    await this._logger.Log(ex.Message);
                 }
 
                 await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
