@@ -14,5 +14,7 @@ namespace chdScoring.Contracts.Interfaces
         Task<bool> UnLoadPilot(LoadPilotDto dto, CancellationToken cancellationToken);
         Task<RoundDataDto> GetRoundData(int pilot, int round, CancellationToken cancellationToken);
         Task<ImageDto> GetCountryImage(int id, CancellationToken cancellationToken = default);
+        Task<IEnumerable<PilotDto>> GetAllPilots(CancellationToken cancellationToken = default);
+        Task<bool> SetStartnumber(SetStartNumberDto dto, CancellationToken cancellationToken = default);
     }
 }

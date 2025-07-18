@@ -30,5 +30,11 @@ namespace chdScoring.Main.Client.Clients
 
         public Task<bool> SetPilotActive(LoadPilotDto dto, CancellationToken cancellationToken) => base.Post<bool>(EndpointConstants.Pilot.POST_SetPilotActive, dto, cancellationToken);
         public Task<bool> UnLoadPilot(LoadPilotDto dto, CancellationToken cancellationToken) => base.Post<bool>(EndpointConstants.Pilot.POST_UnloadPilot, dto, cancellationToken);
+
+        public Task<IEnumerable<PilotDto>> GetAllPilots(CancellationToken cancellationToken = default)
+        => base.Get<IEnumerable<PilotDto>>(EndpointConstants.Pilot.GET_All, cancellationToken);
+
+        public Task<bool> SetStartnumber(SetStartNumberDto dto, CancellationToken cancellationToken = default)
+        => this.Post<bool>(EndpointConstants.Pilot.POST_SetStart, dto, cancellationToken);
     }
 }

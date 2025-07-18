@@ -44,7 +44,7 @@ namespace chdScoring.Main.WebServer.Extensions
 
             pilot.MapGet(EndpointConstants.Pilot.GET_Img, async (int id, IPilotService service, CancellationToken cancellationToken)
                 => await service.GetCountryImage(id, cancellationToken));
-           
+
             pilot.MapGet(EndpointConstants.Pilot.GET_OpenRound, async (int? round, IPilotService service, CancellationToken cancellationToken)
                 => await service.GetOpenRound(round, cancellationToken));
 
@@ -57,11 +57,17 @@ namespace chdScoring.Main.WebServer.Extensions
             pilot.MapGet(EndpointConstants.Pilot.GET_Round, async (int pilot, int round, IPilotService service, CancellationToken cancellationToken)
                 => await service.GetRoundData(pilot, round, cancellationToken));
 
+            pilot.MapGet(EndpointConstants.Pilot.GET_All, async (IPilotService service, CancellationToken cancellationToken)
+                => await service.GetAllPilots(cancellationToken));
+
             pilot.MapPost(EndpointConstants.Pilot.POST_SetPilotActive, async (LoadPilotDto dto, IPilotService service, CancellationToken cancellationToken)
                 => await service.SetPilotActive(dto, cancellationToken));
 
             pilot.MapPost(EndpointConstants.Pilot.POST_UnloadPilot, async (LoadPilotDto dto, IPilotService service, CancellationToken cancellationToken)
                 => await service.UnLoadPilot(dto, cancellationToken));
+
+            pilot.MapPost(EndpointConstants.Pilot.POST_SetStart, async (SetStartNumberDto dto, IPilotService service, CancellationToken cancellationToken)
+                => await service.SetStartnumber(dto, cancellationToken));
 
             control.MapPost(EndpointConstants.Control.POST_TIMER, async (TimerOperationDto dto, ITimerService service, CancellationToken cancellationToken)
                 => await service.HandleOperation(dto, cancellationToken));

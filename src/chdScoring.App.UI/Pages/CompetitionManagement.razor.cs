@@ -63,6 +63,39 @@ namespace chdScoring.App.UI.Pages
             this._autoPrint = await this._printService.ChangeAutoPrint(this._cts.Token);
             await this.InvokeAsync(this.StateHasChanged);
         }
+
+        private async Task ChangeStartNumber()
+        {
+            var pilots = await this._pilotService.GetAllPilots(this._cts.Token);
+            if (!pilots.Any()) { return; }
+            var parameters = new ModalParameters
+                     {
+                         { nameof(SearchModalComponent<OpenRoundDto, int>.Items), pilots.Select(s => new OpenRoundDto()
+                         {
+                             StartNumber = 0,
+                             Pilot = s,
+                             Round = 0
+                         }) },
+                         { nameof(SearchModalComponent<OpenRoundDto, int>.RenderType),typeof(NextPilotSearchItem) },
+                         { nameof(SearchModalComponent<OpenRoundDto, int>.RenderParameterDict),(OpenRoundDto dto)=> SearchModalComponent<OpenRoundDto,int>.CreateRenderParameterDict(dto,((x)=> nameof(NextPilotSearchItem.Dto),(x)=>x))},
+                         { nameof(SearchModalComponent<OpenRoundDto, int>.DisableOrder), true },
+                     };
+            var modalInstance = this._modal.Show<SearchModalComponent<OpenRoundDto, int>>("Pilot Startnummer ändern", parameters);
+
+            var result = await modalInstance.Result;
+            if (result.Confirmed && result.Data is OpenRoundDto dto)
+            {
+                var val = await this._modal.ShowSmallInputDialog($"Welche Nummer?", this._settingManager.IsiOS, "Neue Startnummer... ");
+                if (int.TryParse(val, out int id))
+                {
+                    await this._pilotService.SetStartnumber(new()
+                    {
+                        NewStartId = id,
+                        Pilot = dto.Pilot
+                    });
+                }
+            }
+        }
         private async Task SetBreak()
         {
             if ((this._dto?.LeftTime.HasValue ?? false)

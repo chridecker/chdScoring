@@ -160,5 +160,31 @@ namespace chdScoring.DataAccess.DAL
         {
             return await this._countryImageRepository.FindById(id, cancellationToken);
         }
+
+        public async Task<IEnumerable<PilotDto>> GetAllPilots(CancellationToken cancellationToken = default)
+        {
+            var lst = await this._teilnehmerRepository.Where(x => true).
+                Include(i => i.Country_Image).ToListAsync(cancellationToken);
+
+            return lst.Select(s => new PilotDto()
+            {
+                Id = s.Id,
+                Name = s.FullName,
+                Country = s.Country_Image.Name,
+                CountryCode = s.Country_Image.Short,
+                CountryImage = new ImageDto
+                {
+                    Data = s.Country_Image.Img_Data,
+                    Type = s.Country_Image.Img_Type
+                }
+            });
+        }
+
+        public async Task<bool> ChangeStartNumber(PilotDto pilot, int number, CancellationToken cancellationToken = default)
+        {
+            var teilnehmer = await this._teilnehmerRepository.FindById(pilot.Id, cancellationToken);
+            teilnehmer.Id = number;
+            return await this._teilnehmerRepository.SaveAsync(teilnehmer, cancellationToken);
+        }
     }
 }

@@ -14,6 +14,8 @@
             public const string POST_SetPilotActive = "setpilotactive";
             public const string POST_UnloadPilot = "unloadpilot";
             public const string GET_Round = "round";
+            public const string GET_All = "getall";
+            public const string POST_SetStart = "SetStart";
         }
         public class Judge
         {
