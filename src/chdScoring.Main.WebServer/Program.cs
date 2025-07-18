@@ -12,8 +12,13 @@ using chdScoring.Main.WebServer.Extensions;
 using chd.Api.Base.Extensions;
 using chdScoring.BusinessLogic.Hubs;
 
+
+//Microsoft.Playwright.Program.Main(["install"]);
+//return;
 Thread.CurrentThread.SetApartmentState(ApartmentState.Unknown);
 Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
+
+
 
 var path = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
 
