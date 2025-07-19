@@ -2,7 +2,7 @@
 .control-center {
     padding: 0.2rem;
     display: flex;
-    gap: 2rem;
+    gap: 0rem;
     flex-direction: column;
     --judge-count: 0;
 }
@@ -11,14 +11,14 @@
         display: grid;
         grid-template-columns: repeat(2,max-content) auto;
         gap: 1rem;
-        font-size: 6rem;
+        font-size: 4.5rem;
     }
 
         .control-center .pilot-data .country {
         }
 
             .control-center .pilot-data .country ::deep .custom-image.pilot-image img {
-                height: 3rem;
+                height: 7rem;
             }
 
         .control-center .pilot-data .name {
@@ -28,12 +28,13 @@
             text-align: right;
             align-content: center;
             margin-right: 2rem;
+            font-size: 6rem;
         }
 
     .control-center .maneouvres {
         display: flex;
         flex-direction: column;
-        gap: 0.3rem;
+        gap: 0.1rem;
     }
 
         .control-center .maneouvres .maneouvre {

@@ -8,22 +8,27 @@
     .timer-container .pilot {
         padding: 0 1rem;
         display: flex;
-        gap: 4rem;
         border-bottom: 1px solid white;
         background: var(--chd-main-color-theme-semi-transparent);
         height: 50vh;
         align-items: center;
+        font-size: 8rem;
+        gap: 6rem;
     }
 
         .timer-container .pilot .country {
         }
 
             .timer-container .pilot .country ::deep .custom-image.pilot-image img {
-                height: 5rem;
+                height: 14rem;
             }
 
-        .timer-container .pilot .name {
+        .timer-container .pilot .number {
             font-size: 10rem;
+        }
+
+        .timer-container .pilot .name {
+            line-height:1;
         }
 
     .timer-container .time {
@@ -36,11 +41,11 @@
         .timer-container .time .icon {
             border: 0.5rem solid;
             padding: 5rem;
-            border-radius:50%;
+            border-radius: 50%;
         }
 
             .timer-container .time .icon ::deep svg {
-                height: 17rem;
+                height: 10rem;
             }
 
         .timer-container .time .left-time {

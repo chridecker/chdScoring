@@ -67,6 +67,7 @@ namespace chdScoring.App.UI.Pages
             this._useDropPanel = await this._settingManager.GetSettingLocal<bool>(SettingConstants.DropPanel);
 
             this._judgeHubClient.Connected += this._judgeHubClient_Connected;
+            this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
             this._profileService.UserChanged += this._profileService_UserChanged;
             this._batteryService.InfoChanged += this._batteryService_InfoChanged;
 
@@ -82,7 +83,6 @@ namespace chdScoring.App.UI.Pages
             {
                 await this._judgeHubClient.Register(this._judge.Value, this._cts.Token);
             }
-            this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
         }
 
         private async void OnJudgeChanged(JudgeDto judge)

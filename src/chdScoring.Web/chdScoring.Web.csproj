@@ -15,4 +15,10 @@
 	  <ProjectReference Include="..\chdScoring.Main.Client\chdScoring.Main.Client.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="wwwroot\favicon.ico">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
 </Project>
