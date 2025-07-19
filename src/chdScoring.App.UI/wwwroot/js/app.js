@@ -13,6 +13,7 @@ window.JsFunctions = {
     },
     handleKeyInput: function (e) {
         if (e) {
+            e.stopPropagation();
             var args = {
                 key: e.key,
                 code: e.keyCode.toString(),

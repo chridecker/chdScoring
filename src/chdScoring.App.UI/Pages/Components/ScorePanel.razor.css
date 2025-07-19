@@ -110,6 +110,11 @@
                     grid-column: 3;
                 }
 
+                .score-panel .score-pad .score-numpad ::deep button.btn.icon-button-headphones {
+                    grid-row: 4;
+                    grid-column: 1;
+                }
+
                 .score-panel .score-pad .score-numpad ::deep button.btn.icon-button-0 {
                     grid-row: 4;
                     grid-column: 2/4;
