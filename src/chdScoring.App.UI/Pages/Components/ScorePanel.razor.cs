@@ -13,6 +13,7 @@ namespace chdScoring.App.UI.Pages.Components
     {
         protected override decimal? _scoreStartValue() => null;
 
+        private bool _commaPressed = false;
         protected override Task KeyDownHandle(KeyboardEventArgs e) => (int.TryParse(e.Code, out int code), code) switch
         {
             (true, _) when (code is 8 or 46 or 166) => this.Delete(),
@@ -28,11 +29,12 @@ namespace chdScoring.App.UI.Pages.Components
             (true, _) when (code is 105 or 57) => this.Calc(9),
             (true, 111) => this.NotObserved(),
             (true, 13) => this.Save(),
+            (true, 110) => this.Comma(),
             _ => Task.CompletedTask
         };
 
 
-        
+
         private async Task Calc(decimal i)
         {
             if (this.PanelDisabled)
@@ -43,14 +45,27 @@ namespace chdScoring.App.UI.Pages.Components
             if (this._scoreValue.HasValue && _scoreValue == 1 && i == 10)
             {
                 this._scoreValue = 10;
+                this._commaPressed = false;
             }
-            else if (this._scoreValue.HasValue && _scoreValue == 1 && i == 0)
+            else if (this._scoreValue.HasValue && _scoreValue == 1 && i == 0 && !this._commaPressed)
             {
                 this._scoreValue = 10;
+                this._commaPressed = false;
             }
-            else if (this._scoreValue.HasValue && _scoreValue < 10 && i == 5)
+            else if (this._scoreValue.HasValue && _scoreValue == i)
+            {
+                this._scoreValue += 0.5m;
+                this._commaPressed = false;
+            }
+            else if (this._scoreValue.HasValue && _scoreValue < 10 && i == 5 && this._commaPressed)
             {
                 this._scoreValue += i / 10;
+                this._commaPressed |= false;
+            }
+            else if (this._scoreValue.HasValue && _scoreValue != i && !this._commaPressed)
+            {
+                this._scoreValue = i;
+                this._commaPressed = false;
             }
             else if (!this._scoreValue.HasValue)
             {
@@ -62,6 +77,24 @@ namespace chdScoring.App.UI.Pages.Components
             {
                 await this._tTSService.SpeakAsync(this._scoreValue.Value.ToString("#.#"));
             }
+            await this.InvokeAsync(this.StateHasChanged);
+        }
+
+        protected async override Task Save()
+        {
+            this._commaPressed = false;
+            await base.Save();
+        }
+
+        protected override async Task Delete()
+        {
+            this._commaPressed = false;
+            await base.Delete();
+        }
+
+        private async Task Comma()
+        {
+            this._commaPressed = true;
             await this.InvokeAsync(this.StateHasChanged);
         }
     }

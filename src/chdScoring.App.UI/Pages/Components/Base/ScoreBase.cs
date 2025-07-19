@@ -57,7 +57,7 @@ namespace chdScoring.App.UI.Pages.Components.Base
 
         protected Task Repeat() => this._tTSService.SpeakAsync(this.Maneouvre?.Name);
 
-        protected async Task Delete()
+        protected virtual async Task Delete()
         {
             this._scoreValue = null;
             await this.InvokeAsync(this.StateHasChanged);
@@ -71,7 +71,7 @@ namespace chdScoring.App.UI.Pages.Components.Base
             await this.InvokeAsync(this.StateHasChanged);
         }
 
-        protected async Task Save()
+        protected virtual async Task Save()
         {
             if (this.PanelDisabled) { return; }
 

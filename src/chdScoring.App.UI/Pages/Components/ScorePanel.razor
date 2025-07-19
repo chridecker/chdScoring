@@ -36,7 +36,7 @@
             <IconButton Disabled="@this.PanelDisabled" FAClass="headphones" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" OnClick="this.Repeat" />
 
             <IconButton Disabled="@this.PanelDisabled" FAClass="0" OnClick="async (x) => await this.Calc(0)" />
-            <IconButton Disabled="@this.PanelDisabled" FAClass="comma" OnClick="async (x) => await Task.CompletedTask" />
+            <IconButton Disabled="@this.PanelDisabled" FAClass="comma" OnClick="async (x) => await this.Comma()" />
             <IconButton Disabled="@this.PanelDisabled" FAClass="floppy-disk" Style="EIconStyle.Regular" OnClick="Save" />
             <IconButton Disabled="@this.PanelDisabled" FAClass="eye-slash" Style="EIconStyle.Regular" OnClick="NotObserved" />
 
