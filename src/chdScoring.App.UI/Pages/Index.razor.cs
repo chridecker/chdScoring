@@ -149,6 +149,11 @@ namespace chdScoring.App.UI.Pages
 
             if (!this._judgeHubClient.IsConnected) { this._judgeHubClient.StartAsync(this._cts.Token); }
 
+            if (this._judgeHubClient.IsConnected && this._judge.HasValue && this._judge.Value > 0) 
+            {
+                await this._judgeHubClient.Register(this._judge.Value, this._cts.Token);
+            }
+
             await this.LoadCurrentData();
         }
 

@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -182,9 +183,9 @@ namespace chdScoring.DataAccess.DAL
 
         public async Task<bool> ChangeStartNumber(PilotDto pilot, int number, CancellationToken cancellationToken = default)
         {
-            var teilnehmer = await this._teilnehmerRepository.FindById(pilot.Id, cancellationToken);
-            teilnehmer.Id = number;
-            return await this._teilnehmerRepository.SaveAsync(teilnehmer, cancellationToken);
+            using var client = new HttpClient();
+            var res = await client.GetAsync($"http://localhost/operations/change_startnumber.php?id={pilot.Id}&newid={number}");
+            return res.IsSuccessStatusCode;
         }
     }
 }
