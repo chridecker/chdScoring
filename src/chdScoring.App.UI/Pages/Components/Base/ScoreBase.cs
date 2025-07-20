@@ -66,7 +66,7 @@ namespace chdScoring.App.UI.Pages.Components.Base
 
         protected async Task NotObserved()
         {
-            this._scoreValue = -1;
+            this._scoreValue = -99;
             await this._tTSService.SpeakAsync("N O ");
             await this.InvokeAsync(this.StateHasChanged);
         }

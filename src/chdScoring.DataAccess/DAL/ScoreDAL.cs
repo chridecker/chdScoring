@@ -3,8 +3,11 @@ using chdScoring.DataAccess.Contracts.DAL;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
 using chdScoring.DataAccess.DAL.Base;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,6 +33,19 @@ namespace chdScoring.DataAccess.DAL
 
             return new NotificationDto($"Wertung '{dto.Value}'", message);
         }
+
+        public async Task<bool> TryHandleNotObserved(SaveScoreDto dto, CancellationToken cancellationToken)
+        {
+            var jp = await this._judgePanelRepository.FirstOrDefaultAsync(x => x.Judge == dto.Judge);
+            var judges = await this._judgePanelRepository.Where(x => x.Panel == jp.Panel).ToListAsync();
+            var scores = await this._wertungRepository.Where(x => x.Durchgang == dto.Round && x.Teilnehmer == dto.Pilot && x.Figur == dto.Figur).ToListAsync();
+            if (scores.Count < judges.Count - 1)
+            {
+                return false;
+            }
+            var avg = scores.Where(x => x.Judge != dto.Judge).Select(s => s.Wert).Average();
+            dto.Value = avg;
+            return true;
 
         public async Task<bool> SaveScore(SaveScoreDto dto, CancellationToken cancellationToken)
         {
