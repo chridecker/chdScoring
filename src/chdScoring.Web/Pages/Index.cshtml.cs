@@ -18,6 +18,17 @@ namespace chdScoring.Web.Pages
         private readonly ImageCache _imageCache;
 
         public string HubClientUrl => new UriBuilder($"{this._configuration.GetApiKey("chdScoringApi")}chdscoring/flight-hub").Uri.ToString();
+
+        [BindProperty(SupportsGet = true)]
+        public string Mode { get; set; }
+
+
+        public string RenderSetting=> string.IsNullOrWhiteSpace(this.Mode) ? "RenderTimer" : this.Mode switch
+        {
+            "Live" => "RenderLive",
+            _ => "RenderTimer"
+        };
+
         public IndexModel(ILogger<IndexModel> logger, IConfiguration configuration, IPilotService pilotService, ImageCache imageCache)
         {
             _logger = logger;
@@ -31,7 +42,7 @@ namespace chdScoring.Web.Pages
 
         }
 
-        public async Task<IActionResult> OnPostRenderPartial([FromBody] CurrentFlight dto)
+        public async Task<IActionResult> OnPostRenderTimer([FromBody] CurrentFlight dto)
         {
             if (dto?.Pilot?.CountryId is not null)
             {
@@ -41,6 +52,21 @@ namespace chdScoring.Web.Pages
                 }
             }
             return this.Partial("_Timer", new TimerModel()
+            {
+                CurrentFlight = dto,
+                ImageDto = this._imageCache.CountryImageCache.TryGetValue(dto?.Pilot?.CountryId ?? 0, out var img) ? img : null
+            });
+        }
+        public async Task<IActionResult> OnPostRenderLive([FromBody] CurrentFlight dto)
+        {
+            if (dto?.Pilot?.CountryId is not null)
+            {
+                if (!this._imageCache.CountryImageCache.TryGetValue(dto.Pilot.CountryId, out _))
+                {
+                    this._imageCache.CountryImageCache[dto.Pilot.CountryId] = await this._pilotService.GetCountryImage(dto.Pilot.CountryId);
+                }
+            }
+            return this.Partial("_Live", new LiveModel()
             {
                 CurrentFlight = dto,
                 ImageDto = this._imageCache.CountryImageCache.TryGetValue(dto?.Pilot?.CountryId ?? 0, out var img) ? img : null

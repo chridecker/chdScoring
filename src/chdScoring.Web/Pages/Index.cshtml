@@ -13,13 +13,14 @@
     <script>
 
             var hubUrl = '@this.Model.HubClientUrl';
+            var render = '@this.Model.RenderSetting';
 
         const connection = new signalR.HubConnectionBuilder()
             .withUrl(hubUrl)
             .build();
 
         connection.on("ReceiveFlightData", function (dto) {
-                    fetch("/Index?handler=RenderPartial", {
+                    fetch("/Index?handler=" + render, {
                         method: "Post",
                         headers: {
                             "Content-Type": "application/json"

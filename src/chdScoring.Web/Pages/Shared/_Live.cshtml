@@ -1,0 +1,56 @@
+﻿@using chd.UI.Base.Contracts.Enum
+@using chdScoring.Web.Models
+@model chdScoring.Web.Models.LiveModel
+
+
+@if (this.Model is null || this.Model.CurrentFlight?.Pilot is null)
+{
+    <div class="pause-container">
+        @await Component.InvokeAsync("CustomIcon", new CustomIconModel { FAClass = "circle-pause", Style = EIconStyle.Regular })
+    </div>
+    return;
+}
+@{
+    string _leftTime = (this.Model.CurrentFlight?.LeftTime.HasValue ?? false) && this.Model.CurrentFlight.LeftTime.Value <= this.Model.CurrentFlight.Round.Time ?
+                this.Model.CurrentFlight.LeftTime.Value > TimeSpan.Zero ? this.Model.CurrentFlight.LeftTime.Value.ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : this.Model.CurrentFlight.Round.Time.ToString("mm\\:ss");
+}
+
+<div class="control-center">
+    <div class="pilot-data">
+        <div class="country">
+            @if (this.Model.ImageDto is not null && this.Model.ImageDto.Data.Length > 0)
+            {
+                <div class="custom-image">
+                    <img src="@this.Model.GetImageUrl" />
+                </div>
+            }
+        </div>
+        <div class="name">
+            @this.Model.CurrentFlight.Pilot.Id - @this.Model.CurrentFlight.Pilot.Name
+        </div>
+        <div class="left-time">@_leftTime</div>
+    </div>
+    <div class="maneouvres" style="--judge-count: @this.Model.CurrentFlight.Judges.Count()">
+        @foreach (var maneouvre in this.Model.CurrentFlight.ManeouvreLst.FirstOrDefault().Value.OrderBy(o => o.Id))
+        {
+            <div class="maneouvre">
+                <div class="figur-id">@maneouvre.Id.ToString("D2")</div>
+                <div class="figur">@maneouvre.Name (@maneouvre.Value)</div>
+                <div class="judge-scores">
+                    @foreach (var judge in this.Model.CurrentFlight.Judges.OrderBy(o => o.Id))
+                    {
+                        <div class="judge-score ">
+                            @if (this.Model.CurrentFlight.ManeouvreLst[judge.Id].FirstOrDefault(x => x.Id == maneouvre.Id)?.Score.HasValue ?? false)
+                            {
+                                <div class="score-total">
+                                    @this.Model.CurrentFlight.ManeouvreLst[judge.Id].FirstOrDefault(x => x.Id == maneouvre.Id))?.Score * maneouvre.Value
+                                </div>
+                                <div class="score-raw">@((this.Model.CurrentFlight.ManeouvreLst[judge.Id].FirstOrDefault(x => x.Id == maneouvre.Id)?.Score ?? 0).ToString("0.#"))</div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
