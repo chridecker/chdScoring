@@ -22,11 +22,19 @@ namespace chdScoring.BusinessLogic.Services
             this._hubDataService = hubDataService;
         }
 
+        public async Task<bool> ConfirmScores(ConfirmScoresDto saveScoreDto, CancellationToken cancellationToken)
+        {
+            var res = await this._scoreDal.ConfirmScores(saveScoreDto, cancellationToken);
+            await this._flightCacheService.Update(cancellationToken);
+            await this._hubDataService.SendJudge(saveScoreDto.Judge, cancellationToken);
+            return res;
+        }
+
         public async Task<bool> SaveScore(SaveScoreDto dto, CancellationToken cancellationToken)
         {
-             if (dto.Value == -99 )
+            if (dto.Value == -99)
             {
-                if(!await this._scoreDal.TryHandleNotObserved(dto, cancellationToken))
+                if (!await this._scoreDal.TryHandleNotObserved(dto, cancellationToken))
                 {
                     return false;
                 }

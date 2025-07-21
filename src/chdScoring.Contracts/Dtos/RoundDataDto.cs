@@ -8,6 +8,7 @@ namespace chdScoring.Contracts.Dtos
     {
         public RoundDto Round { get; set; }
         public PilotDto Pilot { get; set; }
+        public IEnumerable<JudgeConfirmDto> JudgeConfirms { get; set; }
         public IEnumerable<JudgeDto> Judges { get; set; }
         public IDictionary<int, IEnumerable<ManeouvreDto>> ManeouvreLst { get; set; } = new Dictionary<int, IEnumerable<ManeouvreDto>>();
 

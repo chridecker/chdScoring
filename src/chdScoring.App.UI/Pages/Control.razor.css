@@ -53,6 +53,9 @@
                     text-align: center;
                     background: var(--chd-bg);
                 }
+                .control-center .maneouvres .maneouvre .judge-scores .confirmed .judge-score {
+                    background: var(--chd-green);
+                }
 
 
 

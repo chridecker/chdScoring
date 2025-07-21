@@ -16,11 +16,13 @@ namespace chdScoring.DataAccess.DAL
     public class ScoreDAL : BaseDAL, IScoreDAL
     {
         private readonly IWertungHistoryRepository _wertungHistoryRepository;
+        private readonly ITeilnehmerDurchgangJudgeRespository _teilnehmerDurchgangJudgeRespository;
 
-        public ScoreDAL(ILogger<ScoreDAL> logger, IWettkampfLeitungRepository wettkampfLeitungRepository, IWertungHistoryRepository wertungHistoryRepository,
+        public ScoreDAL(ILogger<ScoreDAL> logger, IWettkampfLeitungRepository wettkampfLeitungRepository, IWertungHistoryRepository wertungHistoryRepository, ITeilnehmerDurchgangJudgeRespository teilnehmerDurchgangJudgeRespository,
             ITeilnehmerRepository teilnehmerRepository, IJudgeRepository judgeRepository, IFigurRepository figurRepository, IProgrammRepository programmRepository, IWertungRepository wertungRepository, IKlasseRepository klasseRepository, ICountryImageRepository countryImageRepository, IImageRepository imageRepository, IDurchgangPanelRepository durchgangPanelRepository, IDurchgangProgramRepository durchgangProgramRepository, IFigurProgrammRepository figurProgrammRepository, IJudgePanelRepository judgePanelRepository, IStammDatenRepository stammDatenRepository, IBebwerbRepository bebwerbRepository, IDurchgangRepository durchgangRepository, ITeilnehmerBewerbRepository teilnehmerBewerbRepository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, figurProgrammRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
         {
             this._wertungHistoryRepository = wertungHistoryRepository;
+            this._teilnehmerDurchgangJudgeRespository = teilnehmerDurchgangJudgeRespository;
         }
 
         public async Task<NotificationDto> CreateZeroNotification(SaveScoreDto dto)
@@ -103,6 +105,22 @@ namespace chdScoring.DataAccess.DAL
             }
             catch { }
             return false;
+
+        }
+
+        public async Task<bool> ConfirmScores(ConfirmScoresDto saveScoreDto, CancellationToken cancellationToken)
+        {
+            if (await this._teilnehmerDurchgangJudgeRespository.Exists(saveScoreDto.Pilot, saveScoreDto.Round, saveScoreDto.Judge, cancellationToken))
+            {
+                return false;
+            }
+            return await this._teilnehmerDurchgangJudgeRespository.SaveAsync(new Teilnehmer_Durchgang_Judge()
+            {
+                Judge = saveScoreDto.Judge,
+                Teilnehmer = saveScoreDto.Pilot,
+                Durchgang = saveScoreDto.Round,
+                Time = saveScoreDto.Time
+            }, cancellationToken);
 
         }
     }

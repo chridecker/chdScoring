@@ -16,20 +16,20 @@
 }
 
 <div class="scoring" style="zoom: @(this._zoom)%">
-    <FigurTable Maneouvres="this.Maneouvres" Current="this._current"
+    <FigurTable Maneouvres="this.Maneouvres" Current="this._current" 
                 EditManeouvre="this.OpenEditScoreModal"
-                EditManeouvreEnabled="(this._isAdmin || (this._dto?.EditScoreEnabled ?? false) && (this.Judge?.EditScore ?? false))" />
+                EditManeouvreEnabled="(this._isAdmin || (this._dto?.EditScoreEnabled ?? false) && (this.Judge?.EditScore ?? false) && !this._isConfirmed)" />
 
     @if (this._useDropPanel)
     {
-        <DropScorePanel ScoreSaved="this.ScoreSaved"
-                        CancellationToken="this._cts.Token"
+        <DropScorePanel ScoreSaved="this.ScoreSaved" NeedsJudgeConfirmation="this._needsJudgeConfirm" IsConfirmed="this._isConfirmed"
+                        CancellationToken="this._cts.Token" ScoresConfirmed="this.ScoresConfirmed"
                         Judge="this.Judge" Pilot="this._dto?.Pilot" PanelDisabled="this._panelDisabled" Round="(this._dto?.Round?.Id ?? 0)" Maneouvre="this._current" />
     }
     else
     {
-        <ScorePanel ScoreSaved="this.ScoreSaved"
-                    CancellationToken="this._cts.Token"
+        <ScorePanel ScoreSaved="this.ScoreSaved" NeedsJudgeConfirmation="this._needsJudgeConfirm"  IsConfirmed="this._isConfirmed"
+                    CancellationToken="this._cts.Token" ScoresConfirmed="this.ScoresConfirmed"
                     Judge="this.Judge" Pilot="this._dto?.Pilot" PanelDisabled="this._panelDisabled" Round="(this._dto?.Round?.Id ?? 0)" Maneouvre="this._current" />
     }
 

@@ -9,6 +9,7 @@ using chdScoring.App.UI.Interfaces;
 using chdScoring.App.UI.Pages.Components;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
+using DocumentFormat.OpenXml.Drawing;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
@@ -30,7 +31,9 @@ namespace chdScoring.App.UI.Pages
 
         private ManeouvreDto _current => this.Maneouvres.Where(x => !x.Score.HasValue).OrderBy(o => o.Id).FirstOrDefault();
         private JudgeDto Judge => this._dto?.Judges.FirstOrDefault(x => x.Id == (this._judge ?? 0));
-        private bool _panelDisabled => this._dto is null || !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero ? true : this._current is null;
+        private bool _panelDisabled => this._dto is null || !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero || this._current is null;
+        private bool _needsJudgeConfirm => this._dto is null ? false : this._judge.HasValue && this._dto.JudeConfirmation;
+        private bool _isConfirmed => this._needsJudgeConfirm && this._judge.HasValue &&  this._judge.Value  >0 ? (this._dto?.JudgeConfirms.Any(a => a.Judge == this._judge.Value) ?? false) : true;
 
         private IEnumerable<ManeouvreDto> Maneouvres => (this._dto?.ManeouvreLst?.TryGetValue(this._judge ?? 0, out var lst) ?? false) ? lst : [];
 
@@ -149,7 +152,7 @@ namespace chdScoring.App.UI.Pages
 
             if (!this._judgeHubClient.IsConnected) { this._judgeHubClient.StartAsync(this._cts.Token); }
 
-            if (this._judgeHubClient.IsConnected && this._judge.HasValue && this._judge.Value > 0) 
+            if (this._judgeHubClient.IsConnected && this._judge.HasValue && this._judge.Value > 0)
             {
                 await this._judgeHubClient.Register(this._judge.Value, this._cts.Token);
             }
@@ -183,6 +186,16 @@ namespace chdScoring.App.UI.Pages
             }
         }
 
+        private Task<bool> ScoresConfirmed(JudgeDto judge, PilotDto pilotDto, int round)
+        {
+            return this._scoringService.ConfirmScores(new ConfirmScoresDto()
+            {
+                Judge = judge.Id,
+                Pilot = pilotDto.Id,
+                Round = round,
+                Time = DateTime.Now
+            }, this._cts.Token);
+        }
         private async Task<bool> ScoreSaved(SaveScoreDto dto)
         {
             try

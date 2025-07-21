@@ -7,6 +7,7 @@ namespace chdScoring.DataAccess.Contracts.DAL
 {
     public interface IScoreDAL : IBaseDAL
     {
+        Task<bool> ConfirmScores(ConfirmScoresDto saveScoreDto, CancellationToken cancellationToken);
         Task<NotificationDto> CreateZeroNotification(SaveScoreDto dto);
         Task<bool> SaveScore(SaveScoreDto dto, CancellationToken cancellationToken);
         Task<bool> TryHandleNotObserved(SaveScoreDto dto, CancellationToken cancellationToken);

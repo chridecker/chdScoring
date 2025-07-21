@@ -1,4 +1,7 @@
-﻿using chdScoring.App.UI.Interfaces;
+﻿using chd.UI.Base.Client.Implementations.Services;
+using chd.UI.Base.Contracts.Enum;
+using chdScoring.App.UI.Extensions;
+using chdScoring.App.UI.Interfaces;
 using chdScoring.Contracts.Dtos;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -17,8 +20,11 @@ namespace chdScoring.App.UI.Pages.Components.Base
 
         [Inject] protected IJSRuntime _jsRuntime { get; set; }
         [Inject] protected ITTSService _tTSService { get; set; }
+        [Inject] protected ISettingManager _settingManager { get; set; }
+        [Inject] protected IModalHandler _modalHandler { get; set; }
 
         [Parameter] public Func<SaveScoreDto, Task<bool>> ScoreSaved { get; set; }
+        [Parameter] public Func<JudgeDto, PilotDto,int, Task<bool>> ScoresConfirmed { get; set; }
         [Parameter] public int Round { get; set; }
 
         [Parameter] public PilotDto Pilot { get; set; }
@@ -28,6 +34,8 @@ namespace chdScoring.App.UI.Pages.Components.Base
         [Parameter] public ManeouvreDto Maneouvre { get; set; }
 
         [Parameter] public bool PanelDisabled { get; set; }
+        [Parameter] public bool NeedsJudgeConfirmation { get; set; }
+        [Parameter] public bool IsConfirmed { get; set; }
 
         [Parameter] public CancellationToken CancellationToken { get; set; }
 
@@ -71,6 +79,14 @@ namespace chdScoring.App.UI.Pages.Components.Base
             await this.InvokeAsync(this.StateHasChanged);
         }
 
+        protected async Task ConfirmScores()
+        {
+            if (!this.PanelDisabled || !this.NeedsJudgeConfirmation || this.IsConfirmed) { return; }
+            if (await this._modalHandler.ShowYesNoDialog("Confirm Scores?", this._settingManager.IsiOS) == EDialogResult.Yes)
+            {
+                await this.ScoresConfirmed?.Invoke(this.Judge, this.Pilot, this.Round);
+            }
+        }
         protected virtual async Task Save()
         {
             if (this.PanelDisabled) { return; }

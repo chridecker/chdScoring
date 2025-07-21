@@ -1,3 +1,4 @@
+@using chd.UI.Base.Contracts.Enum
 @using chdScoring.App.UI.Pages.Components.Base
 @inherits ScoreBase
 
@@ -10,14 +11,22 @@
     <div class="maneouvre">
         @this._maneouvreText
     </div>
-
-    <div class="score-pad">
-        <IconButton Disabled="@this.PanelDisabled" FAClass="eye-slash" OnClick="async (x) => await this.NotObserved()" />
-        <IconButton Disabled="@this.PanelDisabled" FAClass="0" OnClick="this.Zero" />
-        <div class="score-control-value">@_scoreValueText</div>
-        <IconButton Disabled="@this.PanelDisabled"  FAClass="floppy-disk" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" OnClick="Save" />
-        <IconButton Disabled="@this.PanelDisabled" FAClass="plus" OnClick="async (x) => await this.Calc(0.5m)" />
-        <IconButton Disabled="@this.PanelDisabled" FAClass="minus" OnClick="async (x) => await this.Calc(-0.5m)" />
-        <IconButton Disabled="@this.PanelDisabled" FAClass="headphones" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" OnClick="this.Repeat" />
-    </div>
+    @if (this.PanelDisabled && this.NeedsJudgeConfirmation && !this.IsConfirmed)
+    {
+        <div class="score-confirmation">
+            <IconButton Disabled="@this.PanelDisabled" FAClass="badge-check" Style="EIconStyle.Regular" OnClick="this.ConfirmScores" />
+        </div>
+    }
+    else
+    {
+        <div class="score-pad">
+            <IconButton Disabled="@this.PanelDisabled" FAClass="eye-slash" OnClick="async (x) => await this.NotObserved()" />
+            <IconButton Disabled="@this.PanelDisabled" FAClass="0" OnClick="this.Zero" />
+            <div class="score-control-value">@_scoreValueText</div>
+            <IconButton Disabled="@this.PanelDisabled" FAClass="floppy-disk" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" OnClick="Save" />
+            <IconButton Disabled="@this.PanelDisabled" FAClass="plus" OnClick="async (x) => await this.Calc(0.5m)" />
+            <IconButton Disabled="@this.PanelDisabled" FAClass="minus" OnClick="async (x) => await this.Calc(-0.5m)" />
+            <IconButton Disabled="@this.PanelDisabled" FAClass="headphones" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" OnClick="this.Repeat" />
+        </div>
+    }
 </div>

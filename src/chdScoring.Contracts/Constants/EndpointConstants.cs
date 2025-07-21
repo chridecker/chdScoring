@@ -28,6 +28,7 @@
         {
             public const string ROUTE = "score";
             public const string POST_Save = "savescore";
+            public const string POST_Confirm= "confirmscores";
             public const string POST_Update = "updatescore";
 
         }
