@@ -1,0 +1,67 @@
+﻿.timer-container {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    align-content: center;
+}
+
+    .timer-container .pilot {
+        padding: 0 1rem;
+        display: flex;
+        border-bottom: 1px solid white;
+        height: 50vh;
+        align-items: center;
+        font-size: 8rem;
+        gap: 6rem;
+    }
+
+        .timer-container .pilot .country {
+        }
+
+            .timer-container .pilot .country .custom-image.pilot-image img {
+                height: 14rem;
+            }
+
+        .timer-container .pilot .number {
+            font-size: 10rem;
+        }
+
+        .timer-container .pilot .name {
+            line-height: 1;
+        }
+
+    .timer-container .time {
+        height: 50vh;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+        .timer-container .time .icon {
+            border: 0.5rem solid;
+            padding: 5rem;
+            border-radius: 50%;
+        }
+
+            .timer-container .time .icon ::deep svg {
+                height: 10rem;
+            }
+
+        .timer-container .time .left-time {
+            font-size: 18rem;
+            text-align: right;
+            font-weight: 500;
+        }
+
+.pause-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+    .pause-container ::deep svg.svg-inline--fa {
+        height: 25rem;
+    }

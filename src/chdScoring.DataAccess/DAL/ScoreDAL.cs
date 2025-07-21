@@ -46,6 +46,7 @@ namespace chdScoring.DataAccess.DAL
             var avg = scores.Where(x => x.Judge != dto.Judge).Select(s => s.Wert).Average();
             dto.Value = avg;
             return true;
+        }
 
         public async Task<bool> SaveScore(SaveScoreDto dto, CancellationToken cancellationToken)
         {

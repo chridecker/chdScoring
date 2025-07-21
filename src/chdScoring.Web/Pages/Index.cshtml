@@ -1,0 +1,50 @@
+﻿@page
+@using chd.UI.Base.Contracts.Enum
+@using chdScoring.Web.Models
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div id="timer-container">
+</div>
+
+@section Scripts {
+    <script>
+
+            var hubUrl = '@this.Model.HubClientUrl';
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl(hubUrl)
+            .build();
+
+        connection.on("ReceiveFlightData", function (dto) {
+                    fetch("/Index?handler=RenderPartial", {
+                        method: "Post",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(dto)
+                    })
+                    .then(res => {
+                        if (!res.ok) throw new Error("Fehler beim POST");
+                        return res.text(); // weil Partial View HTML ist
+                    })
+                    .then(html => {
+                        document.getElementById("timer-container").innerHTML = html;
+                    })
+                    .catch(err => {
+                        console.error("Fehler:", err);
+                    });
+        });
+
+        connection.start()
+        .then(()=>{
+            connection.invoke("RegisterAsControlCenter");
+        })
+        .catch(function (err) {
+            return console.error(err.toString());
+        });
+
+    </script>
+}

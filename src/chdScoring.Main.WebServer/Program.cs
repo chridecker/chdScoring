@@ -33,6 +33,18 @@ builder.WebHost.UseUrls(config.GetValue<string>("BaseAddress"));
 
 builder.Host.UseWindowsFormsLifetime<MainForm>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost", policy =>
+    {
+        policy.SetIsOriginAllowed(_ => true)
+                .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials(); // wichtig für SignalR
+    });
+});
+
+
 builder.Services.AddBaseApi();
 
 builder.Services.AddchdScoringDataAccess(builder.Configuration);
@@ -43,6 +55,8 @@ builder.Services.AddHostedService<chdScoringService>();
 builder.Services.AddSignalR();
 
 var app = builder.Build();
+
+app.UseCors("AllowLocalhost");
 
 app.MapChdScoring();
 

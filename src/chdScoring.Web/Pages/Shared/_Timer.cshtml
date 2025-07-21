@@ -1,0 +1,56 @@
+﻿@using chd.UI.Base.Contracts.Enum
+@using chdScoring.Web.Models
+@model chdScoring.Web.Models.TimerModel
+
+
+@if (this.Model is null || this.Model.CurrentFlight?.Pilot is null)
+{
+    <div class="pause-container">
+        @await Component.InvokeAsync("CustomIcon", new CustomIconModel { FAClass = "circle-pause", Style = EIconStyle.Regular })
+    </div>
+    return;
+}
+@{
+    string _leftTime = (this.Model.CurrentFlight?.LeftTime.HasValue ?? false) && this.Model.CurrentFlight.LeftTime.Value <= this.Model.CurrentFlight.Round.Time ?
+                this.Model.CurrentFlight.LeftTime.Value > TimeSpan.Zero ? this.Model.CurrentFlight.LeftTime.Value.ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : this.Model.CurrentFlight.Round.Time.ToString("mm\\:ss");
+}
+
+
+<div class="timer-container">
+    <div class="pilot">
+        <div class="country">
+            @if (this.Model.ImageDto is not null && this.Model.ImageDto.Data.Length > 0)
+            {
+                <div class="custom-image">
+                    <img src="@this.Model.GetImageUrl" />
+                </div>
+            }
+        </div>
+        <div class="number">@this.Model.CurrentFlight.Pilot.Id</div>
+        <div class="name">@this.Model.CurrentFlight.Pilot.Name</div>
+    </div>
+    <div class="time">
+        <div class="icon">
+            @if (!this.Model.CurrentFlight.LeftTime.HasValue)
+            {
+                @await Component.InvokeAsync("CustomIcon", new CustomIconModel { FAClass = "hand", Style = EIconStyle.Thin })
+            }
+            else if (this.Model.CurrentFlight.LeftTime.Value <= this.Model.CurrentFlight.Round.Time)
+            {
+                if (this.Model.CurrentFlight.LeftTime.Value > TimeSpan.Zero)
+                {
+                    @await Component.InvokeAsync("CustomIcon", new CustomIconModel { FAClass = "plane-departure", Style = EIconStyle.Thin })
+                }
+                else
+                {
+                    @await Component.InvokeAsync("CustomIcon", new CustomIconModel { FAClass = "plane-slash", Style = EIconStyle.Thin })
+                }
+            }
+            else
+            {
+                @await Component.InvokeAsync("CustomIcon", new CustomIconModel { FAClass = "play-pause", Style = EIconStyle.Thin })
+            }
+        </div>
+        <div class="left-time">@_leftTime</div>
+    </div>
+</div>
