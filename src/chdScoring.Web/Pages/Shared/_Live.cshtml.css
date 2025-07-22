@@ -17,7 +17,7 @@
         .control-center .pilot-data .country {
         }
 
-            .control-center .pilot-data .country ::deep .custom-image.pilot-image img {
+            .control-center .pilot-data .country .custom-image img {
                 height: 7rem;
             }
 
@@ -54,7 +54,6 @@
             }
 
             .control-center .maneouvres .maneouvre .figur {
-                overflow: scroll;
             }
 
             .control-center .maneouvres .maneouvre .judge-scores {
