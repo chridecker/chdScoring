@@ -8,13 +8,17 @@
 @page "/competitionmanagement"
 @attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.AdminId })]
 
+<div class="controlcenter-container">
 
-@if (this._dto is not null)
-{
-    <div class="timer-control">
+    @if (this._dto is not null)
+    {
         <Timer CancellationToken="this._cts.Token" Dto="this._dto" Airfield="1" />
-    </div>
-}
+
+        <JudgeControl CancellationToken="this._cts.Token" Dto="this._dto" Airfield="1" />
+    }
+</div>
+
+
 <FloatingActionNavigation FAIconActive="floppy-disk" OnClick="async () => await this.SaveRound()" TextActive="Save Round">
     @if (this._dto is not null)
     {

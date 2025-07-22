@@ -7,11 +7,15 @@
 
 <div class="timer">
     <div class="pilot">
-        &#8470; @this.Dto.Pilot.Id - @this.Dto.Pilot.Name - Round @this.Dto.Round.Id - @this.Dto.Round.Program
+        &#8470; @this.Dto.Pilot.Id @this.Dto.Pilot.Name - R @this.Dto.Round.Id
     </div>
     <div class="time">@_leftTime</div>
     <div class="control">
-        @if (this.Dto?.LeftTime.HasValue ?? false)
+        @if (this.Dto.LeftTime.HasValue  && this.Dto.LeftTime.Value == TimeSpan.Zero)
+        {
+            <IconButton FAClass="rotate-left" OnClick="async () => await this.StartStop(ETimerOperation.Stop)" />
+        }
+        else if (this.Dto.LeftTime.HasValue)
         {
             <IconButton FAClass="stop" OnClick="async ()=>await this.StartStop(ETimerOperation.Stop)" />
         }

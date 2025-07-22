@@ -11,7 +11,7 @@
 
     .control-center .maneouvres {
         display: grid;
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: 1fr;
     }
 
         .control-center .maneouvres .maneouvre {
@@ -46,6 +46,7 @@
             }
 
                 .control-center .maneouvres .maneouvre .judge-scores .needs-attention {
+                    background: var(--chd-bg);
                 }
 
                 .control-center .maneouvres .maneouvre .judge-scores .judge-score {
@@ -53,9 +54,10 @@
                     text-align: center;
                     background: var(--chd-bg);
                 }
-                .control-center .maneouvres .maneouvre .judge-scores .confirmed .judge-score {
-                    background: var(--chd-green);
-                }
+
+                    .control-center .maneouvres .maneouvre .judge-scores .judge-score.confirmed {
+                        background: var(--chd-green-semi-transparent);
+                    }
 
 
 

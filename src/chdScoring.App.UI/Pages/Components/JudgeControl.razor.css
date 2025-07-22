@@ -1,0 +1,36 @@
+﻿.judges-score-control {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.5rem;
+}
+
+    .judges-score-control .judge-row {
+        display: grid;
+        grid-template-columns: 5fr repeat(2,1fr);
+        gap: 0.5rem;
+    }
+
+        .judges-score-control .judge-row .judge {
+        }
+
+        .judges-score-control .judge-row .judge-scores {
+        }
+
+        .judges-score-control .judge-row .judge-confirmed {
+        }
+
+            .judges-score-control .judge-row .judge-confirmed ::deep svg {
+                fill: var(--chd-green);
+            }
+
+
+@media only screen and (min-width: 500px) {
+    .judges-score-control .judge-row {
+        grid-template-columns: repeat(3,max-content);
+    }
+        .judges-score-control .judge-row .judge {
+            min-width: 15rem;
+        }
+}

@@ -37,11 +37,16 @@ namespace chdScoring.App.UI.Pages
         private decimal? _score(JudgeDto judge, ManeouvreDto maneouvre) => this._dto.ManeouvreLst[judge.Id].FirstOrDefault(x => x.Id == maneouvre.Id)?.Score;
         private string _scoreClass(JudgeDto judge, ManeouvreDto maneouvre)
         {
-            var confirm = this._dto.JudgeConfirms.Any(a => a.Judge == judge.Id);
 
             var score = this._score(judge, maneouvre);
-            if (!score.HasValue || score.Value >= 1) { return $"{(confirm ? "confirmed" : "")}"; }
-            return $"needs-attention is-loading-glow {(confirm ? "confirmed" : "")}";
+            if (!score.HasValue || score.Value >= 1) { return string.Empty; }
+            return $"needs-attention is-loading-glow ";
+        }
+
+        private string _scoreConfirmed(JudgeDto dto)
+        {
+            var confirm = this._dto.JudgeConfirms.Any(a => a.Judge == dto.Id);
+            return confirm ? "confirmed" : "";
         }
 
         private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)

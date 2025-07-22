@@ -1,0 +1,32 @@
+@using chdScoring.Contracts.Dtos
+
+<div class="judges-score-control">
+    @foreach (var judge in this.Dto.Judges)
+    {
+        <div class="judge-row" @ondblclick="async ()=>await this.GotoJudge(judge.Id)">
+            <div class="judge">@judge.Name</div>
+            <div class="judge-scores">@this.Dto.ManeouvreLst[judge.Id].Count(x => x.Saved)</div>
+            <div class="judge-confirmed">
+                @if (this.Dto.JudgeConfirms.Any(a => a.Judge == judge.Id))
+                {
+                    <CustomIcon FAClass="badge-check" />
+                }
+            </div>
+        </div>
+    }
+</div>
+
+
+@code {
+    [Parameter] public CancellationToken CancellationToken { get; set; }
+    [Parameter] public CurrentFlight Dto { get; set; }
+    [Parameter] public int Airfield { get; set; }
+
+    [Inject] INavigationHandler navigationHandler { get; set; }
+
+    private async Task GotoJudge(int id)
+    {
+        this.navigationHandler.NavigateTo($"scoring/{id}", false);
+    }
+
+}

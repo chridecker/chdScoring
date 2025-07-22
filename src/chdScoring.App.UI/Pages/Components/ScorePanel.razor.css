@@ -17,6 +17,33 @@
         overflow: scroll;
     }
 
+    .score-panel .score-confirmation {
+        height: 90%;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction:column;
+        gap: 3rem;
+        font-size:2rem;
+        line-height:1;
+    }
+        .score-panel .score-confirmation .confirm-text {
+            text-align:center;
+        }
+        .score-panel .score-confirmation ::deep button.btn {
+            height: 4.8rem;
+            aspect-ratio: 1/1;
+            border-radius: 1rem;
+            background: var(--chd-bg-lighter);
+            padding: 0.375rem 0.75rem;
+            background: var(--chd-main-color-theme);
+        }
+
+            .score-panel  .score-confirmation ::deep button.btn svg {
+                height: max-content;
+            }
+
     .score-panel .score-pad {
         margin-top: 0.1rem;
         display: grid;
@@ -136,28 +163,7 @@
                     border:1px solid var(--chd-main-color-theme);
                 }
 
-        .score-panel .score-pad .score-confirmation {
-            margin-top: 0.5rem;
-            justify-content: center;
-            align-content: center;
-            align-items: center;
-            display: grid;
-            grid-gap: 0.4rem;
-        }
-
-            .score-panel .score-pad .score-confirmation ::deep button.btn {
-                height: 4.8rem;
-                aspect-ratio: 1/1;
-                border-radius: 1rem;
-                background: var(--chd-bg-lighter);
-                padding: 0.375rem 0.75rem;
-                background: var(--chd-main-color-theme);
-                grid-row:4;
-            }
-
-                .score-panel .score-pad .score-confirmation ::deep button.btn svg {
-                    height: max-content;
-                }
+       
 
 }
 

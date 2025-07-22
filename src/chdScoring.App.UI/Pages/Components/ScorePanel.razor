@@ -10,25 +10,33 @@
         @this.Pilot?.Id @this.Pilot?.Name
     </div>
 
-    <div class="maneouvre">
-        @this._maneouvreText
-    </div>
-
-    <div class="score-pad">
-        <div class="score-control">
-            <div class="score-control-value">@_scoreValueText</div>
-            <div class="score-control-button">
-                <IconButton Disabled="@this.PanelDisabled" FAClass="delete-left" Style="EIconStyle.Regular" OnClick="Delete" />
-            </div>
+    @if (this.PanelDisabled && this.NeedsJudgeConfirmation && !this.IsConfirmed)
+    {
+        <div class="score-confirmation">
+            <div class="confirm-text">Please confirm your scores</div>
+            <IconButton Disabled="@this.IsConfirmed" FAClass="badge-check" Style="EIconStyle.Regular" OnClick="this.ConfirmScores" />
         </div>
-        @if (this.PanelDisabled && this.NeedsJudgeConfirmation && !this.IsConfirmed)
-        {
-            <div class="score-confirmation">
-                <IconButton Disabled="@this.IsConfirmed" FAClass="badge-check" Style="EIconStyle.Regular" OnClick="this.ConfirmScores" />
+    }
+    else if (this.PanelDisabled && this.NeedsJudgeConfirmation && this.IsConfirmed)
+    {
+
+    }
+    else
+    {
+        <div class="maneouvre">
+            @this._maneouvreText
+        </div>
+
+        <div class="score-pad">
+            <div class="score-control">
+                <div class="score-control-value">@_scoreValueText</div>
+                <div class="score-control-button">
+                    <IconButton Disabled="@this.PanelDisabled" FAClass="delete-left" Style="EIconStyle.Regular" OnClick="Delete" />
+                </div>
             </div>
-        }
-        else
-        {
+
+
+
             <div class="score-numpad">
                 <IconButton Disabled="@this.PanelDisabled" FAClass="1" OnClick="async (x) => await this.Calc(1)" />
                 <IconButton Disabled="@this.PanelDisabled" FAClass="2" OnClick="async (x) => await this.Calc(2)" />
@@ -49,6 +57,7 @@
                 <IconButton Disabled="@this.PanelDisabled" FAClass="eye-slash" Style="EIconStyle.Regular" OnClick="NotObserved" />
 
             </div>
-        }
-    </div>
+        </div>
+    }
+
 </div>

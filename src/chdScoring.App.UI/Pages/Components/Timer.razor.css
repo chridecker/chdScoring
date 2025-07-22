@@ -9,31 +9,33 @@
 }
 
     .timer .pilot {
-        font-size: 14pt;
-        width: 10rem;
+        font-size: 1.3rem;
+        line-height: 1;
     }
 
     .timer .time {
         text-align: center;
-        font-size: 5rem;
+        font-size: 7rem;
+        line-height: 1.2;
     }
 
     .timer .control {
-        height: 5rem;
     }
 
         .timer .control ::deep .btn {
-            height: 7em;
-            border-radius: 30%;
+            height: 6rem;
+            aspect-ratio: 1/1;
+            border-radius: 1rem;
+            background: var(--chd-bg-lighter);
+            padding: 0.375rem 0.75rem;
         }
-        .timer .control ::deep .btn svg {
-            height: 80%;
-        }
+
+            .timer .control ::deep .btn svg {
+                height: max-content;
+            }
 
             .timer .control ::deep .btn.icon-button-circle-play {
             }
 
-            .timer .control ::deep .btn.icon-button-circle-stop  {
+            .timer .control ::deep .btn.icon-button-circle-stop {
             }
-
-        
