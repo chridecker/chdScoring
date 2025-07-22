@@ -65,3 +65,6 @@
     .pause-container ::deep svg.svg-inline--fa {
         height: 25rem;
     }
+    .pause-container i.fa {
+        height: 25rem;
+    }
