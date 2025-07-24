@@ -123,5 +123,14 @@ namespace chdScoring.DataAccess.DAL
             }, cancellationToken);
 
         }
+        public async Task<bool> UnConfirmScores(ConfirmScoresDto saveScoreDto, CancellationToken cancellationToken)
+        {
+            if (await this._teilnehmerDurchgangJudgeRespository.Exists(saveScoreDto.Pilot, saveScoreDto.Round, saveScoreDto.Judge, cancellationToken))
+            {
+                var entry = await this._teilnehmerDurchgangJudgeRespository.FirstOrDefaultAsync(x => x.Judge == saveScoreDto.Judge && x.Teilnehmer == saveScoreDto.Pilot && x.Durchgang == saveScoreDto.Round);
+                return await this._teilnehmerDurchgangJudgeRespository.Delete(entry);
+            }
+            return false;
+        }
     }
 }

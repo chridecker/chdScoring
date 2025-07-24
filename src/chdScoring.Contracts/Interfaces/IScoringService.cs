@@ -8,6 +8,7 @@ namespace chdScoring.Contracts.Interfaces
     {
         Task<bool> ConfirmScores(ConfirmScoresDto saveScoreDto, CancellationToken cancellationToken);
         Task<bool> SaveScore(SaveScoreDto saveScoreDto, CancellationToken cancellationToken);
+        Task<bool> UnConfirmScores(ConfirmScoresDto saveScoreDto, CancellationToken cancellationToken);
         Task<bool> UpdateScore(SaveScoreDto dto, CancellationToken cancellationToken);
     }
 }

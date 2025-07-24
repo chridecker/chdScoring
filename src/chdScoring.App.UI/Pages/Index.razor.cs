@@ -123,6 +123,8 @@ namespace chdScoring.App.UI.Pages
 
         private async Task OpenEditScoreModal(ManeouvreDto dto)
         {
+            if(this._isConfirmed){return;}
+
             RenderFragment frag = (__builder) =>
             {
                 __builder.OpenComponent<EditScore>(1);

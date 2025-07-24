@@ -1,15 +1,19 @@
+@using chd.UI.Base.Client.Implementations.Services
+@using chd.UI.Base.Contracts.Enum
+@using chdScoring.App.UI.Extensions
 @using chdScoring.Contracts.Dtos
+@using chdScoring.Contracts.Interfaces
 
 <div class="judges-score-control">
     @foreach (var judge in this.Dto.Judges)
     {
-        <div class="judge-row" @ondblclick="async ()=>await this.GotoJudge(judge.Id)">
+        <div class="judge-row" @ondblclick="async () => await this.GotoJudge(judge.Id)">
             <div class="judge">@judge.Name</div>
             <div class="judge-scores">@this.Dto.ManeouvreLst[judge.Id].Count(x => x.Saved)</div>
             <div class="judge-confirmed">
                 @if (this.Dto.JudgeConfirms.Any(a => a.Judge == judge.Id))
                 {
-                    <CustomIcon FAClass="badge-check" />
+                    <IconButton ButtonStyle="EButtonStyle.Empty" OnClick="async ()=> await this.UnConfirmScores(judge)" FAClass="badge-check" />
                 }
             </div>
         </div>
@@ -23,6 +27,22 @@
     [Parameter] public int Airfield { get; set; }
 
     [Inject] INavigationHandler navigationHandler { get; set; }
+    [Inject] ISettingManager settingManager { get; set; }
+    [Inject] IModalHandler modal { get; set; }
+    [Inject] IScoringService scoringService { get; set; }
+
+    private async Task UnConfirmScores(JudgeDto judge)
+    {
+        if (await this.modal.ShowYesNoDialog("Bestätigung wirklich löschen?", this.settingManager.IsiOS) is EDialogResult.Yes)
+        {
+            await this.scoringService.UnConfirmScores(new ConfirmScoresDto()
+            {
+                Judge = judge.Id,
+                Pilot = this.Dto.Pilot.Id,
+                Round = this.Dto.Round.Id,
+            }, this.CancellationToken);
+        }
+    }
 
     private async Task GotoJudge(int id)
     {

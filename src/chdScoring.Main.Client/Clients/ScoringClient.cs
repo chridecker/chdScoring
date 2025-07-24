@@ -14,6 +14,8 @@ namespace chdScoring.Main.Client.Clients
 
         public Task<bool> ConfirmScores(ConfirmScoresDto saveScoreDto, CancellationToken cancellationToken)
         => this.Post<bool>(EndpointConstants.Scoring.POST_Confirm, saveScoreDto, cancellationToken);
+        public Task<bool> UnConfirmScores(ConfirmScoresDto saveScoreDto, CancellationToken cancellationToken)
+        => this.Post<bool>(EndpointConstants.Scoring.POST_UnConfirm, saveScoreDto, cancellationToken);
 
         public Task<bool> SaveScore(SaveScoreDto saveScoreDto, CancellationToken cancellationToken)
             => this.Post<bool>(EndpointConstants.Scoring.POST_Save, saveScoreDto, cancellationToken);

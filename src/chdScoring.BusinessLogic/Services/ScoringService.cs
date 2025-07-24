@@ -29,6 +29,13 @@ namespace chdScoring.BusinessLogic.Services
             await this._hubDataService.SendJudge(saveScoreDto.Judge, cancellationToken);
             return res;
         }
+        public async Task<bool> UnConfirmScores(ConfirmScoresDto saveScoreDto, CancellationToken cancellationToken)
+        {
+            var res = await this._scoreDal.UnConfirmScores(saveScoreDto, cancellationToken);
+            await this._flightCacheService.Update(cancellationToken);
+            await this._hubDataService.SendJudge(saveScoreDto.Judge, cancellationToken);
+            return res;
+        }
 
         public async Task<bool> SaveScore(SaveScoreDto dto, CancellationToken cancellationToken)
         {

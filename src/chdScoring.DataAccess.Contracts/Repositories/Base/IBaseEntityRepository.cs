@@ -14,5 +14,6 @@ namespace chdScoring.DataAccess.Contracts.Repositories.Base
         Task<bool> SaveAsync(TEntity entity, CancellationToken cancellationToken);
         IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> expression);
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression);
+        Task<bool> Delete(TEntity entity);
     }
 }

@@ -86,8 +86,8 @@
     }
 
         .score-panel .score-confirmed ::deep svg {
-            height: 4.8rem;
-            fill: var(--chd-grey);
+            height: 70%;
+            fill: var(--chd-grey-semi-transparent);
         }
 
     .score-panel .score-pad {

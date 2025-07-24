@@ -19,7 +19,14 @@
         }
 
         .judges-score-control .judge-row .judge-confirmed {
+            display:flex;
+            justify-content:center;
         }
+
+            .judges-score-control .judge-row .judge-confirmed ::deep button.btn {
+                border:none;
+                padding:0;
+            }
 
             .judges-score-control .judge-row .judge-confirmed ::deep svg {
                 fill: var(--chd-green);
@@ -30,6 +37,7 @@
     .judges-score-control .judge-row {
         grid-template-columns: repeat(3,max-content);
     }
+
         .judges-score-control .judge-row .judge {
             min-width: 15rem;
         }
