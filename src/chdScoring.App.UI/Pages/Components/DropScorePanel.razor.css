@@ -2,29 +2,81 @@
     display: flex;
     flex-direction: column;
     height: var(--main-article-height);
+    padding: 0.5rem 0.2rem;
+    gap: 0.2rem;
 }
 
-    .drop-score-panel .pilot {
-        text-align: center;
-        font-size: 0.9rem;
-        font-weight: bold;
-        border-bottom: 0.1rem solid var(--chd-font-color);
-        height: 1.3rem;
+    .drop-score-panel .buttons {
+        max-height: 3rem;
+        display: flex;
+        flex-direction: row-reverse;
     }
 
-    .drop-score-panel .maneouvre {
-        height: 5.5rem;
-        font-size: 1.5rem;
+        .drop-score-panel .buttons ::deep .btn.icon-button {
+            height: 2.4rem;
+            aspect-ratio: 1/1;
+            border-radius: 0.5rem;
+            background: var(--chd-bg-lighter);
+            padding: 0.1875rem 0.375rem;
+        }
+
+        .drop-score-panel .buttons ::deep .btn.btn.icon-button svg {
+            height: max-content;
+            margin: 0.4rem;
+        }
+
+    .drop-score-panel .score-confirmation {
+        padding: 0 0.5rem;
+        height: 90%;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        font-size: 2rem;
         line-height: 1;
-        text-align: center;
-        overflow: scroll;
     }
+
+        .drop-score-panel .score-confirmation .confirm-text {
+            text-align: center;
+        }
+
+        .drop-score-panel .score-confirmation ::deep button.btn {
+            height: 4.8rem;
+            aspect-ratio: 1/1;
+            border-radius: 1rem;
+            background: var(--chd-bg-lighter);
+            padding: 0.375rem 0.75rem;
+            background: var(--chd-main-color-theme);
+        }
+
+            .drop-score-panel .score-confirmation ::deep button.btn svg {
+                height: max-content;
+            }
+
+    .drop-score-panel .score-confirmed {
+        padding: 0 0.5rem;
+        height: 90%;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+    }
+
+        .drop-score-panel .score-confirmed ::deep svg {
+            height: 4.8rem;
+            fill: var(--chd-grey);
+        }
 
     .drop-score-panel .score-pad {
-        height: 100%;
         display: grid;
-        grid-template-rows: repeat(4,1fr);
-        grid-template-columns: repeat(3,1fr);
+        grid-gap: 0.4rem;
+        grid-template-columns: repeat(4,1fr);
+        justify-content: center;
+        justify-items: center;
+        align-content: center;
+        align-items: center;
     }
 
         .drop-score-panel .score-pad ::deep .btn {
@@ -41,43 +93,44 @@
             }
 
             .drop-score-panel .score-pad ::deep .btn.icon-button-eye-slash {
-                grid-column: 2;
-                grid-row: 2;
+                grid-column: 4;
+                grid-row: 4;
             }
 
             .drop-score-panel .score-pad ::deep .btn.icon-button-0 {
                 grid-column: 2;
-                grid-row: 3;
+                grid-row: 4;
             }
 
             .drop-score-panel .score-pad ::deep .btn.icon-button-floppy-disk {
-                grid-column: 3;
-                grid-row: 4;
+                grid-column: 4;
+                grid-row: 5;
                 background: var(--chd-main-color-theme);
             }
 
             .drop-score-panel .score-pad ::deep .btn.icon-button-plus {
-                grid-column: 3;
+                grid-column: 4;
                 grid-row: 2;
             }
 
             .drop-score-panel .score-pad ::deep .btn.icon-button-minus {
-                grid-column: 3;
+                grid-column: 4;
                 grid-row: 3;
             }
 
             .drop-score-panel .score-pad ::deep .btn.icon-button-headphones {
                 grid-column: 3;
-                grid-row: 1;
+                grid-row: 4;
             }
+
             .drop-score-panel .score-pad ::deep .btn.icon-button-floppy-disk.disabled {
                 background: var(--chd-bg);
                 border: 1px solid var(--chd-main-color-theme);
             }
-                .drop-score-panel .score-pad .score-control-value {
+
+        .drop-score-panel .score-pad .score-control-value {
             font-size: 4rem;
             text-align: center;
-            align-content: center;
-            grid-column: 1/2;
-            grid-row: 2/4;
+            grid-column: 1/4;
+            grid-row: 1;
         }

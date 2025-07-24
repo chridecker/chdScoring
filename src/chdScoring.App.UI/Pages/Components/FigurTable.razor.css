@@ -1,14 +1,15 @@
 ﻿.figure-table {
+    padding: 0.5rem 0;
     display: flex;
     flex-direction: column;
+    font-size: 1.2rem;
 }
-
 
     .figure-table .ft-row {
         padding: 0.1rem 0;
         display: grid;
         grid-template-columns: max-content auto max-content;
-        gap: 0.5rem 0.2rem;
+        gap: 0.2rem 0.5rem;
         border-bottom: 1px solid var(--chd-bg-lighter);
         border-radius: 0.1rem;
     }
@@ -16,7 +17,7 @@
             border-bottom:none;
         }
         .figure-table .ft-row:nth-child(odd) {
-            /*background: var(--chd-bg-lighter);*/
+            background: var(--chd-grey-transparent);
         }
 
         .figure-table .ft-row:active,
@@ -28,6 +29,7 @@
             background: var(--chd-main-color-theme-semi-transparent);
             display: grid;
             grid-template-columns: max-content auto max-content;
+            display:none;
         }
 
         .figure-table .ft-row.current {
@@ -44,7 +46,7 @@
 
             .figure-table .ft-row .ft-content.score {
                 padding-right: 0.5rem;
-                font-size: 1.1rem;
+                font-size: 1.2rem;
             }
 
                 .figure-table .ft-row .ft-content.score.saved {

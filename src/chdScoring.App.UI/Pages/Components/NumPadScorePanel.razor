@@ -1,0 +1,62 @@
+﻿@using chd.UI.Base.Contracts.Enum
+@using chdScoring.App.UI.Helper;
+@using chdScoring.App.UI.Pages.Components.Base
+@using chdScoring.App.UI.Services;
+@using chdScoring.Contracts.Dtos;
+@inherits ScoreBase
+<div class="score-panel">
+
+    <div class="buttons">
+        <IconButton FAClass="plus-minus" OnClick="this.ChangePanelMode" />
+    </div>
+
+    <div class="pilot-data">
+        <div class="id">&#8470;@this.Pilot?.Id</div>
+        <div class="name">@this.Pilot?.Name</div>
+    </div>
+
+    @if (this.PanelDisabled && this.Maneouvre is null && this.NeedsJudgeConfirmation && !this.IsConfirmed)
+    {
+        <div class="score-confirmation">
+            <div class="confirm-text">Please confirm your scores</div>
+            <IconButton Disabled="@this.IsConfirmed" FAClass="badge-check" Style="EIconStyle.Regular" OnClick="this.ConfirmScores" />
+        </div>
+    }
+    else if (this.PanelDisabled && this.NeedsJudgeConfirmation && this.IsConfirmed)
+    {
+        <div class="score-confirmed">
+            <CustomIcon FAClass="check-double" Style="EIconStyle.Regular" />
+        </div>
+    }
+    else
+    {
+        <div class="score-pad">
+            <div class="score-control-value">@_scoreValueText</div>
+            <IconButton Disabled="@this.PanelDisabled" FAClass="delete-left" Style="EIconStyle.Regular" OnClick="Delete" />
+
+
+            <IconButton Disabled="@this.PanelDisabled" FAClass="1" OnClick="async (x) => await this.Calc(1)" />
+            <IconButton Disabled="@this.PanelDisabled" FAClass="2" OnClick="async (x) => await this.Calc(2)" />
+            <IconButton Disabled="@this.PanelDisabled" FAClass="3" OnClick="async (x) => await this.Calc(3)" />
+
+            <IconButton Disabled="@this.PanelDisabled" FAClass="4" OnClick="async (x) => await this.Calc(4)" />
+            <IconButton Disabled="@this.PanelDisabled" FAClass="5" OnClick="async (x) => await this.Calc(5)" />
+            <IconButton Disabled="@this.PanelDisabled" FAClass="6" OnClick="async (x) => await this.Calc(6)" />
+
+            <IconButton Disabled="@this.PanelDisabled" FAClass="7" OnClick="async (x) => await this.Calc(7)" />
+            <IconButton Disabled="@this.PanelDisabled" FAClass="8" OnClick="async (x) => await this.Calc(8)" />
+            <IconButton Disabled="@this.PanelDisabled" FAClass="9" OnClick="async (x) => await this.Calc(9)" />
+
+            <IconButton Disabled="@this.PanelDisabled" FAClass="plus" OnClick="async (x) => await this.Calc(0.5m, true)" />
+            <IconButton Disabled="@this.PanelDisabled" FAClass="minus" OnClick="async (x) => await this.Calc(-0.5m, true)" />
+
+            <IconButton Disabled="@this.PanelDisabled" FAClass="headphones" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" OnClick="this.Repeat" />
+
+            <IconButton Disabled="@this.PanelDisabled" FAClass="0" OnClick="async (x) => await this.Calc(0)" />
+            <IconButton Disabled="@this.PanelDisabled" FAClass="comma" OnClick="async (x) => await this.Comma()" />
+            <IconButton Disabled="@this.PanelDisabled" FAClass="floppy-disk" Style="EIconStyle.Regular" OnClick="Save" />
+            <IconButton Disabled="@this.PanelDisabled" FAClass="eye-slash" Style="EIconStyle.Regular" OnClick="NotObserved" />
+        </div>
+    }
+
+</div>

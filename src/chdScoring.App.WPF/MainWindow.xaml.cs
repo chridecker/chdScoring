@@ -18,7 +18,7 @@ namespace chdScoring.App.WPF
     {
         protected override void OnInitialized(EventArgs e)
         {
-            this.WindowState = WindowState.Maximized;
+            //this.WindowState = WindowState.Maximized;
             this.WindowStyle = WindowStyle.SingleBorderWindow;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             base.OnInitialized(e);

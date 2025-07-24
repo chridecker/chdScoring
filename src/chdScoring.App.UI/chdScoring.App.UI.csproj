@@ -9,8 +9,8 @@
  
 	<ItemGroup>
 		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
-		<PackageReference Include="chd.UI.Base.Components" Version="1.0.25198.139" />
-		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.25198.139" />
+		<PackageReference Include="chd.UI.Base.Components" Version="1.0.25203.143" />
+		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.25203.143" />
 	</ItemGroup>
 
  

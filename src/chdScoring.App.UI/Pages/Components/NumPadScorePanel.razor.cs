@@ -9,7 +9,7 @@ using Microsoft.JSInterop;
 
 namespace chdScoring.App.UI.Pages.Components
 {
-    public partial class ScorePanel : ScoreBase
+    public partial class NumPadScorePanel : ScoreBase
     {
         protected override decimal? _scoreStartValue() => null;
 
@@ -35,41 +35,51 @@ namespace chdScoring.App.UI.Pages.Components
 
 
 
-        private async Task Calc(decimal i)
+        private async Task Calc(decimal i, bool useDrop = false)
         {
-            if (this.PanelDisabled)
-            {
-                return;
-            }
+            if (this.PanelDisabled) { return; }
 
-            if (this._scoreValue.HasValue && _scoreValue == 1 && i == 10)
+            if (useDrop)
             {
-                this._scoreValue = 10;
-                this._commaPressed = false;
+                if (!this._scoreValue.HasValue)
+                {
+                    this._scoreValue = 10;
+                }
+                this._scoreValue += i;
+                if (this._scoreValue.Value <= 0) { this._scoreValue = 0; }
+                if (this._scoreValue.Value >= 10) { this._scoreValue = 10; }
             }
-            else if (this._scoreValue.HasValue && _scoreValue == 1 && i == 0 && !this._commaPressed)
+            else
             {
-                this._scoreValue = 10;
-                this._commaPressed = false;
-            }
-            else if (this._scoreValue.HasValue && _scoreValue == i)
-            {
-                this._scoreValue += 0.5m;
-                this._commaPressed = false;
-            }
-            else if (this._scoreValue.HasValue && _scoreValue < 10 && i == 5 && this._commaPressed)
-            {
-                this._scoreValue += i / 10;
-                this._commaPressed |= false;
-            }
-            else if (this._scoreValue.HasValue && _scoreValue != i && !this._commaPressed)
-            {
-                this._scoreValue = i;
-                this._commaPressed = false;
-            }
-            else if (!this._scoreValue.HasValue)
-            {
-                this._scoreValue = i;
+                if (this._scoreValue.HasValue && _scoreValue == 1 && i == 10)
+                {
+                    this._scoreValue = 10;
+                    this._commaPressed = false;
+                }
+                else if (this._scoreValue.HasValue && _scoreValue == 1 && i == 0 && !this._commaPressed)
+                {
+                    this._scoreValue = 10;
+                    this._commaPressed = false;
+                }
+                else if (this._scoreValue.HasValue && _scoreValue == i)
+                {
+                    this._scoreValue += 0.5m;
+                    this._commaPressed = false;
+                }
+                else if (this._scoreValue.HasValue && _scoreValue < 10 && i == 5 && this._commaPressed)
+                {
+                    this._scoreValue += i / 10;
+                    this._commaPressed |= false;
+                }
+                else if (this._scoreValue.HasValue && _scoreValue != i && !this._commaPressed)
+                {
+                    this._scoreValue = i;
+                    this._commaPressed = false;
+                }
+                else if (!this._scoreValue.HasValue)
+                {
+                    this._scoreValue = i;
+                }
             }
             this._vibrationHelper.Vibrate(TimeSpan.FromMilliseconds(100));
 
@@ -82,6 +92,15 @@ namespace chdScoring.App.UI.Pages.Components
 
         protected async override Task Save()
         {
+            if (this.PanelDisabled && this.NeedsJudgeConfirmation && !this.IsConfirmed)
+            {
+                await this.ConfirmScores();
+            }
+            else if (this.PanelDisabled)
+            {
+                return;
+            }
+
             this._commaPressed = false;
             await base.Save();
         }

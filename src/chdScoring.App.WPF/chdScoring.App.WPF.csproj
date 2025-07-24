@@ -13,7 +13,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="System.Management" Version="9.0.4" />
-		<PackageReference Include="chd.UI.Base.WPF" Version="1.0.25198.139" />
+		<PackageReference Include="chd.UI.Base.WPF" Version="1.0.25203.143" />
 		<PackageReference Include="System.Speech" Version="9.0.7" />
 	</ItemGroup>
 	<ItemGroup>

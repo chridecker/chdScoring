@@ -1,13 +1,9 @@
 ﻿.judges-dropdown {
     position: absolute;
-    width: 100%;
+    right:0;
     display: flex;
-    flex-flow: row-reverse;
-    padding: 0.2rem;
+    padding: 0.5rem 0.2rem;
 }
-
-    .judges-dropdown ::deep .droplist-wrapper {
-    }
 
 .scoring {
     display: flex;
@@ -16,15 +12,13 @@
     overflow: hidden;
 }
 
-    .scoring ::deep div {
-    }
-
         .scoring ::deep div.figure-table {
             width: 65%;
             overflow: scroll;
             overflow-y: scroll;
             overflow-x: scroll;
             height: auto;
+            min-height: 1rem;
         }
 
         .scoring ::deep div.score-panel,
@@ -37,6 +31,14 @@
     * {
         --max-figure-width: 9rem;
     }
+
+    .judges-dropdown {
+        position: absolute;
+        right: 0;
+        display: flex;
+        padding: 0.5rem 0.2rem;
+    }
+
 
     .scoring {
         display: grid;
@@ -69,7 +71,7 @@
     .scoring ::deep div.drop-score-panel,
     .scoring ::deep div.score-panel {
         height: var(--main-article-height);
-        width: 97%;
+        width: 99%;
         order: 1;
     }
 

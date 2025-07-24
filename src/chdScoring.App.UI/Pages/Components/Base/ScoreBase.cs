@@ -1,4 +1,5 @@
 ﻿using chd.UI.Base.Client.Implementations.Services;
+using chd.UI.Base.Components.Base;
 using chd.UI.Base.Contracts.Enum;
 using chdScoring.App.UI.Extensions;
 using chdScoring.App.UI.Interfaces;
@@ -14,17 +15,17 @@ using System.Threading.Tasks;
 
 namespace chdScoring.App.UI.Pages.Components.Base
 {
-    public abstract class ScoreBase : ComponentBase, IAsyncDisposable
+    public abstract class ScoreBase : KeyPressListeningComponentBase
     {
         [Inject] protected IVibrationHelper _vibrationHelper { get; set; }
 
-        [Inject] protected IJSRuntime _jsRuntime { get; set; }
         [Inject] protected ITTSService _tTSService { get; set; }
         [Inject] protected ISettingManager _settingManager { get; set; }
         [Inject] protected IModalHandler _modalHandler { get; set; }
 
+        [Parameter] public Func<Task> ChangeMode { get; set; }
         [Parameter] public Func<SaveScoreDto, Task<bool>> ScoreSaved { get; set; }
-        [Parameter] public Func<JudgeDto, PilotDto,int, Task<bool>> ScoresConfirmed { get; set; }
+        [Parameter] public Func<JudgeDto, PilotDto, int, Task<bool>> ScoresConfirmed { get; set; }
         [Parameter] public int Round { get; set; }
 
         [Parameter] public PilotDto Pilot { get; set; }
@@ -40,7 +41,6 @@ namespace chdScoring.App.UI.Pages.Components.Base
         [Parameter] public CancellationToken CancellationToken { get; set; }
 
 
-        protected abstract Task KeyDownHandle(KeyboardEventArgs e);
         protected abstract decimal? _scoreStartValue();
 
 
@@ -48,20 +48,8 @@ namespace chdScoring.App.UI.Pages.Components.Base
         protected string _scoreValueText => !this._scoreValue.HasValue ? "-" : this._scoreValue.Value < 0 ? "NO" : this._scoreValue.Value == 0 ? "0" : this._scoreValue.Value.ToString("0.#");
 
         protected decimal? _scoreValue;
-        protected DotNetObjectReference<ScoreBase> _dotNetReference;
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            if (firstRender)
-            {
-                this._dotNetReference = DotNetObjectReference.Create(this);
-                await this._jsRuntime.InvokeVoidAsync("JsFunctions.addKeyboardListenerEvent", this._dotNetReference);
-            }
-            await base.OnAfterRenderAsync(firstRender);
-        }
-
-        [JSInvokable("KeyDown")]
-        public Task KeyDown(KeyboardEventArgs e) => this.KeyDownHandle(e);
+        protected async Task ChangePanelMode() => await this.ChangeMode.Invoke();
 
         protected Task Repeat() => this._tTSService.SpeakAsync(this.Maneouvre?.Name);
 
@@ -116,15 +104,6 @@ namespace chdScoring.App.UI.Pages.Components.Base
                 Value = value
             };
             return await this.ScoreSaved?.Invoke(dto);
-        }
-
-        public virtual async ValueTask DisposeAsync()
-        {
-            await this._jsRuntime.InvokeVoidAsync("JsFunctions.removeKeyboardListenerEvent");
-            if (this._dotNetReference is not null)
-            {
-                this._dotNetReference.Dispose();
-            }
         }
     }
 }

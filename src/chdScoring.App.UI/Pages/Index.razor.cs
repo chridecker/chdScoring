@@ -33,7 +33,7 @@ namespace chdScoring.App.UI.Pages
         private JudgeDto Judge => this._dto?.Judges.FirstOrDefault(x => x.Id == (this._judge ?? 0));
         private bool _panelDisabled => this._dto is null || !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero || this._current is null;
         private bool _needsJudgeConfirm => this._dto is null ? false : this._judge.HasValue && this._dto.JudeConfirmation;
-        private bool _isConfirmed => this._needsJudgeConfirm && this._judge.HasValue &&  this._judge.Value  >0 ? (this._dto?.JudgeConfirms.Any(a => a.Judge == this._judge.Value) ?? false) : true;
+        private bool _isConfirmed => this._needsJudgeConfirm && this._judge.HasValue && this._judge.Value > 0 ? (this._dto?.JudgeConfirms.Any(a => a.Judge == this._judge.Value) ?? false) : true;
 
         private IEnumerable<ManeouvreDto> Maneouvres => (this._dto?.ManeouvreLst?.TryGetValue(this._judge ?? 0, out var lst) ?? false) ? lst : [];
 
@@ -77,6 +77,13 @@ namespace chdScoring.App.UI.Pages
             await this.LoadData();
 
             await base.OnInitializedAsync();
+        }
+
+        private async Task ChangeDropPanel()
+        {
+            this._useDropPanel = !this._useDropPanel;
+            await this._settingManager.StoreSettingLocal<bool>(SettingConstants.DropPanel, this._useDropPanel);
+            await this.InvokeAsync(this.StateHasChanged);
         }
 
         private async void _judgeHubClient_Connected(object? sender, EventArgs e)

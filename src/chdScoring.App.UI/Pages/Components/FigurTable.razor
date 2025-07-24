@@ -1,20 +1,24 @@
 ﻿@using chdScoring.Contracts.Dtos;
 
-<div class="figure-table" @onscroll="this._scrollInfoService.Scrolled">
-    <div class="ft-row ft-header">
-        <div class="ft-content">#</div>
-        <div class="ft-content">Manoevre</div>
-        <div class="ft-content">Score</div>
-    </div>
-    @foreach (var man in this.Maneouvres.OrderBy(o => o.Id))
-    {
-        <div class="ft-row @this._cssFigur(man)" @ondblclick="async () => await this.ClickEditScore(man)">
-            <div class="ft-content">@man.Id.ToString("D2")</div>
-            <div class="ft-content">@man.Name</div>
-            <div class="ft-content  score @(man.Saved ? "saved" : "")">
-                @_score(man)
-            </div>
-        </div>
 
+<div class="figure-table" @onscroll="this._scrollInfoService.Scrolled">
+    @if (this.Maneouvres?.Any() ?? false)
+    {
+        <div class="ft-row ft-header">
+            <div class="ft-content">#</div>
+            <div class="ft-content">Manoevre</div>
+            <div class="ft-content">Score</div>
+        </div>
+        @foreach (var man in this.Maneouvres.OrderBy(o => o.Id))
+        {
+            <div class="ft-row @this._cssFigur(man)" @ondblclick="async () => await this.ClickEditScore(man)">
+                <div class="ft-content">@man.Id.ToString("D2")</div>
+                <div class="ft-content">@man.Name</div>
+                <div class="ft-content  score @(man.Saved ? "saved" : "")">
+                    @_score(man)
+                </div>
+            </div>
+
+        }
     }
 </div>
