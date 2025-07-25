@@ -5,7 +5,6 @@
         public const string BaseAddress = "SETTING_BaseAddress";
 
         public const string AutoRedirectTo = "AutoRedirectTo";
-        public const string DropPanel = "DropPanel";
         public const string DeveloperMode = "DeveloperMode";
         public const string BatteryWarningLimit = "BatteryWarningLimit";
         public const string ScoringZoom = "ScoringZoom";

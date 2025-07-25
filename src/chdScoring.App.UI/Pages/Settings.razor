@@ -19,9 +19,6 @@
         Theme: <ThemeModeButton />
     </div>
     <div class="setting">
-        <SettingCheckbox SettingText="Drop Panel" Checked="@this._dropPanel" OnChange="async (e) => await UpdateDropPanel(e)" />
-    </div>
-    <div class="setting">
         Basis Adresse:
         <input type="text" value="@this._baseAddress" @onchange="async (e) => await this.UpdateMainUrl(e)" />
     </div>

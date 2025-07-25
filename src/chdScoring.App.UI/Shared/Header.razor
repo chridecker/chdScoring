@@ -1,19 +1,13 @@
 @using System.Globalization
 @using chdScoring.App.UI.Pages.Components
-@inject ISettingManager clientSettingManager
-@inject IchdScoringProfileService profileService
-@inject ITimeoutHandler timeoutHandler
 @inject IJudgeHubClient apiClient
 @inject IBatteryService batteryService
 @implements IDisposable
 @inherits LayoutComponentBase
 
-<div class="header-panel">
+<div class="header-panel @GetStateCss()">
     <HeaderBase TUserId="int" TRightId="int" PageTitle="@this.PageTitle" ShowVersion="true" ShowDateInfo="false">
         <RightChildContent>
-            <div class="networkBox">
-                <div class="liquid @GetStateCss()"></div>
-            </div>
             <Battery BatteryLevel="this.batteryService.BatteryLevel" Charging="this.batteryService.Charging" FullLevel="95" LowLevel="15" />
         </RightChildContent>
     </HeaderBase>
@@ -23,6 +17,7 @@
     [Parameter] public string PageTitle { get; set; }
 
     private CancellationTokenSource _cts = new();
+    private readonly PeriodicTimer _periodicTimer = new(TimeSpan.FromSeconds(5));
 
     protected override async Task OnInitializedAsync()
     {
@@ -36,25 +31,19 @@
         await this.InvokeAsync(this.StateHasChanged);
     }
 
-    private void StartRefresh() => Task.Run(async () =>
-      {
-          while (!this._cts.Token.IsCancellationRequested)
-          {
-              var user = this.profileService.User;
-              if (user != null && user.LogOffTimer.HasValue)
-              {
-                  this.timeoutHandler.CalculateDifferences(user.LogOffTimer);
-              }
-
-              await this.InvokeAsync(StateHasChanged);
-              await Task.Delay(TimeSpan.FromSeconds(5));
-          }
-      });
+    private async void StartRefresh()
+    {
+        while (await this._periodicTimer.WaitForNextTickAsync(this._cts.Token))
+        {
+            await this.InvokeAsync(StateHasChanged);
+        }
+    }
 
     private string GetStateCss() => apiClient?.IsConnected ?? false ? "online" : "offline";
 
     public void Dispose()
     {
+        this._periodicTimer.Dispose();
         this.batteryService.InfoChanged -= this.InfoChanged;
         this._cts.Cancel();
         this._cts.Dispose();

@@ -23,7 +23,6 @@ namespace chdScoring.App.UI.Pages.Components.Base
         [Inject] protected ISettingManager _settingManager { get; set; }
         [Inject] protected IModalHandler _modalHandler { get; set; }
 
-        [Parameter] public Func<Task> ChangeMode { get; set; }
         [Parameter] public Func<SaveScoreDto, Task<bool>> ScoreSaved { get; set; }
         [Parameter] public Func<JudgeDto, PilotDto, int, Task<bool>> ScoresConfirmed { get; set; }
         [Parameter] public int Round { get; set; }
@@ -48,8 +47,6 @@ namespace chdScoring.App.UI.Pages.Components.Base
         protected string _scoreValueText => !this._scoreValue.HasValue ? "-" : this._scoreValue.Value < 0 ? "NO" : this._scoreValue.Value == 0 ? "0" : this._scoreValue.Value.ToString("0.#");
 
         protected decimal? _scoreValue;
-
-        protected async Task ChangePanelMode() => await this.ChangeMode.Invoke();
 
         protected Task Repeat() => this._tTSService.SpeakAsync(this.Maneouvre?.Name);
 

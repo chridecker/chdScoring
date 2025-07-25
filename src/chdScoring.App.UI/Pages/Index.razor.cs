@@ -25,7 +25,6 @@ namespace chdScoring.App.UI.Pages
         private int _zoom;
 
         private int? _judge;
-        private bool _useDropPanel = false;
         private IEnumerable<JudgeDto> _judges = [];
         private JudgeDto _selectedJudge;
 
@@ -67,8 +66,6 @@ namespace chdScoring.App.UI.Pages
 
             this._zoom = await this._settingManager.GetScoringZoom();
 
-            this._useDropPanel = await this._settingManager.GetSettingLocal<bool>(SettingConstants.DropPanel);
-
             this._judgeHubClient.Connected += this._judgeHubClient_Connected;
             this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
             this._profileService.UserChanged += this._profileService_UserChanged;
@@ -77,13 +74,6 @@ namespace chdScoring.App.UI.Pages
             await this.LoadData();
 
             await base.OnInitializedAsync();
-        }
-
-        private async Task ChangeDropPanel()
-        {
-            this._useDropPanel = !this._useDropPanel;
-            await this._settingManager.StoreSettingLocal<bool>(SettingConstants.DropPanel, this._useDropPanel);
-            await this.InvokeAsync(this.StateHasChanged);
         }
 
         private async void _judgeHubClient_Connected(object? sender, EventArgs e)
