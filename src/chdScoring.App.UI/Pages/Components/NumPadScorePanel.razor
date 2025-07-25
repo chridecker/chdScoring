@@ -5,27 +5,24 @@
 @using chdScoring.Contracts.Dtos;
 @inherits ScoreBase
 <div class="score-panel">
-
-    @* <div class="buttons">
-        <IconButton FAClass="plus-minus" OnClick="this.ChangePanelMode" />
-    </div> *@
-
     <div class="pilot-data">
         @if (this.Pilot is not null)
         {
-            <text>&#8470; </text> 
-        @($"{this.Pilot?.Id} {this._pilotName}")
-                }
+            <text>&#8470; </text>
+            @($"{this.Pilot?.Id} {this._pilotName}")
+        }
     </div>
 
     @if (this.PanelDisabled && this.Maneouvre is null && this.NeedsJudgeConfirmation && !this.IsConfirmed)
     {
         <div class="score-confirmation">
-            <div class="confirm-text">Please confirm your scores</div>
-            <IconButton Disabled="@this.IsConfirmed" FAClass="badge-check" Style="EIconStyle.Regular" OnClick="this.ConfirmScores" />
+            <IconButton Disabled="@this.IsConfirmed" FAClass="badge-check" Style="EIconStyle.Regular" OnClick="this.ConfirmScores">
+                Please confirm your scores
+            </IconButton>
         </div>
     }
-    else if (this.PanelDisabled && this.NeedsJudgeConfirmation && this.IsConfirmed)
+
+    @if (this.PanelDisabled && this.NeedsJudgeConfirmation && this.IsConfirmed)
     {
         <div class="score-confirmed">
             <CustomIcon FAClass="badge-check" Style="EIconStyle.Regular" />

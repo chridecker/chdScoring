@@ -42,7 +42,7 @@ namespace chdScoring.DataAccess.EFCore
             });
             modelBuilder.Entity<Figur_Programm>().HasKey(x => new { x.Programm, x.Figur });
             modelBuilder.Entity<Judge_Panel>().HasKey(x => new { x.Judge, x.Panel });
-            modelBuilder.Entity<Wertung_History>().HasKey(x => new { x.Judge, x.Durchgang, x.Figur, x.Teilnehmer, x.Time });
+            modelBuilder.Entity<Wertung_History>().HasKey(x => new { x.Teilnehmer, x.Durchgang, x.Figur, x.Judge, x.Time });
             modelBuilder.Entity<Teilnehmer_Durchgang_Judge>(builder =>
             {
                 builder.ToTable("teilnehmer_durchgang_judge");
@@ -51,7 +51,7 @@ namespace chdScoring.DataAccess.EFCore
             modelBuilder.Entity<Wertung>(builder =>
             {
                 builder.ToTable("wertung").HasKey(x => new { x.Teilnehmer, x.Durchgang, x.Figur, x.Judge });
-                builder.HasMany(m => m.Histories).WithOne(o => o.Wertung).HasForeignKey(x => new { x.Judge, x.Durchgang, x.Figur, x.Teilnehmer });
+                builder.HasMany(m => m.Histories).WithOne(o => o.Wertung).HasForeignKey(x => new { x.Teilnehmer, x.Durchgang, x.Figur, x.Judge });
             });
 
             modelBuilder.Entity<Country_Images>().HasKey(x => x.Img_Id);

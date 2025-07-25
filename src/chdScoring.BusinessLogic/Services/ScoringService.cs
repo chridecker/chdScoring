@@ -39,16 +39,12 @@ namespace chdScoring.BusinessLogic.Services
 
         public async Task<bool> SaveScore(SaveScoreDto dto, CancellationToken cancellationToken)
         {
-            if (dto.Value == -99)
+            if (await this._scoreDal.SaveScore(dto, cancellationToken))
             {
-                if (!await this._scoreDal.TryHandleNotObserved(dto, cancellationToken))
+                if (await this._scoreDal.HasNotObserved(dto, cancellationToken))
                 {
-                    return false;
+                    _ = await this._scoreDal.TryHandleNotObserved(dto, cancellationToken);
                 }
-                return await this._scoreDal.SaveScore(dto, cancellationToken);
-            }
-            else if (await this._scoreDal.SaveScore(dto, cancellationToken))
-            {
                 if (dto.Value < 1 && dto.Value >= 0)
                 {
                     await this._hubDataService.NotifyZero(await this._scoreDal.CreateZeroNotification(dto), cancellationToken);

@@ -1,4 +1,5 @@
 ﻿using chdScoring.Contracts.Dtos;
+using chdScoring.Contracts.Extensions;
 using chdScoring.DataAccess.Contracts.DAL;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
@@ -36,17 +37,29 @@ namespace chdScoring.DataAccess.DAL
             return new NotificationDto($"Wertung '{dto.Value}'", message);
         }
 
+
+
+
+        public async Task<bool> HasNotObserved(SaveScoreDto dto, CancellationToken cancellationToken)
+        {
+            var scores = this._wertungRepository.Where(x => x.Durchgang == dto.Round && x.Teilnehmer == dto.Pilot && x.Figur == dto.Figur);
+            return scores.Any(a => a.Wert == -99);
+        }
         public async Task<bool> TryHandleNotObserved(SaveScoreDto dto, CancellationToken cancellationToken)
         {
             var jp = await this._judgePanelRepository.FirstOrDefaultAsync(x => x.Judge == dto.Judge);
             var judges = await this._judgePanelRepository.Where(x => x.Panel == jp.Panel).ToListAsync();
             var scores = await this._wertungRepository.Where(x => x.Durchgang == dto.Round && x.Teilnehmer == dto.Pilot && x.Figur == dto.Figur).ToListAsync();
-            if (scores.Count < judges.Count - 1)
+            if (scores.Count < judges.Select(s => s.Judge).Distinct().Count())
             {
                 return false;
             }
-            var avg = scores.Where(x => x.Judge != dto.Judge).Select(s => s.Wert).Average();
-            dto.Value = avg;
+            foreach (var noScore in scores.Where(x => x.Wert == -99))
+            {
+                var avg = scores.Where(x => x.Wert >= 0).Average(x => x.Wert).RoundToNearestHalf();
+                noScore.Wert = avg * (-1);
+                await this._wertungRepository.SaveAsync(noScore, cancellationToken);
+            }
             return true;
         }
 

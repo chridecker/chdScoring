@@ -34,13 +34,21 @@ namespace chdScoring.App.UI.Pages
             await base.OnInitializedAsync();
         }
 
-        private decimal? _score(JudgeDto judge, ManeouvreDto maneouvre) => this._dto.ManeouvreLst[judge.Id].FirstOrDefault(x => x.Id == maneouvre.Id)?.Score;
+
+        private ManeouvreDto _scoreMan(JudgeDto judge, ManeouvreDto maneouvre) => this._dto.ManeouvreLst[judge.Id].FirstOrDefault(x => x.Id == maneouvre.Id);
+
+        private decimal? _score(JudgeDto judge, ManeouvreDto maneouvre) => _scoreMan(judge, maneouvre)?.Score;
+
+
         private string _scoreClass(JudgeDto judge, ManeouvreDto maneouvre)
         {
 
             var score = this._score(judge, maneouvre);
-            if (!score.HasValue || score.Value >= 1) { return string.Empty; }
-            return $"needs-attention is-loading-glow ";
+            if (maneouvre.Histories.Any() || (score.HasValue && score.Value < 1))
+            {
+                return $"needs-attention is-loading-glow ";
+            }
+            return string.Empty;
         }
 
         private string _scoreConfirmed(JudgeDto dto)

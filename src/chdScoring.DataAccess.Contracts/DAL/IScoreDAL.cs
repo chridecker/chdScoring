@@ -9,6 +9,7 @@ namespace chdScoring.DataAccess.Contracts.DAL
     {
         Task<bool> ConfirmScores(ConfirmScoresDto saveScoreDto, CancellationToken cancellationToken);
         Task<NotificationDto> CreateZeroNotification(SaveScoreDto dto);
+        Task<bool> HasNotObserved(SaveScoreDto dto, CancellationToken cancellationToken);
         Task<bool> SaveScore(SaveScoreDto dto, CancellationToken cancellationToken);
         Task<bool> TryHandleNotObserved(SaveScoreDto dto, CancellationToken cancellationToken);
         Task<bool> UnConfirmScores(ConfirmScoresDto saveScoreDto, CancellationToken cancellationToken);

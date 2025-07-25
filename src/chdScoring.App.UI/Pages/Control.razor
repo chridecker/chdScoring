@@ -21,7 +21,7 @@
                         @foreach (var judge in this._dto.Judges.OrderBy(o => o.Id))
                         {
                             <div class="@(this._scoreClass(judge, maneouvre))">
-                                <div class="judge-score @_scoreConfirmed(judge)">@_score(judge, maneouvre)</div>
+                                <div class="judge-score @_scoreConfirmed(judge)">@_score(judge, maneouvre)?.ToString("0.#")</div>
                             </div>
                         }
                     </div>

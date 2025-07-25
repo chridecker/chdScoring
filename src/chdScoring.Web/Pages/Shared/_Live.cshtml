@@ -45,7 +45,7 @@
                                 <div class="score-total">
                                     @this.Model.CurrentFlight.ManeouvreLst[judge.Id].FirstOrDefault(x => x.Id == maneouvre.Id))?.Score * maneouvre.Value
                                 </div>
-                                <div class="score-raw">@((this.Model.CurrentFlight.ManeouvreLst[judge.Id].FirstOrDefault(x => x.Id == maneouvre.Id)?.Score ?? 0).ToString("0.#"))</div>
+                                <div class="score-raw">@this.Model.ScoreValueText(judge.Id, maneouvre)</div>
                             }
                         </div>
                     }

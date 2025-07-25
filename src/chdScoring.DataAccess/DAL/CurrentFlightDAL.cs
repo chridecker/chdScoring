@@ -89,7 +89,7 @@ namespace chdScoring.DataAccess.DAL
 
 
             dto.Pilot = new PilotDto { Id = wl.Pilot.Id, Name = wl.Pilot.FullName, CountryId = wl.Pilot.Land };
-            dto.JudgeConfirms =  confirms.Select(s => new JudgeConfirmDto(){ Durchgang = s.Durchgang, Judge = s.Judge, Teilnehmer = s.Teilnehmer });
+            dto.JudgeConfirms = confirms.Select(s => new JudgeConfirmDto() { Durchgang = s.Durchgang, Judge = s.Judge, Teilnehmer = s.Teilnehmer });
             dto.Judges = judges.Select(judge => new JudgeDto { Id = judge.Id, Name = $"{judge.Vorname} {judge.Name.ToUpper()}", EditScore = judge.EditScore });
             dto.Round = new RoundDto
             {
@@ -112,6 +112,12 @@ namespace chdScoring.DataAccess.DAL
                         Value = element.Wert,
                         Score = judgeScores.FirstOrDefault(x => x.Figur == i)?.Wert,
                         Saved = judgeScores.Any(x => x.Figur == i),
+                        Histories = judgeScores.Any(x => x.Figur == i) ? judgeScores.FirstOrDefault(x => x.Figur == i).Histories.Select(s => new ManeouvreHistoryDto
+                        {
+                            OldScore = s.Wert_alt,
+                            Score = s.Wert_neu,
+                            Changed = s.Time
+                        }).ToList() : []
                     });
                 }
                 dto.ManeouvreLst[judge.Id] = figurs;
