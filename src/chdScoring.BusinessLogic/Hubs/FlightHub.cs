@@ -2,6 +2,7 @@
 using chdScoring.Contracts.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,6 +21,7 @@ namespace chdScoring.BusinessLogic.Hubs
         public async override Task OnConnectedAsync()
         {
             await this.Clients.Caller.ReceiveFlightData(this._flightCacheService.GetCurrentFlight(DateTime.Now), this.Context.ConnectionAborted);
+            await this.Clients.Caller.ReceiveRoundData(this._flightCacheService.GetCurrentRoundResults(), this.Context.ConnectionAborted);
             await base.OnConnectedAsync();
         }
 
@@ -67,6 +69,11 @@ namespace chdScoring.BusinessLogic.Hubs
         }
 
         public Task ReceiveStatusRequest(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReceiveRoundData(List<RoundResultDto> dtos, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

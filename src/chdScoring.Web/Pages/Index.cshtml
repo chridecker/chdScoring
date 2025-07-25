@@ -12,20 +12,25 @@
 @section Scripts {
     <script>
 
-            var hubUrl = '@this.Model.HubClientUrl';
-            var render = '@this.Model.RenderSetting';
+        var hubUrl = '@this.Model.HubClientUrl';
+        var render = '@this.Model.RenderSetting';
+        var mode= '@this.Model.Mode';
 
         const connection = new signalR.HubConnectionBuilder()
             .withUrl(hubUrl)
             .build();
 
-        connection.on("ReceiveFlightData", function (dto) {
-                    fetch("/Index?handler=" + render, {
+            if(mode == 'Round'){
+                 connection.on("ReceiveRoundData", function (lst) {
+                var x = {
+                    dtos: lst
+                };
+                    fetch("/Index?handler=RenderRoundResult", {
                         method: "Post",
                         headers: {
                             "Content-Type": "application/json"
                         },
-                        body: JSON.stringify(dto)
+                        body: JSON.stringify(x)
                     })
                     .then(res => {
                         if (!res.ok) throw new Error("Fehler beim POST");
@@ -37,7 +42,30 @@
                     .catch(err => {
                         console.error("Fehler:", err);
                     });
-        });
+            });
+        }
+        else{
+            connection.on("ReceiveFlightData", function (dto) {
+                        fetch("/Index?handler=" + render, {
+                            method: "Post",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(dto)
+                        })
+                        .then(res => {
+                            if (!res.ok) throw new Error("Fehler beim POST");
+                            return res.text(); // weil Partial View HTML ist
+                        })
+                        .then(html => {
+                            document.getElementById("timer-container").innerHTML = html;
+                        })
+                        .catch(err => {
+                            console.error("Fehler:", err);
+                        });
+            });
+        }
+
 
         connection.start()
         .then(()=>{

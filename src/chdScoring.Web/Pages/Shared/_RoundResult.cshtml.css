@@ -1,0 +1,8 @@
+﻿.results {
+    display:flex;
+    flex-direction:column;
+}
+
+    .results .result-row {
+        display:flex;
+    }

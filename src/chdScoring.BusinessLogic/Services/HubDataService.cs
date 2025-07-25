@@ -22,6 +22,7 @@ namespace chdScoring.BusinessLogic.Services
         public async Task SendAll(CancellationToken cancellationToken)
         {
             await this._hub.Clients.All.ReceiveFlightData(this._cacheService.GetCurrentFlight(DateTime.Now), cancellationToken);
+            await this._hub.Clients.All.ReceiveRoundData(this._cacheService.GetCurrentRoundResults(), cancellationToken);
         }
         public async Task RequestStatus(CancellationToken cancellationToken)
         {

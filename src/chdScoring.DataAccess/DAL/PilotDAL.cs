@@ -92,7 +92,7 @@ namespace chdScoring.DataAccess.DAL
             }
 
             var retValue = new List<RoundResultDto>();
-            var lst = await this._wettkampfLeitungRepository.Where(x => x.Durchgang == round.Value && x.Status == (int)EFlightState.Saved)
+            var lst = await this._wettkampfLeitungRepository.Where(x => x.Durchgang == round.Value && x.Status >= (int)EFlightState.Saved)
                 .Include(i => i.Pilot).ThenInclude(i => i.Country_Image)
                 .Include(i => i.Round)
                 .AsSplitQuery()

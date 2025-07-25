@@ -23,9 +23,10 @@ namespace chdScoring.Web.Pages
         public string Mode { get; set; }
 
 
-        public string RenderSetting=> string.IsNullOrWhiteSpace(this.Mode) ? "RenderTimer" : this.Mode switch
+        public string RenderSetting => string.IsNullOrWhiteSpace(this.Mode) ? "RenderTimer" : this.Mode switch
         {
             "Live" => "RenderLive",
+            "Round" => "RenderRoundResult",
             _ => "RenderTimer"
         };
 
@@ -71,6 +72,11 @@ namespace chdScoring.Web.Pages
                 CurrentFlight = dto,
                 ImageDto = this._imageCache.CountryImageCache.TryGetValue(dto?.Pilot?.CountryId ?? 0, out var img) ? img : null
             });
+        }
+
+        public async Task<IActionResult> OnPostRenderRoundResult([FromBody] RoundResultContainer container)
+        {
+            return this.Partial("_RoundResult", container);
         }
     }
 }

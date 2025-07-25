@@ -1,0 +1,13 @@
+﻿@using chdScoring.Contracts.Dtos
+@using chdScoring.Web.Models
+@model RoundResultContainer
+<div class="results">
+    @foreach (var result in this.Model.Dtos.OrderBy(o => o.Rank))
+    {
+        <div class="result-row">
+            <div class="rank">@result.Rank</div>
+            <div class="pilot">@result.Pilot.Name</div>
+        </div>
+    }
+
+</div>

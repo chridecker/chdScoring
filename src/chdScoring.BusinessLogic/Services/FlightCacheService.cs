@@ -4,6 +4,8 @@ using chdScoring.DataAccess.Contracts.DAL;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,6 +16,7 @@ namespace chdScoring.BusinessLogic.Services
         private readonly ILogger<FlightCacheService> _logger;
         private readonly IServiceProvider _serviceProvider;
         private CurrentFlight _currentFlight;
+        private List<RoundResultDto> _currentRoundResults = [];
 
         public FlightCacheService(ILogger<FlightCacheService> logger, IServiceProvider serviceProvider)
         {
@@ -27,6 +30,17 @@ namespace chdScoring.BusinessLogic.Services
             var dal = scope.ServiceProvider.GetRequiredService<ICurrentFlightDAL>();
             this._currentFlight = await dal.GetCurrentFlightData(cancellationToken);
         }
+
+        public async Task UpdateRoundResults(CancellationToken cancellationToken)
+        {
+            using var scope = this._serviceProvider.CreateScope();
+            var dal = scope.ServiceProvider.GetRequiredService<IPilotService>();
+            var res = await dal.GetRoundResult(null, cancellationToken);
+            this._currentRoundResults.Clear();
+            this._currentRoundResults.AddRange(res);
+
+        }
+        public List<RoundResultDto> GetCurrentRoundResults()=> this._currentRoundResults;
 
         public CurrentFlight GetCurrentFlight(DateTime currentDateTime)
         {

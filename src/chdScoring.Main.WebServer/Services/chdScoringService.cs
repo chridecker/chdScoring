@@ -27,6 +27,7 @@ namespace chdScoring.Main.WebServer.Services
             while (!stoppingToken.IsCancellationRequested)
             {
                 await this._flightCacheService.Update(stoppingToken);
+                await this._flightCacheService.UpdateRoundResults(stoppingToken);
                 await Task.Delay(this._optionsMonitor.CurrentValue.RefreshInterval, stoppingToken);
             }
         }
