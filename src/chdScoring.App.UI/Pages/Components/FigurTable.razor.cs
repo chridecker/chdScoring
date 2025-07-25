@@ -10,6 +10,7 @@ namespace chdScoring.App.UI.Pages.Components
         [Parameter] public IEnumerable<ManeouvreDto> Maneouvres { get; set; }
         [Parameter] public ManeouvreDto Current { get; set; }
 
+        [Parameter] public bool ScoresConfirmed { get; set; }
         [Parameter] public bool EditManeouvreEnabled { get; set; }
         [Parameter] public Func<ManeouvreDto, Task> EditManeouvre { get; set; }
 

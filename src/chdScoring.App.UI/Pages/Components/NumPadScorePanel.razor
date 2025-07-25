@@ -22,7 +22,7 @@
         </div>
     }
 
-    @if (this.PanelDisabled && this.NeedsJudgeConfirmation && this.IsConfirmed)
+    @if (this.PanelDisabled && this.NeedsJudgeConfirmation && this.IsConfirmed && this.Judge is not null)
     {
         <div class="score-confirmed">
             <CustomIcon FAClass="badge-check" Style="EIconStyle.Regular" />

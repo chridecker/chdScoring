@@ -1,7 +1,7 @@
 ﻿@using chdScoring.Contracts.Dtos;
 
 
-<div class="figure-table" @onscroll="this._scrollInfoService.Scrolled">
+<div class="figure-table @(this.ScoresConfirmed ? "confirmed" : "")" @onscroll="this._scrollInfoService.Scrolled">
     @if (this.Maneouvres?.Any() ?? false)
     {
         <div class="ft-row ft-header">

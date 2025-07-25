@@ -5,6 +5,10 @@
     font-size: 1.2rem;
 }
 
+.figure-table.confirmed{
+    opacity: 0.5;
+}
+
     .figure-table .ft-row {
         padding: 0.1rem 0;
         display: grid;
