@@ -6,13 +6,16 @@
 @inherits ScoreBase
 <div class="score-panel">
 
-    <div class="buttons">
+    @* <div class="buttons">
         <IconButton FAClass="plus-minus" OnClick="this.ChangePanelMode" />
-    </div>
+    </div> *@
 
     <div class="pilot-data">
-        <div class="id">&#8470;@this.Pilot?.Id</div>
-        <div class="name">@this.Pilot?.Name</div>
+        @if (this.Pilot is not null)
+        {
+            <text>&#8470; </text> 
+        @($"{this.Pilot?.Id} {this._pilotName}")
+                }
     </div>
 
     @if (this.PanelDisabled && this.Maneouvre is null && this.NeedsJudgeConfirmation && !this.IsConfirmed)

@@ -7,6 +7,7 @@
 }
 
     .score-panel .buttons {
+        display:none;
         max-height: 3rem;
         display: flex;
     }
@@ -26,24 +27,13 @@
         }
 
     .score-panel .pilot-data {
-        height: 6rem;
-        font-size: 2rem;
+        height: 4rem;
+        font-size: 1.5rem;
+        line-height:1.2;
         padding: 0 0.5rem;
-        text-align: center;
-        font-weight: bold;
-        display: flex;
-        gap: 1rem;
+        text-align: left;
         border-bottom: 1px solid var(--chd-bg-lighter);
     }
-
-
-        .score-panel .pilot-data .id {
-        }
-
-        .score-panel .pilot-data .name {
-            max-width:70vw;
-            text-align: left;
-        }
 
 
     .score-panel .score-confirmation {
@@ -166,17 +156,17 @@
 
         .score-panel .score-pad ::deep .btn.icon-button-plus {
             grid-column: 4;
-            grid-row: 2;
+            grid-row: 3;
         }
 
         .score-panel .score-pad ::deep .btn.icon-button-minus {
             grid-column: 4;
-            grid-row: 3;
+            grid-row: 4;
         }
 
         .score-panel .score-pad ::deep button.btn.icon-button-headphones {
-            grid-row: 5;
-            grid-column: 1;
+            grid-row: 2;
+            grid-column: 4;
         }
 
         .score-panel .score-pad ::deep button.btn.icon-button-0 {
@@ -191,8 +181,8 @@
         }
 
         .score-panel .score-pad ::deep button.btn.icon-button-eye-slash {
-            grid-column: 4;
-            grid-row: 4;
+            grid-column: 1;
+            grid-row: 5;
         }
 
         .score-panel .score-pad ::deep button.btn.icon-button-floppy-disk.disabled {

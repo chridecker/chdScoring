@@ -36,7 +36,19 @@ namespace chdScoring.App.UI.Pages.Components
             (true, 110) => this.Comma(),
             _ => Task.CompletedTask
         };
-
+        private string _pilotName
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(this.Pilot?.Name)
+                    && this.Pilot.Name.Split(' ').Length > 1
+                    && this.Pilot.Name.Split(' ')[1].Length > 10)
+                {
+                    return this.Pilot.Name.Split(' ')[0].Substring(0,1) + ". " + this.Pilot.Name.Split(' ')[1];
+                }
+                return this.Pilot?.Name;
+            }
+        }
 
 
         private async Task Calc(decimal i, bool useDrop = false)
