@@ -1,0 +1,16 @@
+@using chdScoring.Contracts.Dtos;
+
+<div class="score-history-container">
+    @foreach (var history in this.Histories.OrderByDescending(o => o.Changed))
+    {
+        <div class="history-row">
+            <div class="time">@history.Changed.ToString("HH:mm:ss"):</div>
+            <div class="score">@history.OldScore.ToString("0.#") <CustomIcon FAClass="arrow-right" /> @history.Score.ToString("0.#")</div>
+        </div>
+    }
+</div>
+
+
+@code {
+    [Parameter] public List<ManeouvreHistoryDto> Histories { get; set; }
+}

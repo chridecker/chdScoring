@@ -4,6 +4,9 @@ using chdScoring.Contracts.Interfaces;
 using chdScoring.App.UI.Constants;
 using chd.UI.Base.Components.Base;
 using chdScoring.App.UI.Interfaces;
+using chd.UI.Base.Client.Implementations.Services;
+using chdScoring.App.UI.Pages.Components;
+using Blazored.Modal;
 
 namespace chdScoring.App.UI.Pages
 {
@@ -12,6 +15,7 @@ namespace chdScoring.App.UI.Pages
         private CancellationTokenSource _cts = new CancellationTokenSource();
         private RoundDataDto _dto;
 
+        [Inject] IModalHandler _modalHandler { get; set; }
         [Inject] IJudgeHubClient _judgeHubClient { get; set; }
         [Inject] IJudgeDataCache _judgeDataCache { get; set; }
         [Inject] ITimerService _timerService { get; set; }
@@ -55,6 +59,20 @@ namespace chdScoring.App.UI.Pages
         {
             var confirm = this._dto.JudgeConfirms.Any(a => a.Judge == dto.Id);
             return confirm ? "confirmed" : "";
+        }
+
+        private async Task OpenHistory(JudgeDto judge, ManeouvreDto maneouvre)
+        {
+            var man = _scoreMan(judge, maneouvre);
+            if (man is not null && maneouvre.Histories.Any())
+            {
+                var param = new ModalParameters()
+                {
+                    {nameof(ScoreHistoryComponent.Histories), maneouvre.Histories },
+                };
+
+                await this._modalHandler.Show<ScoreHistoryComponent>("Score History", param).Result;
+            }
         }
 
         private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)

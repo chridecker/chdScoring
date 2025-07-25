@@ -18,7 +18,7 @@ namespace chdScoring.App.UI.Pages.Components
 
         private async Task ClickEditScore(ManeouvreDto dto)
         {
-            if (this.EditManeouvreEnabled && dto.Saved && dto.Score.HasValue)
+            if (this.EditManeouvreEnabled && dto.Saved && dto.Score.HasValue && dto.Score.Value >= 0)
             {
                 await this.EditManeouvre?.Invoke(dto);
             }
