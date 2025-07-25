@@ -43,7 +43,7 @@ namespace chdScoring.DataAccess.DAL
         public async Task<bool> HasNotObserved(SaveScoreDto dto, CancellationToken cancellationToken)
         {
             var scores = this._wertungRepository.Where(x => x.Durchgang == dto.Round && x.Teilnehmer == dto.Pilot && x.Figur == dto.Figur);
-            return scores.Any(a => a.Wert == -99);
+            return scores.Any(a => a.Wert < 0);
         }
         public async Task<bool> TryHandleNotObserved(SaveScoreDto dto, CancellationToken cancellationToken)
         {
@@ -54,7 +54,7 @@ namespace chdScoring.DataAccess.DAL
             {
                 return false;
             }
-            foreach (var noScore in scores.Where(x => x.Wert == -99))
+            foreach (var noScore in scores.Where(x => x.Wert < 0))
             {
                 var avg = scores.Where(x => x.Wert >= 0).Average(x => x.Wert).RoundToNearestHalf();
                 noScore.Wert = avg * (-1);

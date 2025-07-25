@@ -46,9 +46,9 @@ namespace chdScoring.App.UI.Pages
 
         private string _scoreClass(JudgeDto judge, ManeouvreDto maneouvre)
         {
-
+            var man = _scoreMan(judge, maneouvre);
             var score = this._score(judge, maneouvre);
-            if (maneouvre.Histories.Any() || (score.HasValue && score.Value < 1))
+            if (man.Histories.Any() || (score.HasValue && score.Value < 1 && score.Value >=0))
             {
                 return $"needs-attention is-loading-glow ";
             }
@@ -64,11 +64,11 @@ namespace chdScoring.App.UI.Pages
         private async Task OpenHistory(JudgeDto judge, ManeouvreDto maneouvre)
         {
             var man = _scoreMan(judge, maneouvre);
-            if (man is not null && maneouvre.Histories.Any())
+            if (man is not null && man.Histories.Any())
             {
                 var param = new ModalParameters()
                 {
-                    {nameof(ScoreHistoryComponent.Histories), maneouvre.Histories },
+                    {nameof(ScoreHistoryComponent.Histories), man.Histories },
                 };
 
                 await this._modalHandler.Show<ScoreHistoryComponent>("Score History", param).Result;

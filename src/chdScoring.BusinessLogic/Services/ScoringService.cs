@@ -59,6 +59,10 @@ namespace chdScoring.BusinessLogic.Services
         {
             if (await this._scoreDal.UpdateScore(dto, cancellationToken))
             {
+                if (await this._scoreDal.HasNotObserved(dto, cancellationToken))
+                {
+                    _ = await this._scoreDal.TryHandleNotObserved(dto, cancellationToken);
+                }
                 if (dto.Value < 1)
                 {
                     await this._hubDataService.NotifyZero(await this._scoreDal.CreateZeroNotification(dto), cancellationToken);
