@@ -1,12 +1,24 @@
 ﻿@using chdScoring.Contracts.Dtos
 @using chdScoring.Web.Models
 @model RoundResultContainer
+<div class="round">
+    <div class="info">Round @this.Model.Dtos.FirstOrDefault()?.Round</div>
+</div>
 <div class="results">
     @foreach (var result in this.Model.Dtos.OrderBy(o => o.Rank))
     {
         <div class="result-row">
+            @if (result.Pilot.CountryImage is not null && result.Pilot.CountryImage.Data.Length > 0)
+            {
+                <div class="custom-image">
+                    <img src="@this.Model.GetImageUrl(result.Pilot.CountryImage)" />
+                </div>
+            }
             <div class="rank">@result.Rank</div>
             <div class="pilot">@result.Pilot.Name</div>
+            <div class="country">@result.Pilot.CountryCode.ToUpper()</div>
+            <div class="score">@result.Score</div>
+            <div class="score prom">@result.ScoreProm</div>
         </div>
     }
 
