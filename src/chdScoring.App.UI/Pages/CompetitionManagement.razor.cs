@@ -110,6 +110,25 @@ namespace chdScoring.App.UI.Pages
             }, this._cts.Token);
         }
 
+        private async Task ReflightRound()
+        {
+            var finishedRounds = await this._pilotService.GetFinishedFlights();
+            var parameters = new ModalParameters
+                     {
+                         { nameof(SearchModalComponent<FinishedRoundDto, int>.Items), finishedRounds.OrderBy(o=>o.Pilot.Name).ThenBy(o=>o.Round.Id).ThenBy(o => o.Start).ToList() },
+                         { nameof(SearchModalComponent<FinishedRoundDto, int>.Name),(FinishedRoundDto r)=> $"{r.Pilot.Name}, Runde {r.Round.Id}" },
+                         { nameof(SearchModalComponent<FinishedRoundDto, int>.DisableOrder), true },
+                     };
+            var modalInstance = this._modal.Show<SearchModalComponent<FinishedRoundDto, int>>("Runde wiederholen", parameters);
+
+            var result = await modalInstance.Result;
+            if (result.Confirmed && result.Data is FinishedRoundDto dto
+                && await this._modal.ShowYesNoDialog($"{dto.Pilot.Name} Runde {dto.Round.Id} wirklich löschen?", this._settingManager.IsiOS) == EDialogResult.Yes)
+            {
+                await this._pilotService.ReflightRound(new() { Pilot = dto.Pilot.Id, Round = dto.Round.Id }, this._cts.Token);
+            }
+        }
+
         private async Task LoadDatabaseData()
         {
             this._databaseConnections = await this._databaseService.GetDatabaseConnections();

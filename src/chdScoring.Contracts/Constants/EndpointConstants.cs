@@ -16,6 +16,7 @@
             public const string GET_Round = "round";
             public const string GET_All = "getall";
             public const string POST_SetStart = "SetStart";
+            public const string POST_Reflight= "Reflight";
         }
         public class Judge
         {

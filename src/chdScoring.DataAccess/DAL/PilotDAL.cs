@@ -19,8 +19,37 @@ namespace chdScoring.DataAccess.DAL
 {
     public class PilotDAL : BaseDAL, IPilotDAL
     {
-        public PilotDAL(ILogger<PilotDAL> logger, IWettkampfLeitungRepository wettkampfLeitungRepository, ITeilnehmerRepository teilnehmerRepository, IJudgeRepository judgeRepository, IFigurRepository figurRepository, IProgrammRepository programmRepository, IWertungRepository wertungRepository, IKlasseRepository klasseRepository, ICountryImageRepository countryImageRepository, IImageRepository imageRepository, IDurchgangPanelRepository durchgangPanelRepository, IDurchgangProgramRepository durchgangProgramRepository, IFigurProgrammRepository figurProgrammRepository, IJudgePanelRepository judgePanelRepository, IStammDatenRepository stammDatenRepository, IBebwerbRepository bebwerbRepository, IDurchgangRepository durchgangRepository, ITeilnehmerBewerbRepository teilnehmerBewerbRepository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, figurProgrammRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
+        private readonly ITeilnehmerDurchgangJudgeRespository _teilnehmerDurchgangJudgeRespository;
+        private readonly IWertungHistoryRepository _wertungHistoryRepository;
+
+        public PilotDAL(ILogger<PilotDAL> logger, ITeilnehmerDurchgangJudgeRespository teilnehmerDurchgangJudgeRespository, IWertungHistoryRepository wertungHistoryRepository, IWettkampfLeitungRepository wettkampfLeitungRepository, ITeilnehmerRepository teilnehmerRepository, IJudgeRepository judgeRepository, IFigurRepository figurRepository, IProgrammRepository programmRepository, IWertungRepository wertungRepository, IKlasseRepository klasseRepository, ICountryImageRepository countryImageRepository, IImageRepository imageRepository, IDurchgangPanelRepository durchgangPanelRepository, IDurchgangProgramRepository durchgangProgramRepository, IFigurProgrammRepository figurProgrammRepository, IJudgePanelRepository judgePanelRepository, IStammDatenRepository stammDatenRepository, IBebwerbRepository bebwerbRepository, IDurchgangRepository durchgangRepository, ITeilnehmerBewerbRepository teilnehmerBewerbRepository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, figurProgrammRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
         {
+            this._teilnehmerDurchgangJudgeRespository = teilnehmerDurchgangJudgeRespository;
+            this._wertungHistoryRepository = wertungHistoryRepository;
+        }
+
+        public async Task<bool> DeleteRoundScoring(int pilot, int round, CancellationToken cancellationToken)
+        {
+            var confirms = await this._teilnehmerDurchgangJudgeRespository.Where(x => x.Teilnehmer == pilot && x.Durchgang == round).ToListAsync();
+            var scores = await this._wertungRepository.Where(x => x.Teilnehmer == pilot && x.Durchgang == round).Include(i => i.Histories).ToListAsync();
+            var durchgang = await this._durchgangRepository.FirstOrDefaultAsync(x => x.Teilnehmer == pilot && x.Durchgang == round);
+            foreach (var c in confirms)
+            {
+                await this._teilnehmerDurchgangJudgeRespository.Delete(c);
+            }
+            foreach (var score in scores)
+            {
+                await this._wertungRepository.Delete(score);
+            }
+            if (durchgang is not null)
+            {
+                await this._durchgangRepository.Delete(durchgang);
+            }
+            return await this.SetPilotActive(new LoadPilotDto()
+            {
+                Pilot = pilot,
+                Round = round
+            }, cancellationToken);
         }
 
         public async Task<IEnumerable<OpenRoundDto>> LoadOpenPilots(int? round, CancellationToken cancellationToken)

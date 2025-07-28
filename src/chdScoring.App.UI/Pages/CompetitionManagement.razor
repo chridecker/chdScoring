@@ -10,20 +10,19 @@
 
 <div class="controlcenter-container">
 
+    <Timer CancellationToken="this._cts.Token" Dto="this._dto" Airfield="1" />
+
+    <div class="competition-control">
+        <IconButton FAClass="floppy-disk" OnClick="this.SaveRound">Save</IconButton>
+        <IconButton FAClass="forward-step" OnClick="async () => await this.LoadNextPilot(true)">Next Pilot</IconButton>
+        <IconButton FAClass="forward" OnClick="async () => await this.LoadNextPilot(false)">Choose Pilot</IconButton>
+        @if (this._dto is not null)
+        {
+            <IconButton FAClass="pause" OnClick="this.SetBreak">Break</IconButton>
+        }
+    </div>
     @if (this._dto is not null)
     {
-        <Timer CancellationToken="this._cts.Token" Dto="this._dto" Airfield="1" />
-
-        <div class="competition-control">
-            <IconButton FAClass="floppy-disk" OnClick="this.SaveRound">Save</IconButton>
-            @if (this._dto is not null)
-            {
-                <IconButton FAClass="pause" OnClick="this.SetBreak">Break</IconButton>
-            }
-            <IconButton FAClass="forward-step" OnClick="async () => await this.LoadNextPilot(true)">Next Pilot</IconButton>
-            <IconButton FAClass="forward" OnClick="async () => await this.LoadNextPilot(false)">Choose Pilot</IconButton>
-        </div>
-
         <JudgeControl CancellationToken="this._cts.Token" Dto="this._dto" Airfield="1" />
     }
 </div>
@@ -54,6 +53,11 @@
     <FloatingActionButton FAClass="database"
                           OnClick="async () => await this.LoadDatabaseData()"
                           Title="Choose Database"
+                          CssClass="dot-btn-save large" />
+
+    <FloatingActionButton FAClass="arrows-repeat-1"
+                          OnClick="async () => await this.ReflightRound()"
+                          Title="Reflight"
                           CssClass="dot-btn-save large" />
 </FloatingActionNavigation>
 

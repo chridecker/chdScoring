@@ -44,8 +44,11 @@
         background: rgba(0,0,0,0.7);
     }
 
+
         .score-panel .score-confirmation ::deep button.btn {
             background: var(--chd-bg-lighter);
+            animation: glow 1s ease-in-out infinite alternate;
+            animation-delay:10s;
         }
 
             .score-panel .score-confirmation ::deep button.btn svg {
@@ -56,126 +59,135 @@
                 font-size: 1.5rem;
             }
 
-    .score-panel .score-confirmed {
-        padding: 0 0.5rem;
-        height: 90%;
-        display: flex;
-        justify-content: center;
-        align-content: center;
-        align-items: center;
+@keyframes glow {
+    from {
+        box-shadow: 0 0 10px var(--chd-font-color), 0 0 20px var(--chd-font-color), 0 0 30px var(--chd-main-color-theme), 0 0 40px var(--chd-main-color-theme), 0 0 50px var(--chd-main-color-theme), 0 0 60px var(--chd-main-color-theme), 0 0 70px var(--chd-main-color-theme);
     }
 
-        .score-panel .score-confirmed ::deep svg {
-            height: 70%;
-            fill: var(--chd-grey-semi-transparent);
-        }
+    to {
+        box-shadow: 0 0 20px var(--chd-font-color), 0 0 30px var(--chd-main-color-theme), 0 0 40px var(--chd-main-color-theme), 0 0 50px var(--chd-main-color-theme), 0 0 60px var(--chd-main-color-theme), 0 0 70px var(--chd-main-color-theme), 0 0 80px var(--chd-main-color-theme);
+    }
+}
 
-    .score-panel .score-pad {
-        justify-content: center;
-        justify-items: center;
-        align-content: center;
-        align-items: center;
-        display: grid;
-        grid-gap: 0.4rem;
-        grid-template-columns: repeat(4, 1fr);
+
+.score-panel .score-confirmed {
+    padding: 0 0.5rem;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+    .score-panel .score-confirmed ::deep svg {
+        height: 70%;
+        fill: var(--chd-grey-semi-transparent);
     }
 
+.score-panel .score-pad {
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+    display: grid;
+    grid-gap: 0.4rem;
+    grid-template-columns: repeat(4, 1fr);
+}
 
 
 
-        .score-panel .score-pad ::deep button.btn.icon-button-delete-left {
-            --button-height: 3.6rem;
-            grid-row: 1;
-            grid-column: 4;
-            background: none;
-            justify-self: start;
-        }
 
-        .score-panel .score-pad .score-control-value {
-            grid-row: 1;
-            grid-column: 1/4;
-            font-size: 4rem;
-            text-align: center;
-        }
+    .score-panel .score-pad ::deep button.btn.icon-button-delete-left {
+        --button-height: 3.6rem;
+        grid-row: 1;
+        grid-column: 4;
+        background: none;
+        justify-self: start;
+    }
 
-        .score-panel .score-pad ::deep button.btn.icon-button-1,
-        .score-panel .score-pad ::deep button.btn.icon-button-2 {
-            grid-row: 2;
-        }
+    .score-panel .score-pad .score-control-value {
+        grid-row: 1;
+        grid-column: 1/4;
+        font-size: 4rem;
+        text-align: center;
+    }
 
-        .score-panel .score-pad ::deep button.btn.icon-button-3 {
-            grid-row: 2;
-            grid-column: 3;
-        }
+    .score-panel .score-pad ::deep button.btn.icon-button-1, .score-panel .score-pad ::deep button.btn.icon-button-2 {
+        grid-row: 2;
+    }
 
-        .score-panel .score-pad ::deep button.btn.icon-button-4,
-        .score-panel .score-pad ::deep button.btn.icon-button-5 {
-            grid-row: 3;
-        }
+    .score-panel .score-pad ::deep button.btn.icon-button-3 {
+        grid-row: 2;
+        grid-column: 3;
+    }
 
-        .score-panel .score-pad ::deep button.btn.icon-button-6 {
-            grid-row: 3;
-            grid-column: 3;
-        }
+    .score-panel .score-pad ::deep button.btn.icon-button-4, .score-panel .score-pad ::deep button.btn.icon-button-5 {
+        grid-row: 3;
+    }
 
-        .score-panel .score-pad ::deep button.btn.icon-button-7,
-        .score-panel .score-pad ::deep button.btn.icon-button-8 {
-            grid-row: 4;
-        }
+    .score-panel .score-pad ::deep button.btn.icon-button-6 {
+        grid-row: 3;
+        grid-column: 3;
+    }
 
-        .score-panel .score-pad ::deep button.btn.icon-button-9 {
-            grid-row: 4;
-            grid-column: 3;
-        }
+    .score-panel .score-pad ::deep button.btn.icon-button-7, .score-panel .score-pad ::deep button.btn.icon-button-8 {
+        grid-row: 4;
+    }
 
-        .score-panel .score-pad ::deep button.btn.icon-button-comma {
-            grid-row: 5;
-            grid-column: 3;
-        }
+    .score-panel .score-pad ::deep button.btn.icon-button-9 {
+        grid-row: 4;
+        grid-column: 3;
+    }
 
-        .score-panel .score-pad ::deep .btn.icon-button-plus {
-            grid-column: 4;
-            grid-row: 3;
-        }
+    .score-panel .score-pad ::deep button.btn.icon-button-comma {
+        grid-row: 5;
+        grid-column: 3;
+    }
 
-        .score-panel .score-pad ::deep .btn.icon-button-minus {
-            grid-column: 4;
-            grid-row: 4;
-        }
+    .score-panel .score-pad ::deep .btn.icon-button-plus {
+        grid-column: 4;
+        grid-row: 3;
+    }
 
-        .score-panel .score-pad ::deep button.btn.icon-button-headphones {
-            grid-row: 2;
-            grid-column: 4;
-        }
+    .score-panel .score-pad ::deep .btn.icon-button-minus {
+        grid-column: 4;
+        grid-row: 4;
+    }
 
-        .score-panel .score-pad ::deep button.btn.icon-button-0 {
-            grid-row: 5;
-            grid-column: 2;
-        }
+    .score-panel .score-pad ::deep button.btn.icon-button-headphones {
+        grid-row: 2;
+        grid-column: 4;
+    }
 
-        .score-panel .score-pad ::deep button.btn.icon-button-floppy-disk {
-            grid-column: 4;
-            grid-row: 5;
-            background: var(--chd-main-color-theme);
-        }
+    .score-panel .score-pad ::deep button.btn.icon-button-0 {
+        grid-row: 5;
+        grid-column: 2;
+    }
 
-        .score-panel .score-pad ::deep button.btn.icon-button-eye-slash {
-            grid-column: 1;
-            grid-row: 5;
-        }
+    .score-panel .score-pad ::deep button.btn.icon-button-floppy-disk {
+        grid-column: 4;
+        grid-row: 5;
+        background: var(--chd-main-color-theme);
+    }
 
-        .score-panel .score-pad ::deep button.btn.icon-button-floppy-disk.disabled {
-            background: var(--chd-bg);
-            border: 1px solid var(--chd-main-color-theme);
-        }
-@media only screen and (orientation:portrait) and (max-width:400px){
+    .score-panel .score-pad ::deep button.btn.icon-button-eye-slash {
+        grid-column: 1;
+        grid-row: 5;
+    }
+
+    .score-panel .score-pad ::deep button.btn.icon-button-floppy-disk.disabled {
+        background: var(--chd-bg);
+        border: 1px solid var(--chd-main-color-theme);
+    }
+
+@media only screen and (orientation:portrait) and (max-width:400px) {
     .score-panel .score-confirmation {
         padding: 1rem 1rem;
         width: 100%;
     }
 
         .score-panel .score-confirmation ::deep button.btn {
-            width:100%;
+            width: 100%;
         }
 
             .score-panel .score-confirmation ::deep button.btn svg {

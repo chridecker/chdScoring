@@ -36,5 +36,8 @@ namespace chdScoring.Main.Client.Clients
 
         public Task<bool> SetStartnumber(SetStartNumberDto dto, CancellationToken cancellationToken = default)
         => this.Post<bool>(EndpointConstants.Pilot.POST_SetStart, dto, cancellationToken);
+       
+        public Task<bool> ReflightRound(ReflightRoundDto dto, CancellationToken cancellationToken = default)
+        => this.Post<bool>(EndpointConstants.Pilot.POST_Reflight, dto, cancellationToken);
     }
 }

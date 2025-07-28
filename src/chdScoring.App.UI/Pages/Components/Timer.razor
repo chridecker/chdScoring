@@ -7,21 +7,33 @@
 
 <div class="timer">
     <div class="pilot">
-        &#8470; @this.Dto.Pilot.Id @this.Dto.Pilot.Name - R @this.Dto.Round.Id
-    </div>
-    <div class="time">@_leftTime</div>
-    <div class="control">
-        @if (this.Dto.LeftTime.HasValue  && this.Dto.LeftTime.Value == TimeSpan.Zero)
+        @if (this.Dto?.Pilot is not null)
         {
-            <IconButton FAClass="rotate-left" OnClick="async () => await this.StartStop(ETimerOperation.Stop)" />
-        }
-        else if (this.Dto.LeftTime.HasValue)
-        {
-            <IconButton FAClass="stop" OnClick="async ()=>await this.StartStop(ETimerOperation.Stop)" />
+            <text>&#8470;@this.Dto.Pilot.Id @this.Dto.Pilot.Name</text>
+            <text>-R @this.Dto.Round.Id</text>
         }
         else
         {
-            <IconButton FAClass="play-pause" OnClick="async ()=> await this.StartStop(ETimerOperation.Start)" />
+             <text>-</text> 
+        }
+    </div>
+    <div class="time">@_leftTime</div>
+    <div class="control">
+        @if (this.Dto is not null && this.Dto.LeftTime.HasValue && this.Dto.LeftTime.Value == TimeSpan.Zero)
+        {
+            <IconButton FAClass="rotate-left" OnClick="async () => await this.StartStop(ETimerOperation.Stop)" />
+        }
+        else if (this.Dto is not null && this.Dto.LeftTime.HasValue)
+        {
+            <IconButton FAClass="stop" OnClick="async () => await this.StartStop(ETimerOperation.Stop)" />
+        }
+        else if (this.Dto is not null)
+        {
+            <IconButton FAClass="play-pause" OnClick="async () => await this.StartStop(ETimerOperation.Start)" />
+        }
+        else
+        {
+            <CustomIcon FAClass="pause" />
         }
     </div>
 </div>
@@ -34,15 +46,16 @@
     [Parameter] public int Airfield { get; set; }
 
     private string _leftTime => (this.Dto?.LeftTime.HasValue ?? false) && this.Dto.LeftTime.Value <= this.Dto.Round.Time ?
-            this.Dto.LeftTime.Value > TimeSpan.Zero ? this.Dto.LeftTime.Value.ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : this.Dto.Round.Time.ToString("mm\\:ss");
+            this.Dto.LeftTime.Value > TimeSpan.Zero ? this.Dto.LeftTime.Value.ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : 
+            this.Dto is null ? TimeSpan.Zero.ToString("mm\\:ss") : this.Dto.Round.Time.ToString("mm\\:ss");
 
     private async Task StartStop(ETimerOperation operaetion)
     {
         var dto = new TimerOperationDto
-            {
-                Airfield = this.Airfield,
-                Operation = operaetion
-            };
+        {
+            Airfield = this.Airfield,
+            Operation = operaetion
+        };
         await this.timerService.HandleOperation(dto, this.CancellationToken);
         this.virbationHelper.Vibrate(TimeSpan.FromMilliseconds(200));
     }
