@@ -235,6 +235,7 @@ namespace chdScoring.DataAccess.DAL
                 pilot.Vorname = dto.Firstname;
                 pilot.Nachname = dto.Lastname;
                 pilot.License = dto.License;
+                pilot.Land = dto.CountryId;
                 return await this._teilnehmerRepository.SaveAsync(pilot, cancellationToken);
             }
             return false;
