@@ -14,38 +14,26 @@
     {
         <Timer CancellationToken="this._cts.Token" Dto="this._dto" Airfield="1" />
 
+        <div class="competition-control">
+            <IconButton FAClass="floppy-disk" OnClick="this.SaveRound">Save</IconButton>
+            @if (this._dto is not null)
+            {
+                <IconButton FAClass="pause" OnClick="this.SetBreak">Break</IconButton>
+            }
+            <IconButton FAClass="forward-step" OnClick="async () => await this.LoadNextPilot(true)">Next Pilot</IconButton>
+            <IconButton FAClass="forward" OnClick="async () => await this.LoadNextPilot(false)">Choose Pilot</IconButton>
+        </div>
+
         <JudgeControl CancellationToken="this._cts.Token" Dto="this._dto" Airfield="1" />
     }
 </div>
 
 
-<FloatingActionNavigation FAIconActive="floppy-disk" OnClick="async () => await this.SaveRound()" TextActive="Save Round">
-    @if (this._dto is not null)
-    {
-        <FloatingActionButton FAClass="pause"
-                              OnClick="async () => await this.SetBreak()"
-                              Title="Break"
-                              CssClass="dot-btn-save large" />
-    }
-
-    <FloatingActionButton FAClass="forward-step"
-                          OnClick="async () => await this.LoadNextPilot(true)"
-                          Title="Next Pilot"
-                          CssClass="dot-btn-save large" />
-
-    <FloatingActionButton FAClass="forward"
-                          OnClick="async () => await this.LoadNextPilot()"
-                          Title="Choose Pilot"
-                          CssClass="dot-btn-save large" />
+<FloatingActionNavigation FAIconActive="file-pdf" OnClick="async () => await this.CreatePdf()" TextActive="Create Pdf">
 
     <FloatingActionButton FAClass="floppy-disks"
                           OnClick="async () => await this.CalculateTBL()"
                           Title="Calculate Round (TBL)"
-                          CssClass="dot-btn-save large" />
-
-    <FloatingActionButton FAClass="file-pdf"
-                          OnClick="async () => await this.CreatePdf()"
-                          Title="Create Pdf"
                           CssClass="dot-btn-save large" />
 
     <FloatingActionButton FAClass="print"

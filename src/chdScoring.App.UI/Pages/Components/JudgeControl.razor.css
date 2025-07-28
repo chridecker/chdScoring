@@ -1,5 +1,5 @@
 ﻿.judges-score-control {
-    width: 100%;
+    width: auto;
     display: flex;
     flex-direction: column;
     padding: 1rem;

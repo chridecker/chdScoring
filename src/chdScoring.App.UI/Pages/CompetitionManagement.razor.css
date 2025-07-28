@@ -1,10 +1,28 @@
-﻿.controlcenter-container{
+﻿.controlcenter-container {
     display: flex;
-    justify-content:center;
-    flex-wrap:wrap;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 1rem;
 }
 
-.controlcenter-container ::deep .timer{
-    border-bottom: 1px solid;
+    .controlcenter-container .competition-control {
+        padding: 1rem;
+        display: grid;
+        gap: 0.5rem;
+    }
+
+        .controlcenter-container .competition-control ::deep button.btn {
+            height: 3rem;
+            background: var(--chd-bg-lighter);
+        }
+
+        .controlcenter-container .competition-control ::deep button.btn svg {
+            height: 1.5rem;
+        }
+
+
+@media only screen and (max-width: 400px) and (orientation:portrait) {
+    .controlcenter-container .competition-control {
+        grid-template-columns: repeat(2,1fr);
+    }
 }
