@@ -4,7 +4,6 @@
     display: flex;
     gap: 0rem;
     flex-direction: column;
-    --judge-count: 0;
 }
 
     .control-center .pilot-data {
@@ -58,7 +57,7 @@
 
             .control-center .maneouvres .maneouvre .judge-scores {
                 display: grid;
-                grid-template-columns: repeat(var(--judge-count),1fr);
+                grid-template-columns: repeat(attr(data-judges-count type(<number>)),1fr);
                 gap: 0.5rem;
             }
 

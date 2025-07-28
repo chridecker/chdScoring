@@ -30,13 +30,13 @@
         </div>
         <div class="left-time">@_leftTime</div>
     </div>
-    <div class="maneouvres" style="--judge-count: @this.Model.CurrentFlight.Judges.Count()">
+    <div class="maneouvres">
         @foreach (var maneouvre in this.Model.CurrentFlight.ManeouvreLst.FirstOrDefault().Value.OrderBy(o => o.Id))
         {
             <div class="maneouvre">
                 <div class="figur-id">@maneouvre.Id.ToString("D2")</div>
                 <div class="figur">@maneouvre.Name (@maneouvre.Value)</div>
-                <div class="judge-scores">
+                <div class="judge-scores" data-judges-count="@this.Model.CurrentFlight.Judges.Count()">
                     @foreach (var judge in this.Model.CurrentFlight.Judges.OrderBy(o => o.Id))
                     {
                         <div class="judge-score ">
