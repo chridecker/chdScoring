@@ -2,11 +2,11 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 1rem;
+    padding: 1rem;
+    gap: 0.5rem;
 }
 
     .controlcenter-container .competition-control {
-        padding: 1rem;
         display: grid;
         gap: 0.5rem;
     }
@@ -20,9 +20,14 @@
             height: 1.5rem;
         }
 
+    .controlcenter-container ::deep .judges-score-control{
+        justify-self:start;
+        align-self:end;
+    }
 
-@media only screen and (max-width: 400px) and (orientation:portrait) {
-    .controlcenter-container .competition-control {
+
+    @media only screen and (max-width: 400px) and (orientation:portrait) {
+        .controlcenter-container .competition-control {
         grid-template-columns: repeat(2,1fr);
     }
 }

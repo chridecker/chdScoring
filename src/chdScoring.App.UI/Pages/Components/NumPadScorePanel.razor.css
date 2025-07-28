@@ -197,4 +197,7 @@
             .score-panel .score-confirmation ::deep button.btn .button-text {
                 font-size: 1rem;
             }
+    .score-panel .score-confirmed ::deep svg {
+        height: 50%;
+    }
 }
