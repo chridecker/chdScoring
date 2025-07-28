@@ -88,7 +88,13 @@ namespace chdScoring.DataAccess.DAL
             var confirms = await this._teilnehmerDurchgangJudgeRespository.Where(x => x.Teilnehmer == wl.Teilnehmer && x.Durchgang == wl.Durchgang).ToListAsync(cancellationToken);
 
 
-            dto.Pilot = new PilotDto { Id = wl.Pilot.Id, Name = wl.Pilot.FullName, CountryId = wl.Pilot.Land };
+            dto.Pilot = new PilotDto
+            {
+                Id = wl.Pilot.Id,
+                Firstname = wl.Pilot.Vorname,
+                Lastname = wl.Pilot.Nachname,
+                CountryId = wl.Pilot.Land,
+            };
             dto.JudgeConfirms = confirms.Select(s => new JudgeConfirmDto() { Durchgang = s.Durchgang, Judge = s.Judge, Teilnehmer = s.Teilnehmer });
             dto.Judges = judges.Select(judge => new JudgeDto { Id = judge.Id, Name = $"{judge.Vorname} {judge.Name.ToUpper()}", EditScore = judge.EditScore });
             dto.Round = new RoundDto

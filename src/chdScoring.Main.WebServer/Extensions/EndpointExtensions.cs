@@ -72,6 +72,9 @@ namespace chdScoring.Main.WebServer.Extensions
             pilot.MapPost(EndpointConstants.Pilot.POST_Reflight, async (ReflightRoundDto dto, IPilotService service, CancellationToken cancellationToken)
                 => await service.ReflightRound(dto, cancellationToken));
 
+            pilot.MapPost(EndpointConstants.Pilot.POST_UPDATE_DATA, async (PilotDto dto, IPilotService service, CancellationToken cancellationToken)
+                => await service.UpdatePilotData(dto, cancellationToken));
+
 
 
             control.MapPost(EndpointConstants.Control.POST_TIMER, async (TimerOperationDto dto, ITimerService service, CancellationToken cancellationToken)

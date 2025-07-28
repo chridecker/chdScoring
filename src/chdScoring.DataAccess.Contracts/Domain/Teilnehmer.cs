@@ -16,8 +16,6 @@
         public int Bild { get; set; }
         public string Info { get; set; }
 
-        public string FullName => $"{this.Vorname} {this.Nachname.ToUpper()}";
-
         public virtual Country_Images Country_Image { get; set; }
         public virtual Images Image { get; set; }
     }

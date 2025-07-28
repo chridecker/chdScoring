@@ -1,0 +1,31 @@
+@using Blazored.Modal.Services
+@using chdScoring.Contracts.Dtos
+@using chdScoring.Contracts.Interfaces
+<div class="edit-pilot">
+    <div class="pilot-section data">
+        <div class="label"><CustomIcon FAClass="user" Style="chd.UI.Base.Contracts.Enum.EIconStyle.Regular" /></div>
+        <input type="text" @bind-value="this.Pilot.Firstname" placeholder="Vorname" />
+        <div class="label"></div>
+        <input type="text" @bind-value="this.Pilot.Lastname" placeholder="Nachname" />
+        <div class="label"></div>
+        <input type="text" @bind-value="this.Pilot.Club" placeholder="Club" />
+        <div class="label"></div>
+        <input type="text" @bind-value="this.Pilot.License" placeholder="License" />
+    </div>
+    <div class="button-section">
+        <button class="btn btn-secondary" @onclick="this.Cancel">Abbrechen</button>
+        <button class="btn btn-primary" @onclick="this.Save">Speichern</button>
+    </div>
+</div>
+
+
+@code {
+
+    [CascadingParameter] public BlazoredModalInstance ModalInstance { get; set; }
+    [Parameter] public bool IsNew { get; set; }
+    [Parameter] public PilotDto Pilot { get; set; }
+
+    private Task Save() => this.ModalInstance.CloseAsync(ModalResult.Ok(this.Pilot));
+
+    private Task Cancel() => this.ModalInstance.CancelAsync();
+}

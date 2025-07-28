@@ -1,0 +1,30 @@
+﻿.edit-pilot {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    height: 100%;
+}
+
+    .edit-pilot .pilot-section {
+        padding: 0.2rem;
+        background: var(--chd-bg-lighter);
+        border-radius: 0.8rem;
+    }
+
+        .edit-pilot .pilot-section.data {
+            display: grid;
+            grid-template-columns: max-content auto;
+            gap: 0.2rem;
+        }
+
+    .edit-pilot .button-section {
+        display: grid;
+        padding: 0;
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+        margin-top: auto;
+    }
+
+        .edit-pilot .button-section button.btn-primary {
+            background: var(--chd-bg-lighter);
+        }

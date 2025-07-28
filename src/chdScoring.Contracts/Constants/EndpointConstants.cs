@@ -17,6 +17,8 @@
             public const string GET_All = "getall";
             public const string POST_SetStart = "SetStart";
             public const string POST_Reflight= "Reflight";
+            public const string POST_UPDATE_DATA= "updatedata";
+
         }
         public class Judge
         {

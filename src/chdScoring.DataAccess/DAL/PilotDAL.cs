@@ -20,12 +20,10 @@ namespace chdScoring.DataAccess.DAL
     public class PilotDAL : BaseDAL, IPilotDAL
     {
         private readonly ITeilnehmerDurchgangJudgeRespository _teilnehmerDurchgangJudgeRespository;
-        private readonly IWertungHistoryRepository _wertungHistoryRepository;
 
-        public PilotDAL(ILogger<PilotDAL> logger, ITeilnehmerDurchgangJudgeRespository teilnehmerDurchgangJudgeRespository, IWertungHistoryRepository wertungHistoryRepository, IWettkampfLeitungRepository wettkampfLeitungRepository, ITeilnehmerRepository teilnehmerRepository, IJudgeRepository judgeRepository, IFigurRepository figurRepository, IProgrammRepository programmRepository, IWertungRepository wertungRepository, IKlasseRepository klasseRepository, ICountryImageRepository countryImageRepository, IImageRepository imageRepository, IDurchgangPanelRepository durchgangPanelRepository, IDurchgangProgramRepository durchgangProgramRepository, IFigurProgrammRepository figurProgrammRepository, IJudgePanelRepository judgePanelRepository, IStammDatenRepository stammDatenRepository, IBebwerbRepository bebwerbRepository, IDurchgangRepository durchgangRepository, ITeilnehmerBewerbRepository teilnehmerBewerbRepository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, figurProgrammRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
+        public PilotDAL(ILogger<PilotDAL> logger, ITeilnehmerDurchgangJudgeRespository teilnehmerDurchgangJudgeRespository, IWettkampfLeitungRepository wettkampfLeitungRepository, ITeilnehmerRepository teilnehmerRepository, IJudgeRepository judgeRepository, IFigurRepository figurRepository, IProgrammRepository programmRepository, IWertungRepository wertungRepository, IKlasseRepository klasseRepository, ICountryImageRepository countryImageRepository, IImageRepository imageRepository, IDurchgangPanelRepository durchgangPanelRepository, IDurchgangProgramRepository durchgangProgramRepository, IFigurProgrammRepository figurProgrammRepository, IJudgePanelRepository judgePanelRepository, IStammDatenRepository stammDatenRepository, IBebwerbRepository bebwerbRepository, IDurchgangRepository durchgangRepository, ITeilnehmerBewerbRepository teilnehmerBewerbRepository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, figurProgrammRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
         {
             this._teilnehmerDurchgangJudgeRespository = teilnehmerDurchgangJudgeRespository;
-            this._wertungHistoryRepository = wertungHistoryRepository;
         }
 
         public async Task<bool> DeleteRoundScoring(int pilot, int round, CancellationToken cancellationToken)
@@ -70,8 +68,10 @@ namespace chdScoring.DataAccess.DAL
                 Pilot = new PilotDto
                 {
                     Id = wl.Teilnehmer,
-                    Name = wl.Pilot.FullName,
+                    Firstname = wl.Pilot.Vorname,
+                    Lastname = wl.Pilot.Nachname,
                     Club = wl.Pilot.Club,
+                    License = wl.Pilot.License,
                     CountryId = wl.Pilot.Land,
                     Country = wl.Pilot.Country_Image.Name,
                     CountryCode = wl.Pilot.Country_Image.Short,
@@ -96,7 +96,9 @@ namespace chdScoring.DataAccess.DAL
                 {
                     Id = s.Pilot.Id,
                     Club = s.Pilot.Club,
-                    Name = s.Pilot.FullName,
+                    Firstname = s.Pilot.Vorname,
+                    Lastname = s.Pilot.Nachname,
+                    License = s.Pilot.License,
                     Country = s.Pilot.Country_Image.Name,
                     CountryCode = s.Pilot.Country_Image.Short,
                     CountryImage = new ImageDto()
@@ -140,7 +142,9 @@ namespace chdScoring.DataAccess.DAL
                     Pilot = new PilotDto
                     {
                         Id = wl.Teilnehmer,
-                        Name = wl.Pilot.FullName,
+                        Firstname = wl.Pilot.Vorname,
+                        Lastname = wl.Pilot.Nachname,
+                        License = wl.Pilot.License,
                         Club = wl.Pilot.Club,
                         Country = wl.Pilot.Country_Image.Name,
                         CountryCode = wl.Pilot.Country_Image.Short,
@@ -199,7 +203,11 @@ namespace chdScoring.DataAccess.DAL
             return lst.Select(s => new PilotDto()
             {
                 Id = s.Id,
-                Name = s.FullName,
+                Firstname = s.Vorname,
+                Lastname = s.Nachname,
+                Club = s.Club,
+                CountryId = s.Land,
+                License = s.License,
                 Country = s.Country_Image.Name,
                 CountryCode = s.Country_Image.Short,
                 CountryImage = new ImageDto
@@ -215,6 +223,20 @@ namespace chdScoring.DataAccess.DAL
             using var client = new HttpClient();
             var res = await client.GetAsync($"http://localhost/operations/change_startnumber.php?id={pilot.Id}&newid={number}");
             return res.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> UpdatePilotData(PilotDto dto, CancellationToken cancellationToken)
+        {
+            var pilot = await this._teilnehmerRepository.FindById(dto.Id, cancellationToken);
+            if (pilot is not null)
+            {
+                pilot.Club = dto.Club;
+                pilot.Vorname = dto.Firstname;
+                pilot.Nachname = dto.Lastname;
+                pilot.License = dto.License;
+                return await this._teilnehmerRepository.SaveAsync(pilot, cancellationToken);
+            }
+            return false;
         }
     }
 }

@@ -1,0 +1,96 @@
+@using chd.UI.Base.Client.Implementations.Services
+@using chd.UI.Base.Contracts.Enum
+@using chdScoring.App.UI.Extensions
+@using chdScoring.App.UI.Pages.Components
+@using chdScoring.Contracts.Dtos
+@using chdScoring.Contracts.Interfaces
+@implements IDisposable
+@page "/pilots"
+<div class="pilots">
+    @foreach (var pilot in this._pilots.OrderBy(o => o.Id))
+    {
+        <div class="pilot-row" @ondblclick="async () => await this.EditPilot(pilot)">
+            <CustomImage Class="pilot-image" Data="pilot.CountryImage.Data" Type="@pilot.CountryImage.Type" />
+            <div class="id">@pilot.Id</div>
+            <div class="name">@pilot.Name</div>
+            <div class="country">@pilot.Country</div>
+            <div class="club">@pilot.Club</div>
+            <div class="license">@pilot.License</div>
+        </div>
+    }
+</div>
+
+<FloatingActionNavigation FAIconActive="user-plus" OnClick="this.AddPilot">
+    <FloatingActionButton FAClass="shuffle" Title="Randomize" OnClick="this.Randomize" />
+</FloatingActionNavigation>
+
+
+
+
+@code {
+    private CancellationTokenSource _cts = new();
+    private List<PilotDto> _pilots = [];
+
+
+    [Inject] IPilotService pilotService { get; set; }
+    [Inject] IModalHandler modalHandler { get; set; }
+    [Inject] ISettingManager settingManager { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this._pilots = (await this.pilotService.GetAllPilots(this._cts.Token)).ToList();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task AddPilot()
+    {
+
+    }
+
+    private async Task Randomize()
+    {
+        if (await this.modalHandler.ShowYesNoDialog("Teilnehmer IDs zufällig auslosen?", this.settingManager.IsiOS) == EDialogResult.Yes)
+        {
+
+        }
+    }
+
+    private async Task EditPilot(PilotDto dto)
+    {
+        var pilot = new PilotDto
+        {
+            Id = dto.Id,
+            Firstname = dto.Firstname,
+            Lastname = dto.Lastname,
+            CountryId = dto.CountryId,
+            Club = dto.Club,
+            Country = dto.Country,
+            License = dto.License
+        };
+
+        var modal = await this.modalHandler.Show<EditPilotModal>("Teilnehmer", new ModalParameters()
+        {
+            {nameof(EditPilotModal.Pilot),pilot},
+            {nameof(EditPilotModal.IsNew),false}
+        }, new ModalOptions
+        {
+            Size = ModalSize.ExtraLarge
+        }).Result;
+        if (modal.Confirmed
+            && modal.Data is not null
+            && modal.Data is PilotDto editDto)
+        {
+            if (await this.pilotService.UpdatePilotData(editDto, this._cts.Token))
+            {
+                this._pilots = (await this.pilotService.GetAllPilots(this._cts.Token)).ToList();
+                await this.InvokeAsync(this.StateHasChanged);
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        this._cts.Cancel();
+        this._cts.Dispose();
+    }
+}

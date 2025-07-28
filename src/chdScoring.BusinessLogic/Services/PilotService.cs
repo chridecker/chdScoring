@@ -23,6 +23,9 @@ namespace chdScoring.BusinessLogic.Services
             this._flightCacheService = flightCacheService;
         }
 
+
+        public Task<bool> UpdatePilotData(PilotDto dto, CancellationToken cancellationToken = default) => this._dal.UpdatePilotData(dto, cancellationToken);
+
         public Task<bool> SetStartnumber(SetStartNumberDto dto, CancellationToken cancellationToken = default)
             => this._dal.ChangeStartNumber(dto.Pilot, dto.NewStartId, cancellationToken);
 

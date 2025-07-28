@@ -39,5 +39,7 @@ namespace chdScoring.Main.Client.Clients
        
         public Task<bool> ReflightRound(ReflightRoundDto dto, CancellationToken cancellationToken = default)
         => this.Post<bool>(EndpointConstants.Pilot.POST_Reflight, dto, cancellationToken);
+        public Task<bool> UpdatePilotData(PilotDto dto, CancellationToken cancellationToken = default)
+        => this.Post<bool>(EndpointConstants.Pilot.POST_UPDATE_DATA, dto, cancellationToken);
     }
 }
