@@ -11,7 +11,7 @@
             @if (result.Pilot.CountryImage is not null && result.Pilot.CountryImage.Data.Length > 0)
             {
                 <div class="custom-image">
-                    <img src="@this.Model.GetImageUrl(result.Pilot.CountryImage)" />
+                    <img src="@this.Model.GetImageUrl(result.Pilot.CountryImage)" alt="@result.Pilot.Country" />
                 </div>
             }
             <div class="rank">@result.Rank</div>

@@ -9,6 +9,10 @@
 <div id="timer-container">
 </div>
 
+<dialog id="error-dialog">
+    <p id="error-dialog-content"></p>
+</dialog>
+
 @section Scripts {
     <script>
 
@@ -17,63 +21,15 @@
         var mode= '@this.Model.Mode';
 
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl(hubUrl)
-            .build();
+             .withUrl(hubUrl)
+             .build();
 
-            if(mode == 'Round'){
-                 connection.on("ReceiveRoundData", function (lst) {
-                var x = {
-                    dtos: lst
-                };
-                    fetch("/Index?handler=RenderRoundResult", {
-                        method: "Post",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(x)
-                    })
-                    .then(res => {
-                        if (!res.ok) throw new Error("Fehler beim POST");
-                        return res.text(); // weil Partial View HTML ist
-                    })
-                    .then(html => {
-                        document.getElementById("timer-container").innerHTML = html;
-                    })
-                    .catch(err => {
-                        console.error("Fehler:", err);
-                    });
-            });
-        }
-        else{
-            connection.on("ReceiveFlightData", function (dto) {
-                        fetch("/Index?handler=" + render, {
-                            method: "Post",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(dto)
-                        })
-                        .then(res => {
-                            if (!res.ok) throw new Error("Fehler beim POST");
-                            return res.text(); // weil Partial View HTML ist
-                        })
-                        .then(html => {
-                            document.getElementById("timer-container").innerHTML = html;
-                        })
-                        .catch(err => {
-                            console.error("Fehler:", err);
-                        });
-            });
-        }
-
-
-        connection.start()
-        .then(()=>{
-            connection.invoke("RegisterAsControlCenter");
-        })
-        .catch(function (err) {
-            return console.error(err.toString());
+        connection.onclose(async () => {
+            await startHubConnection(connection);
         });
+
+        // Start the connection.
+        startHubConnection(connection);
 
     </script>
 }

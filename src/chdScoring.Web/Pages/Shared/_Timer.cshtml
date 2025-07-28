@@ -22,7 +22,7 @@
             @if (this.Model.ImageDto is not null && this.Model.ImageDto.Data.Length > 0)
             {
                 <div class="custom-image">
-                    <img src="@this.Model.GetImageUrl" />
+                    <img alt="@Model.CurrentFlight.Pilot.Country" src="@this.Model.GetImageUrl" />
                 </div>
             }
         </div>
