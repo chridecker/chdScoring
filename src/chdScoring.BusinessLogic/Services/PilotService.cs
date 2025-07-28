@@ -2,7 +2,9 @@
 using chdScoring.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.DAL;
 using chdScoring.DataAccess.Contracts.Domain;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -67,6 +69,19 @@ namespace chdScoring.BusinessLogic.Services
 
         public Task<RoundDataDto> GetRoundData(int pilot, int round, CancellationToken cancellationToken)
         => this._cDal.GetRoundData(pilot, round, cancellationToken);
+
+        public async Task<IEnumerable<CountryDto>> GetCountries(CancellationToken cancellationToken = default)
+        {
+            var all = await this._dal.GetAllCountryImages(cancellationToken); 
+            return all.Select(s => new CountryDto()
+            {
+                 Id = s.Img_Id,
+                 Code = s.Short.ToUpper(),
+                 Name = s.Name,
+                 Type = s.Img_Type,
+                 Base64 = Convert.ToBase64String(s.Img_Data),
+            });
+        }
 
         public async Task<ImageDto> GetCountryImage(int id, CancellationToken cancellationToken = default)
         {

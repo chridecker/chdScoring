@@ -1,0 +1,10 @@
+@using chdScoring.Contracts.Dtos
+<div class="country">
+    <img src="@this.Country.ImageUrl" />
+    @this.Country.Name [@this.Country.Code]
+</div>
+
+@code {
+    [Parameter] public CountryDto Country { get; set; }
+
+}

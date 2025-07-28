@@ -1,4 +1,6 @@
 @using Blazored.Modal.Services
+@using chd.UI.Base.Client.Implementations.Services
+@using chd.UI.Base.Components.General.Search
 @using chdScoring.Contracts.Dtos
 @using chdScoring.Contracts.Interfaces
 <div class="edit-pilot">
@@ -11,6 +13,11 @@
         <input type="text" @bind-value="this.Pilot.Club" placeholder="Club" />
         <div class="label"></div>
         <input type="text" @bind-value="this.Pilot.License" placeholder="License" />
+        <div class="label"></div>
+        <div class="country" @onclick="this.ChooseCountry">
+            <img src="@($"data:{this.Pilot.CountryImage.Type};base64,{Convert.ToBase64String(Pilot.CountryImage.Data)}")" />
+            @this.Pilot.Country
+        </div>
     </div>
     <div class="button-section">
         <button class="btn btn-secondary" @onclick="this.Cancel">Abbrechen</button>
@@ -20,6 +27,8 @@
 
 
 @code {
+    [Inject] IPilotService pilotService { get; set; }
+    [Inject] IModalHandler modalService { get; set; }
 
     [CascadingParameter] public BlazoredModalInstance ModalInstance { get; set; }
     [Parameter] public bool IsNew { get; set; }
@@ -28,4 +37,26 @@
     private Task Save() => this.ModalInstance.CloseAsync(ModalResult.Ok(this.Pilot));
 
     private Task Cancel() => this.ModalInstance.CancelAsync();
+
+    private async Task ChooseCountry()
+    {
+        var all = await this.pilotService.GetCountries();
+        var parameters = new ModalParameters
+            {
+                { nameof(SearchModalComponent<CountryDto, string>.Items),all.OrderBy(o => o.Name)},
+                { nameof(SearchModalComponent<CountryDto, string>.RenderType),typeof(CountryComponent)},
+                { nameof(SearchModalComponent<CountryDto, string>.RenderParameterDict),(CountryDto c) =>SearchModalComponent<CountryDto,string>.CreateRenderParameterDict(c,((x)=> nameof(CountryComponent.Country),(x)=>x))},
+                { nameof(SearchModalComponent<CountryDto, string>.DisableOrder), true },
+            };
+        var modalInstance = this.modalService.Show<SearchModalComponent<CountryDto, string>>("Land auswählen", parameters);
+
+        var result = await modalInstance.Result;
+        if (result.Confirmed && result.Data is CountryDto country)
+        {
+            this.Pilot.CountryId = country.Id;
+            this.Pilot.Country = country.Name;
+            this.Pilot.CountryImage.Data = Convert.FromBase64String(country.Base64);
+            this.Pilot.CountryImage.Type = country.Type;
+        }
+    }
 }

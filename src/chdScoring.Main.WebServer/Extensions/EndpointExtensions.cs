@@ -44,6 +44,8 @@ namespace chdScoring.Main.WebServer.Extensions
 
             pilot.MapGet(EndpointConstants.Pilot.GET_Img, async (int id, IPilotService service, CancellationToken cancellationToken)
                 => await service.GetCountryImage(id, cancellationToken));
+            pilot.MapGet(EndpointConstants.Pilot.GET_AllCountries, async (IPilotService service, CancellationToken cancellationToken)
+                => await service.GetCountries(cancellationToken));
 
             pilot.MapGet(EndpointConstants.Pilot.GET_OpenRound, async (int? round, IPilotService service, CancellationToken cancellationToken)
                 => await service.GetOpenRound(round, cancellationToken));

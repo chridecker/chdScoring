@@ -24,6 +24,9 @@ namespace chdScoring.Main.Client.Clients
         public Task<ImageDto> GetCountryImage(int id, CancellationToken cancellationToken)
            => base.Get<ImageDto>(EndpointConstants.Pilot.GET_Img.SetUrlParameters((nameof(id), id)), cancellationToken);
 
+        public Task<IEnumerable<CountryDto>> GetCountries(CancellationToken cancellationToken)
+           => base.Get<IEnumerable<CountryDto>>(EndpointConstants.Pilot.GET_AllCountries, cancellationToken);
+
 
         public Task<IEnumerable<RoundResultDto>> GetRoundResult(int? round, CancellationToken cancellationToken)
            => base.Get<IEnumerable<RoundResultDto>>(round.HasValue ? EndpointConstants.Pilot.GET_RoundResult.SetUrlParameters(("round", round)) : EndpointConstants.Pilot.GET_RoundResult, cancellationToken);
@@ -36,7 +39,7 @@ namespace chdScoring.Main.Client.Clients
 
         public Task<bool> SetStartnumber(SetStartNumberDto dto, CancellationToken cancellationToken = default)
         => this.Post<bool>(EndpointConstants.Pilot.POST_SetStart, dto, cancellationToken);
-       
+
         public Task<bool> ReflightRound(ReflightRoundDto dto, CancellationToken cancellationToken = default)
         => this.Post<bool>(EndpointConstants.Pilot.POST_Reflight, dto, cancellationToken);
         public Task<bool> UpdatePilotData(PilotDto dto, CancellationToken cancellationToken = default)

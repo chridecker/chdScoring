@@ -194,6 +194,7 @@ namespace chdScoring.DataAccess.DAL
         {
             return await this._countryImageRepository.FindById(id, cancellationToken);
         }
+        public Task<IEnumerable<Country_Images>> GetAllCountryImages(CancellationToken cancellationToken) => this._countryImageRepository.FindAll(cancellationToken);
 
         public async Task<IEnumerable<PilotDto>> GetAllPilots(CancellationToken cancellationToken = default)
         {

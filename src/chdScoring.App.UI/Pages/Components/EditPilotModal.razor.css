@@ -17,6 +17,11 @@
             gap: 0.2rem;
         }
 
+            .edit-pilot .pilot-section.data ..edit-pilot .country {
+                display:flex;
+                gap:0.2rem;
+            }
+
     .edit-pilot .button-section {
         display: grid;
         padding: 0;
