@@ -18,6 +18,8 @@
 
             .control-center .pilot-data .country .custom-image img {
                 height: 7rem;
+                border: 1px solid;
+                border-radius:0.3rem;
             }
 
         .control-center .pilot-data .name {

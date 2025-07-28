@@ -20,6 +20,8 @@
 
             .timer-container .pilot .country .custom-image img {
                 height: 14rem;
+                border: 1px solid; 
+                border-radius:0.5rem;
             }
 
         .timer-container .pilot .number {
