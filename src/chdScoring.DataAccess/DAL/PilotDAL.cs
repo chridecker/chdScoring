@@ -44,7 +44,13 @@ namespace chdScoring.DataAccess.DAL
                 Strasse = string.Empty,
                 Telefon = string.Empty,
             };
-            return await this._teilnehmerRepository.SaveAsync(entity, cancellationToken);
+            await this._teilnehmerRepository.SaveAsync(entity, cancellationToken);
+            var e = new Teilnehmer_Bewerb
+            {
+                Bewerb = 1,
+                Teilnehmer = dto.Id
+            };
+            return await this._teilnehmerBewerbRepository.SaveAsync(e, cancellationToken);
         }
         public async Task<bool> DeletePilot(PilotDto dto, CancellationToken cancellationToken)
         {
