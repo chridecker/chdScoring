@@ -20,5 +20,7 @@ namespace chdScoring.DataAccess.Contracts.DAL
         Task<bool> DeleteRoundScoring(int pilot, int round, CancellationToken cancellationToken);
         Task<bool> UpdatePilotData(PilotDto dto, CancellationToken cancellationToken);
         Task<IEnumerable<Country_Images>> GetAllCountryImages(CancellationToken cancellationToken);
+        Task<bool> AddNewPilot(PilotDto dto, CancellationToken cancellationToken);
+        Task<bool> DeletePilot(PilotDto dto, CancellationToken cancellationToken);
     }
 }

@@ -1,6 +1,8 @@
 @using Blazored.Modal.Services
 @using chd.UI.Base.Client.Implementations.Services
 @using chd.UI.Base.Components.General.Search
+@using chd.UI.Base.Contracts.Enum
+@using chdScoring.App.UI.Extensions
 @using chdScoring.Contracts.Dtos
 @using chdScoring.Contracts.Interfaces
 <div class="edit-pilot">
@@ -21,6 +23,7 @@
     </div>
     <div class="button-section">
         <button class="btn btn-secondary" @onclick="this.Cancel">Abbrechen</button>
+        <button class="btn btn-cancel" @onclick="this.Delete">Löschen</button>
         <button class="btn btn-primary" @onclick="this.Save">Speichern</button>
     </div>
 </div>
@@ -29,6 +32,7 @@
 @code {
     [Inject] IPilotService pilotService { get; set; }
     [Inject] IModalHandler modalService { get; set; }
+    [Inject] ISettingManager settingManager { get; set; }
 
     [CascadingParameter] public BlazoredModalInstance ModalInstance { get; set; }
     [Parameter] public bool IsNew { get; set; }
@@ -38,17 +42,33 @@
 
     private Task Cancel() => this.ModalInstance.CancelAsync();
 
+
+    private async Task Delete()
+    {
+        if (await this.modalService.ShowYesNoDialog($"Teilnehmer {this.Pilot.Name} löschen?", this.settingManager.IsiOS) is EDialogResult.Yes
+        && await pilotService.Delete(this.Pilot))
+        {
+            await this.ModalInstance.CloseAsync();
+        }
+    }
+
     private async Task ChooseCountry()
     {
         var all = await this.pilotService.GetCountries();
         var parameters = new ModalParameters
             {
-                { nameof(SearchModalComponent<CountryDto, string>.Items),all.OrderBy(o => o.Name)},
-                { nameof(SearchModalComponent<CountryDto, string>.RenderType),typeof(CountryComponent)},
-                { nameof(SearchModalComponent<CountryDto, string>.RenderParameterDict),(CountryDto c) =>SearchModalComponent<CountryDto,string>.CreateRenderParameterDict(c,((x)=> nameof(CountryComponent.Country),(x)=>x))},
-                { nameof(SearchModalComponent<CountryDto, string>.DisableOrder), true },
-                { nameof(SearchModalComponent<CountryDto, string>.Name), (CountryDto dto)=> dto.Name},
-            };
+                { nameof(SearchModalComponent<CountryDto, string>
+    .Items),all.OrderBy(o => o.Name)},
+    { nameof(SearchModalComponent<CountryDto, string>
+        .RenderType),typeof(CountryComponent)},
+        { nameof(SearchModalComponent<CountryDto, string>
+            .RenderParameterDict),(CountryDto c) =>SearchModalComponent<CountryDto,string>
+                .CreateRenderParameterDict(c,((x)=> nameof(CountryComponent.Country),(x)=>x))},
+                { nameof(SearchModalComponent<CountryDto, string>
+                    .DisableOrder), true },
+                    { nameof(SearchModalComponent<CountryDto, string>
+                        .Name), (CountryDto dto)=> dto.Name},
+                        };
         var modalInstance = this.modalService.Show<SearchModalComponent<CountryDto, string>>("Land auswählen", parameters);
 
         var result = await modalInstance.Result;

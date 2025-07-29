@@ -19,5 +19,7 @@ namespace chdScoring.Contracts.Interfaces
         Task<bool> ReflightRound(ReflightRoundDto dto, CancellationToken cancellationToken = default);
         Task<bool> UpdatePilotData(PilotDto dto, CancellationToken cancellationToken = default);
         Task<IEnumerable<CountryDto>> GetCountries(CancellationToken cancellationToken = default);
+        Task<bool> Delete(PilotDto dto, CancellationToken cancellationToken = default);
+        Task<bool> Add(PilotDto dto, CancellationToken cancellationToken = default);
     }
 }

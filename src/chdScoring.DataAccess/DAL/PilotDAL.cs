@@ -26,6 +26,33 @@ namespace chdScoring.DataAccess.DAL
             this._teilnehmerDurchgangJudgeRespository = teilnehmerDurchgangJudgeRespository;
         }
 
+        public async Task<bool> AddNewPilot(PilotDto dto, CancellationToken cancellationToken)
+        {
+            var entity = new Teilnehmer()
+            {
+                Id = dto.Id,
+                Bild = 1,
+                Club = dto.Club,
+                Land = dto.CountryId,
+                License = dto.License,
+                Vorname = dto.Firstname,
+                Nachname = dto.Lastname,
+                Email = string.Empty,
+                Info = string.Empty,
+                Ort = string.Empty,
+                Plz = string.Empty,
+                Strasse = string.Empty,
+                Telefon = string.Empty,
+            };
+            return await this._teilnehmerRepository.SaveAsync(entity, cancellationToken);
+        }
+        public async Task<bool> DeletePilot(PilotDto dto, CancellationToken cancellationToken)
+        {
+            var entity = await this._teilnehmerRepository.FindById(dto.Id, cancellationToken);
+            if (entity is null) { return false; }
+            return await this._teilnehmerRepository.Delete(entity);
+        }
+
         public async Task<bool> DeleteRoundScoring(int pilot, int round, CancellationToken cancellationToken)
         {
             var confirms = await this._teilnehmerDurchgangJudgeRespository.Where(x => x.Teilnehmer == pilot && x.Durchgang == round).ToListAsync();

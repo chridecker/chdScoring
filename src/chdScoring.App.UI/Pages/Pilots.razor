@@ -43,7 +43,34 @@
 
     private async Task AddPilot()
     {
+        var img = await this.pilotService.GetCountryImage(13, this._cts.Token);
 
+        var pilot = new PilotDto
+        {
+            Id = this._pilots.Max(m => m.Id) + 1,
+            CountryId = 13,
+            Country = "Austria",
+            CountryImage = img,
+        };
+
+        var modal = await this.modalHandler.Show<EditPilotModal>("Teilnehmer", new ModalParameters()
+        {
+            {nameof(EditPilotModal.Pilot),pilot},
+            {nameof(EditPilotModal.IsNew),true}
+        }, new ModalOptions
+        {
+            Size = ModalSize.ExtraLarge
+        }).Result;
+        if (modal.Confirmed)
+        {
+            if (modal.Data is not null
+                && modal.Data is PilotDto editDto
+                && await this.pilotService.Add(editDto, this._cts.Token))
+            {
+            }
+            this._pilots = (await this.pilotService.GetAllPilots(this._cts.Token)).ToList();
+            await this.InvokeAsync(this.StateHasChanged);
+        }
     }
 
     private async Task Randomize()

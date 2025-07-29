@@ -26,6 +26,8 @@ namespace chdScoring.BusinessLogic.Services
         }
 
 
+        public Task<bool> Delete(PilotDto dto, CancellationToken cancellationToken = default) => this._dal.DeletePilot(dto, cancellationToken);
+        public Task<bool> Add(PilotDto dto, CancellationToken cancellationToken = default) => this._dal.AddNewPilot(dto, cancellationToken);
         public Task<bool> UpdatePilotData(PilotDto dto, CancellationToken cancellationToken = default) => this._dal.UpdatePilotData(dto, cancellationToken);
 
         public Task<bool> SetStartnumber(SetStartNumberDto dto, CancellationToken cancellationToken = default)

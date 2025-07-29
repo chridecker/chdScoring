@@ -16,6 +16,8 @@
             public const string POST_UnloadPilot = "unloadpilot";
             public const string GET_Round = "round";
             public const string GET_All = "getall";
+            public const string POST_AddNew= "AddNew";
+            public const string POST_Delete= "Delete";
             public const string POST_SetStart = "SetStart";
             public const string POST_Reflight= "Reflight";
             public const string POST_UPDATE_DATA= "updatedata";
