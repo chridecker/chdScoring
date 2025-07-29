@@ -47,6 +47,7 @@
                 { nameof(SearchModalComponent<CountryDto, string>.RenderType),typeof(CountryComponent)},
                 { nameof(SearchModalComponent<CountryDto, string>.RenderParameterDict),(CountryDto c) =>SearchModalComponent<CountryDto,string>.CreateRenderParameterDict(c,((x)=> nameof(CountryComponent.Country),(x)=>x))},
                 { nameof(SearchModalComponent<CountryDto, string>.DisableOrder), true },
+                { nameof(SearchModalComponent<CountryDto, string>.Name), (CountryDto dto)=> dto.Name},
             };
         var modalInstance = this.modalService.Show<SearchModalComponent<CountryDto, string>>("Land auswählen", parameters);
 

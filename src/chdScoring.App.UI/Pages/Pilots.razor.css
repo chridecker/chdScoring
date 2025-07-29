@@ -6,23 +6,37 @@
 
     .pilots .pilot-row {
         display: grid;
-        grid-template-columns: 2rem 1rem 2fr  repeat(3,1fr);
+        grid-template-columns: 3rem 1rem 5fr 1fr 1fr;
         gap: 0.5rem;
         border-bottom: 1px solid var(--chd-bg-lighter);
         padding: 0.2rem;
     }
 
         .pilots .pilot-row:hover {
-            background:var(--chd-main-color-theme-transparent);
+            background: var(--chd-main-color-theme-transparent);
         }
-       
 
         .pilots .pilot-row:last-child {
             border-bottom: none;
         }
 
-        .pilots .pilot-row ::deep img{
-            height:1.5rem;
-            border: 1px solid; 
+        .pilots .pilot-row ::deep img {
+            height: 1.5rem;
+            border: 1px solid;
             border-radius: 0.2rem;
         }
+
+
+@media only screen and (max-width: 400px) {
+    .pilots .pilot-row {
+        grid-template-columns: 1.5rem 1rem auto;
+    }
+
+        .pilots .pilot-row ::deep img {
+            height: 1rem;
+        }
+
+        .pilots .pilot-row .club, .pilots .pilot-row .license {
+            display: none;
+        }
+}
