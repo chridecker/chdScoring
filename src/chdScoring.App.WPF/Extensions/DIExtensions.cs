@@ -22,7 +22,7 @@ namespace chdScoring.App.WPF.Extensions
         {
             services.AddKeyedSingleton(SettingConstants.AvailableLanguages, Dict());
 
-            services.AddChdScoringAppUI<VibrationHelper, UpdateService, SettingManager, BatteryService, TTSService>(configuration);
+            services.AddChdScoringAppUI<DeviceDisplayService, VibrationHelper, UpdateService, SettingManager, BatteryService, TTSService>(configuration);
 
             services.AddSingleton<INotificationManagerService, NotificationManagerService>();
             return services;

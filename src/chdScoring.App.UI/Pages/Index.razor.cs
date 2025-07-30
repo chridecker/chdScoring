@@ -28,17 +28,37 @@ namespace chdScoring.App.UI.Pages
         private IEnumerable<JudgeDto> _judges = [];
         private JudgeDto _selectedJudge;
 
-        private ManeouvreDto _current => this.Maneouvres.Where(x => !x.Score.HasValue).OrderBy(o => o.Id).FirstOrDefault();
-        private JudgeDto Judge => this._dto?.Judges.FirstOrDefault(x => x.Id == (this._judge ?? 0));
-        private bool _panelDisabled => this._dto is null || !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero || this._current is null;
-        private bool _needsJudgeConfirm => this._dto is null ? false : this._judge.HasValue && this._dto.JudeConfirmation;
-        private bool _isConfirmed => this._needsJudgeConfirm && this._judge.HasValue && this._judge.Value > 0 ? (this._dto?.JudgeConfirms.Any(a => a.Judge == this._judge.Value) ?? false) : true;
+        private float? _currentBrightness;
 
         private IEnumerable<ManeouvreDto> Maneouvres => (this._dto?.ManeouvreLst?.TryGetValue(this._judge ?? 0, out var lst) ?? false) ? lst : [];
 
+        private ManeouvreDto _current => this.Maneouvres.Where(x => !x.Score.HasValue).OrderBy(o => o.Id).FirstOrDefault();
+        private JudgeDto Judge => this._dto?.Judges.FirstOrDefault(x => x.Id == (this._judge ?? 0));
 
+
+        private bool _panelDisabled => this._dto is null || !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero || this._current is null;
+        private bool _needsJudgeConfirm => this._dto is null ? false : this._judge.HasValue && this._dto.JudeConfirmation;
+        private bool _isConfirmed => this._needsJudgeConfirm && this._judge.HasValue && this._judge.Value > 0 ? (this._dto?.JudgeConfirms.Any(a => a.Judge == this._judge.Value) ?? false) : true;
         private bool _isAdmin => this._profileService.HasUserRight(RightConstants.AdminId);
 
+
+        private float? GetScreenBrightness()
+        {
+            if ((!this._panelDisabled || !this._isConfirmed) && (this._dto?.LeftTime.HasValue ?? false))
+            {
+                return 1;
+            }
+            if (this._judge.HasValue && this._judge.Value > 0
+                && this._isConfirmed && this._panelDisabled)
+            {
+                return 0.01f;
+            }
+
+            return this._currentBrightness;
+        }
+
+
+        [Inject] IDeviceDisplayService _deviceDisplayService { get; set; }
         [Inject] ITTSService _ttsService { get; set; }
         [Inject] private IModalHandler _modal { get; set; }
         [Inject] private IJudgeHubClient _judgeHubClient { get; set; }
@@ -63,6 +83,9 @@ namespace chdScoring.App.UI.Pages
         protected override async Task OnInitializedAsync()
         {
             this.Title = PageTitleConstants.Scoring;
+
+            this._deviceDisplayService.KeepScreenOn = true;
+            this._currentBrightness = this._deviceDisplayService.ScreenBrightness;
 
             this._zoom = await this._settingManager.GetScoringZoom();
 
@@ -102,6 +125,9 @@ namespace chdScoring.App.UI.Pages
         private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)
         {
             this._dto = e;
+            this._deviceDisplayService.ScreenBrightness = this.GetScreenBrightness();
+
+
             await this.InvokeAsync(this.StateHasChanged);
         }
 
@@ -113,7 +139,7 @@ namespace chdScoring.App.UI.Pages
 
         private async Task OpenEditScoreModal(ManeouvreDto dto)
         {
-            if(this._isConfirmed){return;}
+            if (this._isConfirmed) { return; }
 
             RenderFragment frag = (__builder) =>
             {
@@ -237,6 +263,9 @@ namespace chdScoring.App.UI.Pages
 
         public void Dispose()
         {
+            this._deviceDisplayService.KeepScreenOn = false;
+            this._deviceDisplayService.ScreenBrightness = this._currentBrightness;
+
             this._judgeHubClient.Connected -= this._judgeHubClient_Connected;
             this._profileService.UserChanged -= this._profileService_UserChanged;
             this._batteryService.InfoChanged -= this._batteryService_InfoChanged;

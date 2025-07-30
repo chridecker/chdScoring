@@ -24,14 +24,17 @@ namespace chdScoring.App.Extensions
 
 #if ANDROID
             services.AddAndroidServices();
-            services.AddChdScoringAppUI<VibrationHelper, UpdateService, AndroidSettingManager, BatteryService, TTSService>(configuration);
+            services.AddChdScoringAppUI<DeviceDisplayService, VibrationHelper, UpdateService, AndroidSettingManager, BatteryService, TTSService>(configuration);
 #elif IOS
             services.AddiOS();
-            services.AddChdScoringAppUI<VibrationHelper, InAppUpdateService, iOSSettingManager, BatteryService, TTSService>(configuration);
+            services.AddChdScoringAppUI<DeviceDisplayService,VibrationHelper, InAppUpdateService, iOSSettingManager, BatteryService, TTSService>(configuration);
 #endif
 
             services.AddSingleton<IDeviceInfo>(_ => DeviceInfo.Current);
             services.AddSingleton<IAppInfo>(_ => AppInfo.Current);
+            services.AddSingleton<IBattery>(_ => Battery.Default);
+            services.AddSingleton<IDeviceDisplay>(_ => DeviceDisplay.Current);
+
 
             services.RemoveAll<IToastService>();
             services.AddSingleton<ToastHandler>();

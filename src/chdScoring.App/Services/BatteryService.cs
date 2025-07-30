@@ -10,6 +10,8 @@ namespace chdScoring.App.Services
 {
     public class BatteryService : IBatteryService
     {
+        private readonly IBattery _battery;
+
         public double BatteryLevel => Battery.Default.ChargeLevel * 100;
         public bool? Charging => Battery.Default.PowerSource switch
         {
@@ -23,9 +25,10 @@ namespace chdScoring.App.Services
         public string DeviceName => DeviceInfo.Current.Name;
 
         public event EventHandler InfoChanged;
-        public BatteryService()
+        public BatteryService(IBattery battery)
         {
-            Battery.Default.BatteryInfoChanged += this.Default_BatteryInfoChanged;
+            this._battery = battery;
+            this._battery.BatteryInfoChanged += this.Default_BatteryInfoChanged;
         }
 
         private void Default_BatteryInfoChanged(object sender, BatteryInfoChangedEventArgs e)
@@ -35,7 +38,7 @@ namespace chdScoring.App.Services
 
         public void Dispose()
         {
-            Battery.Default.BatteryInfoChanged -= this.Default_BatteryInfoChanged;
+            this._battery.BatteryInfoChanged -= this.Default_BatteryInfoChanged;
         }
     }
 }

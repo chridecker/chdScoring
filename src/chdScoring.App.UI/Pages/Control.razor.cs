@@ -15,6 +15,7 @@ namespace chdScoring.App.UI.Pages
         private CancellationTokenSource _cts = new CancellationTokenSource();
         private RoundDataDto _dto;
 
+        [Inject] IDeviceDisplayService _deviceDisplayService { get; set; }
         [Inject] IModalHandler _modalHandler { get; set; }
         [Inject] IJudgeHubClient _judgeHubClient { get; set; }
         [Inject] IJudgeDataCache _judgeDataCache { get; set; }
@@ -23,6 +24,7 @@ namespace chdScoring.App.UI.Pages
         protected override async Task OnInitializedAsync()
         {
             this.Title = PageTitleConstants.ControlCenter;
+            this._deviceDisplayService.KeepScreenOn = true;
             this._cts = new();
 
             this._dto = this._judgeDataCache.Data;
@@ -48,7 +50,7 @@ namespace chdScoring.App.UI.Pages
         {
             var man = _scoreMan(judge, maneouvre);
             var score = this._score(judge, maneouvre);
-            if (man.Histories.Any() || (score.HasValue && score.Value < 1 && score.Value >=0))
+            if (man.Histories.Any() || (score.HasValue && score.Value < 1 && score.Value >= 0))
             {
                 return $"needs-attention is-loading-glow ";
             }
@@ -84,6 +86,7 @@ namespace chdScoring.App.UI.Pages
 
         public void Dispose()
         {
+            this._deviceDisplayService.KeepScreenOn = false;
             this._judgeHubClient.DataReceived -= this._judgeHubClient_DataReceived;
             this._cts.Cancel();
         }

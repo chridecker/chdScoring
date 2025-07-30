@@ -5,13 +5,19 @@ using chdScoring.App.Platforms.Android;
 #endif
 using Microsoft.AspNetCore.Components.WebView;
 using Microsoft.Maui.Platform;
+using chdScoring.App.UI.Interfaces;
+
 
 namespace chdScoring.App
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage()
+        private readonly IDeviceDisplayService _deviceDisplay;
+
+        public MainPage(IDeviceDisplayService deviceDisplay)
         {
+            this._deviceDisplay = deviceDisplay;
+
             InitializeComponent();
             try
             {
@@ -26,7 +32,7 @@ namespace chdScoring.App
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            DeviceDisplay.KeepScreenOn = true;
+            //this._deviceDisplay.KeepScreenOn = true;
             await this.CheckPermissions();
         }
 
