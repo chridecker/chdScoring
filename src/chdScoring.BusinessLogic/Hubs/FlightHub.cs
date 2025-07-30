@@ -11,11 +11,9 @@ namespace chdScoring.BusinessLogic.Hubs
     public class FlightHub : Hub<IFlightHub>, IFlightHub
     {
         private readonly IFlightCacheService _flightCacheService;
-        private readonly IDeviceStatusCache _deviceStatusCache;
 
-        public FlightHub(IFlightCacheService flightCacheService, IDeviceStatusCache deviceStatusCache)
+        public FlightHub(IFlightCacheService flightCacheService)
         {
-            this._deviceStatusCache = deviceStatusCache;
             _flightCacheService = flightCacheService;
         }
         public async override Task OnConnectedAsync()
@@ -27,15 +25,7 @@ namespace chdScoring.BusinessLogic.Hubs
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            this._deviceStatusCache.Remove(this.Context.ConnectionId);
             await base.OnDisconnectedAsync(exception);
-        }
-
-        public async Task<bool> RegisterAsStatus()
-        {
-            await this.Groups.AddToGroupAsync(this.Context.ConnectionId, $"status", this.Context.ConnectionAborted);
-            await this.Clients.Caller.ReceiveStatusRequest(this.Context.ConnectionAborted);
-            return true;
         }
 
         public async Task<bool> RegisterAsJudge(int judge)
@@ -51,12 +41,6 @@ namespace chdScoring.BusinessLogic.Hubs
             return true;
         }
 
-        public async Task<bool> SendStatus(DeviceStatusDto dto)
-        {
-            dto.LastUpdate = DateTime.Now;
-            this._deviceStatusCache.UpdateDto(this.Context.ConnectionId, dto);
-            return true;
-        }
 
         public Task ReceiveFlightData(CurrentFlight dto, CancellationToken cancellationToken = default)
         {
@@ -64,11 +48,6 @@ namespace chdScoring.BusinessLogic.Hubs
         }
 
         public Task ReceiveNotification(NotificationDto dto, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task ReceiveStatusRequest(CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

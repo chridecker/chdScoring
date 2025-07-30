@@ -50,14 +50,6 @@
 
         }
 
-        public class Device
-        {
-            public const string ROUTE = "device";
-
-            public const string GET = "";
-            public const string GET_DeviceStatus = "device";
-        }
-
         public class Database
         {
             public const string ROUTE = "database";

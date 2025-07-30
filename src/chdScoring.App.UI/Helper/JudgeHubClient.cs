@@ -13,14 +13,12 @@ namespace chdScoring.App.UI.Helper
         private readonly IJudgeDataCache _judgeDataCache;
         private readonly ISettingManager _settingManager;
         private readonly INotificationManagerService _notificationManagerService;
-        private readonly IDeviceStatusService _deviceStatusService;
 
-        public JudgeHubClient(ILogger<JudgeHubClient> logger, IJudgeDataCache judgeDataCache, ISettingManager settingManager, INotificationManagerService notificationManagerService, IDeviceStatusService deviceStatusService) : base(logger)
+        public JudgeHubClient(ILogger<JudgeHubClient> logger, IJudgeDataCache judgeDataCache, ISettingManager settingManager, INotificationManagerService notificationManagerService): base(logger)
         {
             this._judgeDataCache = judgeDataCache;
             this._settingManager = settingManager;
             this._notificationManagerService = notificationManagerService;
-            this._deviceStatusService = deviceStatusService;
         }
 
         public event EventHandler<CurrentFlight> DataReceived;
@@ -36,7 +34,7 @@ namespace chdScoring.App.UI.Helper
 
         protected override async Task DoInvokations(HubConnection connection, CancellationToken cancellationToken)
         {
-            await connection.SendAsync(nameof(IFlightHub.RegisterAsStatus), cancellationToken);
+            
         }
 
         protected override void SpecificReinitialize(HubConnection connection)
@@ -56,14 +54,6 @@ namespace chdScoring.App.UI.Helper
             connection.On<NotificationDto>(nameof(IFlightHub.ReceiveNotification), (dto) =>
             {
                 this._notificationManagerService.SendNotification(dto.Title, dto.Message);
-            });
-
-            connection.On(nameof(IFlightHub.ReceiveStatusRequest), async () =>
-            {
-                await this.SendAsync(async (conn) =>
-                {
-                    await conn.SendAsync(nameof(IFlightHub.SendStatus),await this._deviceStatusService.GetStatus());
-                });
             });
         }
 

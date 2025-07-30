@@ -27,8 +27,6 @@ namespace chdScoring.App.UI.Extensions
 
             services.AddUtilities<chdScoringProfileService, int, int, HandleUserIdLogin, TSettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, TUpdateService>(profileServiceLifeTime);
 
-            services.Add(new(typeof(IDeviceStatusService), typeof(DeviceStatusService), profileServiceLifeTime));
-
             services.AddMauiModalHandler();
 
             services.AddSingleton<IDeviceDisplayService, TDeviceDisplayService>();

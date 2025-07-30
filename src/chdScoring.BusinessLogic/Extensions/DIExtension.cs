@@ -34,9 +34,6 @@ namespace chdScoring.BusinessLogic.Extensions
             services.AddSingleton<IPrintCache, PrintCache>();
             services.AddSingleton<IApiLogger, ApiLogger>();
             services.AddSingleton<IFlightCacheService, FlightCacheService>();
-            services.AddSingleton<DeviceStatusCache>();
-            services.AddSingleton<IDeviceStatusCache>(sp => sp.GetRequiredService<DeviceStatusCache>());
-            services.AddSingleton<IDeviceService>(sp => sp.GetRequiredService<DeviceStatusCache>());
 
             services.AddTransient<IPrintService, PrintService>();
             services.AddTransient<IHubDataService, HubDataService>();
