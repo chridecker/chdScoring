@@ -1,9 +1,8 @@
 ﻿@using chd.UI.Base.Contracts.Enum
 @using chdScoring.App.UI.Helper;
-@using chdScoring.App.UI.Pages.Components.Base
 @using chdScoring.App.UI.Services;
 @using chdScoring.Contracts.Dtos;
-@inherits ScoreBase
+@inherits KeyPressListeningComponentBase
 <div class="score-panel">
     <div class="pilot-data">
         @if (this.Pilot is not null)

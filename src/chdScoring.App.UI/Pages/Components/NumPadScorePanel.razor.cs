@@ -1,5 +1,8 @@
+using chd.UI.Base.Client.Implementations.Services;
+using chd.UI.Base.Components.Base;
+using chd.UI.Base.Contracts.Enum;
+using chdScoring.App.UI.Extensions;
 using chdScoring.App.UI.Interfaces;
-using chdScoring.App.UI.Pages.Components.Base;
 using chdScoring.App.UI.Services;
 using chdScoring.Contracts.Dtos;
 using DocumentFormat.OpenXml.Presentation;
@@ -9,11 +12,37 @@ using Microsoft.JSInterop;
 
 namespace chdScoring.App.UI.Pages.Components
 {
-    public partial class NumPadScorePanel : ScoreBase
+    public partial class NumPadScorePanel : KeyPressListeningComponentBase
     {
-        protected override decimal? _scoreStartValue() => null;
+        [Inject] IVibrationHelper _vibrationHelper { get; set; }
 
+        [Inject] ITTSService _tTSService { get; set; }
+        [Inject] ISettingManager _settingManager { get; set; }
+        [Inject] IModalHandler _modalHandler { get; set; }
+
+        [Parameter] public Func<SaveScoreDto, Task<bool>> ScoreSaved { get; set; }
+        [Parameter] public Func<JudgeDto, PilotDto, int, Task<bool>> ScoresConfirmed { get; set; }
+        [Parameter] public int Round { get; set; }
+
+        [Parameter] public PilotDto Pilot { get; set; }
+
+        [Parameter] public JudgeDto Judge { get; set; }
+
+        [Parameter] public ManeouvreDto Maneouvre { get; set; }
+
+        [Parameter] public bool PanelDisabled { get; set; }
+        [Parameter] public bool NeedsJudgeConfirmation { get; set; }
+        [Parameter] public bool IsConfirmed { get; set; }
+
+        [Parameter] public CancellationToken CancellationToken { get; set; }
+
+        private decimal? _scoreStartValue() => null;
         private bool _commaPressed = false;
+
+        private string _scoreValueText => !this._scoreValue.HasValue ? "-" : this._scoreValue.Value < 0 ? "NO" : this._scoreValue.Value == 0 ? "0" : this._scoreValue.Value.ToString("0.#");
+
+        private decimal? _scoreValue;
+
         protected override Task KeyDownHandle(KeyboardEventArgs e) => (int.TryParse(e.Code, out int code), code) switch
         {
             (true, _) when (code is 8 or 46 or 166) => this.Delete(),
@@ -44,7 +73,7 @@ namespace chdScoring.App.UI.Pages.Components
                     && this.Pilot.Name.Split(' ').Length > 1
                     && this.Pilot.Name.Split(' ')[1].Length > 10)
                 {
-                    return this.Pilot.Name.Split(' ')[0].Substring(0,1) + ". " + this.Pilot.Name.Split(' ')[1];
+                    return this.Pilot.Name.Split(' ')[0].Substring(0, 1) + ". " + this.Pilot.Name.Split(' ')[1];
                 }
                 return this.Pilot?.Name;
             }
@@ -106,7 +135,9 @@ namespace chdScoring.App.UI.Pages.Components
             await this.InvokeAsync(this.StateHasChanged);
         }
 
-        protected async override Task Save()
+        private Task Repeat() => this._tTSService.SpeakAsync(this.Maneouvre?.Name);
+
+        private async Task Save()
         {
             if (this.PanelDisabled && this.NeedsJudgeConfirmation && !this.IsConfirmed)
             {
@@ -118,18 +149,62 @@ namespace chdScoring.App.UI.Pages.Components
             }
 
             this._commaPressed = false;
-            await base.Save();
+            if (this.PanelDisabled) { return; }
+
+            if (this._scoreValue.HasValue)
+            {
+                if (!(await this.SaveScore(this.Pilot.Id, this.Maneouvre.Id, this.Judge.Id, this.Round, this._scoreValue.Value, this.CancellationToken)))
+                {
+                    await this._vibrationHelper.Vibrate(4, TimeSpan.FromMilliseconds(200), this.CancellationToken);
+                }
+                else
+                {
+                    this._vibrationHelper.Vibrate(TimeSpan.FromMilliseconds(300));
+                }
+                this._scoreValue = this._scoreStartValue();
+            }
+            await this.InvokeAsync(this.StateHasChanged);
         }
 
-        protected override async Task Delete()
+
+        private async Task ConfirmScores()
+        {
+            if (!this.PanelDisabled || !this.NeedsJudgeConfirmation || this.IsConfirmed) { return; }
+            if (await this._modalHandler.ShowYesNoDialog("Confirm Scores?", this._settingManager.IsiOS) == EDialogResult.Yes)
+            {
+                await this.ScoresConfirmed?.Invoke(this.Judge, this.Pilot, this.Round);
+            }
+        }
+
+        private async Task<bool> SaveScore(int id, int figur, int judge, int round, decimal value, CancellationToken token)
+        {
+            var dto = new SaveScoreDto
+            {
+                Pilot = id,
+                Figur = figur,
+                Judge = judge,
+                Round = round,
+                Value = value,
+            };
+            return await this.ScoreSaved.Invoke(dto);
+        }
+
+        private async Task Delete()
         {
             this._commaPressed = false;
-            await base.Delete();
+            this._scoreValue = null;
+            await this.InvokeAsync(this.StateHasChanged);
         }
 
         private async Task Comma()
         {
             this._commaPressed = true;
+            await this.InvokeAsync(this.StateHasChanged);
+        }
+        private async Task NotObserved()
+        {
+            this._scoreValue = -99;
+            await this._tTSService.SpeakAsync("N O ");
             await this.InvokeAsync(this.StateHasChanged);
         }
     }

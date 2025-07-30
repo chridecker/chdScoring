@@ -127,7 +127,6 @@ namespace chdScoring.App.UI.Pages
             this._dto = e;
             this._deviceDisplayService.ScreenBrightness = this.GetScreenBrightness();
 
-
             await this.InvokeAsync(this.StateHasChanged);
         }
 
@@ -203,7 +202,6 @@ namespace chdScoring.App.UI.Pages
             try
             {
                 this._dto = this._judgeDataCache.Data ?? await this._judgeService.GetCurrentFlight();
-
             }
             catch (Exception ex)
             {
