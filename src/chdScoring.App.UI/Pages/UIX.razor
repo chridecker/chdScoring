@@ -9,6 +9,7 @@
 @inject IModalHandler modal
 @inject IBatteryService battery
 @inject ITTSService ttsService
+@inject IDeviceDisplayService deviceDisplayService
 @attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.AdminId })]
 
 
@@ -23,18 +24,35 @@
 
 <IconButton FAClass="xmark" OnClick="Error" />
 
+<input type="range" min="1" step="1" max="100" value="@_displayBrightness" @onchange="async (e) => await this.UpdateBrightness(e)" />
+@this._displayBrightness
 
 @code
 {
     private string _title;
     private string _message;
 
+    private float? _displayBrightness;
+    private float? _initDisplayBrightness;
+
     protected override async Task OnInitializedAsync()
     {
+        this._initDisplayBrightness = deviceDisplayService.ScreenBrightness;
+        this._displayBrightness = deviceDisplayService.ScreenBrightness;
+
         this.notificationService.NotificationReceived += this.NotificationReceived;
         this.battery.InfoChanged += this.InfoChanged;
         await base.OnInitializedAsync();
     }
+    private async Task UpdateBrightness(ChangeEventArgs e)
+    {
+        if (float.TryParse(e.Value?.ToString(), out var brightness))
+        {
+            this._displayBrightness = brightness *0.01f;
+            deviceDisplayService.ScreenBrightness = this._displayBrightness;
+        }
+    }
+
 
     private async Task Error()
     {
@@ -61,6 +79,7 @@
 
     public void Dispose()
     {
+        this.deviceDisplayService.ScreenBrightness = this._initDisplayBrightness;
         this.battery.InfoChanged -= this.InfoChanged;
         this.notificationService.NotificationReceived -= this.NotificationReceived;
     }
