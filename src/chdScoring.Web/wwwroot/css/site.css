@@ -1,10 +1,10 @@
 * {
     /*Colors*/
-    --chd-main-color-theme: var(--chd-lightblue);
-    --chd-main-color-theme-transparent: var(--chd-lightblue-transparent);
-    --chd-main-color-theme-gradient: linear-gradient(to right, transparent 0%, var(--chd-main-color-theme-transparent) 10%, var(--chd-main-color-theme) 90%);
-    --chd-main-color-theme-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-main-color-theme-transparent) 10%, var(--chd-main-color-theme) 90%);
-    --chd-main-color-theme-semi-transparent: var(--chd-lightblue-semi-transparent);
+    --chd-primary: var(--chd-lightblue);
+    --chd-primary-transparent: var(--chd-lightblue-transparent);
+    --chd-primary-gradient: linear-gradient(to right, transparent 0%, var(--chd-primary-transparent) 10%, var(--chd-primary) 90%);
+    --chd-primary-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-primary-transparent) 10%, var(--chd-primary) 90%);
+    --chd-primary-semi-transparent: var(--chd-lightblue-semi-transparent);
     --chd-font-color: rgb(204, 204, 220);
     --chd-font-color-transparent: rgba(255,255,255,0.1);
     --chd-font-color-semi-transparent: rgba(255,255,255,0.5);
@@ -12,14 +12,14 @@
     --chd-bg: rgb(24, 27, 31);
     --chd-bg-transparent: rgba(24, 27, 31, 0.1);
     --chd-bg-semi-transparent: rgba(24, 27, 31, 0.5);
-    --chd-box-shadow: 0 0 0.5em var(--chd-main-color-theme);
+    --chd-box-shadow: 0 0 0.5em var(--chd-primary);
     --chd-bg-lighter: #323232;
     --chd-bg-darker: black;
-    --chd-sub-color-theme: var(--chd-grey);
-    --chd-sub-color-theme-transparent: var(--chd-grey-transparent);
-    --chd-sub-color-theme-semi-transparent: var(--chd-grey-semi-transparent);
-    --chd-sub-color-theme-gradient: linear-gradient(to right, transparent 0%, var(--chd-sub-color-theme-transparent) 10%, var(--chd-sub-color-theme) 90%);
-    --chd-sub-color-theme-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-sub-color-theme-transparent) 10%, var(--chd-sub-color-theme) 90%);
+    --chd-scondary: var(--chd-grey);
+    --chd-scondary-transparent: var(--chd-grey-transparent);
+    --chd-scondary-semi-transparent: var(--chd-grey-semi-transparent);
+    --chd-scondary-gradient: linear-gradient(to right, transparent 0%, var(--chd-scondary-transparent) 10%, var(--chd-scondary) 90%);
+    --chd-scondary-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-scondary-transparent) 10%, var(--chd-scondary) 90%);
     --chd-green: rgb(16, 100, 0);
     --chd-green-gradient: linear-gradient(to right, transparent 0%, var(--chd-green-transparent) 10%, var(--chd-green) 90%);
     --chd-green-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-green-transparent) 10%, var(--chd-green) 90%);
@@ -83,12 +83,12 @@
         --chd-bg-semi-transparent: rgba(255,255,255, 0.5);
         --chd-bg-lighter: #c7c7c7;
         --chd-bg-darker: white;
-        --chd-main-color-theme: var(--chd-lightblue);
-        --chd-main-color-theme-transparent: var(--chd-lightblue-transparent);
-        --chd-main-color-theme-semi-transparent: var(--chd-lightblue-semi-transparent);
-        --chd-sub-color-theme: var(--chd-lightgrey);
-        --chd-sub-color-theme-transparent: var(--chd-lightgrey-transparent);
-        --chd-sub-color-theme-semi-transparent: var(--chd-lightgrey-semi-transparent);
+        --chd-primary: var(--chd-lightblue);
+        --chd-primary-transparent: var(--chd-lightblue-transparent);
+        --chd-primary-semi-transparent: var(--chd-lightblue-semi-transparent);
+        --chd-scondary: var(--chd-lightgrey);
+        --chd-scondary-transparent: var(--chd-lightgrey-transparent);
+        --chd-scondary-semi-transparent: var(--chd-lightgrey-semi-transparent);
         --chd-table-alternate: rgba(0, 0, 0, .8);
         --chd-ios-blue: rgb(0,136,255);
     }

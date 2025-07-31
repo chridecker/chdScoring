@@ -13,7 +13,7 @@
     }
 
         .pilots .pilot-row:hover {
-            background: var(--chd-main-color-theme-transparent);
+            background: var(--chd-primary-transparent);
         }
 
         .pilots .pilot-row:last-child {

@@ -23,7 +23,7 @@
         }
 
             .control-center .maneouvres .maneouvre:hover {
-                background-color: var(--chd-main-color-theme-semi-transparent);
+                background-color: var(--chd-primary-semi-transparent);
             }
 
             .control-center .maneouvres .maneouvre:last-child {

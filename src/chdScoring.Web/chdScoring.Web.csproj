@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 <ItemGroup>
-		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.25203.143" />
+		<PackageReference Include="chd.Hub.Base.Client" Version="1.0.25212.144" />
 	</ItemGroup>
 <ItemGroup>
   <ProjectReference Include="..\chdScoring.Main.Client\chdScoring.Main.Client.csproj" />

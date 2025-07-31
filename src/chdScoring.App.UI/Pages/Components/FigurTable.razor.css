@@ -26,11 +26,11 @@
 
         .figure-table .ft-row:active,
         .figure-table .ft-row:hover {
-            background:var(--chd-main-color-theme-transparent);
+            background:var(--chd-primary-transparent);
         }
 
         .figure-table .ft-row.ft-header {
-            background: var(--chd-main-color-theme-semi-transparent);
+            background: var(--chd-primary-semi-transparent);
             display: grid;
             grid-template-columns: max-content auto max-content;
             display:none;

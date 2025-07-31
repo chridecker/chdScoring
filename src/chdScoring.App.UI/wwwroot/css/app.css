@@ -11,11 +11,11 @@
     --main-article-height: calc(100% - var(--top-header-height)) !important;
     --sidebar-toggle-top: calc(var(--top-header-height) + 0.5rem) !important;
     --main-article-available-height: 100% !important;
-    --chd-main-color-theme: var(--chd-lightblue);
-    --chd-main-color-theme-transparent: var(--chd-lightblue-transparent);
-    --chd-main-color-theme-gradient: linear-gradient(to right, transparent 0%, var(--chd-main-color-theme-transparent) 10%, var(--chd-main-color-theme) 90%);
-    --chd-main-color-theme-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-main-color-theme-transparent) 10%, var(--chd-main-color-theme) 90%);
-    --chd-main-color-theme-semi-transparent: var(--chd-lightblue-semi-transparent);
+    --chd-primary: var(--chd-lightblue);
+    --chd-primary-transparent: var(--chd-lightblue-transparent);
+    --chd-primary-gradient: linear-gradient(to right, transparent 0%, var(--chd-primary-transparent) 10%, var(--chd-primary) 90%);
+    --chd-primary-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-primary-transparent) 10%, var(--chd-primary) 90%);
+    --chd-primary-semi-transparent: var(--chd-lightblue-semi-transparent);
     --widget-height: 38rem !important;
     --sidebar-width-small: 0 !important;
 }
@@ -50,7 +50,7 @@
     }
  
         .sidebar.collapsed header .toggle button.btn {
-            background: var(--chd-main-color-theme-semi-transparent);
+            background: var(--chd-primary-semi-transparent);
         }
 
     .top-row {
@@ -88,7 +88,7 @@
     }
 
     .sidebar.collapsed header .toggle button.btn {
-        background: var(--chd-main-color-theme-semi-transparent);
+        background: var(--chd-primary-semi-transparent);
     }
 
     .sidebar:not(.collapsed) header .toggle {

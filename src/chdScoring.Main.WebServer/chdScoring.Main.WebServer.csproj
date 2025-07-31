@@ -10,7 +10,7 @@
 		<ApplicationIcon>favicon.ico</ApplicationIcon>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="chd.Api.Base" Version="1.0.25203.143" />
+		<PackageReference Include="chd.Api.Base" Version="1.0.25212.144" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.2.0" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.2" />
 		<PackageReference Include="NLog.Web.AspNetCore" Version="5.4.0" />

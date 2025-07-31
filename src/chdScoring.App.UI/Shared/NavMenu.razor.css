@@ -10,7 +10,7 @@
 
     .nav-menu ::deep .sidebar header .image .logo {
         padding: 0.2rem;
-        background-color: var(--chd-main-color-theme);
+        background-color: var(--chd-primary);
         height: 2.2rem;
     }
 

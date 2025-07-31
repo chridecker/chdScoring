@@ -61,11 +61,11 @@
 
 @keyframes glow {
     from {
-        box-shadow: 0 0 10px var(--chd-font-color), 0 0 20px var(--chd-font-color), 0 0 30px var(--chd-main-color-theme), 0 0 40px var(--chd-main-color-theme), 0 0 50px var(--chd-main-color-theme), 0 0 60px var(--chd-main-color-theme), 0 0 70px var(--chd-main-color-theme);
+        box-shadow: 0 0 10px var(--chd-font-color), 0 0 20px var(--chd-font-color), 0 0 30px var(--chd-primary), 0 0 40px var(--chd-primary), 0 0 50px var(--chd-primary), 0 0 60px var(--chd-primary), 0 0 70px var(--chd-primary);
     }
 
     to {
-        box-shadow: 0 0 20px var(--chd-font-color), 0 0 30px var(--chd-main-color-theme), 0 0 40px var(--chd-main-color-theme), 0 0 50px var(--chd-main-color-theme), 0 0 60px var(--chd-main-color-theme), 0 0 70px var(--chd-main-color-theme), 0 0 80px var(--chd-main-color-theme);
+        box-shadow: 0 0 20px var(--chd-font-color), 0 0 30px var(--chd-primary), 0 0 40px var(--chd-primary), 0 0 50px var(--chd-primary), 0 0 60px var(--chd-primary), 0 0 70px var(--chd-primary), 0 0 80px var(--chd-primary);
     }
 }
 
@@ -167,7 +167,7 @@
     .score-panel .score-pad ::deep button.btn.icon-button-floppy-disk {
         grid-column: 4;
         grid-row: 5;
-        background: var(--chd-main-color-theme);
+        background: var(--chd-primary);
     }
 
     .score-panel .score-pad ::deep button.btn.icon-button-eye-slash {
@@ -177,7 +177,7 @@
 
     .score-panel .score-pad ::deep button.btn.icon-button-floppy-disk.disabled {
         background: var(--chd-bg);
-        border: 1px solid var(--chd-main-color-theme);
+        border: 1px solid var(--chd-primary);
     }
 
 @media only screen and (orientation:portrait) and (max-width:400px) {
