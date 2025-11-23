@@ -54,7 +54,7 @@
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
 		<PackageReference Include="Xamarin.Google.Android.Play.App.Update.Ktx" Version="2.1.0.14" />
-		<PackageReference Include="Oscore.Maui.Android.InAppUpdates" Version="1.2.0" />
+		<PackageReference Include="Oscore.Maui.Android.InAppUpdates" Version="1.5.1" />
 	</ItemGroup>
 
 	<ItemGroup>
