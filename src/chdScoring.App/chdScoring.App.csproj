@@ -29,16 +29,16 @@
 
 
 	<!--
-	<PropertyGroup Condition="'$(Configuration)' == 'Debug' AND '$(TargetFramework)' == 'net9.0-ios'">
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug' AND '$(TargetFramework)' == 'net10.0-ios'">
 		<RuntimeIdentifiers>iossimulator-arm64</RuntimeIdentifiers>
 	</PropertyGroup>-->
 
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
 		<PublishAot>False</PublishAot>
 		<RunAOTCompilation>false</RunAOTCompilation>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-android'">
+	<PropertyGroup Condition="'$(TargetFramework)'=='net10.0-android'">
 		<AndroidKeyStore>False</AndroidKeyStore>
 	</PropertyGroup>
 
@@ -52,7 +52,7 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
 		<PackageReference Include="Xamarin.Google.Android.Play.App.Update.Ktx" Version="2.1.0.14" />
 		<PackageReference Include="Oscore.Maui.Android.InAppUpdates" Version="1.5.1" />
 	</ItemGroup>
