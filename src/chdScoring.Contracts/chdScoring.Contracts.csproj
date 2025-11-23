@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="chd.UI.Base.Contracts" Version="1.0.25212.144" />
-    <PackageReference Include="System.IO.Pipelines" Version="9.0.4" />
+    <PackageReference Include="chd.UI.Base.Contracts" Version="2.0.25327.148" />
+    <PackageReference Include="System.IO.Pipelines" Version="10.0.0" />
   </ItemGroup>
 
 </Project>
