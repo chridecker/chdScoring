@@ -37,7 +37,7 @@ jobs:
 
     strategy:
       matrix:
-        dotnet-version: [ '9.0.x' ]
+        dotnet-version: [ '10.0.x' ]
     
     steps:
     - uses: actions/checkout@v4
@@ -45,7 +45,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 9.0.x
+        dotnet-version: 10.0.x
    
     - name: Install Maui
       run: dotnet workload install maui 
@@ -61,7 +61,7 @@ jobs:
         $HOUR=& Get-Date -format HHmm
         $VERSION="$MAJOR.$MINOR.$YEAR.$HOUR"
         echo "DATEVERSION=$VERSION" >> $env:GITHUB_ENV
-        dotnet publish src/chdScoring.App/chdScoring.App.csproj --no-restore --configuration ${{ env.BUILD_CONFIG }} --framework net9.0-android /p:ApplicationDisplayVersion=$VERSION /p:ApplicationVersion=${{ github.run_number}} /p:AndroidSigningKeyPass=${{secrets.CHDSCORING_KEYPASS}} /p:AndroidSigningStorePass=${{secrets.CHDSCORING_KEYPASS}} /p:AndroidKeyStore=true /p:AndroidSigningKeyStore=chdscoring.keystore /p:AndroidSigningKeyAlias=chdScoring /p:AndroidSigningKeyAlias=chdScoring /p:AndroidVersionCode=${{github.run_number}}
+        dotnet publish src/chdScoring.App/chdScoring.App.csproj --no-restore --configuration ${{ env.BUILD_CONFIG }} --framework net10.0-android /p:ApplicationDisplayVersion=$VERSION /p:ApplicationVersion=${{ github.run_number}} /p:AndroidSigningKeyPass=${{secrets.CHDSCORING_KEYPASS}} /p:AndroidSigningStorePass=${{secrets.CHDSCORING_KEYPASS}} /p:AndroidKeyStore=true /p:AndroidSigningKeyStore=chdscoring.keystore /p:AndroidSigningKeyAlias=chdScoring /p:AndroidSigningKeyAlias=chdScoring /p:AndroidVersionCode=${{github.run_number}}
 
     - name: Upload APK Build Artifact
       if: ${{ github.event.inputs.use_apk == 'true' }}
