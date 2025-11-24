@@ -18,14 +18,6 @@ on:
         description: 'Create an APK Artifact'
         required: true
         default: 'false'
-      package_name:
-        description: 'APP Package Name'
-        required: true
-        default: 'com.chdscoring.mobile.app'
-      platform:
-        description: 'APP Platform'
-        required: true
-        default: 'android'
 
 jobs:
   build:
