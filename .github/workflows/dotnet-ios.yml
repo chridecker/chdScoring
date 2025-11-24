@@ -49,7 +49,7 @@ jobs:
       run: echo "DATEIOSVERSION=2.${{ steps.date.outputs.year }}.${{ github.run_number }}" >> $GITHUB_ENV
 
     - name: Select Xcode version
-      run: sudo xcode-select -s /Applications/Xcode_16.4.app
+      run: sudo xcode-select -s /Applications/Xcode_26.1.app
       
   #-------------------------------------------------------
 
@@ -74,7 +74,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '9.x'
+        dotnet-version: '10.x'
 
     - name: Install MAUI workloads
       run: |
@@ -86,7 +86,7 @@ jobs:
       run: dotnet restore
       
     - name: Build MAUI iOS App (Release)
-      run: dotnet publish src/chdScoring.App/chdScoring.App.csproj --no-restore -f net9.0-ios -r ios-arm64 -c ${{ env.BUILD_CONFIG }} 
+      run: dotnet publish src/chdScoring.App/chdScoring.App.csproj --no-restore -f net10.0-ios -r ios-arm64 -c ${{ env.BUILD_CONFIG }} 
             /p:CodesignKey="${{ github.event.inputs.codesignkey }}" 
             /p:CodesignProvision="chdScoringMobileAppStoreProfile" 
             /p:ArchiveOnBuild=true 
@@ -98,13 +98,13 @@ jobs:
             
 
     - name: List build output
-      run: ls -R src/chdScoring.App/bin/Release/net9.0-ios/ios-arm64/publish/
+      run: ls -R src/chdScoring.App/bin/Release/net10.0-ios/ios-arm64/publish/
       
     - name: Upload app to TestFlight
       if: ${{github.event.inputs.use_testflight == 'true' }}
       uses: Apple-Actions/upload-testflight-build@v1
       with:
-        app-path: 'src/chdScoring.App/bin/Release/net9.0-ios/ios-arm64/publish/chdScoring.App.ipa'
+        app-path: 'src/chdScoring.App/bin/Release/net10.0-ios/ios-arm64/publish/chdScoring.App.ipa'
         issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
         api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
         api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
@@ -116,23 +116,4 @@ jobs:
         name: ios-app
         path: ./**/Release/**/publish/*.ipa
 
-    - name: Set up SSH
-      run: |
-         mkdir -p ~/.ssh
-         echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
-         chmod 600 ~/.ssh/id_ed25519
-         ssh-keyscan github.com >> ~/.ssh/known_hosts
-    
-    - name: Update Github Version
-      run: |
-        git clone git@github.com:chridecker/chd.version.git
-        cd chd.version
-        ls
-        mkdir -p ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}
-        ls
-        echo "{\"Version\": \"${{ env.DATEIOSVERSION }} \"}" > ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
-        git add ${{ github.event.inputs.package_name }}/${{ github.event.inputs.platform }}/Version.json
-        git config user.name "CHD Build Service"
-        git config user.email "chdscoring@gmail.com"
-        git commit -a -m "Version ${{ env.DATEIOSVERSION }} "
-        git push -f
+  
