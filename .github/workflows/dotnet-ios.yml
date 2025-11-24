@@ -19,21 +19,13 @@ on:
         description: 'Create an IPA Artifact'
         required: true
         default: 'false'
-      package_name:
-        description: 'APP Package Name'
-        required: true
-        default: 'com.chdscoring.mobile.app'
-      platform:
-        description: 'APP Platform'
-        required: true
-        default: 'ios'
 
 jobs:
   build-ios:
     env:
       BUILD_CONFIG: ${{ github.event.inputs.build_config }}
       
-    runs-on: macos-15
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v3
