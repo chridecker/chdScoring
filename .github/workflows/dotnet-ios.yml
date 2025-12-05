@@ -42,7 +42,15 @@ jobs:
 
     - name: Select Xcode version
       run: sudo xcode-select -s /Applications/Xcode_16.1.app
-      
+
+    - name: Verify actool
+      run: |
+        which actool || echo "actool nicht im PATH – füge es hinzu"
+        ls /Applications/Xcode.app/Contents/Developer/usr/bin/ | grep actool
+
+    - name: Add actool to PATH
+      run: |
+          echo "/Applications/Xcode.app/Contents/Developer/usr/bin" >> $GITHUB_PATH
   #-------------------------------------------------------
 
     - name: Import Code-Signing Certificates
