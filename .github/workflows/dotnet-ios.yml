@@ -87,6 +87,7 @@ jobs:
             /p:ApplicationDisplayVersion=${{ env.DATEIOSVERSION }}
             /p:ApplicationBuild=${{ github.run_number }}
             /p:ApplicationVersion=${{ env.DATEIOSVERSION }} 
+            /p:RunAOTCompilation=false
             #/p:Version=${{ env.DATEVERSION }}
             
 
