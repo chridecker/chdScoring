@@ -25,7 +25,7 @@ jobs:
     env:
       BUILD_CONFIG: ${{ github.event.inputs.build_config }}
       
-    runs-on: macos-latest
+    runs-on: macos-26
 
     steps:
     - uses: actions/checkout@v3
@@ -40,16 +40,10 @@ jobs:
     - name: Define Date Var iOS
       run: echo "DATEIOSVERSION=2.${{ steps.date.outputs.year }}.${{ github.run_number }}" >> $GITHUB_ENV
 
-    - name: Select Xcode version
-      run: sudo xcode-select -s /Applications/Xcode.app
-
-    - name: Verify actool
+    - name: Select Xcode
       run: |
-        which actool || echo "actool nicht im PATH – füge es hinzu"
-        ls /Applications/Xcode.app/Contents/Developer/usr/bin/ | grep actool
-
-    - name: Add actool to PATH
-      run: echo "/Applications/Xcode.app/Contents/Developer/usr/bin" >> $GITHUB_PATH
+        sudo xcode-select -s /Applications/Xcode_26.0.app/Contents/Developer
+        xcodebuild -version
   #-------------------------------------------------------
 
     - name: Import Code-Signing Certificates
