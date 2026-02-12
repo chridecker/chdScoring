@@ -1,7 +1,10 @@
 using chdScoring.BusinessLogic.Services;
 using chdScoring.Contracts.Interfaces;
+using chdScoring.DataAccess.Contracts.DAL;
+using CsvHelper;
 using Microsoft.Extensions.DependencyInjection;
 using System.Drawing.Printing;
+using System.Formats.Asn1;
 using System.Threading;
 
 namespace chdScoring.Main.WebServer
@@ -126,6 +129,52 @@ namespace chdScoring.Main.WebServer
             if (this._printCache.AutoPrint != this.checkBoxAutoPrint.Checked)
             {
                 this._printCache.AutoPrint = this.checkBoxAutoPrint.Checked;
+            }
+        }
+
+        private async void buttonImportCsv_Click(object sender, EventArgs e)
+        {
+            if (this.openFileDialogImportCsv.ShowDialog(this) != DialogResult.OK) { return; }
+            using var fileStream = this.openFileDialogImportCsv.OpenFile();
+            using var reader = new CsvReader(new StreamReader(fileStream), System.Globalization.CultureInfo.InvariantCulture);
+
+            using var scope = this._serviceProvider.CreateScope();
+            var service = scope.ServiceProvider.GetRequiredService<IPilotService>();
+            var pilots = await service.GetAllPilots(CancellationToken.None);
+            var countries = await service.GetCountries(CancellationToken.None);
+            var pilotsCount = pilots.Count();
+
+            try
+            {
+                await reader.ReadAsync();
+                reader.ReadHeader();
+                while (await reader.ReadAsync())
+                {
+                    var name = reader.GetField(1);
+                    var lastname = reader.GetField(2);
+                    var club = reader.GetField(4);
+                    var license = reader.GetField(5);
+                    var country = reader.GetField(3);
+
+
+                    if (!await service.Add(new Contracts.Dtos.PilotDto
+                    {
+                        Id = ++pilotsCount,
+                        Firstname = name,
+                        Lastname = lastname,
+                        Club = club,
+                        License = license,
+                        CountryId = countries.FirstOrDefault(c => c.Name == country)?.Id ?? 0,
+                    }, CancellationToken.None))
+                    {
+                        MessageBox.Show(this, $"Fehler beim Importieren der CSV: Pilot {name} {lastname} konnte nicht hinzugefügt werden.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, $"Fehler beim Importieren der CSV: {ex.Message}", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

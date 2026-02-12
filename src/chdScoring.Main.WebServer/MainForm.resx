@@ -142,6 +142,9 @@
         eIo3qeV2ZFEi8j4wBJyJlc5ErLE8XKQBR0EITE0yKjGSJUZG/wPR/H63gn/n5QAAAABJRU5ErkJggg==
 </value>
   </data>
+  <metadata name="openFileDialogImportCsv.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>380, 17</value>
+  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAEBAAAAEAIAAwAwAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAAlw
