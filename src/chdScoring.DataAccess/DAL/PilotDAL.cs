@@ -44,7 +44,7 @@ namespace chdScoring.DataAccess.DAL
                 Strasse = string.Empty,
                 Telefon = string.Empty,
             };
-            await this._teilnehmerRepository.SaveAsync(entity, cancellationToken);
+            _ = await this._teilnehmerRepository.SaveAsync(entity, cancellationToken);
             var e = new Teilnehmer_Bewerb
             {
                 Bewerb = 1,

@@ -142,7 +142,7 @@ namespace chdScoring.Main.WebServer
             var service = scope.ServiceProvider.GetRequiredService<IPilotService>();
             var pilots = await service.GetAllPilots(CancellationToken.None);
             var countries = await service.GetCountries(CancellationToken.None);
-            var pilotsCount = pilots.Count();
+            var pilotsCount = pilots.Max(s => s.Id);
 
             try
             {
