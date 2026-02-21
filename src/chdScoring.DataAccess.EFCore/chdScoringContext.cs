@@ -41,6 +41,7 @@ namespace chdScoring.DataAccess.EFCore
                 builder.ToTable("durchgang_programm").HasKey(x => new { x.Programm, x.Durchgang });
             });
             modelBuilder.Entity<Figur_Programm>().HasKey(x => new { x.Programm, x.Figur });
+            modelBuilder.Entity<Teilnehmer_Bewerb>().HasKey(x => new { x.Bewerb, x.Teilnehmer });
             modelBuilder.Entity<Judge_Panel>().HasKey(x => new { x.Judge, x.Panel });
             modelBuilder.Entity<Wertung_History>().HasKey(x => new { x.Teilnehmer, x.Durchgang, x.Figur, x.Judge, x.Time });
             modelBuilder.Entity<Teilnehmer_Durchgang_Judge>(builder =>

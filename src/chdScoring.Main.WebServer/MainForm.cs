@@ -142,12 +142,10 @@ namespace chdScoring.Main.WebServer
             var service = scope.ServiceProvider.GetRequiredService<IPilotService>();
             var pilots = await service.GetAllPilots(CancellationToken.None);
             var countries = await service.GetCountries(CancellationToken.None);
-            var pilotsCount = pilots.Max(s => s.Id);
+            var pilotsCount = pilots.Any() ? pilots.Max(s => s.Id) : 0;
 
             try
             {
-                await reader.ReadAsync();
-                reader.ReadHeader();
                 while (await reader.ReadAsync())
                 {
                     var name = reader.GetField(1);
