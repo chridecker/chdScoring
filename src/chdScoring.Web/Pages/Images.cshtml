@@ -13,22 +13,27 @@
             const imageUrls = [];
         @foreach (var imgUrl in this.Model.ImageUrls)
             {
-                                    <text>
-                                                                imageUrls.push('@(imgUrl)');
-                                        </text>
+                                            <text>
+                                                                                imageUrls.push('@(imgUrl)');
+                                                </text>
 
             }
             const imgElement = document.querySelector('.image-container img');
 
-            let index = 0;
+            
 
-            // Erstes Bild setzen
-            imgElement.src = imageUrls[index];
+            changeImage(0);
+            var index = 0;
 
             // Alle 5 Sekunden wechseln
             setInterval(() => {
-                imgElement.classList.remove("fade-in");
-                index = (index + 1) % imageUrls.length;
+                 index = (index + 1) % imageUrls.length;
+                changeImage(index);
+            }, @this.Model.Interval);
+
+            function changeImage(index) {
+               imgElement.classList.remove("fade-in");
+
                  fetch('?handler=Base64&file=' + imageUrls[index])
                  .then(r => {
                      r.text().then(t => {
@@ -36,7 +41,6 @@
                         imgElement.classList.add("fade-in");
                      });
                  })
-            }, 5000);
-
+            }
     </script>
 }
