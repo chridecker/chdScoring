@@ -127,6 +127,7 @@ namespace chdScoring.App.UI.Pages.Components
                 }
             }
             this._vibrationHelper.Vibrate(TimeSpan.FromMilliseconds(100));
+            await this.InvokeAsync(this.StateHasChanged);
 
             if (this._scoreValue.HasValue)
             {
@@ -204,6 +205,7 @@ namespace chdScoring.App.UI.Pages.Components
         private async Task NotObserved()
         {
             this._scoreValue = -99;
+            await this.InvokeAsync(this.StateHasChanged);
             await this._tTSService.SpeakAsync("N O ");
             await this.InvokeAsync(this.StateHasChanged);
         }

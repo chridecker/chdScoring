@@ -51,7 +51,7 @@ namespace chdScoring.App.UI.Pages
             if (this._judge.HasValue && this._judge.Value > 0
                 && this._isConfirmed && this._panelDisabled)
             {
-                return 0.01f;
+                return 0.1f;
             }
 
             return this._currentBrightness;
