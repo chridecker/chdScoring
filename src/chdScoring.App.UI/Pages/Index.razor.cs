@@ -89,7 +89,7 @@ namespace chdScoring.App.UI.Pages
             this._deviceDisplayService.KeepScreenOn = true;
             this._currentBrightness = this._deviceDisplayService.ScreenBrightness;
 
-            this._useJudgeConfirmQuestion = await this._settingManager.GetScoringZoom();
+            this._useJudgeConfirmQuestion = await this._settingManager.GetUseJudgeConfirmQuestion();
             this._zoom = await this._settingManager.GetScoringZoom();
 
             this._judgeHubClient.Connected += this._judgeHubClient_Connected;
