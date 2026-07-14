@@ -41,6 +41,8 @@ namespace chdScoring.App.UI.Pages
         private bool _isConfirmed => this._needsJudgeConfirm && this._judge.HasValue && this._judge.Value > 0 ? (this._dto?.JudgeConfirms.Any(a => a.Judge == this._judge.Value) ?? false) : true;
         private bool _isAdmin => this._profileService.HasUserRight(RightConstants.AdminId);
 
+        private bool _useJudgeConfirmQuestion = true;
+
 
         private float? GetScreenBrightness()
         {
@@ -87,6 +89,7 @@ namespace chdScoring.App.UI.Pages
             this._deviceDisplayService.KeepScreenOn = true;
             this._currentBrightness = this._deviceDisplayService.ScreenBrightness;
 
+            this._useJudgeConfirmQuestion = await this._settingManager.GetScoringZoom();
             this._zoom = await this._settingManager.GetScoringZoom();
 
             this._judgeHubClient.Connected += this._judgeHubClient_Connected;

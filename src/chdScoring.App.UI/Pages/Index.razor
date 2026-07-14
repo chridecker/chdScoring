@@ -23,6 +23,6 @@
                 EditManeouvreEnabled="(this._isAdmin || (this._dto?.EditScoreEnabled ?? false) && (this.Judge?.EditScore ?? false) && !this._isConfirmed)" />
 
     <NumPadScorePanel ScoreSaved="this.ScoreSaved" NeedsJudgeConfirmation="this._needsJudgeConfirm" IsConfirmed="this._isConfirmed"
-                      CancellationToken="this._cts.Token" ScoresConfirmed="this.ScoresConfirmed"
+                      CancellationToken="this._cts.Token" ScoresConfirmed="this.ScoresConfirmed" UseJudgeConfirmQuestion="this._useJudgeConfirmQuestion"
                       Judge="this.Judge" Pilot="this._dto?.Pilot" PanelDisabled="this._panelDisabled" Round="(this._dto?.Round?.Id ?? 0)" Maneouvre="this._current" />
 </div>

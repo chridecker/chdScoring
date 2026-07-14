@@ -24,6 +24,7 @@ namespace chdScoring.App.UI.Pages
         private int _scoringZoom;
         private string _speechLanguage;
         private bool _useUix;
+        private bool _useJudgeConfirmQuestion;
         private Dictionary<string, RenderFragment> _speechLanguages = new Dictionary<string, RenderFragment>();
         private Dictionary<string, RenderFragment> _redirectOptions = new Dictionary<string, RenderFragment>();
 
@@ -64,6 +65,7 @@ namespace chdScoring.App.UI.Pages
             this._scoringZoom = await this._settingManager.GetSettingLocal<int>(SettingConstants.ScoringZoom);
             this._speechLanguage = await this._settingManager.GetSettingLocal(SettingConstants.SpeechLanguage);
             this._useUix = await this._settingManager.GetSettingLocal<bool>(SettingConstants.Use_UIX);
+            this._useJudgeConfirmQuestion = await this._settingManager.GetSettingLocal<bool>(SettingConstants.Use_JudgeConfirm_Question);
 
             await this.InitSpeechLanguages();
             this.InitSelection();
@@ -144,6 +146,11 @@ namespace chdScoring.App.UI.Pages
         private async Task UpdateUIX(ChangeEventArgs e)
         {
             await this._settingManager.StoreSettingLocal<bool>(SettingConstants.Use_UIX, (bool)e.Value);
+            await this.InvokeAsync(this.StateHasChanged);
+        }
+        private async Task UpdateJudgeConfirmQuestion(ChangeEventArgs e)
+        {
+            await this._settingManager.StoreSettingLocal<bool>(SettingConstants.Use_JudgeConfirm_Question, (bool)e.Value);
             await this.InvokeAsync(this.StateHasChanged);
         }
 

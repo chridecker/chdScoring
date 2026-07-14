@@ -11,6 +11,7 @@ namespace chdScoring.App.UI.Interfaces
 
         Task<string> GetAutoRedirectTo();
         Task<int> GetScoringZoom();
+        Task<bool> GetUseJudgeConfirmQuestion();
         Task SetAutoRedirectTo(string value);
         T? GetNativSetting<T>(string key) where T : class;
         void SetNativSetting<T>(string key, T value) where T : class;

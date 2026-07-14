@@ -62,6 +62,7 @@ namespace chdScoring.App.UI.Services
         public abstract void SetNativSetting<T>(string key, T value) where T : class;
 
         public Task<int> GetScoringZoom() => this.GetSettingLocal<int>(SettingConstants.ScoringZoom);
+        public Task<bool> GetUseJudgeConfirmQuestion() => this.GetSettingLocal<bool>(SettingConstants.Use_JudgeConfirm_Question);
 
         public abstract Task ShowToast(string message, CancellationToken cancellationToken = default);
 

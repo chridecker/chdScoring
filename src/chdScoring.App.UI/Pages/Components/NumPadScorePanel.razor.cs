@@ -33,6 +33,7 @@ namespace chdScoring.App.UI.Pages.Components
         [Parameter] public bool PanelDisabled { get; set; }
         [Parameter] public bool NeedsJudgeConfirmation { get; set; }
         [Parameter] public bool IsConfirmed { get; set; }
+        [Parameter] public bool UseJudgeConfirmQuestion { get; set; } = true;
 
         [Parameter] public CancellationToken CancellationToken { get; set; }
 
@@ -171,7 +172,7 @@ namespace chdScoring.App.UI.Pages.Components
         private async Task ConfirmScores()
         {
             if (!this.PanelDisabled || !this.NeedsJudgeConfirmation || this.IsConfirmed) { return; }
-            if (await this._modalHandler.ShowYesNoDialog("Confirm Scores?", this._settingManager.IsiOS) == EDialogResult.Yes)
+            if (!this.UseJudgeConfirmQuestion || (await this._modalHandler.ShowYesNoDialog("Confirm Scores?", this._settingManager.IsiOS) == EDialogResult.Yes))
             {
                 await this.ScoresConfirmed?.Invoke(this.Judge, this.Pilot, this.Round);
             }

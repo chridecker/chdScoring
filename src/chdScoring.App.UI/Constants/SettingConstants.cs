@@ -15,5 +15,7 @@
         public const string Use_CompMgmt = "USE_Comp_Mgmt";
         public const string Use_Scoring = "USE_Scoring";
         public const string Use_UIX= "USE_UIX";
+
+        public const string Use_JudgeConfirm_Question= "USE_Judge_Confirm_Question";
     }
 }
