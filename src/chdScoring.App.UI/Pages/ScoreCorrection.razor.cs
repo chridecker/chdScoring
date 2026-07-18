@@ -1,6 +1,8 @@
+using Blazored.Modal;
 using chd.UI.Base.Client.Implementations.Services;
 using chd.UI.Base.Components.Base;
 using chd.UI.Base.Components.Extensions;
+using chd.UI.Base.Components.General.Search;
 using chd.UI.Base.Contracts.Enum;
 using chdScoring.App.UI.Constants;
 using chdScoring.App.UI.Extensions;
@@ -21,7 +23,7 @@ namespace chdScoring.App.UI.Pages
         private RoundDataDto _dto;
 
         [Inject] IModalHandler _modal { get; set; }
-        [Inject] ISettingManager _settingManager{ get; set; }
+        [Inject] ISettingManager _settingManager { get; set; }
         [Inject] IPilotService _pilotService { get; set; }
         [Inject] IScoringService _scoringService { get; set; }
 
@@ -33,15 +35,38 @@ namespace chdScoring.App.UI.Pages
             this.Title = PageTitleConstants.ControlCenter;
             this._cts = new();
 
-            this._roundSets = await this._pilotService.GetFinishedFlights(this._cts.Token);
+           // this._roundSets = await this._pilotService.GetFinishedFlights(this._cts.Token);
 
             await base.OnInitializedAsync();
         }
-        private async void OnRoundSetChanged(FinishedRoundDto dto)
+        //private async void OnRoundSetChanged(FinishedRoundDto dto)
+        //{
+        //    this._selectedRoundSet = dto;
+        //    this._dto = await this._pilotService.GetRoundData(dto.Pilot.Id, dto.Round.Id, this._cts.Token);
+        //    await this.InvokeAsync(this.StateHasChanged);
+        //}
+
+        private async Task ChoosePilot()
         {
-            this._selectedRoundSet = dto;
-            this._dto = await this._pilotService.GetRoundData(dto.Pilot.Id, dto.Round.Id, this._cts.Token);
-            await this.InvokeAsync(this.StateHasChanged);
+            var finishedRounds = await this._pilotService.GetFinishedFlights();
+            var parameters = new ModalParameters
+                     {
+                         { nameof(SearchModalComponent<FinishedRoundDto, int>.Items), finishedRounds
+                         .OrderByDescending(o=>o.Round.Id)
+                         .ThenByDescending(o => o.Start)
+                         .ToList() },
+                         { nameof(SearchModalComponent<FinishedRoundDto, int>.Name),(FinishedRoundDto r)=> $"R{r.Round.Id}, {r.Pilot.Id} {r.Pilot.Name}," },
+                         { nameof(SearchModalComponent<FinishedRoundDto, int>.DisableOrder), true },
+                     };
+            var modalInstance = this._modal.Show<SearchModalComponent<FinishedRoundDto, int>>("PDF erstellen", parameters);
+
+            var result = await modalInstance.Result;
+            if (result.Confirmed && result.Data is FinishedRoundDto dto)
+            {
+                this._selectedRoundSet = dto;
+                this._dto = await this._pilotService.GetRoundData(dto.Pilot.Id, dto.Round.Id, this._cts.Token);
+                await this.InvokeAsync(this.StateHasChanged);
+            }
         }
 
         private async Task OpenEditScoreModal(JudgeDto judge, ManeouvreDto dto)

@@ -6,48 +6,41 @@
 @attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.AdminId })]
 
 <ChdAuthorizeView TRightId="int" TUserId="int" Rights="new int[] { RightConstants.AdminId }">
-    @if (this._roundSets?.Any() ?? false)
+    @if (this._dto is not null)
     {
-        <div class="rounds-dropdown">
-            <DropListWrapper T="FinishedRoundDto" Values="this._roundSets" Value="this._selectedRoundSet" ValueChanged="this.OnRoundSetChanged" Context="set">
-                @set.Pilot.Id - @set.Pilot.Name - @set.Round.Id
-            </DropListWrapper>
+        <div class="control-center">
+            <div class="maneouvres">
+                @foreach (var maneouvre in this._dto.ManeouvreLst.FirstOrDefault().Value.OrderBy(o => o.Id))
+                {
+                    <div class="maneouvre">
+                        <div class="figur-id">@maneouvre.Id.ToString("D2")</div>
+                        <div class="figur">@maneouvre.Name (@maneouvre.Value)</div>
+                        <div class="judge-scores">
+                            @foreach (var judge in this._dto.Judges.OrderBy(o => o.Id))
+                            {
+                                <div class="@(this._scoreClass(judge, maneouvre))">
+                                    <div class="judge-score ">
+
+                                        @if (_score(judge, maneouvre).HasValue)
+                                        {
+                                            <IconButton ButtonStyle="EButtonStyle.Empty" FAClass="pen" OnClick="async () => await this.OpenEditScoreModal(judge, maneouvre)">
+                                                @_score(judge, maneouvre)
+                                            </IconButton>
+                                        }
+                                        else
+                                        {
+                                            @_score(judge, maneouvre)
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                }
+            </div>
         </div>
     }
+    <FloatingActionNavigation FAIcon="pen" OnClick="async () => await this.ChoosePilot()" TextActive="Daten wählen">
+    </FloatingActionNavigation>
 </ChdAuthorizeView>
-
-@if (this._dto is not null)
-{
-    <div class="control-center">
-        <div class="maneouvres">
-            @foreach (var maneouvre in this._dto.ManeouvreLst.FirstOrDefault().Value.OrderBy(o => o.Id))
-            {
-                <div class="maneouvre">
-                    <div class="figur-id">@maneouvre.Id.ToString("D2")</div>
-                    <div class="figur">@maneouvre.Name (@maneouvre.Value)</div>
-                    <div class="judge-scores">
-                        @foreach (var judge in this._dto.Judges.OrderBy(o => o.Id))
-                        {
-                            <div class="@(this._scoreClass(judge, maneouvre))">
-                                <div class="judge-score ">
-
-                                    @if (_score(judge, maneouvre).HasValue)
-                                    {
-                                        <IconButton ButtonStyle="EButtonStyle.Empty" FAClass="pen" OnClick="async ()=> await this.OpenEditScoreModal(judge,maneouvre)">
-                                            @_score(judge, maneouvre)
-                                        </IconButton>
-                                    }
-                                    else
-                                    {
-                                        @_score(judge, maneouvre)
-                                    }
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
-
-            }
-        </div>
-    </div>
-}
