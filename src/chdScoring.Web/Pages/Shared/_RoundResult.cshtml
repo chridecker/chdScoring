@@ -17,8 +17,8 @@
             <div class="rank">@result.Rank</div>
             <div class="pilot">@result.Pilot.Name</div>
             <div class="country">@result.Pilot.CountryCode.ToUpper()</div>
-            <div class="score">@result.Score</div>
-            <div class="score prom">@result.ScoreProm</div>
+            <div class="score">@result.Score.ToString("n2")</div>
+            <div class="score prom">@result.ScoreProm.ToString("n2")</div>
         </div>
     }
 
