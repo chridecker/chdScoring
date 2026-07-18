@@ -214,8 +214,11 @@ namespace chdScoring.App.UI.Pages
             var finishedRounds = await this._pilotService.GetFinishedFlights();
             var parameters = new ModalParameters
                      {
-                         { nameof(SearchModalComponent<FinishedRoundDto, int>.Items), finishedRounds.OrderBy(o=>o.Pilot.Name).ThenBy(o=>o.Round.Id).ThenBy(o => o.Start).ToList() },
-                         { nameof(SearchModalComponent<FinishedRoundDto, int>.Name),(FinishedRoundDto r)=> $"{r.Pilot.Name}, Runde {r.Round.Id}" },
+                         { nameof(SearchModalComponent<FinishedRoundDto, int>.Items), finishedRounds
+                         .OrderByDescending(o=>o.Round.Id)
+                         .ThenByDescending(o => o.Start)
+                         .ToList() },
+                         { nameof(SearchModalComponent<FinishedRoundDto, int>.Name),(FinishedRoundDto r)=> $"R{r.Round.Id}, {r.Pilot.Id} {r.Pilot.Name}," },
                          { nameof(SearchModalComponent<FinishedRoundDto, int>.DisableOrder), true },
                      };
             var modalInstance = this._modal.Show<SearchModalComponent<FinishedRoundDto, int>>("PDF erstellen", parameters);
