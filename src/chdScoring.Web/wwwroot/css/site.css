@@ -112,6 +112,10 @@ body {
     transition: all 0.3s ease;
     color: var(--chd-font-color);
     background-color: var(--chd-bg);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display:grid;
+    grid-template-rows:max-content;
 }
 
 @media not print {

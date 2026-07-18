@@ -6,13 +6,13 @@ using chdScoring.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
+using System.Transactions;
 
 namespace chdScoring.Web.Pages
 {
     [IgnoreAntiforgeryToken]
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
         private readonly IConfiguration _configuration;
         private readonly IPilotService _pilotService;
         private readonly ImageCache _imageCache;
@@ -23,24 +23,24 @@ namespace chdScoring.Web.Pages
         public string Mode { get; set; }
 
 
-        public string RenderSetting => string.IsNullOrWhiteSpace(this.Mode) ? "RenderTimer" : this.Mode switch
+        public string RenderSetting => string.IsNullOrWhiteSpace(this.Mode) ? "RenderTimer" 
+            : (string.Equals(this.Mode,"live",StringComparison.OrdinalIgnoreCase),string.Equals(this.Mode,"round",StringComparison.OrdinalIgnoreCase)) switch
         {
-            "Live" => "RenderLive",
-            "Round" => "RenderRoundResult",
+            (true,_) => "RenderLive",
+            (_,true) => "RenderRoundResult",
             _ => "RenderTimer"
         };
 
-        public IndexModel(ILogger<IndexModel> logger, IConfiguration configuration, IPilotService pilotService, ImageCache imageCache)
+        public IndexModel(IConfiguration configuration, IPilotService pilotService, ImageCache imageCache)
         {
-            _logger = logger;
             this._configuration = configuration;
             this._pilotService = pilotService;
             this._imageCache = imageCache;
         }
 
-        public void OnGet()
+        public void OnGet(string? colorScheme = "light-mode")
         {
-
+            this.ViewData["ColorScheme"] = colorScheme;
         }
 
         public async Task<IActionResult> OnPostRenderTimer([FromBody] CurrentFlight dto)
