@@ -152,7 +152,9 @@ namespace chdScoring.DataAccess.DAL
         {
             if (!round.HasValue)
             {
-                round = (await this._wettkampfLeitungRepository.Where(x => x.Status == (int)EFlightState.Loaded).OrderBy(o => o.Durchgang).FirstOrDefaultAsync())?.Durchgang ?? 0;
+                round = (await this._wettkampfLeitungRepository.Where(x => x.Status == (int)EFlightState.Loaded).OrderBy(o => o.Durchgang).FirstOrDefaultAsync())?.Durchgang
+                    ?? (await this._wettkampfLeitungRepository.FirstOrDefaultAsync(x => x.Status == (int)EFlightState.OnAir))?.Durchgang
+                    ?? 0;
             }
 
             var retValue = new List<RoundResultDto>();
