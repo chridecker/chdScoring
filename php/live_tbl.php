@@ -48,9 +48,9 @@ if($round = $d->durchgang){
 		<tr class="header">
 		<th>Manoeuvre</th><th>K</th>
 		<?php 
-		$res_judges = mysqli_query($link,"SELECT j.* FROM judge j JOIN judge_panel jp ON (jp.judge = j.id) JOIN durchgang_panel dp ON (dp.panel = jp.panel) JOIN durchgang_airfield da ON (da.durchgang = dp.durchgang) WHERE da.airfield = ".$airfield." AND da.durchgang = ".$durchgang);
+		$res_judges = mysqli_query($link,"SELECT j.* FROM judge j INNER JOIN judge_panel jp ON (jp.judge = j.id) INNER JOIN durchgang_panel dp ON (dp.panel = jp.panel) INNER JOIN durchgang_airfield da ON (da.durchgang = dp.durchgang) WHERE da.airfield = ".$airfield." AND da.durchgang = ".$durchgang);
 		$link = mysqli_connect("localhost",$user,$password,$database);
-		$res_judges = mysqli_query($link,"SELECT j.* FROM judge j");
+		//$res_judges = mysqli_query($link,"SELECT j.* FROM judge j");
 		while($obj_judges = mysqli_fetch_object($res_judges)){?>
 			<th class="judges">Judge <?php echo $obj_judges->id;?></th>
 			<?php
@@ -79,7 +79,7 @@ if($round = $d->durchgang){
 					$wert = abs($result_wert->wert);
 					echo "<td align='center'>";
 					$count++;
-					if($result_wert->wert == -1){
+					if($result_wert->wert == -1 || $result_wert->wert == -99){
 						$query_norm = "SELECT count(w.wert) as count FROM wertung as w WHERE w.teilnehmer = ".$teilnehmer." AND w.durchgang = ".$durchgang." AND w.figur = ".($figur - $obj_count_figur->anfang + 1)."";
 						$res_norm = mysqli_fetch_object(mysqli_query($link,$query_norm));
 						if($res_norm->count == $judges){

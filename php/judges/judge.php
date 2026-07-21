@@ -210,7 +210,7 @@ function saveNew(){
 	if(val == null || val == ''){return;}
 	var num = parseFloat(val).toFixed(1);
 	if(val == 'NO'){
-		num = -1;
+		num = -99;
 	}
 	save(num);
 }
@@ -311,7 +311,7 @@ function changeS(figur){
 	}
 }
 function sprechen(text){
-	if(text == -1) text = "N O";
+	if(text == -99) text = "N O";
 	if(soundOutput){
 		if(speaker == null)speaker = new SpeechSynthesisUtterance();
 		speaker.text = text;

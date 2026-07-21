@@ -211,7 +211,7 @@ $res = mysqli_query($link,$sql);
 while($obj = mysqli_fetch_object($res)){?>
 	<tr><td colspan="2"><?php echo $obj->vorname . " " . $obj->nachname; ?></td>
 	<td><?php echo mysqli_fetch_object(mysqli_query($link,"SELECT name FROM country_images WHERE img_id = ".$obj->land))->name; ?></td>
-	<td><?php if($useLicJury){ echo $obj->license;} ?></td></tr>
+	<td><?php if($useLicJury){ /*echo $obj->license;*/} ?></td></tr>
 <?php
 }?>
 <tr>
@@ -222,7 +222,7 @@ $res = mysqli_query($link,$sql);
 while($obj = mysqli_fetch_object($res)){?>
 	<tr><td colspan="2"><?php echo $obj->vorname . " " . $obj->nachname; ?></td>
 	<td><?php echo mysqli_fetch_object(mysqli_query($link,"SELECT name FROM country_images WHERE img_id = ".$obj->land))->name; ?></td>
-	<td><?php if($useLicJury){ echo $obj->license;} ?></td></tr>
+	<td><?php if($useLicJury){ /*echo $obj->license;*/} ?></td></tr>
 <?php
 }?>
 <tr><td><br/></td></tr>
@@ -234,7 +234,7 @@ $res = mysqli_query($link,$sql);
 while($obj = mysqli_fetch_object($res)){?>
 	<tr><td colspan="2"><?php echo $obj->vorname . " " . $obj->name; ?></td>
 	<td><?php echo mysqli_fetch_object(mysqli_query($link,"SELECT name FROM country_images WHERE img_id = ".$obj->land))->name; ?></td>
-	<td><?php if($useLic){ echo $obj->license;} ?></td></tr>
+	<td><?php if($useLic){ /*echo $obj->license;*/} ?></td></tr>
 <?php
 }?>
 </table>

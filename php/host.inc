@@ -1,11 +1,12 @@
 ﻿<?php
+error_reporting(1);
 session_start();
 /*-----------------------------------------------------------------------------------
 -----------------------------Database Connection-------------------------------------
 -----------------------------------------------------------------------------------*///
-//$database = "cs";
+$database = "cs";
 //$database = "cs_rc3";
-$database = "cs_sprint";
+//$database = "cs_sprint";
 //$database = "cs_rookie"; // rc3
 
 if(isset($_GET['db'])){$database = $_GET['db'];}

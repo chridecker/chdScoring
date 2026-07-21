@@ -80,7 +80,8 @@ if($result_teilnehmer = mysqli_query($link,$query_teilnehmer)){
 	<tr><th class="veranstalter" colspan="3"><?php echo $veranstalter;?></th></tr>
 		<tr><td><br></td></tr>
 		<tr><td><br></td></tr>
-		<tr><td colspan="3" class="logo"><img src="../operations/load_image.php?id=<?php echo $result_config->urkunde_id;?>&db=<?php echo $database;?>"></td></tr>
+		<tr><td><br></td></tr>
+		<tr><td colspan="3" class="logo"><img src="../operations/load_image.php?id=<?php echo $logo;?>&db=<?php echo $database;?>"></td></tr>
 		<tr><td><br></td></tr>
 		<tr class="headline"><th colspan='3'>URKUNDE</th></tr>
 		<tr><td><br></td></tr>
@@ -91,19 +92,27 @@ if($result_teilnehmer = mysqli_query($link,$query_teilnehmer)){
 		<tr><td><br></td></tr>
 		<tr><td><br></td></tr>
 		<tr><td><br></td></tr>
+		<tr><td><br></td></tr>
+		<tr><td><br></td></tr>
 		<tr class="ergebnis"><th colspan="3" class="name"><?php echo strtoupper($teilnehmer->nachname)." ".$teilnehmer->vorname;?></th></tr>
 		<tr><td><br></td></tr>
-		<tr class="ergebnis"><th colspan="3" class="club">errang in der Klasse <?php echo $sub->name; ?></th></tr>
+		<tr><td><br></td></tr>
+		<tr><td><br></td></tr>
+		<!-- <tr class="ergebnis"><th colspan="3" class="club">errang in der Klasse <?php echo $sub->name; ?></th></tr> -->
 		<!-- <tr class="ergebnis"><th colspan="3" class="punkte">mit <?php echo number_format($teilnehmer->gesamt,2,",","");?> 
         &permil; Punkten</th></tr> -->
 		<tr><td><br></td></tr>
-		<tr class="ergebnis"><th colspan="3" class="platz"><i>den</i> <?php echo $rank;?>. Platz</th></tr>
+		<tr><td><br></td></tr>
+		<tr class="ergebnis"><th colspan="3" class="platz"><i></i> <?php echo $rank;?>. Platz</th></tr>
 		<tr><td><br></td></tr>
 		<!-- <tr class="bild"><td colspan="3" class="gruppenbild"><img src="../operations/load_image.php?id=<?php echo $result_config->gruppe_id;?>"></td></tr> -->
 		<tr><td><br></td></tr>
 		<tr><td><br></td></tr>
 		<tr><td><br></td></tr>
-		<!--<tr class="footer"><td colspan="3" class="spacer"></td></tr>-->
+		<tr><td><br></td></tr>
+		<tr><td><br></td></tr>
+		<tr><td><br></td></tr>
+		<tr class="footer"><td colspan="3" class="spacer"></td></tr>
         <tr class="footer">
         <td class="signature"><?php if(isset($_GET['cm']) && $_GET['cm']==true)echo "<img src='../bilder/cm_sign.png'>";?></td>
         <td>&nbsp;</td>

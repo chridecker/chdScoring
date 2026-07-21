@@ -11,6 +11,7 @@ $year = $xml->information->year;
 if(isset($_GET['bewerb']))$bewerb = $_GET['bewerb'];
 else $bewerb = 1;
 if(isset($_GET['logo']))$logo = $_GET['logo'];
+
 //Bewerb
 $query_bewerb = "SELECT name , number FROM bewerb WHERE id = ".$bewerb;
 $res_bewerb = mysqli_fetch_object(mysqli_query($link,$query_bewerb));
@@ -79,7 +80,7 @@ else {
 <body>
 <table>
 <tr class="kopf">
-<td colspan="2" style="padding:0px;"><img src="../operations/load_image.php?id=<?php echo $result_config->fed_id;?>&db=<?php echo $database;?>" class="logo"></td>
+<td colspan="2" style="padding:0px;"><img src="../operations/load_image.php?id=<?php if(isset($_GET['fed'])){echo $_GET['fed'];} else{echo $result_config->fed_id;} ?>&db=<?php echo $database;?>" class="logo"></td>
 <th colspan="<?php echo (1 + $durchgaenge);?>" style="text-align:center; font-size:18pt;">
 <?php echo $turnier;?><br>
 <i style="font-size:10pt; font-style:normal;"><?php echo $turnier_ort.", ".$turnier_date;?><br>
@@ -178,7 +179,7 @@ $res = mysqli_query($link,$sql);
 while($obj = mysqli_fetch_object($res)){?>
 	<tr><td colspan="2"><?php echo $obj->vorname . " " . $obj->nachname; ?></td>
 	<td><?php echo mysqli_fetch_object(mysqli_query($link,"SELECT name FROM country_images WHERE img_id = ".$obj->land))->name; ?></td>
-	<td><?php echo $obj->license; ?></td></tr>
+	<td></td></tr>
 <?php
 }?>
 <tr>
@@ -189,7 +190,7 @@ $res = mysqli_query($link,$sql);
 while($obj = mysqli_fetch_object($res)){?>
 	<tr><td colspan="2"><?php echo $obj->vorname . " " . $obj->nachname; ?></td>
 	<td><?php echo mysqli_fetch_object(mysqli_query($link,"SELECT name FROM country_images WHERE img_id = ".$obj->land))->name; ?></td>
-	<td><?php echo $obj->license; ?></td></tr>
+	<td></td></tr>
 <?php
 }?>
 <tr><td><br/></td></tr>
