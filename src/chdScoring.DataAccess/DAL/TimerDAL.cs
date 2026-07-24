@@ -30,6 +30,19 @@ namespace chdScoring.DataAccess.DAL
         {
         }
 
+        public async Task<bool> SaveImportedRound(SaveRoundDto dto, CancellationToken cancellationToken)
+        {
+            var round = await this._durchgangRepository.FirstOrDefaultAsync(x => x.Teilnehmer == dto.Pilot && x.Durchgang == dto.Round);
+
+            round.Wert_abs = dto.Score;
+            await this._durchgangRepository.SaveAsync(round, cancellationToken);
+
+            var normBase = (await this.GetNormalizationBase(dto.Round, cancellationToken)) ?? dto.Score;
+            await this._durchgangRepository.NoramlizeRound(dto.Round, normBase, cancellationToken);
+
+            return true;
+        }
+
         public async Task<bool> SaveRound(SaveRoundDto dto, CancellationToken cancellationToken)
         {
             var round = (await this._durchgangRepository.FirstOrDefaultAsync(x => x.Teilnehmer == dto.Pilot && x.Durchgang == dto.Round)) ?? new Round()

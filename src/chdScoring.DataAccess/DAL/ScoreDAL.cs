@@ -37,9 +37,6 @@ namespace chdScoring.DataAccess.DAL
             return new NotificationDto($"Wertung '{dto.Value}'", message);
         }
 
-
-
-
         public async Task<bool> HasNotObserved(SaveScoreDto dto, CancellationToken cancellationToken)
         {
             var scores = this._wertungRepository.Where(x => x.Durchgang == dto.Round && x.Teilnehmer == dto.Pilot && x.Figur == dto.Figur);
@@ -85,6 +82,34 @@ namespace chdScoring.DataAccess.DAL
             {
                 this._logger?.LogError(ex, ex.Message);
                 saved = false;
+            }
+            return saved;
+        }
+        public async Task<bool> ImportFlight(ImportRoundScoreDto dto, CancellationToken cancellationToken)
+        {
+            var saved = false;
+            foreach (var score in dto.Scores.OrderBy(o => o.Figure))
+            {
+                if (await this._wertungRepository.Exists(dto.Pilot, dto.Round, score.Figure, dto.Judge, cancellationToken))
+                {
+                    return false;
+                }
+                try
+                {
+                    saved = await this._wertungRepository.SaveAsync(new Wertung()
+                    {
+                        Durchgang = dto.Round,
+                        Figur = score.Figure,
+                        Judge = dto.Judge,
+                        Teilnehmer = dto.Pilot,
+                        Wert = score.Value
+                    }, cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    this._logger?.LogError(ex, ex.Message);
+                    saved = false;
+                }
             }
             return saved;
         }
