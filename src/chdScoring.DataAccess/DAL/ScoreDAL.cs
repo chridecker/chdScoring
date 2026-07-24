@@ -87,15 +87,15 @@ namespace chdScoring.DataAccess.DAL
         }
         public async Task<bool> ImportFlight(ImportRoundScoreDto dto, CancellationToken cancellationToken)
         {
+            var saved = false;
             var round = await this._durchgangRepository.FirstOrDefaultAsync(x => x.Teilnehmer == dto.Pilot && x.Durchgang == dto.Round);
             if (round is null)
             {
-                return false;
+                return saved;
             }
-            var saved = false;
-            foreach (var score in dto.Scores.OrderBy(o => o.Figure))
+            try
             {
-                try
+                foreach (var score in dto.Scores.OrderBy(o => o.Figure))
                 {
                     if (await this._wertungRepository.Exists(dto.Pilot, dto.Round, score.Figure, dto.Judge, cancellationToken))
                     {
@@ -121,8 +121,6 @@ namespace chdScoring.DataAccess.DAL
                     }
                     else
                     {
-
-
                         saved = await this._wertungRepository.SaveAsync(new Wertung()
                         {
                             Durchgang = dto.Round,
@@ -133,11 +131,11 @@ namespace chdScoring.DataAccess.DAL
                         }, cancellationToken);
                     }
                 }
-                catch (Exception ex)
-                {
-                    this._logger?.LogError(ex, ex.Message);
-                    saved = false;
-                }
+            }
+            catch (Exception ex)
+            {
+                this._logger?.LogError(ex, ex.Message);
+                saved = false;
             }
             return saved;
         }

@@ -9,23 +9,24 @@ using System.Text;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace chdScoring.Main.WebServer.Services
 {
     public class ImportExecuteService : BackgroundService
     {
         private readonly IApiLogger _apiLogger;
-        private readonly IDataImportService _dataImportService;
+        private readonly IServiceProvider _serviceProvider;
         private readonly IDatabaseConfiguration _databaseConfiguration;
         private string _folder;
 
         private BlockingCollection<ImportRoundScoreDto> _importCollection = [];
         private Task _executer;
 
-        public ImportExecuteService(IApiLogger apiLogger, IDataImportService dataImportService, IDatabaseConfiguration databaseConfiguration)
+        public ImportExecuteService(IApiLogger apiLogger, IServiceProvider serviceProvider, IDatabaseConfiguration databaseConfiguration)
         {
             _apiLogger = apiLogger;
-            _dataImportService = dataImportService;
+            this._serviceProvider = serviceProvider;
             this._databaseConfiguration = databaseConfiguration;
         }
 
@@ -70,7 +71,17 @@ namespace chdScoring.Main.WebServer.Services
         {
             while (this._importCollection.TryTake(out var importDto, 10, cancellationToken))
             {
-                await this._dataImportService.ImportAsync(importDto, cancellationToken);
+                await this._apiLogger.Log($"Import Pilot {importDto.Pilot}, Round {importDto.Round}, F-{importDto.Scores.Count}");
+                try
+                {
+                    using var scope = this._serviceProvider.CreateAsyncScope();
+                    var dataImportService = scope.ServiceProvider.GetService<IDataImportService>();
+                    await dataImportService.ImportAsync(importDto, cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    await this._apiLogger.Log(ex.Message);
+                }
             }
         }
 
@@ -83,7 +94,6 @@ namespace chdScoring.Main.WebServer.Services
                 var file = new FileInfo(fileName);
 
                 var dto = await this.CreateDtoFromFile(file, cancellationToken);
-
                 this._importCollection.TryAdd(dto);
                 var imported = Path.Combine(Directory.GetCurrentDirectory(), FolderConstants.Import, FolderConstants.Imported, this._databaseConfiguration.CurrentConnection, file.Name);
                 file.MoveTo(imported, true);

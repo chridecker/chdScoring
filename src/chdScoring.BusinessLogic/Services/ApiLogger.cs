@@ -19,7 +19,7 @@ namespace chdScoring.BusinessLogic.Services
 
         public Task Log(string message)
         {
-            _log.AppendLine(message);
+            _log.AppendLine($"{DateTime.Now.ToString("HH:mm:ss dd.MM.yyyy")}: {message}");
             this.LogAdded?.Invoke(this, EventArgs.Empty);
             return Task.CompletedTask;
         }
