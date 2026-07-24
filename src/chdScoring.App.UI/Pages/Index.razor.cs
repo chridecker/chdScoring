@@ -36,7 +36,7 @@ namespace chdScoring.App.UI.Pages
         private JudgeDto Judge => this._dto?.Judges.FirstOrDefault(x => x.Id == (this._judge ?? 0));
 
 
-        private bool _panelDisabled => this._dto is null || !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero || this._current is null;
+        private bool _panelDisabled => this._dto is null || this._dto.ScoreMode == Contracts.Enums.EScoreMode.FCScore || !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero || this._current is null;
         private bool _needsJudgeConfirm => this._dto is null ? false : this._judge.HasValue && this._dto.JudeConfirmation;
         private bool _isConfirmed => this._needsJudgeConfirm && this._judge.HasValue && this._judge.Value > 0 ? (this._dto?.JudgeConfirms.Any(a => a.Judge == this._judge.Value) ?? false) : true;
         private bool _isAdmin => this._profileService.HasUserRight(RightConstants.AdminId);
@@ -141,6 +141,7 @@ namespace chdScoring.App.UI.Pages
 
         private async Task OpenEditScoreModal(ManeouvreDto dto)
         {
+            if (this._dto?.ScoreMode == Contracts.Enums.EScoreMode.FCScore) { return; }
             if (this._isConfirmed) { return; }
 
             RenderFragment frag = (__builder) =>
@@ -224,6 +225,7 @@ namespace chdScoring.App.UI.Pages
         }
         private async Task<bool> ScoreSaved(SaveScoreDto dto)
         {
+            if (this._dto?.ScoreMode == Contracts.Enums.EScoreMode.FCScore) { return false; }
             try
             {
                 await this._scoringService.SaveScore(dto, this._cts.Token);

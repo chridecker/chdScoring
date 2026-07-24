@@ -87,23 +87,51 @@ namespace chdScoring.DataAccess.DAL
         }
         public async Task<bool> ImportFlight(ImportRoundScoreDto dto, CancellationToken cancellationToken)
         {
+            var round = await this._durchgangRepository.FirstOrDefaultAsync(x => x.Teilnehmer == dto.Pilot && x.Durchgang == dto.Round);
+            if (round is null)
+            {
+                return false;
+            }
             var saved = false;
             foreach (var score in dto.Scores.OrderBy(o => o.Figure))
             {
-                if (await this._wertungRepository.Exists(dto.Pilot, dto.Round, score.Figure, dto.Judge, cancellationToken))
-                {
-                    return false;
-                }
                 try
                 {
-                    saved = await this._wertungRepository.SaveAsync(new Wertung()
+                    if (await this._wertungRepository.Exists(dto.Pilot, dto.Round, score.Figure, dto.Judge, cancellationToken))
                     {
-                        Durchgang = dto.Round,
-                        Figur = score.Figure,
-                        Judge = dto.Judge,
-                        Teilnehmer = dto.Pilot,
-                        Wert = score.Value
-                    }, cancellationToken);
+                        var existing = await this._wertungRepository.Find(dto.Pilot, dto.Round, score.Figure, dto.Judge, cancellationToken);
+                        if (existing.Wert == score.Value)
+                        {
+                            continue;
+                        }
+                        await this._wertungHistoryRepository.SaveAsync(new Wertung_History
+                        {
+                            Durchgang = dto.Round,
+                            Figur = score.Figure,
+                            Judge = dto.Judge,
+                            Teilnehmer = dto.Pilot,
+                            Wert_alt = (float)existing.Wert,
+                            Wert_neu = (float)score.Value,
+                            Time = DateTime.Now,
+                            User = 0
+                        }, cancellationToken);
+                        existing.Wert = score.Value;
+                        await this._wertungRepository.SaveAsync(existing, cancellationToken);
+                        saved = true;
+                    }
+                    else
+                    {
+
+
+                        saved = await this._wertungRepository.SaveAsync(new Wertung()
+                        {
+                            Durchgang = dto.Round,
+                            Figur = score.Figure,
+                            Judge = dto.Judge,
+                            Teilnehmer = dto.Pilot,
+                            Wert = score.Value
+                        }, cancellationToken);
+                    }
                 }
                 catch (Exception ex)
                 {

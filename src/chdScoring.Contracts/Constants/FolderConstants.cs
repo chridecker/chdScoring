@@ -9,5 +9,6 @@ namespace chdScoring.Contracts.Constants
         public const string Folder = "Pdf";
         public const string Import = "Import";
         public const string Printed = "Printed";
+        public const string Imported = "Imported";
     }
 }

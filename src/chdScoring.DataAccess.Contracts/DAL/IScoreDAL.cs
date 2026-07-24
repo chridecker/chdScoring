@@ -14,6 +14,6 @@ namespace chdScoring.DataAccess.Contracts.DAL
         Task<bool> TryHandleNotObserved(SaveScoreDto dto, CancellationToken cancellationToken);
         Task<bool> UnConfirmScores(ConfirmScoresDto saveScoreDto, CancellationToken cancellationToken);
         Task<bool> UpdateScore(SaveScoreDto dto, CancellationToken cancellationToken);
-        Task<bool> ImportFlight(ImportRoundScoreDto dto, CancellationToken cancellationToken)
+        Task<bool> ImportFlight(ImportRoundScoreDto dto, CancellationToken cancellationToken);
     }
 }

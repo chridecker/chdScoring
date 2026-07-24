@@ -50,6 +50,7 @@ namespace chdScoring.DataAccess.DAL
 
                     dto = new CurrentFlight()
                     {
+                        ScoreMode = (EScoreMode)(stammdaten.FirstOrDefault()?.Score_Mode ?? 0),
                         EditScoreEnabled = stammdaten.FirstOrDefault()?.Edit ?? false,
                         JudeConfirmation = stammdaten.FirstOrDefault()?.Judge_Pin ?? false,
                         StartTime = currentPilot.Start_Time,

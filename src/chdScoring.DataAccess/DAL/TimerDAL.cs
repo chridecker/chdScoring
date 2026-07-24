@@ -7,6 +7,7 @@ using chdScoring.DataAccess.DAL.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,6 +29,12 @@ namespace chdScoring.DataAccess.DAL
             IDurchgangProgramRepository durchgangProgramRepository, IFigurProgrammRepository figurProgrammRepository,
             IJudgePanelRepository judgePanelRepository, IStammDatenRepository stammDatenRepository, IBebwerbRepository bebwerbRepository, IDurchgangRepository durchgangRepository, ITeilnehmerBewerbRepository teilnehmerBewerbRepository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, figurProgrammRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
         {
+        }
+
+        public async Task<Dictionary<int, int>> GetKValue(int round, CancellationToken cancellationToken)
+        {
+            var figurLst = (await this._figurRepository.GetProgramToRound(round, cancellationToken)).ToList();
+            return figurLst.ToDictionary(d => d.Id - figurLst.Min(m => m.Id) + 1, d => d.Wert);
         }
 
         public async Task<bool> SaveImportedRound(SaveRoundDto dto, CancellationToken cancellationToken)

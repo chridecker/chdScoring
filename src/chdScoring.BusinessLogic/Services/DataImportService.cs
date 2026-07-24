@@ -24,11 +24,13 @@ namespace chdScoring.BusinessLogic.Services
         {
             if (await this._dal.ImportFlight(dto, cancellationToken))
             {
+                var kValDict = await this._timerDal.GetKValue(dto.Round, cancellationToken);
+
                 await this._timerDal.SaveImportedRound(new()
                 {
                     Pilot = dto.Pilot,
                     Round = dto.Round,
-                    Score = dto.Scores.Sum(s => s.K * s.Value)
+                    Score = dto.Scores.Sum(s => kValDict[s.Figure] * s.Value)
                 }, cancellationToken);
             }
         }

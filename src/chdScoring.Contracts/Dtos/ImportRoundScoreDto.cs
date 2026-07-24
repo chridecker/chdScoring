@@ -9,6 +9,6 @@ namespace chdScoring.Contracts.Dtos
         public int Pilot { get; set; }
         public int Round { get; set; }
         public int Judge{ get; set; }
-        public List<RoundImportDto> Scores { get; set; }
+        public List<RoundImportDto> Scores { get; set; } = new List<RoundImportDto>();
     }
 }

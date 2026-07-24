@@ -1,4 +1,5 @@
-﻿using System;
+﻿using chdScoring.Contracts.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace chdScoring.Contracts.Dtos
@@ -7,8 +8,9 @@ namespace chdScoring.Contracts.Dtos
     {
         public bool EditScoreEnabled { get; set; }
         public bool JudeConfirmation { get; set; }
+        public EScoreMode ScoreMode { get; set; }
         public TimeSpan? LeftTime { get; set; }
         public TimeSpan? StartTime { get; set; }
-       
+
     }
 }
