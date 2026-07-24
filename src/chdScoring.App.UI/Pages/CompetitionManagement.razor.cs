@@ -156,10 +156,11 @@ namespace chdScoring.App.UI.Pages
             var duration = this._dto?.Round.Time - this._dto?.LeftTime ?? TimeSpan.Zero;
             if (this._dto is null) { return; }
 
-            if (this._dto.ManeouvreLst.Values.Any(a => a.Any(aa => !aa.Score.HasValue)) || !avgScore.HasValue)
+            if (this._dto.ScoreMode is not Contracts.Enums.EScoreMode.FCScore
+                && this._dto.ManeouvreLst.Values.Any(a => a.Any(aa => !aa.Score.HasValue)) || !avgScore.HasValue)
             {
                 await this._vibrationHelper.Vibrate(3, TimeSpan.FromMilliseconds(400), this._cts.Token);
-                if (await this._modal.ShowOkCancelDialog("Nicht alle Judges habe alle Figuren gewertet!", this._settingManager.IsiOS) != EDialogResult.OK)
+                if (await this._modal.ShowOkCancelDialog("Nicht alle Judges haben alle Figuren gewertet!", this._settingManager.IsiOS) != EDialogResult.OK)
                 {
                     return;
                 }
