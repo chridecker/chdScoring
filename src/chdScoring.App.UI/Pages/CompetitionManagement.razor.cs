@@ -177,7 +177,8 @@ namespace chdScoring.App.UI.Pages
             }, this._cts.Token))
             {
                 this._vibrationHelper.Vibrate(TimeSpan.FromSeconds(0.5));
-                if (await this._modal.ShowYesNoDialog($"Create PDF?", this._settingManager.IsiOS) == EDialogResult.Yes)
+                if (this._dto.ScoreMode is not Contracts.Enums.EScoreMode.FCScore
+                    && await this._modal.ShowYesNoDialog($"Create PDF?", this._settingManager.IsiOS) == EDialogResult.Yes)
                 {
                     await this._printHelper.PrintRound(pilot, round);
                 }
