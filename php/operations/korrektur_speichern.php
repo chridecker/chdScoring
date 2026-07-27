@@ -63,6 +63,21 @@ else if($score_mode == 1){
 	}
 	$wert_durchgang = $wert_durchgang / $judges;
 }
+else if($score_mode == 2){
+	$res_judges = mysqli_query($link,"SELECT j.* FROM judge j JOIN judge_panel jp ON (jp.judge = j.id) JOIN durchgang_panel dp ON (dp.panel = jp.panel) JOIN durchgang_airfield da ON (da.durchgang = dp.durchgang) WHERE da.durchgang = ".$_GET['durchgang']);
+	while($obj_judges = mysqli_fetch_object($res_judges)){
+		$i = $obj_judges->id;
+		$endwert = 0;
+		$query_count_figur = "SELECT count(f.id) as anzahl, min(f.id) as anfang, max(f.id) as ende FROM figur f JOIN figur_programm fp ON fp.figur = f.id JOIN programm p ON p.id = fp.programm JOIN durchgang_programm dp ON dp.programm = p.id WHERE dp.durchgang = ".$_GET['durchgang'];
+		$obj_count_figur = mysqli_fetch_object(mysqli_query($link,$query_count_figur));
+		for($figur=$obj_count_figur->anfang;$figur<=$obj_count_figur->ende;$figur++){
+			$query = "SELECT (f.wert * ABS(w.wert)) as wertung FROM wertung as w, figur as f WHERE w.teilnehmer = ".$_GET['teilnehmer']." AND w.durchgang = ".$_GET['durchgang']." AND w.judge = ".$i." AND f.id = ".$figur." AND w.figur = f.id + 1 - ".($obj_count_figur->anfang);
+			if($res = mysqli_fetch_object(mysqli_query($link,$query)))$endwert += $res->wertung;
+		}
+		$wert_durchgang += $endwert;
+	}
+	$wert_durchgang = $wert_durchgang / $judges;
+}
 
 
 update($_GET['teilnehmer'],$_GET['durchgang'],$wert_durchgang,$link);

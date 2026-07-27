@@ -51,23 +51,34 @@ Scoring Table <?php echo $turnier." (".$turnier_date.") - ".$turnier_ort;?></th>
 <tr class="header">
 <th class="figur">&#8470;</th>
 <th class="figur">Manoeuvre</th>
-<th class="figur">K</th>
+<th class="figur" style="text-align:center;">K</th>
 <?php
+if($score_mode==2){
+	echo "<th class='judge'></th>";
+	echo "<th class='judge'></th>";
+	echo "<th class='judge'></th>";
+}
 $res_judges = mysqli_query($link,"SELECT j.* FROM judge j JOIN judge_panel jp ON (jp.judge = j.id) JOIN durchgang_panel dp ON (dp.panel = jp.panel) JOIN durchgang_airfield da ON (da.durchgang = dp.durchgang) WHERE da.durchgang = ".$durchgang);
 while($obj_judges = mysqli_fetch_object($res_judges)){?>
-	<th class="judge">Judge <?php echo $obj_judges->id;?></th>
+	<th class="judge"><?php 
+	if($score_mode <= 1)echo "Judge ".$obj_judges->id;
+	else if($score_mode == 2) echo "FC Score";
+	?></th>
     <?php
 }?>    
 <th class="judge">Total</th></tr>
 <?php
 $min_count = 0;
 $max_count = 0;
+
 for($figur=$obj_count_figur->anfang;$figur<=$obj_count_figur->ende;$figur++){
 	if(($figur % 2) == 0 )echo "<tr class='gerade'>";
 	else echo "<tr>";
 	$query_figur = "SELECT f.name as figur, f.wert as k FROM figur as f WHERE f.id = ".$figur;
 	$result_figur = mysqli_fetch_object(mysqli_query($link,$query_figur));
-	echo "<td>".str_pad(($figur - $obj_count_figur->anfang + 1),2,0,STR_PAD_LEFT)."</td><td class='figur'>".$result_figur->figur."</td><td>".$result_figur->k."</td>";
+	echo "<td>".str_pad(($figur - $obj_count_figur->anfang + 1),2,0,STR_PAD_LEFT)."</td><td class='figur'>".$result_figur->figur."</td>";
+	echo "<td style='text-align:center;'>".$result_figur->k."</td>";
+	if($score_mode == 2)echo "<td colspan='3'></td>";
 	$wertungen = array();
 	$count = 0;
 	$no = 0;
@@ -85,7 +96,7 @@ for($figur=$obj_count_figur->anfang;$figur<=$obj_count_figur->ende;$figur++){
 					echo "<td align='center' style='text-decoration:line-through;'>";
 					$min_count++;
 			}
-				elseif($wert == $max && $max_count < 1 && $score_mode == 0){
+			elseif($wert == $max && $max_count < 1 && $score_mode == 0){
 					echo "<td align='center' style='text-decoration:line-through;'>";
 					$max_count++;
 			}
@@ -115,6 +126,12 @@ for($figur=$obj_count_figur->anfang;$figur<=$obj_count_figur->ende;$figur++){
 		$wert_durchgang += $res_figurwert->erg;
 		echo $res_figurwert->erg;
 	}
+	else if($count == $judges && $score_mode == 2){
+		$query_figurwert = "SELECT round(abs(w.wert)*f.wert,1) as erg FROM figur as f, wertung as w WHERE w.teilnehmer = ".$teilnehmer." AND w.durchgang = ".$durchgang." AND w.figur = f.id + 1 - ".$obj_count_figur->anfang." AND f.id = ".$figur;
+		$res_figurwert = mysqli_fetch_object(mysqli_query($link,$query_figurwert));
+		$wert_durchgang += $res_figurwert->erg;
+		echo $res_figurwert->erg;
+	}
 	else echo "0";
 	echo "</td>";
 	?></tr><?php
@@ -122,12 +139,13 @@ for($figur=$obj_count_figur->anfang;$figur<=$obj_count_figur->ende;$figur++){
 	$max_count = 0;
 }
 echo "<tr class='gesamt'><th colspan='3'></th>";
+if($score_mode == 2)echo "<td colspan='3'></td>";
 $wert_durchgang = mysqli_fetch_object(mysqli_query($link,"SELECT wert_abs FROM durchgang WHERE teilnehmer = ".$teilnehmer." AND durchgang = ".$durchgang))->wert_abs;
 $res_judges = mysqli_query($link,"SELECT j.* FROM judge j JOIN judge_panel jp ON (jp.judge = j.id) JOIN durchgang_panel dp ON (dp.panel = jp.panel) JOIN durchgang_airfield da ON (da.durchgang = dp.durchgang) WHERE da.durchgang = ".$durchgang);
 while($obj_judges = mysqli_fetch_object($res_judges)){
 	$j_wert = 0;
 	for($k=$obj_count_figur->anfang;$k<=$obj_count_figur->ende;$k++){
-		$query_judge = "SELECT (abs(w.wert)*f.wert) as gesamt FROM figur as f, wertung as w WHERE f.id = ".$k." AND w.judge = ".$obj_judges->id." AND w.durchgang = ".$durchgang." AND w.teilnehmer = ".$teilnehmer." AND w.figur = f.id + 1 - ".$obj_count_figur->anfang;
+		$query_judge = "SELECT round(abs(w.wert)*f.wert,2) as gesamt FROM figur as f, wertung as w WHERE f.id = ".$k." AND w.judge = ".$obj_judges->id." AND w.durchgang = ".$durchgang." AND w.teilnehmer = ".$teilnehmer." AND w.figur = f.id + 1 - ".$obj_count_figur->anfang;
 		$obj_judge = mysqli_fetch_object(mysqli_query($link,$query_judge));
 		$j_wert += $obj_judge->gesamt;
 	}
@@ -143,5 +161,11 @@ while($obj_judges = mysqli_fetch_object($res_judges)){
 //if($score_mode == 1) $wert_durchgang = $wert_durchgang / $judges;
 echo "<th>".number_format($wert_durchgang,2)."</th></tr>";
 ?>
-<tr class="footer"><td><?php echo date("d.m.Y H:i") ; ?></td><td colspan="<?php echo $judges+3;?>"><?php echo $system_name." ".$version." &copy; ".$year;?></td></tr>
+<tr class="footer">
+	<td><?php echo date("d.m.Y H:i") ; ?></td>
+	<td colspan="
+	<?php 
+		if($score_mode == 2){echo $judges+6;}
+		else {echo $judges+3;}?>">
+		<?php echo $system_name." ".$version." &copy; ".$year;?></td></tr>
 </table>

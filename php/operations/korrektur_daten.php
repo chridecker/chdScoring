@@ -11,7 +11,7 @@ $result_teilnehmer = mysqli_fetch_object(mysqli_query($link,$query_teilnehmer));
 $count_judges = mysqli_fetch_object(mysqli_query($link,"SELECT count(j.id) as judges FROM judge j JOIN judge_panel jp ON (jp.judge = j.id) JOIN durchgang_panel dp ON (dp.panel = jp.panel) JOIN durchgang_airfield da ON (da.durchgang = dp.durchgang) WHERE da.durchgang = ".$durchgang));
 $judges = $count_judges->judges;
 ?>
-<th colspan='<?php echo $judges+2;?>'><?php
+<th colspan='<?php echo $judges+1;?>'><?php
 echo "#".$result_teilnehmer->id." ".$result_teilnehmer->nachname." ".$result_teilnehmer->vorname;	
 echo " - ".$result_teilnehmer->club;
 echo " / ".$result_teilnehmer->land;
@@ -25,7 +25,7 @@ while($obj_judges = mysqli_fetch_object($res_judges)){?>
 	<th>Judge <?php echo $obj_judges->id;?></th>
     <?php
 }?>
-<th>Total</th></tr>
+</tr>
 <?php
 $query_count_figur = "SELECT count(f.id) as anzahl, min(f.id) as anfang, max(f.id) as ende FROM figur f JOIN figur_programm fp ON fp.figur = f.id JOIN programm p ON p.id = fp.programm JOIN durchgang_programm dp ON dp.programm = p.id WHERE dp.durchgang = ".$_GET['durchgang'];
 $obj_count_figur = mysqli_fetch_object(mysqli_query($link,$query_count_figur));
@@ -49,17 +49,13 @@ for($figur=$obj_count_figur->anfang;$figur<=$obj_count_figur->ende;$figur++){
 		}
 		else echo "&nbsp;";
 		echo "</td>";
-	}
-	$query_figurwert = "SELECT (sum(abs(w.wert))-min(abs(w.wert))-max(abs(w.wert)))*f.wert as erg FROM figur as f, wertung as w WHERE w.teilnehmer = ".$teilnehmer." AND w.durchgang = ".$durchgang." AND w.figur = f.id + 1 - ".$obj_count_figur->anfang." AND f.id = ".$figur;
-	$res_figurwert = mysqli_fetch_object(mysqli_query($link,$query_figurwert));
-	echo "<td>".$res_figurwert->erg."</td>";
-	?>
+	}?>
 	</tr><?php
 }
 $query_druchgangswert = "SELECT wert_abs FROM durchgang WHERE teilnehmer = ".$teilnehmer." AND durchgang = ".$durchgang;
 $res_durchgang = mysqli_fetch_object(mysqli_query($link,$query_druchgangswert));
 ?>
 <tr style="border-top:1px solid;">
-<th colspan="<?php echo $judges+1;?>" align="left"><input type="button" value="Close" onclick="window.close();" /></th>
+<th colspan="<?php echo $judges;?>" align="left"><input type="button" value="Close" onclick="window.close();" /></th>
 <th><?php echo number_format($res_durchgang->wert_abs,2);?></th></tr>
 </tr>

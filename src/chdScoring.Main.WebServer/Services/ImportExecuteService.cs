@@ -1,15 +1,17 @@
 ﻿using chdScoring.BusinessLogic.Services;
 using chdScoring.Contracts.Constants;
+using chdScoring.Contracts.Dtos;
+using chdScoring.Contracts.Interfaces;
+using chdScoring.DataAccess.Contracts.Domain;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
-using chdScoring.Contracts.Dtos;
-using chdScoring.Contracts.Interfaces;
 using System.Text.Json;
-using Microsoft.Extensions.DependencyInjection;
+using static chdScoring.Contracts.Constants.EndpointConstants;
 
 namespace chdScoring.Main.WebServer.Services
 {
@@ -18,16 +20,18 @@ namespace chdScoring.Main.WebServer.Services
         private readonly IApiLogger _apiLogger;
         private readonly IServiceProvider _serviceProvider;
         private readonly IDatabaseConfiguration _databaseConfiguration;
+        private readonly IPrintService _printService;
         private string _folder;
 
         private BlockingCollection<ImportRoundScoreDto> _importCollection = [];
         private Task _executer;
 
-        public ImportExecuteService(IApiLogger apiLogger, IServiceProvider serviceProvider, IDatabaseConfiguration databaseConfiguration)
+        public ImportExecuteService(IApiLogger apiLogger, IServiceProvider serviceProvider, IDatabaseConfiguration databaseConfiguration, IPrintService printService)
         {
             _apiLogger = apiLogger;
             this._serviceProvider = serviceProvider;
             this._databaseConfiguration = databaseConfiguration;
+            this._printService = printService;
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)
@@ -71,12 +75,19 @@ namespace chdScoring.Main.WebServer.Services
         {
             while (this._importCollection.TryTake(out var importDto, 10, cancellationToken))
             {
-                await this._apiLogger.Log($"Import Pilot {importDto.Pilot}, Round {importDto.Round}, F-{importDto.Scores.Count}");
                 try
                 {
                     using var scope = this._serviceProvider.CreateAsyncScope();
                     var dataImportService = scope.ServiceProvider.GetService<IDataImportService>();
                     await dataImportService.ImportAsync(importDto, cancellationToken);
+
+                    var url = $"http://localhost/print_durchgang.php?teilnehmer={importDto.Pilot}&round={importDto.Round}";
+                    await this._printService.PrintToPdfAsync(new Contracts.Dtos.CreatePdfDto()
+                    {
+                        Url = url,
+                        Name = $"R_{importDto.Round}_P_{importDto.Pilot}.pdf",
+                        Landscape = true,
+                    }, cancellationToken);
                 }
                 catch (Exception ex)
                 {

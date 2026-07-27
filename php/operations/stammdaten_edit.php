@@ -93,7 +93,12 @@ while($official = mysqli_fetch_object($res_offical)){?>
 }?>
 </select></td>
 <td>
-	<input type="checkbox" id="score_mode<?php echo $obj->id;?>" onChange="speichern(<?php echo $obj->id;?>);"<?php if($obj->score_mode == 1) echo " checked='checked'";?>> |
+	<select id="score_mode<?php echo $obj->id;?>" onChange="speichern(<?php echo $obj->id;?>);">
+			<option value="0" <?php if($score_mode == 0){echo "selected";}?>>Discard</option>
+			<option value="1" <?php if($score_mode == 1){echo "selected";}?>>TBL</option>
+			<option value="2" <?php if($score_mode == 2){echo "selected";}?>>FC Score</option>
+	</select>
+
   <input type="checkbox" id="judge_pin<?php echo $obj->id;?>" onChange="speichern(<?php echo $obj->id;?>);"<?php if($obj->judge_pin == 1) echo " checked='checked'";?>> |
   <input type="checkbox" id="edit<?php echo $obj->id;?>" onChange="speichern(<?php echo $obj->id;?>);"<?php if($obj->edit == 1) echo " checked='checked'";?>> |
   <input type="checkbox" id="del_on<?php echo $obj->id;?>" onChange="speichern(<?php echo $obj->id;?>);"<?php if($obj->del_on == 1) echo " checked='checked'";?>>

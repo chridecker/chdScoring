@@ -9,6 +9,7 @@ $query = "DELETE FROM wertung WHERE teilnehmer = ".$teilnehmer." AND durchgang =
 mysqli_query($link,$query);
 $query = "DELETE FROM durchgang WHERE teilnehmer = ".$teilnehmer." AND durchgang = ".$durchgang;
 mysqli_query($link,$query);
+$query = "DELETE FROM teilnehmer_durchgang_judge WHERE teilnehmer = ".$teilnehmer." AND durchgang = ".$durchgang;
 mysqli_query($link,$query);
 
 load($teilnehmer,$durchgang,$link);
