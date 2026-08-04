@@ -25,6 +25,11 @@ namespace chdScoring.Main.WebServer.Extensions
             var pilot = mainGroup.MapGroup(Pilot.ROUTE).WithTags(Pilot.ROUTE);
             var database = mainGroup.MapGroup(Database.ROUTE).WithTags(Database.ROUTE);
             var print = mainGroup.MapGroup(Print.ROUTE).WithTags(Print.ROUTE);
+            var import = mainGroup.MapGroup(Import.ROUTE).WithTags(Import.ROUTE);
+
+            import.MapPost(Import.POST_BIN, async (ImportFileDto dto, IImportService service, CancellationToken ct) => await service.ImportBinFile(dto, ct));
+            import.MapPost(Import.POST_JSON, async (ImportFileDto dto, IImportService service, CancellationToken ct) => await service.ImportJsonFile(dto, ct));
+            import.MapPost(Import.POST_JSONRESULT, async (ImportFileDto dto, IImportService service, CancellationToken ct) => await service.ImportJsonResultFile(dto, ct));
 
             print.MapGet(Print.GET_PDF, async (IPrintService svc, CancellationToken ct) => await svc.GetPdfLst(ct));
             print.MapGet(Print.GET_AUTOPRINT, async (IPrintService svc, CancellationToken ct) => await svc.GetAutoPrintSetting(ct));

@@ -6,5 +6,7 @@ namespace chdScoring.Contracts.Settings
     {
         public TimeSpan RefreshInterval { get; set; }
         public TimeSpan SendInterval { get; set; }
+
+        public string ImportDirectory { get; set; }
     }
 }

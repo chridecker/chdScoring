@@ -1,0 +1,45 @@
+@using chd.UI.Base.Client.Implementations.Authorization
+@using chd.UI.Base.Components.General
+@using chd.UI.Base.Components.General.Pagination
+@using chd.UI.Base.Contracts.Enum
+@using chdScoring.App.UI.Pages.Components
+@using chdScoring.App.UI.Pages.Components.Management
+@using chdScoring.Contracts.Dtos
+@using chdScoring.Contracts.Interfaces
+@implements IDisposable
+@inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
+@page "/import"
+@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.AdminId })]
+@inject IImportService service
+@inject IFilePickerService fileService
+
+
+<div class="import-container">
+    <input type="number" @bind="_dto.Round" />
+    <input type="number" @bind="_dto.Pilot" />
+    <input type="text" @bind="_dto.Type" />
+    <button @onclick="LoadFile">Load File</button>
+    <button @onclick="ImportFile">Import</button>
+</div>
+
+
+@code {
+    CancellationTokenSource _cts = new();
+    ImportFileDto _dto = new();
+
+
+    private async Task ImportFile()
+    {
+        await service.ImportBinFile(this._dto, _cts.Token);
+    }
+
+    private async Task LoadFile()
+    {
+        this._dto.File = await fileService.PickFileAsync(_cts.Token);   
+    }
+
+    public void Dispose()
+    {
+        _cts.Cancel();
+    }
+}

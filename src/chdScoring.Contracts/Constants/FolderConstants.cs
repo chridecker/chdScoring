@@ -7,8 +7,11 @@ namespace chdScoring.Contracts.Constants
     public class FolderConstants
     {
         public const string Folder = "Pdf";
-        public const string Import = "Import";
         public const string Printed = "Printed";
+
+        public const string Bin = "Bin";
+        public const string Json = "Json";
+        public const string JsonResult = "JsonResult";
         public const string Imported = "Imported";
     }
 }

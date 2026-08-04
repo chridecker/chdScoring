@@ -69,5 +69,12 @@
             public const string POST_PRINT_PDF = "printpdf";
         }
 
+        public class Import
+        {
+            public const string ROUTE = "import";
+            public const string POST_BIN= "bin";
+            public const string POST_JSON= "json";
+            public const string POST_JSONRESULT= "jsonresult";
+        }
     }
 }

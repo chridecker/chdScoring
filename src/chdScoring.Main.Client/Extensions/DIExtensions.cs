@@ -29,6 +29,9 @@ namespace chdScoring.Main.Client.Extensions
             
             services.AddHttpClient<DatabaseClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointConstants.Database.ROUTE));
             services.AddTransient<IDatabaseService, DatabaseClient>();
+            
+            services.AddHttpClient<ImportClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointConstants.Import.ROUTE));
+            services.AddTransient<IImportService, ImportClient>();
             return services;
         }
     }
