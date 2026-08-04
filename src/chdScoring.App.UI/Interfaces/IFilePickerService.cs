@@ -6,6 +6,6 @@ namespace chdScoring.App.UI.Interfaces
 {
     public interface IFilePickerService
     {
-        Task<byte[]> PickFileAsync(CancellationToken cancellationToken);
+        Task<(string,byte[])> PickFileAsync(CancellationToken cancellationToken);
     }
 }

@@ -21,20 +21,17 @@ namespace chdScoring.BusinessLogic.Services
             _optionsMonitor = optionsMonitor;
         }
         public Task<bool> ImportBinFile(ImportFileDto dto, CancellationToken cancellationToken)
-        => this.CreateFile(dto, FolderConstants.Bin, cancellationToken);
+        => this.CreateFile(dto, FolderConstants.Bin, "bin", cancellationToken);
 
         public Task<bool> ImportJsonFile(ImportFileDto dto, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
+            => this.CreateFile(dto, FolderConstants.Json, "json", cancellationToken);
 
         public Task<bool> ImportJsonResultFile(ImportFileDto dto, CancellationToken cancellationToken)
+            => this.CreateFile(dto, FolderConstants.JsonResult, "json", cancellationToken);
+
+        private async Task<bool> CreateFile(ImportFileDto dto, string folder, string type, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-        }
-        private async Task<bool> CreateFile(ImportFileDto dto, string folder, CancellationToken cancellationToken)
-        {
-            var fileName = this.CreateFileName(dto);
+            var fileName = this.CreateFileName(dto, type);
             try
             {
                 var file = Path.Combine(this._optionsMonitor.CurrentValue.ImportDirectory, folder, fileName);
@@ -49,6 +46,6 @@ namespace chdScoring.BusinessLogic.Services
             }
         }
 
-        private string CreateFileName(ImportFileDto dto) => $"R{dto.Round}_P{dto.Round}.{dto.Type}";
+        private string CreateFileName(ImportFileDto dto, string type) => $"R{dto.Round}_P{dto.Round}.{type}";
     }
 }

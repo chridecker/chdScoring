@@ -15,27 +15,52 @@
 
 
 <div class="import-container">
-    <input type="number" @bind="_dto.Round" />
-    <input type="number" @bind="_dto.Pilot" />
-    <input type="text" @bind="_dto.Type" />
-    <button @onclick="LoadFile">Load File</button>
-    <button @onclick="ImportFile">Import</button>
+    <label>Round</label><input type="number" @bind="_dto.Round" />
+    <label>Pilot</label><input type="number" @bind="_dto.Pilot" />
+    <IconButton FAClass="file" OnClick="LoadFile">
+        @if (string.IsNullOrEmpty(_fileName))
+        {
+            <text>Load File</text>
+        }
+        else
+        {
+            @(_fileName)
+        }
+    </IconButton>
+    <select @bind="_dto.Type">
+        <option value="bin">Bin-File</option>
+        <option value="json">Json-File</option>
+        <option value="json-result">Json-Result-File</option>
+    </select>
+    <IconButton FAClass="upload" OnClick="ImportFile">Import File</IconButton>
 </div>
 
 
 @code {
     CancellationTokenSource _cts = new();
     ImportFileDto _dto = new();
+    string _fileName;
 
 
     private async Task ImportFile()
     {
-        await service.ImportBinFile(this._dto, _cts.Token);
+        var t = (this._dto.Type) switch
+        {
+            "bin" => service.ImportBinFile(this._dto, _cts.Token),
+            "json" => service.ImportJsonFile(this._dto, _cts.Token),
+            "json-result" => service.ImportJsonResultFile(this._dto, _cts.Token),
+            _ => Task.CompletedTask
+        };
+        await t;
+        this._dto = new();
+        this._fileName = string.Empty;
     }
 
     private async Task LoadFile()
     {
-        this._dto.File = await fileService.PickFileAsync(_cts.Token);   
+        var (fileName, fileData) = await fileService.PickFileAsync(_cts.Token);
+        this._dto.File = fileData;
+        this._fileName = fileName;
     }
 
     public void Dispose()

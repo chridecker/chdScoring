@@ -12,7 +12,7 @@ namespace chdScoring.App.Services
         {
             _filePicker = FilePicker.Default;
         }
-        public async Task<byte[]> PickFileAsync(CancellationToken cancellationToken)
+        public async Task<(string,byte[])> PickFileAsync(CancellationToken cancellationToken)
         {
             var result = await _filePicker.PickAsync();
             if (result != null)
@@ -21,10 +21,10 @@ namespace chdScoring.App.Services
                 var ms = new MemoryStream();
                 await s.CopyToAsync(ms);
                 var x = ms.ToArray();
-                return x;
+                return (result.FileName, x);
             }
 
-            return null;
+            return (string.Empty, []);
         }
     }
 }

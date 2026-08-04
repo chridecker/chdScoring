@@ -1,3 +1,12 @@
-﻿body
-{
+﻿.import-container {
+    margin-block-start: 3rem;
+    margin-inline: 1rem;
+    display: grid;
+    grid-template-columns: max-content max-content;
+    gap: 1rem .5rem;
 }
+
+    .import-container > select,
+    .import-container ::deep .btn {
+        grid-column: 1/3;
+    }

@@ -8,7 +8,7 @@ namespace chdScoring.App.WPF.Services
 {
     public class FilePickerService : IFilePickerService
     {
-        public Task<byte[]> PickFileAsync(CancellationToken cancellationToken)
+        public Task<(string, byte[])> PickFileAsync(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
