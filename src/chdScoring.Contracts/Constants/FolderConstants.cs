@@ -12,6 +12,5 @@ namespace chdScoring.Contracts.Constants
         public const string Bin = "Bin";
         public const string Json = "Json";
         public const string JsonResult = "JsonResult";
-        public const string Imported = "Imported";
     }
 }

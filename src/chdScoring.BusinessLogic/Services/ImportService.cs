@@ -46,6 +46,6 @@ namespace chdScoring.BusinessLogic.Services
             }
         }
 
-        private string CreateFileName(ImportFileDto dto, string type) => $"R{dto.Round}_P{dto.Round}.{type}";
+        private string CreateFileName(ImportFileDto dto, string type) => $"R_{dto.Round}_P_{dto.Pilot}.{type}";
     }
 }

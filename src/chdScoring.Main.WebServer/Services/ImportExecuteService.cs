@@ -113,7 +113,7 @@ namespace chdScoring.Main.WebServer.Services
 
                 var dto = await this.CreateDtoFromFile(file, cancellationToken);
                 this._importCollection.TryAdd(dto);
-                var imported = Path.Combine(this._importFolder, FolderConstants.JsonResult, FolderConstants.Imported, this._databaseConfiguration.CurrentConnection, file.Name);
+                var imported = Path.Combine(this._importFolder, FolderConstants.JsonResult, this._databaseConfiguration.CurrentConnection, file.Name);
                 file.MoveTo(imported, true);
             }
         }
