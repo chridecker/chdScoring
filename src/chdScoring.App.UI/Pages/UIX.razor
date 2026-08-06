@@ -1,17 +1,9 @@
 @page "/uix"
-@inherits PageComponentBase<int,int>
-@implements IDisposable
-@using Blazored.Modal.Services
-@using chd.UI.Base.Client.Implementations.Authorization
-@using chd.UI.Base.Client.Implementations.Services
 @using chdScoring.App.UI.Extensions
+@inherits BaseChdScoringPage
 @inject INotificationManagerService notificationService
-@inject IModalHandler modal
 @inject IBatteryService battery
 @inject ITTSService ttsService
-@inject IDeviceDisplayService deviceDisplayService
-@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.AdminId })]
-
 
 <div class="notifications">
     <label>Title:</label>
@@ -33,12 +25,10 @@
     private string _message;
 
     private float? _displayBrightness;
-    private float? _initDisplayBrightness;
 
     protected override async Task OnInitializedAsync()
     {
-        this._initDisplayBrightness = deviceDisplayService.ScreenBrightness;
-        this._displayBrightness = deviceDisplayService.ScreenBrightness;
+        this._displayBrightness = _deviceDisplayService.ScreenBrightness;
 
         this.notificationService.NotificationReceived += this.NotificationReceived;
         this.battery.InfoChanged += this.InfoChanged;
@@ -49,7 +39,7 @@
         if (float.TryParse(e.Value?.ToString(), out var brightness))
         {
             this._displayBrightness = brightness *0.01f;
-            deviceDisplayService.ScreenBrightness = this._displayBrightness;
+            _deviceDisplayService.ScreenBrightness = this._displayBrightness;
         }
     }
 
@@ -61,26 +51,19 @@
 
     private async Task Alert()
     {
-        await this.modal.ShowYesNoDialog("TEst", false);
-        await this.modal.ShowOkCancelDialog("TEst", false);
+        await this.modalHandler.ShowYesNoDialog("TEst", false);
+        await this.modalHandler.ShowOkCancelDialog("TEst", false);
 
         this.notificationService.SendNotification(this._title, this._message);
     }
 
     private async void NotificationReceived(object sender, NotificationEventArgs e)
     {
-        await this.modal.ShowSmallDialog(e.Message, chd.UI.Base.Contracts.Enum.EDialogButtons.OK);
+        await this.modalHandler.ShowSmallDialog(e.Message, chd.UI.Base.Contracts.Enum.EDialogButtons.OK);
     }
 
     private async void InfoChanged(object sender, EventArgs e)
     {
         await this.InvokeAsync(this.StateHasChanged);
-    }
-
-    public void Dispose()
-    {
-        this.deviceDisplayService.ScreenBrightness = this._initDisplayBrightness;
-        this.battery.InfoChanged -= this.InfoChanged;
-        this.notificationService.NotificationReceived -= this.NotificationReceived;
     }
 }

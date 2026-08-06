@@ -4,7 +4,7 @@
 @using chd.UI.Base.Client.Implementations.Authorization
 @using chdScoring.App.UI.Pages.Components
 @using chdScoring.Contracts.Dtos
-@inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
+@inherits BaseChdScoringPage
 
 @if (this._judges.Any() && this._profileService.User is null || this._profileService.HasUserRight(RightConstants.AdminId))
 {
@@ -23,6 +23,6 @@
                 EditManeouvreEnabled="(this._isAdmin || (this._dto?.EditScoreEnabled ?? false) && (this.Judge?.EditScore ?? false) && !this._isConfirmed)" />
 
     <NumPadScorePanel ScoreSaved="this.ScoreSaved" NeedsJudgeConfirmation="this._needsJudgeConfirm" IsConfirmed="this._isConfirmed"
-                      CancellationToken="this._cts.Token" ScoresConfirmed="this.ScoresConfirmed" UseJudgeConfirmQuestion="this._useJudgeConfirmQuestion"
+                      CancellationToken="this._token" ScoresConfirmed="this.ScoresConfirmed" UseJudgeConfirmQuestion="this._useJudgeConfirmQuestion"
                       Judge="this.Judge" Pilot="this._dto?.Pilot" PanelDisabled="this._panelDisabled" Round="(this._dto?.Round?.Id ?? 0)" Maneouvre="this._current" />
 </div>

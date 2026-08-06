@@ -4,7 +4,7 @@
 @using chdScoring.App.UI.Pages.Components
 @using chdScoring.Contracts.Dtos
 @using chdScoring.Contracts.Interfaces
-@implements IDisposable
+@inherits BaseChdScoringPage
 @page "/pilots"
 <div class="pilots">
     @foreach (var pilot in this._pilots.OrderBy(o => o.Id))
@@ -27,23 +27,17 @@
 
 
 @code {
-    private CancellationTokenSource _cts = new();
     private List<PilotDto> _pilots = [];
-
-
-    [Inject] IPilotService pilotService { get; set; }
-    [Inject] IModalHandler modalHandler { get; set; }
-    [Inject] ISettingManager settingManager { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        this._pilots = (await this.pilotService.GetAllPilots(this._cts.Token)).ToList();
+        this._pilots = (await this.pilotService.GetAllPilots(this._token)).ToList();
         await base.OnInitializedAsync();
     }
 
     private async Task AddPilot()
     {
-        var img = await this.pilotService.GetCountryImage(13, this._cts.Token);
+        var img = await this.pilotService.GetCountryImage(13, this._token);
 
         var pilot = new PilotDto
         {
@@ -65,10 +59,10 @@
         {
             if (modal.Data is not null
                 && modal.Data is PilotDto editDto
-                && await this.pilotService.Add(editDto, this._cts.Token))
+                && await this.pilotService.Add(editDto, this._token))
             {
             }
-            this._pilots = (await this.pilotService.GetAllPilots(this._cts.Token)).ToList();
+            this._pilots = (await this.pilotService.GetAllPilots(this._token)).ToList();
             await this.InvokeAsync(this.StateHasChanged);
         }
     }
@@ -107,17 +101,13 @@
             && modal.Data is not null
             && modal.Data is PilotDto editDto)
         {
-            if (await this.pilotService.UpdatePilotData(editDto, this._cts.Token))
+            if (await this.pilotService.UpdatePilotData(editDto, this._token))
             {
-                this._pilots = (await this.pilotService.GetAllPilots(this._cts.Token)).ToList();
+                this._pilots = (await this.pilotService.GetAllPilots(this._token)).ToList();
                 await this.InvokeAsync(this.StateHasChanged);
             }
         }
     }
 
-    public void Dispose()
-    {
-        this._cts.Cancel();
-        this._cts.Dispose();
-    }
+    
 }

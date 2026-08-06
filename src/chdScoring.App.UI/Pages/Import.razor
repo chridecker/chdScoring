@@ -1,13 +1,13 @@
 @using chd.UI.Base.Client.Implementations.Authorization
 @using chd.UI.Base.Components.General
 @using chd.UI.Base.Components.General.Pagination
+@using chd.UI.Base.Components.General.Search
 @using chd.UI.Base.Contracts.Enum
 @using chdScoring.App.UI.Pages.Components
 @using chdScoring.App.UI.Pages.Components.Management
 @using chdScoring.Contracts.Dtos
 @using chdScoring.Contracts.Interfaces
-@implements IDisposable
-@inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
+@inherits BaseChdScoringPage
 @page "/import"
 @attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.AdminId })]
 @inject IImportService service
@@ -16,7 +16,18 @@
 
 <div class="import-container">
     <label>Round</label><input type="number" @bind="_dto.Round" />
-    <label>Pilot</label><input type="number" @bind="_dto.Pilot" />
+    <IconButton FAClass="file" OnClick="ChoosePilot">
+        @if (_pilotDto is null)
+        {
+            <text>Choose Pilot</text>
+        }
+        else
+        {
+            <NextPilotSearchItem
+                Dto="_pilotDto"
+            />
+        }
+    </IconButton>
     <IconButton FAClass="file" OnClick="LoadFile">
         @if (string.IsNullOrEmpty(_fileName))
         {
@@ -37,18 +48,43 @@
 
 
 @code {
-    CancellationTokenSource _cts = new();
     ImportFileDto _dto = new();
+    OpenRoundDto _pilotDto  = new();
     string _fileName;
 
+
+    private async Task ChoosePilot()
+    {
+        var pilots = await this.pilotService.GetAllPilots(this._token);
+        if (!pilots.Any()) { return; }
+        var parameters = new ModalParameters
+        {
+            { nameof(SearchModalComponent<OpenRoundDto, int>.Items), pilots.Select(s => new OpenRoundDto()
+            {
+                StartNumber = 0,
+                Pilot = s,
+                Round = 0
+            }) },
+            { nameof(SearchModalComponent<OpenRoundDto, int>.RenderType),typeof(NextPilotSearchItem) },
+            { nameof(SearchModalComponent<OpenRoundDto, int>.RenderParameterDict),(OpenRoundDto dto)=> SearchModalComponent<OpenRoundDto,int>.CreateRenderParameterDict(dto,((x)=> nameof(NextPilotSearchItem.Dto),(x)=>x))},
+            { nameof(SearchModalComponent<OpenRoundDto, int>.DisableOrder), true },
+        };
+        var modalInstance = this.modalHandler.Show<SearchModalComponent<OpenRoundDto, int>>("Pilot", parameters);
+
+        var result = await modalInstance.Result;
+        if (result.Confirmed && result.Data is OpenRoundDto dto)
+        {
+            this._pilotDto = dto;
+        }
+    }
 
     private async Task ImportFile()
     {
         var t = (this._dto.Type) switch
         {
-            "bin" => service.ImportBinFile(this._dto, _cts.Token),
-            "json" => service.ImportJsonFile(this._dto, _cts.Token),
-            "json-result" => service.ImportJsonResultFile(this._dto, _cts.Token),
+            "bin" => service.ImportBinFile(this._dto, _token),
+            "json" => service.ImportJsonFile(this._dto, _token),
+            "json-result" => service.ImportJsonResultFile(this._dto, _token),
             _ => Task.CompletedTask
         };
         await t;
@@ -58,13 +94,8 @@
 
     private async Task LoadFile()
     {
-        var (fileName, fileData) = await fileService.PickFileAsync(_cts.Token);
+        var (fileName, fileData) = await fileService.PickFileAsync(_token);
         this._dto.File = fileData;
         this._fileName = fileName;
-    }
-
-    public void Dispose()
-    {
-        _cts.Cancel();
     }
 }

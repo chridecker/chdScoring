@@ -1,7 +1,7 @@
 ﻿@using chd.UI.Base.Client.Implementations.Authorization
 @using chd.UI.Base.Contracts.Enum
 @using chdScoring.Contracts.Dtos
-@inherits chd.UI.Base.Components.Base.PageComponentBase<int,int>
+@inherits BaseChdScoringPage
 @page "/correction"
 @attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.AdminId })]
 

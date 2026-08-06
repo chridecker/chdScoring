@@ -17,20 +17,11 @@ using static chdScoring.Contracts.Constants.EndpointConstants;
 
 namespace chdScoring.App.UI.Pages
 {
-    public partial class CompetitionManagement : PageComponentBase<int, int>, IDisposable
+    public partial class CompetitionManagement : BaseChdScoringPage
     {
-        private CancellationTokenSource _cts = new CancellationTokenSource();
-
-        [Inject] IModalHandler _modal { get; set; }
-        [Inject] IVibrationHelper _vibrationHelper { get; set; }
-        [Inject] IJudgeHubClient _judgeHubClient { get; set; }
-        [Inject] IJudgeDataCache _judgeDataCache { get; set; }
-        [Inject] IPilotService _pilotService { get; set; }
-        [Inject] ITimerService _timerService { get; set; }
         [Inject] IDatabaseService _databaseService { get; set; }
         [Inject] IPrintHelper _printHelper { get; set; }
         [Inject] IPrintService _printService { get; set; }
-        [Inject] ISettingManager _settingManager { get; set; }
 
 
         private CurrentFlight _dto;
@@ -43,30 +34,29 @@ namespace chdScoring.App.UI.Pages
         protected override async Task OnInitializedAsync()
         {
             this.Title = PageTitleConstants.CompetitionManagement;
-            this._cts = new();
             this._dto = this._judgeDataCache.Data;
             if (!this._judgeHubClient.IsConnected)
             {
-                await this._judgeHubClient.StartAsync(this._cts.Token);
+                await this._judgeHubClient.StartAsync(this._token);
 
             }
-            await this._judgeHubClient.RegisterControlCenter(this._cts.Token);
+            await this._judgeHubClient.RegisterControlCenter(this._token);
 
             this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
 
-            this._autoPrint = await this._printService.GetAutoPrintSetting(this._cts.Token);
+            this._autoPrint = await this._printService.GetAutoPrintSetting(this._token);
 
             await base.OnInitializedAsync();
         }
         private async Task ChangeAutoPrint()
         {
-            this._autoPrint = await this._printService.ChangeAutoPrint(this._cts.Token);
+            this._autoPrint = await this._printService.ChangeAutoPrint(this._token);
             await this.InvokeAsync(this.StateHasChanged);
         }
 
         private async Task ChangeStartNumber()
         {
-            var pilots = await this._pilotService.GetAllPilots(this._cts.Token);
+            var pilots = await this.pilotService.GetAllPilots(this._token);
             if (!pilots.Any()) { return; }
             var parameters = new ModalParameters
                      {
@@ -80,15 +70,15 @@ namespace chdScoring.App.UI.Pages
                          { nameof(SearchModalComponent<OpenRoundDto, int>.RenderParameterDict),(OpenRoundDto dto)=> SearchModalComponent<OpenRoundDto,int>.CreateRenderParameterDict(dto,((x)=> nameof(NextPilotSearchItem.Dto),(x)=>x))},
                          { nameof(SearchModalComponent<OpenRoundDto, int>.DisableOrder), true },
                      };
-            var modalInstance = this._modal.Show<SearchModalComponent<OpenRoundDto, int>>("Pilot Startnummer ändern", parameters);
+            var modalInstance = this.modalHandler.Show<SearchModalComponent<OpenRoundDto, int>>("Pilot Startnummer ändern", parameters);
 
             var result = await modalInstance.Result;
             if (result.Confirmed && result.Data is OpenRoundDto dto)
             {
-                var val = await this._modal.ShowSmallInputDialog($"Welche Nummer?", this._settingManager.IsiOS, "Neue Startnummer... ");
+                var val = await this.modalHandler.ShowSmallInputDialog($"Welche Nummer?", this.settingManager.IsiOS, "Neue Startnummer... ");
                 if (int.TryParse(val, out int id))
                 {
-                    await this._pilotService.SetStartnumber(new()
+                    await this.pilotService.SetStartnumber(new()
                     {
                         NewStartId = id,
                         Pilot = dto.Pilot
@@ -99,33 +89,33 @@ namespace chdScoring.App.UI.Pages
         private async Task SetBreak()
         {
             if ((this._dto?.LeftTime.HasValue ?? false)
-                && (await this._modal.ShowYesNoDialog("Ein Teilnehmer ist derzeit aktiv! Fortfahren?", this._settingManager.IsiOS) != EDialogResult.Yes))
+                && (await this.modalHandler.ShowYesNoDialog("Ein Teilnehmer ist derzeit aktiv! Fortfahren?", this.settingManager.IsiOS) != EDialogResult.Yes))
             {
                 return;
             }
-            await this._pilotService.UnLoadPilot(new LoadPilotDto
+            await this.pilotService.UnLoadPilot(new LoadPilotDto
             {
                 Pilot = this._dto.Pilot.Id,
                 Round = this._dto.Round.Id
-            }, this._cts.Token);
+            }, this._token);
         }
 
         private async Task ReflightRound()
         {
-            var finishedRounds = await this._pilotService.GetFinishedFlights();
+            var finishedRounds = await this.pilotService.GetFinishedFlights();
             var parameters = new ModalParameters
                      {
                          { nameof(SearchModalComponent<FinishedRoundDto, int>.Items), finishedRounds.OrderBy(o=>o.Pilot.Name).ThenBy(o=>o.Round.Id).ThenBy(o => o.Start).ToList() },
                          { nameof(SearchModalComponent<FinishedRoundDto, int>.Name),(FinishedRoundDto r)=> $"{r.Pilot.Name}, Runde {r.Round.Id}" },
                          { nameof(SearchModalComponent<FinishedRoundDto, int>.DisableOrder), true },
                      };
-            var modalInstance = this._modal.Show<SearchModalComponent<FinishedRoundDto, int>>("Runde wiederholen", parameters);
+            var modalInstance = this.modalHandler.Show<SearchModalComponent<FinishedRoundDto, int>>("Runde wiederholen", parameters);
 
             var result = await modalInstance.Result;
             if (result.Confirmed && result.Data is FinishedRoundDto dto
-                && await this._modal.ShowYesNoDialog($"{dto.Pilot.Name} Runde {dto.Round.Id} wirklich löschen?", this._settingManager.IsiOS) == EDialogResult.Yes)
+                && await this.modalHandler.ShowYesNoDialog($"{dto.Pilot.Name} Runde {dto.Round.Id} wirklich löschen?", this.settingManager.IsiOS) == EDialogResult.Yes)
             {
-                await this._pilotService.ReflightRound(new() { Pilot = dto.Pilot.Id, Round = dto.Round.Id }, this._cts.Token);
+                await this.pilotService.ReflightRound(new() { Pilot = dto.Pilot.Id, Round = dto.Round.Id }, this._token);
             }
         }
 
@@ -139,7 +129,7 @@ namespace chdScoring.App.UI.Pages
                 {nameof(SearchModalComponent<string,int>.RenderType),typeof(DatabaseConnectionRender) },
                 {nameof(SearchModalComponent<string,int>.RenderParameterDict),(string db)=> SearchModalComponent<string,int>.CreateRenderParameterDict(db,((x)=> nameof(DatabaseConnectionRender.DatabaseConnection),(x)=>x),((x)=> nameof(DatabaseConnectionRender.IsCurrentDatabaseConnection),(x)=>x == this._currentDatabaseConnection))},
             };
-            var modalInstance = this._modal.Show<SearchModalComponent<string, int>>($"Datenbank {this._currentDatabaseConnection}", parameters);
+            var modalInstance = this.modalHandler.Show<SearchModalComponent<string, int>>($"Datenbank {this._currentDatabaseConnection}", parameters);
 
             var result = await modalInstance.Result;
             if (result.Confirmed && result.Data is string choosenDB)
@@ -159,8 +149,8 @@ namespace chdScoring.App.UI.Pages
             if (this._dto.ScoreMode is not Contracts.Enums.EScoreMode.FCScore
                 && this._dto.ManeouvreLst.Values.Any(a => a.Any(aa => !aa.Score.HasValue)) || !avgScore.HasValue)
             {
-                await this._vibrationHelper.Vibrate(3, TimeSpan.FromMilliseconds(400), this._cts.Token);
-                if (await this._modal.ShowOkCancelDialog("Nicht alle Judges haben alle Figuren gewertet!", this._settingManager.IsiOS) != EDialogResult.OK)
+                await this._vibrationHelper.Vibrate(3, TimeSpan.FromMilliseconds(400), this._token);
+                if (await this.modalHandler.ShowOkCancelDialog("Nicht alle Judges haben alle Figuren gewertet!", this.settingManager.IsiOS) != EDialogResult.OK)
                 {
                     return;
                 }
@@ -174,46 +164,46 @@ namespace chdScoring.App.UI.Pages
                 Round = this._dto.Round.Id,
                 Duration = duration
 
-            }, this._cts.Token))
+            }, this._token))
             {
                 this._vibrationHelper.Vibrate(TimeSpan.FromSeconds(0.5));
                 if (this._dto.ScoreMode is not Contracts.Enums.EScoreMode.FCScore
-                    && await this._modal.ShowYesNoDialog($"Create PDF?", this._settingManager.IsiOS) == EDialogResult.Yes)
+                    && await this.modalHandler.ShowYesNoDialog($"Create PDF?", this.settingManager.IsiOS) == EDialogResult.Yes)
                 {
                     await this._printHelper.PrintRound(pilot, round);
                 }
             }
             else
             {
-                await this._vibrationHelper.Vibrate(3, TimeSpan.FromSeconds(0.4), this._cts.Token);
-                await this._modal.ShowSmallDialog("Beim Speichern der Runde ist ein Fehler aufgetreten!", EDialogButtons.OK);
+                await this._vibrationHelper.Vibrate(3, TimeSpan.FromSeconds(0.4), this._token);
+                await this.modalHandler.ShowSmallDialog("Beim Speichern der Runde ist ein Fehler aufgetreten!", EDialogButtons.OK);
             }
         }
 
 
         private async Task PrintPdf()
         {
-            var printDtos = await this._printService.GetPdfLst(this._cts.Token);
+            var printDtos = await this._printService.GetPdfLst(this._token);
             if (!printDtos.Any()) { return; }
             var parameters = new ModalParameters
                      {
                          { nameof(SearchModalComponent<PrintPdfDto, int>.Items), printDtos.OrderBy(o=>o.CreationTime).ToList() },
                          { nameof(SearchModalComponent<PrintPdfDto, int>.RenderType),typeof(PrintPdfComponent)},
-                         { nameof(SearchModalComponent<PrintPdfDto, int>.RenderParameterDict),(PrintPdfDto dto)=> SearchModalComponent<PrintPdfDto,int>.CreateRenderParameterDict(dto,((x)=> nameof(PrintPdfComponent.Dto),(x)=>x),((x)=> nameof(PrintPdfComponent.Token),(x)=> this._cts.Token))},
+                         { nameof(SearchModalComponent<PrintPdfDto, int>.RenderParameterDict),(PrintPdfDto dto)=> SearchModalComponent<PrintPdfDto,int>.CreateRenderParameterDict(dto,((x)=> nameof(PrintPdfComponent.Dto),(x)=>x),((x)=> nameof(PrintPdfComponent.Token),(x)=> this._token))},
                         { nameof(SearchModalComponent<PrintPdfDto, int>.DisableOrder), true },
                      };
-            var modalInstance = this._modal.Show<SearchModalComponent<PrintPdfDto, int>>("PDF erstellen", parameters);
+            var modalInstance = this.modalHandler.Show<SearchModalComponent<PrintPdfDto, int>>("PDF erstellen", parameters);
 
             var result = await modalInstance.Result;
             if (result.Confirmed && result.Data is PrintPdfDto dto)
             {
-                _ = await this._printService.AddToPrintCache(dto, this._cts.Token);
+                _ = await this._printService.AddToPrintCache(dto, this._token);
             }
         }
 
         private async Task CreatePdf()
         {
-            var finishedRounds = await this._pilotService.GetFinishedFlights();
+            var finishedRounds = await this.pilotService.GetFinishedFlights();
             var parameters = new ModalParameters
                      {
                          { nameof(SearchModalComponent<FinishedRoundDto, int>.Items), finishedRounds
@@ -223,7 +213,7 @@ namespace chdScoring.App.UI.Pages
                          { nameof(SearchModalComponent<FinishedRoundDto, int>.Name),(FinishedRoundDto r)=> $"R{r.Round.Id}, {r.Pilot.Id} {r.Pilot.Name}," },
                          { nameof(SearchModalComponent<FinishedRoundDto, int>.DisableOrder), true },
                      };
-            var modalInstance = this._modal.Show<SearchModalComponent<FinishedRoundDto, int>>("PDF erstellen", parameters);
+            var modalInstance = this.modalHandler.Show<SearchModalComponent<FinishedRoundDto, int>>("PDF erstellen", parameters);
 
             var result = await modalInstance.Result;
             if (result.Confirmed && result.Data is FinishedRoundDto dto)
@@ -233,31 +223,31 @@ namespace chdScoring.App.UI.Pages
         }
         private async Task CalculateTBL()
         {
-            var pilots = await this._pilotService.GetOpenRound(this._dto?.Round?.Id, this._cts.Token);
+            var pilots = await this.pilotService.GetOpenRound(this._dto?.Round?.Id, this._token);
             if (pilots.Any())
             {
-                await this._modal.ShowSmallDialog($"Es sind noch offene Wertungsflüge in der aktuellen Runde!", EDialogButtons.OK);
+                await this.modalHandler.ShowSmallDialog($"Es sind noch offene Wertungsflüge in der aktuellen Runde!", EDialogButtons.OK);
                 return;
             }
-            var round = await this._timerService.GetFinishedRound(this._cts.Token);
+            var round = await this._timerService.GetFinishedRound(this._token);
             await this._timerService.CalculateRoundTBL(new CalcRoundDto()
             {
                 Round = round
-            }, this._cts.Token);
+            }, this._token);
         }
 
 
         private async Task LoadNextPilot(bool takeFirst = false)
         {
-            var pilots = await this._pilotService.GetOpenRound(this._dto?.Round?.Id, this._cts.Token);
+            var pilots = await this.pilotService.GetOpenRound(this._dto?.Round?.Id, this._token);
             if (pilots.Any())
             {
                 OpenRoundDto dto = takeFirst ? pilots.OrderBy(o => o.StartNumber).FirstOrDefault() : await this.ChoosePilotModal(pilots);
-                if (dto != null && await this._pilotService.SetPilotActive(new LoadPilotDto
+                if (dto != null && await this.pilotService.SetPilotActive(new LoadPilotDto
                 {
                     Pilot = dto.Pilot.Id,
                     Round = dto.Round
-                }, this._cts.Token))
+                }, this._token))
                 {
                     this._vibrationHelper.Vibrate(TimeSpan.FromSeconds(0.5));
                 }
@@ -273,7 +263,7 @@ namespace chdScoring.App.UI.Pages
                          { nameof(SearchModalComponent<OpenRoundDto, int>.RenderParameterDict),(OpenRoundDto dto)=> SearchModalComponent<OpenRoundDto,int>.CreateRenderParameterDict(dto,((x)=> nameof(NextPilotSearchItem.Dto),(x)=>x))},
                          { nameof(SearchModalComponent<OpenRoundDto, int>.DisableOrder), true },
                      };
-            var modalInstance = this._modal.Show<SearchModalComponent<OpenRoundDto, int>>("Nächster Pilot", parameters);
+            var modalInstance = this.modalHandler.Show<SearchModalComponent<OpenRoundDto, int>>("Nächster Pilot", parameters);
 
             var result = await modalInstance.Result;
             if (result.Confirmed && result.Data is OpenRoundDto dto)
@@ -291,10 +281,10 @@ namespace chdScoring.App.UI.Pages
             await this.InvokeAsync(this.StateHasChanged);
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             this._judgeHubClient.DataReceived -= this._judgeHubClient_DataReceived;
-            this._cts.Cancel();
+            base.Dispose();
         }
     }
 }

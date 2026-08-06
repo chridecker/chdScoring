@@ -10,30 +10,23 @@ using Blazored.Modal;
 
 namespace chdScoring.App.UI.Pages
 {
-    public partial class Control : PageComponentBase<int, int>, IDisposable
+    public partial class Control : BaseChdScoringPage
     {
-        private CancellationTokenSource _cts = new CancellationTokenSource();
         private RoundDataDto _dto;
 
-        [Inject] IDeviceDisplayService _deviceDisplayService { get; set; }
-        [Inject] IModalHandler _modalHandler { get; set; }
-        [Inject] IJudgeHubClient _judgeHubClient { get; set; }
-        [Inject] IJudgeDataCache _judgeDataCache { get; set; }
-        [Inject] ITimerService _timerService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             this.Title = PageTitleConstants.ControlCenter;
             this._deviceDisplayService.KeepScreenOn = true;
-            this._cts = new();
 
             this._dto = this._judgeDataCache.Data;
             if (!this._judgeHubClient.IsConnected)
             {
-                await this._judgeHubClient.StartAsync(this._cts.Token);
+                await this._judgeHubClient.StartAsync(this._token);
 
             }
-            await this._judgeHubClient.RegisterControlCenter(this._cts.Token);
+            await this._judgeHubClient.RegisterControlCenter(this._token);
 
             this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
 
@@ -73,7 +66,7 @@ namespace chdScoring.App.UI.Pages
                     {nameof(ScoreHistoryComponent.Histories), man.Histories },
                 };
 
-                await this._modalHandler.Show<ScoreHistoryComponent>("Score History", param).Result;
+                await this.modalHandler.Show<ScoreHistoryComponent>("Score History", param).Result;
             }
         }
 
@@ -84,11 +77,11 @@ namespace chdScoring.App.UI.Pages
         }
 
 
-        public void Dispose()
+        public override void Dispose()
         {
             this._deviceDisplayService.KeepScreenOn = false;
             this._judgeHubClient.DataReceived -= this._judgeHubClient_DataReceived;
-            this._cts.Cancel();
+            base.Dispose();
         }
     }
 }

@@ -18,9 +18,8 @@ using System.Threading;
 namespace chdScoring.App.UI.Pages
 {
 
-    public partial class Index : PageComponentBase<int, int>, IDisposable
+    public partial class Index : BaseChdScoringPage
     {
-        private CancellationTokenSource _cts = new();
         private CurrentFlight _dto;
         private int _zoom;
 
@@ -59,18 +58,10 @@ namespace chdScoring.App.UI.Pages
             return this._currentBrightness;
         }
 
-
-        [Inject] IDeviceDisplayService _deviceDisplayService { get; set; }
         [Inject] ITTSService _ttsService { get; set; }
-        [Inject] private IModalHandler _modal { get; set; }
-        [Inject] private IJudgeHubClient _judgeHubClient { get; set; }
         [Inject] private IJudgeService _judgeService { get; set; }
-        [Inject] private IScoringService _scoringService { get; set; }
-        [Inject] private IJudgeDataCache _judgeDataCache { get; set; }
         [Inject] private IScrollInfoService _scrollInfoService { get; set; }
         [Inject] private IBatteryService _batteryService { get; set; }
-        [Inject] private IVibrationHelper _vibrationHelper { get; set; }
-        [Inject] private ISettingManager _settingManager { get; set; }
 
         [Parameter]
         public int? JudgeId
@@ -89,8 +80,8 @@ namespace chdScoring.App.UI.Pages
             this._deviceDisplayService.KeepScreenOn = true;
             this._currentBrightness = this._deviceDisplayService.ScreenBrightness;
 
-            this._useJudgeConfirmQuestion = await this._settingManager.GetUseJudgeConfirmQuestion();
-            this._zoom = await this._settingManager.GetScoringZoom();
+            this._useJudgeConfirmQuestion = await this.settingManager.GetUseJudgeConfirmQuestion();
+            this._zoom = await this.settingManager.GetScoringZoom();
 
             this._judgeHubClient.Connected += this._judgeHubClient_Connected;
             this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
@@ -107,7 +98,7 @@ namespace chdScoring.App.UI.Pages
             if (this._judge.HasValue && this._judge.Value > 0
                && this._judgeHubClient.IsConnected)
             {
-                await this._judgeHubClient.Register(this._judge.Value, this._cts.Token);
+                await this._judgeHubClient.Register(this._judge.Value, this._token);
             }
         }
 
@@ -118,7 +109,7 @@ namespace chdScoring.App.UI.Pages
 
             if (this._judge.HasValue && this._judge.Value != RightConstants.AdminId)
             {
-                await this._judgeHubClient.Register(this._judge.Value, this._cts.Token);
+                await this._judgeHubClient.Register(this._judge.Value, this._token);
             }
             this._judge = judge.Id;
             await this.InvokeAsync(this.StateHasChanged);
@@ -150,7 +141,7 @@ namespace chdScoring.App.UI.Pages
                 __builder.AddComponentParameter(2, nameof(EditScore.Dto), dto);
                 __builder.CloseComponent();
             };
-            var change = await this._modal.ShowOkCancelDialog("Change Score", this._settingManager.IsiOS, frag);
+            var change = await this.modalHandler.ShowOkCancelDialog("Change Score", this.settingManager.IsiOS, frag);
             if (change == EDialogResult.OK && dto.Score.HasValue)
             {
                 await this._scoringService.UpdateScore(new SaveScoreDto()
@@ -161,7 +152,7 @@ namespace chdScoring.App.UI.Pages
                     Round = this._dto.Round.Id,
                     Value = dto.Score.Value,
                     User = this._profileService.User.Id
-                }, this._cts.Token);
+                }, this._token);
             }
         }
 
@@ -178,11 +169,11 @@ namespace chdScoring.App.UI.Pages
                 this._selectedJudge = this._judges.FirstOrDefault(x => x.Id == this._judge.Value);
             }
 
-            if (!this._judgeHubClient.IsConnected) { this._judgeHubClient.StartAsync(this._cts.Token); }
+            if (!this._judgeHubClient.IsConnected) { this._judgeHubClient.StartAsync(this._token); }
 
             if (this._judgeHubClient.IsConnected && this._judge.HasValue && this._judge.Value > 0)
             {
-                await this._judgeHubClient.Register(this._judge.Value, this._cts.Token);
+                await this._judgeHubClient.Register(this._judge.Value, this._token);
             }
 
             await this.LoadCurrentData();
@@ -192,11 +183,11 @@ namespace chdScoring.App.UI.Pages
         {
             try
             {
-                this._judges = await this._judgeService.GetJudges(this._cts.Token);
+                this._judges = await this._judgeService.GetJudges(this._token);
             }
             catch (Exception ex)
             {
-                _ = await this._modal.ShowSmallDialog(ex.Message, EDialogButtons.OK);
+                _ = await this.modalHandler.ShowSmallDialog(ex.Message, EDialogButtons.OK);
             }
         }
 
@@ -209,7 +200,7 @@ namespace chdScoring.App.UI.Pages
             }
             catch (Exception ex)
             {
-                _ = await this._modal.ShowSmallDialog(ex.Message, EDialogButtons.OK);
+                _ = await this.modalHandler.ShowSmallDialog(ex.Message, EDialogButtons.OK);
             }
         }
 
@@ -221,14 +212,14 @@ namespace chdScoring.App.UI.Pages
                 Pilot = pilotDto.Id,
                 Round = round,
                 Time = DateTime.Now
-            }, this._cts.Token);
+            }, this._token);
         }
         private async Task<bool> ScoreSaved(SaveScoreDto dto)
         {
             if (this._dto?.ScoreMode == Contracts.Enums.EScoreMode.FCScore) { return false; }
             try
             {
-                await this._scoringService.SaveScore(dto, this._cts.Token);
+                await this._scoringService.SaveScore(dto, this._token);
 
                 if (this.Maneouvres.Any(x => x.Id == dto.Figur))
                 {
@@ -252,19 +243,19 @@ namespace chdScoring.App.UI.Pages
 
         private async void _batteryService_InfoChanged(object? sender, EventArgs e)
         {
-            var limit = await this._settingManager.GetSettingLocal<double>(SettingConstants.BatteryWarningLimit);
+            var limit = await this.settingManager.GetSettingLocal<double>(SettingConstants.BatteryWarningLimit);
             limit = limit > 0 ? limit : 15;
 
             if (this._batteryService.BatteryLevel < limit &&
                 !(this._batteryService.Charging.HasValue && this._batteryService.Charging.Value))
             {
-                await this._vibrationHelper.Vibrate(5, TimeSpan.FromMilliseconds(200), this._cts.Token);
-                await this._modal.ShowSmallDialog($"Batterlevel {this._batteryService.BatteryLevel}% kritisch!", EDialogButtons.OK);
+                await this._vibrationHelper.Vibrate(5, TimeSpan.FromMilliseconds(200), this._token);
+                await this.modalHandler.ShowSmallDialog($"Batterlevel {this._batteryService.BatteryLevel}% kritisch!", EDialogButtons.OK);
             }
         }
 
 
-        public void Dispose()
+        public override void Dispose()
         {
             this._deviceDisplayService.KeepScreenOn = false;
             this._deviceDisplayService.ScreenBrightness = this._currentBrightness;
@@ -272,7 +263,7 @@ namespace chdScoring.App.UI.Pages
             this._judgeHubClient.Connected -= this._judgeHubClient_Connected;
             this._profileService.UserChanged -= this._profileService_UserChanged;
             this._batteryService.InfoChanged -= this._batteryService_InfoChanged;
-            this._cts.Cancel();
+            base.Dispose();
         }
     }
 }
