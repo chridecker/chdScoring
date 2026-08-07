@@ -87,10 +87,10 @@
     {
         if (!(await this.GetUploadTask()))
         {
-            this.modalHandler.ShowSmallDialog("Import fehlgeschlagen", EDialogButtons.OK);
+            _ = await this.modalHandler.ShowSmallDialog("Import fehlgeschlagen", EDialogButtons.OK);
         }
 
-        this.modalHandler.ShowSmallDialog("Import erfolgreich", EDialogButtons.OK);
+        _ = await this.modalHandler.ShowSmallDialog("Import erfolgreich", EDialogButtons.OK);
         this._dto = new()
         {
             Type = "bin",
