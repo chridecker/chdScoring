@@ -23,9 +23,7 @@
         }
         else
         {
-            <NextPilotSearchItem
-                Dto="_pilotDto"
-            />
+            <NextPilotSearchItem Dto="_pilotDto" />
         }
     </IconButton>
     <IconButton FAClass="file" OnClick="LoadFile">
@@ -89,7 +87,12 @@
             _ => Task.CompletedTask
         };
         await t;
-        this._dto = new();
+        this._dto = new()
+        {
+            Type = "bin",
+            Round = this._dto.Round,
+            Pilot = this._dto.Pilot
+        };
         this._fileName = string.Empty;
     }
 
