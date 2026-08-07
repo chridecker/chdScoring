@@ -63,7 +63,10 @@ namespace chdScoring.DataAccess.DAL
             await this._durchgangRepository.SaveAsync(round, cancellationToken);
 
             var normBase = (await this.GetNormalizationBase(dto.Round, cancellationToken)) ?? dto.Score;
-            await this._durchgangRepository.NoramlizeRound(dto.Round, normBase, cancellationToken);
+            if (normBase > 0)
+            {
+                await this._durchgangRepository.NoramlizeRound(dto.Round, normBase, cancellationToken);
+            }
 
             var wl = await this._wettkampfLeitungRepository.FirstOrDefaultAsync(x => x.Teilnehmer == dto.Pilot && x.Durchgang == dto.Round && x.Status == (int)EFlightState.OnAir);
             if (wl != null)

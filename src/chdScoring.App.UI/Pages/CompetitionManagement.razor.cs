@@ -157,6 +157,7 @@ namespace chdScoring.App.UI.Pages
             }
             var pilot = this._dto.Pilot.Id;
             var round = this._dto.Round.Id;
+            var printPdf = this._dto.ScoreMode is not Contracts.Enums.EScoreMode.FCScore;
             if (await this._timerService.SaveRound(new SaveRoundDto
             {
                 Score = avgScore ?? 0,
@@ -167,8 +168,7 @@ namespace chdScoring.App.UI.Pages
             }, this._token))
             {
                 this._vibrationHelper.Vibrate(TimeSpan.FromSeconds(0.5));
-                if (this._dto.ScoreMode is not Contracts.Enums.EScoreMode.FCScore
-                    && await this.modalHandler.ShowYesNoDialog($"Create PDF?", this.settingManager.IsiOS) == EDialogResult.Yes)
+                if (printPdf && await this.modalHandler.ShowYesNoDialog($"Create PDF?", this.settingManager.IsiOS) == EDialogResult.Yes)
                 {
                     await this._printHelper.PrintRound(pilot, round);
                 }
