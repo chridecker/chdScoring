@@ -39,7 +39,7 @@
         }
     </IconButton>
     <select @bind="_dto.Type">
-        <option value="bin">Bin-File</option>
+        <option value="bin" selected>Bin-File</option>
         <option value="json">Json-File</option>
         <option value="json-result">Json-Result-File</option>
     </select>
@@ -75,6 +75,7 @@
         if (result.Confirmed && result.Data is OpenRoundDto dto)
         {
             this._pilotDto = dto;
+            this._dto.Pilot = dto.Pilot.Id;
         }
     }
 
