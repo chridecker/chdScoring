@@ -3,6 +3,7 @@
 @using chd.UI.Base.Components.General.Pagination
 @using chd.UI.Base.Components.General.Search
 @using chd.UI.Base.Contracts.Enum
+@using chdScoring.App.UI.Extensions
 @using chdScoring.App.UI.Pages.Components
 @using chdScoring.App.UI.Pages.Components.Management
 @using chdScoring.Contracts.Dtos
@@ -41,15 +42,20 @@
         <option value="json">Json-File</option>
         <option value="json-result">Json-Result-File</option>
     </select>
-    <IconButton FAClass="upload" OnClick="ImportFile">Import File</IconButton>
+    <IconButton FAClass="upload" Disabled="@_diableUpload" OnClick="ImportFile">Import File</IconButton>
 </div>
 
 
 @code {
-    ImportFileDto _dto = new();
+    ImportFileDto _dto = new()
+    {
+        Round = 1,
+        Type = "bin"
+    };
     OpenRoundDto _pilotDto;
     string _fileName;
 
+    private bool _diableUpload => string.IsNullOrEmpty(this._fileName) || this._pilotDto is null || this._dto.Round <= 0;
 
     private async Task ChoosePilot()
     {
@@ -79,14 +85,12 @@
 
     private async Task ImportFile()
     {
-        var t = (this._dto.Type) switch
+        if (!(await this.GetUploadTask()))
         {
-            "bin" => service.ImportBinFile(this._dto, _token),
-            "json" => service.ImportJsonFile(this._dto, _token),
-            "json-result" => service.ImportJsonResultFile(this._dto, _token),
-            _ => Task.CompletedTask
-        };
-        await t;
+            this.modalHandler.ShowSmallDialog("Import fehlgeschlagen", EDialogButtons.OK);
+        }
+
+        this.modalHandler.ShowSmallDialog("Import erfolgreich", EDialogButtons.OK);
         this._dto = new()
         {
             Type = "bin",
@@ -102,4 +106,12 @@
         this._dto.File = fileData;
         this._fileName = fileName;
     }
+
+    private Task<bool> GetUploadTask() => (this._dto.Type) switch
+    {
+        "bin" => service.ImportBinFile(this._dto, _token),
+        "json" => service.ImportJsonFile(this._dto, _token),
+        "json-result" => service.ImportJsonResultFile(this._dto, _token),
+        _ => Task.FromResult(false)
+    };
 }

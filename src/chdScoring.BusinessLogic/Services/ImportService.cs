@@ -31,10 +31,13 @@ namespace chdScoring.BusinessLogic.Services
 
         private async Task<bool> CreateFile(ImportFileDto dto, string folder, string type, CancellationToken cancellationToken)
         {
-            var fileName = this.CreateFileName(dto, type);
+            var file = this.CreateFilePath(folder, dto, type);
+            if (File.Exists(file))
+            {
+                file = this.CreateFilePath(folder, dto, type, true);
+            }
             try
             {
-                var file = Path.Combine(this._optionsMonitor.CurrentValue.ImportDirectory, folder, fileName);
                 using var ms = File.Create(file);
                 await ms.WriteAsync(dto.File, cancellationToken);
                 ms.Close();
@@ -45,7 +48,9 @@ namespace chdScoring.BusinessLogic.Services
                 return false;
             }
         }
-
-        private string CreateFileName(ImportFileDto dto, string type) => $"R_{dto.Round}_P_{dto.Pilot}.{type}";
+        private string CreateFilePath(string folder, ImportFileDto dto, string type, bool duplicate = false)
+        => Path.Combine(this._optionsMonitor.CurrentValue.ImportDirectory, folder,
+            this.CreateFileName(dto, type, duplicate));
+        private string CreateFileName(ImportFileDto dto, string type, bool duplicate) => $"R_{dto.Round}_P_{dto.Pilot}{(duplicate ? $"_{DateTime.Now:HHmmss}" : "")}.{type}";
     }
 }
