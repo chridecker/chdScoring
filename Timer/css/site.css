@@ -1,0 +1,237 @@
+* {
+    /*Colors*/
+    --chd-primary: var(--chd-lightblue);
+    --chd-primary-transparent: var(--chd-lightblue-transparent);
+    --chd-primary-gradient: linear-gradient(to right, transparent 0%, var(--chd-primary-transparent) 10%, var(--chd-primary) 90%);
+    --chd-primary-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-primary-transparent) 10%, var(--chd-primary) 90%);
+    --chd-primary-semi-transparent: var(--chd-lightblue-semi-transparent);
+    --chd-font-color: rgb(204, 204, 220);
+    --chd-font-color-transparent: rgba(255,255,255,0.1);
+    --chd-font-color-semi-transparent: rgba(255,255,255,0.5);
+    --chd-font-color-alternate: black;
+    --chd-bg: rgb(24, 27, 31);
+    --chd-bg-transparent: rgba(24, 27, 31, 0.1);
+    --chd-bg-semi-transparent: rgba(24, 27, 31, 0.5);
+    --chd-box-shadow: 0 0 0.5em var(--chd-primary);
+    --chd-bg-lighter: #323232;
+    --chd-bg-darker: black;
+    --chd-scondary: var(--chd-grey);
+    --chd-scondary-transparent: var(--chd-grey-transparent);
+    --chd-scondary-semi-transparent: var(--chd-grey-semi-transparent);
+    --chd-scondary-gradient: linear-gradient(to right, transparent 0%, var(--chd-scondary-transparent) 10%, var(--chd-scondary) 90%);
+    --chd-scondary-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-scondary-transparent) 10%, var(--chd-scondary) 90%);
+    --chd-green: rgb(16, 100, 0);
+    --chd-green-gradient: linear-gradient(to right, transparent 0%, var(--chd-green-transparent) 10%, var(--chd-green) 90%);
+    --chd-green-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-green-transparent) 10%, var(--chd-green) 90%);
+    --chd-green-transparent: rgba(16, 100, 0, 0.1);
+    --chd-green-semi-transparent: rgba(16, 100, 0, 0.5);
+    --chd-red: rgb(150, 0, 0);
+    --chd-red-gradient: linear-gradient(to right, transparent 0%, var(--chd-red-transparent) 10%, var(--chd-red) 90%);
+    --chd-red-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-red-transparent) 10%, var(--chd-red) 90%);
+    --chd-red-transparent: rgba(150, 0, 0, 0.1);
+    --chd-red-semi-transparent: rgba(150, 0, 0, 0.5);
+    --chd-orange: rgb(200, 100, 0);
+    --chd-orange-gradient: linear-gradient(to right, transparent 0%, var(--chd-orange-transparent) 10%, var(--chd-orange) 90%);
+    --chd-orange-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-orange-transparent) 10%, var(--chd-orange) 90%);
+    --chd-orange-transparent: rgba(200, 100, 0, 0.1);
+    --chd-orange-semi-transparent: rgba(200, 100, 0, 0.5);
+    --chd-lila-gradient: linear-gradient(to right, transparent 0%, var(--chd-lila-transparent) 10%, var(--chd-lila) 90%);
+    --chd-lila-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-lila-transparent) 10%, var(--chd-lila) 90%);
+    --chd-lila: rgb(139, 0, 139);
+    --chd-lila-transparent: rgba(139, 0, 139, 0.1);
+    --chd-lila-semi-transparent: rgba(139, 0, 139, 0.5);
+    --chd-yellow-gradient: linear-gradient(to right, transparent 0%, var(--chd-yellow-transparent) 10%, var(--chd-yellow) 90%);
+    --chd-yellow-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-yellow-transparent) 10%, var(--chd-yellow) 90%);
+    --chd-yellow: rgb(230, 200, 0);
+    --chd-yellow-transparent: rgba(230, 200, 0, 0.1);
+    --chd-yellow-semi-transparent: rgba(230, 200, 0, 0.5);
+    --chd-blue-gradient: linear-gradient(to right, transparent 0%, var(--chd-blue-transparent) 10%, var(--chd-blue) 90%);
+    --chd-blue-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-blue-transparent) 10%, var(--chd-blue) 90%);
+    --chd-blue: rgb(20, 50, 250);
+    --chd-blue-transparent: rgba(20, 50, 250, 0.1);
+    --chd-blue-semi-transparent: rgba(20, 50, 250, 0.5);
+    --chd-grey-gradient: linear-gradient(to right, transparent 0%, var(--chd-grey-transparent) 10%, var(--chd-grey) 90%);
+    --chd-grey-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-grey-transparent) 10%, var(--chd-grey) 90%);
+    --chd-grey: rgb(128,128,128);
+    --chd-grey-transparent: rgba(128,128,128, 0.1);
+    --chd-grey-semi-transparent: rgba(128,128,128, 0.5);
+    --chd-lightgrey-gradient: linear-gradient(to right, transparent 0%, var(--chd-lightgrey-transparent) 10%, var(--chd-lightgrey) 90%);
+    --chd-lightgrey-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-lightgrey-transparent) 10%, var(--chd-lightgrey) 90%);
+    --chd-lightgrey: rgb(211,211,211);
+    --chd-lightgrey-transparent: rgba(211,211,211, 0.1);
+    --chd-lightgrey-semi-transparent: rgba(211,211,211, 0.5);
+    --chd-lightblue: rgb(173,216,230);
+    --chd-lightblue-transparent: rgba(173,216,230,0.1);
+    --chd-lightblue-semi-transparent: rgba(173, 216, 230, 0.5);
+    --chd-lightblue-gradient: linear-gradient(to right, transparent 0%, var(--chd-lightblue-transparent) 10%, var(--chd-lightblue) 90%);
+    --chd-lightblue-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-lightblue-transparent) 10%, var(--chd-lightblue) 90%);
+    --chd-ios-blue: rgb(0,145,255);
+}
+
+
+.light-mode {
+}
+
+    .light-mode * {
+        /*Colors*/
+        --chd-font-color: black;
+        --chd-font-color-transparent: rgba(0,0,0,0.1);
+        --chd-font-color-semi-transparent: rgba(0,0,0,0.5);
+        --chd-font-color-alternate: white;
+        --chd-bg: white;
+        --chd-bg-transparent: rgba(255,255,255, 0.1);
+        --chd-bg-semi-transparent: rgba(255,255,255, 0.5);
+        --chd-bg-lighter: #c7c7c7;
+        --chd-bg-darker: white;
+        --chd-primary: var(--chd-lightblue);
+        --chd-primary-transparent: var(--chd-lightblue-transparent);
+        --chd-primary-semi-transparent: var(--chd-lightblue-semi-transparent);
+        --chd-scondary: var(--chd-lightgrey);
+        --chd-scondary-transparent: var(--chd-lightgrey-transparent);
+        --chd-scondary-semi-transparent: var(--chd-lightgrey-semi-transparent);
+        --chd-table-alternate: rgba(0, 0, 0, .8);
+        --chd-ios-blue: rgb(0,136,255);
+    }
+
+    .light-mode:root {
+        color-scheme: light !important;
+    }
+
+html {
+}
+
+html {
+    font-size: 1rem;
+    position: relative;
+    display:flex;
+}
+
+
+body {
+    flex: 1;
+    transition: all 0.3s ease;
+    color: var(--chd-font-color);
+    background-color: var(--chd-bg);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display:grid;
+    grid-template-rows:max-content;
+}
+
+@media not print {
+    :root {
+        color-scheme: dark;
+    }
+
+    html {
+        background: var(--chd-bg);
+    }
+}
+
+
+.font-color-alternate,
+.font-color-alternate * {
+    color: var(--chd-font-color-alternate);
+    fill: var(--chd-font-color-alternate);
+}
+
+
+html, body {
+    font-size: 1.1rem;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+#timer-container {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    align-content: center;
+}
+
+
+#timer-container .hide{
+    display: none;
+}
+
+.timer-container {
+    display: grid;
+    width: 100vw;
+    height: 100vh;
+    align-content: center;
+}
+
+    .timer-container .pilot {
+        padding: 0 1rem;
+        display: flex;
+        border-bottom: 1px solid white;
+        height: 50vh;
+        align-items: center;
+        font-size: 8rem;
+        gap: 6rem;
+    }
+            .timer-container .pilot .country .custom-image img {
+                height: 14rem;
+                border: 1px solid; 
+                border-radius:0.5rem;
+            }
+
+        .timer-container .pilot .number {
+            font-size: 10rem;
+        }
+
+        .timer-container .pilot .name {
+            line-height: 1;
+        }
+
+    .timer-container .time {
+        height: 50vh;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+        .timer-container .time .icon {
+            border: 0.5rem solid;
+            padding: 5rem;
+            border-radius: 50%;
+        }
+
+            .timer-container .time .icon svg {
+                height: 10rem;
+            }
+
+        .timer-container .time .left-time {
+            font-size: 18rem;
+            text-align: right;
+            font-weight: 500;
+        }
+
+.pause-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+    .pause-container svg.svg-inline--fa {
+        margin:10rem;
+        height: 25rem;
+    }
+    .pause-container i.fa {
+        height: 25rem;
+    }

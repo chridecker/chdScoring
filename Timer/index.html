@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chdScoring - Timer</title>
+     <link rel="stylesheet" href="fontawesome/css/all.css" />
+    <link rel="stylesheet" href="css/site.css" type="text/css">
+</head>
+<body>
+    <div id="timer-container">
+        <div class="pause-container">
+             <i class="fa fa-circle-pause fa-regular"></i>
+        </div>
+        <div class="timer-container hide">
+            <div class="pilot">
+                <div class="country">
+                    <div class="custom-image">
+                        <img src="" alt="" />
+                    </div>
+                </div>
+                <div class="number"></div>
+                <div class="name"></div>
+            </div>
+            <div class="time">
+                <div class="icon">
+                    <i class="fa fa-hand fa-thin"></i>
+                    <i class="fa fa-plane-departure fa-thin hide"></i>
+                    <i class="fa fa-plane-slash fa-thin hide"></i>
+                    <i class="fa fa-play-pause fa-thin hide"></i>
+                </div>
+                <div class="left-time"></div>
+            </div>
+        </div>
+    </div>
+    <script src="fontawesome/js/all.js" asp-append-version="true"></script>
+    <script src="js/signalr.js"></script>
+    <script src="js/site.js" ></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+        .withUrl("http://localhost:5205/chdscoring/timer-hub")
+        .build();
+
+        connection.onclose(async () => {
+            await startHubConnection(connection);
+        });
+
+        // Start the connection.
+        startHubConnection(connection);
+    </script>
+</body>
+</html>
