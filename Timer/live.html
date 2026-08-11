@@ -12,30 +12,22 @@
         <div class="pause-container">
              <i class="fa fa-circle-pause fa-regular"></i>
         </div>
-        <div class="timer-container hide">
-            <div class="pilot">
+       <div class="control-center hide">
+            <div class="pilot-data">
                 <div class="country">
                     <div class="custom-image">
-                        <img src="" alt="" />
+                          <img src="" alt="" />
                     </div>
                 </div>
-                <div class="number"></div>
-                <div class="name"></div>
+            <div class="name"></div>
+            <div class="left-time"></div>
             </div>
-            <div class="time">
-                <div class="icon">
-                    <i class="fa fa-hand fa-thin"></i>
-                    <i class="fa fa-plane-departure fa-thin hide"></i>
-                    <i class="fa fa-plane-slash fa-thin hide"></i>
-                    <i class="fa fa-play-pause fa-thin hide"></i>
-                </div>
-                <div class="left-time"></div>
-            </div>
-        </div>
+            <div class="maneouvres"></div>
     </div>
+</div>
     <script src="js/fa.js"></script>
     <script src="js/signalr.js"></script>
-    <script src="js/site.js" ></script>
+    <script src="js/live.js" ></script>
     <script>
         const connection = new signalR.HubConnectionBuilder()
         .withUrl("http://localhost:5205/chdscoring/timer-hub")

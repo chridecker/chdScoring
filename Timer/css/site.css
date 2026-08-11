@@ -235,3 +235,90 @@ html, body {
     .pause-container i.fa {
         height: 25rem;
     }
+
+
+    
+.control-center {
+    padding: 0.2rem;
+    display: flex;
+    gap: 0rem;
+    flex-direction: column;
+}
+
+    .control-center .pilot-data {
+        display: grid;
+        grid-template-columns: repeat(2,max-content) auto;
+        gap: 1rem;
+        font-size: 4.5rem;
+    }
+
+        .control-center .pilot-data .country {
+        }
+
+            .control-center .pilot-data .country .custom-image img {
+                height: 7rem;
+                border: 1px solid;
+                border-radius:0.3rem;
+            }
+
+        .control-center .pilot-data .name {
+        }
+
+        .control-center .pilot-data .left-time {
+            text-align: right;
+            align-content: center;
+            margin-right: 2rem;
+            font-size: 6rem;
+        }
+
+    .control-center .maneouvres {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+    }
+
+        .control-center .maneouvres .maneouvre {
+            display: grid;
+            grid-template-columns: max-content auto max-content;
+            gap: 1rem;
+            border-bottom: 1px dashed var(--chd-grey);
+            padding-bottom: 0.1rem;
+            font-size: 1.5rem;
+        }
+
+            .control-center .maneouvres .maneouvre:last-child {
+                border-bottom: none;
+            }
+
+            .control-center .maneouvres .maneouvre .figur-id {
+            }
+
+            .control-center .maneouvres .maneouvre .figur {
+            }
+
+            .control-center .maneouvres .maneouvre .judge-scores {
+                display: grid;
+                grid-template-columns: repeat(attr(data-judges-count type(<number>)),1fr);
+                gap: 0.5rem;
+            }
+
+                .control-center .maneouvres .maneouvre .judge-scores .judge-score {
+                    display: flex;
+                    gap: 0.5rem;
+                    font-size: 1.5rem;
+                    padding: 0 0.2rem;
+                    width: 6rem;
+                    justify-content: center;
+                }
+
+                    .control-center .maneouvres .maneouvre .judge-scores .judge-score .score-total {
+                        display: none;
+                    }
+
+                    .control-center .maneouvres .maneouvre .judge-scores .judge-score .score-raw {
+                        align-content: center;
+                        font-size: 1.6rem;
+                    }
+
+
+
