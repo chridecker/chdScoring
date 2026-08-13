@@ -12,9 +12,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="System.Management" Version="10.0.0" />
-		<PackageReference Include="chd.UI.Base.WPF" Version="2.0.25327.148" />
-		<PackageReference Include="System.Speech" Version="10.0.0" />
+		<PackageReference Include="System.Management" Version="10.0.11" />
+		<PackageReference Include="chd.UI.Base.WPF" Version="2.0.26225.149" />
+		<PackageReference Include="System.Speech" Version="10.0.11" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Assets\" />
