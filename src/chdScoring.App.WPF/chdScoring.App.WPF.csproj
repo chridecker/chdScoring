@@ -1,27 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
-		<TargetFramework>net10.0-windows</TargetFramework>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<UseWPF>true</UseWPF>
-		<EnableWindowsTargeting>true</EnableWindowsTargeting>
-		<InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.Extensions.Configuration.Binder.SourceGeneration</InterceptorsPreviewNamespaces>
-		<ApplicationIcon>Assets/favicon.ico</ApplicationIcon>
-	</PropertyGroup>
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
 
-	<ItemGroup>
-		<PackageReference Include="System.Management" Version="10.0.11" />
-		<PackageReference Include="chd.UI.Base.WPF" Version="2.0.26225.149" />
-		<PackageReference Include="System.Speech" Version="10.0.11" />
-	</ItemGroup>
-	<ItemGroup>
-		<Folder Include="Assets\" />
-		<Resource Include="Assets/favicon.ico" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\chdScoring.App.UI\chdScoring.App.UI.csproj" />
-	</ItemGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.Extensions.Configuration.Binder.SourceGeneration</InterceptorsPreviewNamespaces>
+    <ApplicationIcon>Assets/favicon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Management" Version="10.0.11" />
+    <PackageReference Include="chd.UI.Base.WPF" Version="2.0.26225.149" />
+    <PackageReference Include="System.Speech" Version="10.0.11" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\" />
+    <Resource Include="Assets/favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\chdScoring.App.UI\chdScoring.App.UI.csproj" />
+  </ItemGroup>
 
 </Project>

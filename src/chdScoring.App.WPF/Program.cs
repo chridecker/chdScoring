@@ -17,10 +17,6 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 builder.Services.AddChdScoringApp(builder.Configuration);
 builder.Services.AddWPF<App>(builder.Configuration);
 
-
-builder.Services.AddWpfBlazorWebView();
-builder.Services.AddBlazorWebViewDeveloperTools();
-
 var app = builder.Build();
 
 app.Run();
