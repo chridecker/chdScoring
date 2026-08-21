@@ -3,6 +3,7 @@
     public class SettingConstants
     {
         public const string BaseAddress = "SETTING_BaseAddress";
+        public const string ApiKey = "SETTING_ApiKey";
 
         public const string AutoRedirectTo = "AutoRedirectTo";
         public const string DeveloperMode = "DeveloperMode";

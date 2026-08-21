@@ -7,6 +7,7 @@ using chd.UI.Base.Contracts.Interfaces.Services.Base;
 using chdScoring.App.UI.Helper;
 using chdScoring.App.UI.Interfaces;
 using chdScoring.App.UI.Services;
+using chdScoring.Contracts.Interfaces;
 using chdScoring.Main.Client.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -51,7 +52,7 @@ namespace chdScoring.App.UI.Extensions
 
             services.AddTransient<IPrintHelper, PrintHelper>();
 
-            services.AddChdScoringClient((sp) => configuration.GetApiKey("chdScoringApi"));
+            services.AddChdScoringClient<ApiKeyHandler>(configuration,(sp) => configuration.GetApiKey("chdScoringApi"));
             return services;
         }
     }

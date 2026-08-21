@@ -17,6 +17,7 @@ namespace chdScoring.App.UI.Services
     public abstract class BaseSettingManager : BaseClientSettingManager<int, int>, ISettingManager
     {
         protected string _mainUrl;
+        protected string _apiKey;
         private readonly IConfiguration _configuration;
 
         public event EventHandler<string> AutoRedirectToChanged;
@@ -36,6 +37,15 @@ namespace chdScoring.App.UI.Services
             }
             return this._mainUrl;
         });
+        public Task<string> ApiKey => Task.Run(async () =>
+        {
+            if (string.IsNullOrWhiteSpace(this._apiKey))
+            {
+                this._apiKey = await this.GetSettingLocal<string>(SettingConstants.ApiKey) ??
+                               this._configuration.GetSection("ApiKey").Value;
+            }
+            return this._apiKey;
+        });
 
         public bool IsiOS => this._isiOS();
 
@@ -45,6 +55,11 @@ namespace chdScoring.App.UI.Services
         {
             this._mainUrl = url;
             await this.StoreSettingLocal<string>(SettingConstants.BaseAddress, url);
+        }
+        public async Task UpdateApiKey(string url)
+        {
+            this._apiKey = url;
+            await this.StoreSettingLocal<string>(SettingConstants.ApiKey, url);
         }
 
 

@@ -20,6 +20,10 @@
         Basis Adresse:
         <input type="text" value="@this._baseAddress" @onchange="async (e) => await this.UpdateMainUrl(e)" />
     </div>
+    <div class="setting">
+        X-API-KEY:
+        <input type="text" value="@this._apiKey" @onchange="async (e) => await this.UpdateApiKey(e)" />
+    </div>
     <ChdAuthorizeView TRightId="int" TUserId="int" Rights="[RightConstants.AdminId]">
 
         <div class="setting">

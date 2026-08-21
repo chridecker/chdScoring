@@ -46,7 +46,7 @@ builder.Services.AddCors(options =>
 
 
 builder.Services.AddBaseApi();
-
+builder.Services.AddApiKeyAuth(builder.Configuration);
 builder.Services.AddchdScoringDataAccess(builder.Configuration);
 builder.Services.AddHostedService<PrintExecuteService>();
 builder.Services.AddHostedService<ImportExecuteService>();
@@ -69,6 +69,10 @@ app.UseBaseApi();
 app.MapBaseApi("chdScoringAPI");
 
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 
 app.Run();
 

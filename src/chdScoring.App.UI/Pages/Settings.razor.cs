@@ -14,6 +14,7 @@ namespace chdScoring.App.UI.Pages
         [Inject(Key = SettingConstants.AvailableLanguages)] private Task<Dictionary<string, string>> _availableLang { get; set; }
 
         private string _baseAddress = string.Empty;
+        private string _apiKey = string.Empty;
         private Version _currentVersion;
         private bool _developerMode = false;
         private string _autoRedirect;
@@ -55,6 +56,7 @@ namespace chdScoring.App.UI.Pages
             this.Title = PageTitleConstants.Settings;
 
             this._baseAddress = await this.settingManager.MainUrl;
+            this._apiKey = await this.settingManager.ApiKey;
             this._currentVersion = await this._updateService.CurrentVersion();
             this._developerMode = await this.settingManager.GetSettingLocal<bool>(SettingConstants.DeveloperMode);
             this._autoRedirect = await this.settingManager.GetSettingLocal(SettingConstants.AutoRedirectTo);
@@ -102,6 +104,13 @@ namespace chdScoring.App.UI.Pages
             if (e.Value is not string val) { return; }
             await this.settingManager.UpdateMainUrl(val);
             this.settingManager.SetNativSetting(SettingConstants.BaseAddress, val);
+            await this.InvokeAsync(this.StateHasChanged);
+        }
+        private async Task UpdateApiKey(ChangeEventArgs e)
+        {
+            if (e.Value is not string val) { return; }
+            await this.settingManager.UpdateApiKey(val);
+            this.settingManager.SetNativSetting(SettingConstants.ApiKey, val);
             await this.InvokeAsync(this.StateHasChanged);
         }
 

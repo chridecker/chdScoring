@@ -2,6 +2,7 @@
 using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
+using chdScoring.Contracts.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,8 +21,9 @@ namespace chdScoring.Main.WebServer.Extensions
 
             var control = mainGroup.MapGroup(EndpointConstants.Control.ROUTE).WithTags(EndpointConstants.Control.ROUTE);
 
-            var scoring = mainGroup.MapGroup(Scoring.ROUTE).WithTags(Scoring.ROUTE);
+            var scoring = mainGroup.MapGroup(Scoring.ROUTE).WithTags(Scoring.ROUTE).RequireApiKeyAuth();
             var judges = mainGroup.MapGroup(Judge.ROUTE).WithTags(Judge.ROUTE);
+
             var pilot = mainGroup.MapGroup(Pilot.ROUTE).WithTags(Pilot.ROUTE);
             var database = mainGroup.MapGroup(Database.ROUTE).WithTags(Database.ROUTE);
             var print = mainGroup.MapGroup(Print.ROUTE).WithTags(Print.ROUTE);
