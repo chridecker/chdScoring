@@ -7,6 +7,6 @@ namespace chdScoring.Contracts.Interfaces
 {
     public interface IApiKeyHandler
     {
-        Task<string>ApiKey { get; }
+        Task<string> ApiKey();
     }
 }

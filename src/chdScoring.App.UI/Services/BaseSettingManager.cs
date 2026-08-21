@@ -41,8 +41,8 @@ namespace chdScoring.App.UI.Services
         {
             if (string.IsNullOrWhiteSpace(this._apiKey))
             {
-                this._apiKey = await this.GetSettingLocal<string>(SettingConstants.ApiKey) ??
-                               this._configuration.GetSection("ApiKey").Value;
+                this._apiKey = await this.GetSettingLocal<string>(SettingConstants.ApiKey)
+                ?? this._configuration.GetSection("X-API-KEY").Value;
             }
             return this._apiKey;
         });
@@ -55,11 +55,13 @@ namespace chdScoring.App.UI.Services
         {
             this._mainUrl = url;
             await this.StoreSettingLocal<string>(SettingConstants.BaseAddress, url);
+            this.SetNativSetting<string>(SettingConstants.BaseAddress, url);
         }
         public async Task UpdateApiKey(string url)
         {
             this._apiKey = url;
             await this.StoreSettingLocal<string>(SettingConstants.ApiKey, url);
+            this.SetNativSetting<string>(SettingConstants.ApiKey, url);
         }
 
 

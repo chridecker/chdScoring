@@ -4,6 +4,6 @@ namespace chdScoring.Web.Services
 {
     public class ApiKeyHandler(IConfiguration configuration) : IApiKeyHandler
     {
-        public Task<string> ApiKey => Task.FromResult(configuration.GetSection("ApiKey").Value);
+        public Task<string> ApiKey() => Task.FromResult(configuration.GetSection("ApiKey").Value);
     }
 }

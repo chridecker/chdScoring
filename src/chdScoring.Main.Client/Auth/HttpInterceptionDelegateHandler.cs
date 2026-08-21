@@ -11,7 +11,8 @@ public class HttpInterceptionDelegateHandler(IApiKeyHandler keyHandler) : Delega
     {
         if (!request.Headers.Contains("X-API-KEY"))
         {
-            request.Headers.Add("X-API-KEY", await keyHandler.ApiKey);
+            var key = await keyHandler.ApiKey();
+            request.Headers.Add("X-API-KEY", key);
         }
 
         var response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);

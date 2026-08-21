@@ -8,6 +8,6 @@ namespace chdScoring.App.UI.Services
 {
     public class ApiKeyHandler(ISettingManager settingManager) : IApiKeyHandler
     {
-        public Task<string> ApiKey => settingManager.ApiKey;
+        public async Task<string> ApiKey() => await settingManager.ApiKey;
     }
 }

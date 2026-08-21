@@ -70,16 +70,18 @@ namespace chdScoring.App
 
         private static IConfiguration GetLocalSetting()
         {
+            var dict = new Dictionary<string, string>();
             if (Preferences.ContainsKey(SettingConstants.BaseAddress))
             {
                 var pref = Preferences.Default.Get<string>(SettingConstants.BaseAddress, string.Empty);
-                var dict = new Dictionary<string, string>()
-                {
-                    {$"ApiKeys:chdScoringApi",pref }
-                };
-                return new ConfigurationBuilder().AddInMemoryCollection(dict).Build();
+                dict.Add($"ApiKeys:chdScoringApi", pref);
             }
-            return new ConfigurationBuilder().Build();
+            if (Preferences.ContainsKey(SettingConstants.ApiKey))
+            {
+                var api = Preferences.Default.Get<string>(SettingConstants.ApiKey, string.Empty);
+                dict.Add($"X-API-KEY", api);
+            }
+            return new ConfigurationBuilder().AddInMemoryCollection(dict).Build();
         }
 
         private static void AddServices(this MauiAppBuilder builder)
