@@ -6,13 +6,9 @@
              xmlns:ui="clr-namespace:chdScoring.App.UI;assembly=chdScoring.App.UI"
              x:Class="chdScoring.App.MainPage"
              BackgroundColor="{DynamicResource CHDBg}">
-    <ContentPage.Behaviors>
-        <toolkit:StatusBarBehavior StatusBarColor="{StaticResource CHDBg}" StatusBarStyle="LightContent" />
-    </ContentPage.Behaviors>
     <BlazorWebView x:Name="blazorWebView" HostPage="wwwroot/index.html" BackgroundColor="{StaticResource CHDBg}">
         <BlazorWebView.RootComponents>
             <RootComponent Selector="#app" ComponentType="{x:Type ui:Main}" />
         </BlazorWebView.RootComponents>
     </BlazorWebView>
-
 </ContentPage>

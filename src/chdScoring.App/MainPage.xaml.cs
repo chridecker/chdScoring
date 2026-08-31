@@ -12,12 +12,9 @@ namespace chdScoring.App
 {
     public partial class MainPage : ContentPage
     {
-        private readonly IDeviceDisplayService _deviceDisplay;
 
-        public MainPage(IDeviceDisplayService deviceDisplay)
+        public MainPage()
         {
-            this._deviceDisplay = deviceDisplay;
-
             InitializeComponent();
             try
             {
@@ -32,7 +29,6 @@ namespace chdScoring.App
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            //this._deviceDisplay.KeepScreenOn = true;
             await this.CheckPermissions();
         }
 

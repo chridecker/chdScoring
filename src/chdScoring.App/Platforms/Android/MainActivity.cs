@@ -33,9 +33,11 @@ namespace chdScoring.App
 
             this.OnBackPressedDispatcher.AddCallback(this, new BackPress(this._appInfoService));
 
+            Window.SetFlags(WindowManagerFlags.Fullscreen, WindowManagerFlags.Fullscreen);
+
             WindowCompat.SetDecorFitsSystemWindows(this.Window, false);
-            WindowInsetsControllerCompat windowInsetsController = new WindowInsetsControllerCompat(this.Window, this.Window.DecorView);
-            // Hide system bars
+            var windowInsetsController = new WindowInsetsControllerCompat(this.Window, this.Window.DecorView);
+
             windowInsetsController.Hide(WindowInsetsCompat.Type.SystemBars());
             windowInsetsController.SystemBarsBehavior = WindowInsetsControllerCompat.BehaviorShowTransientBarsBySwipe;
         }
