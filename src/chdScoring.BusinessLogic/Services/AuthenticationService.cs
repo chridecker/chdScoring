@@ -33,7 +33,7 @@ namespace chdScoring.BusinessLogic.Services
                 return new csUserDto
                 {
                     Id = judge.Id,
-                    FirstName = judge.Name.Split(' ')[1],
+                    FirstName = judge.Name.Split(' ').Length > 1 ? judge.Name.Split(' ')[1] : "",
                     LastName = judge.Name.Split(' ')[0],
                     Role = entry.Role
                 };
@@ -57,12 +57,12 @@ namespace chdScoring.BusinessLogic.Services
             if (dto.Id.HasValue)
             {
                 var judge = await judgeRepository.FirstOrDefaultAsync(x =>
-                    x.Id == dto.Id && x.Pin.ToString("D4") == dto.Password, cancellationToken)
+                    x.Id == dto.Id, cancellationToken)
                             ?? throw new Exception("Kein Judge gefunden");
                 return new csUserDto
                 {
                     Id = dto.Id.Value,
-                    FirstName = judge.Name.Split(' ')[1],
+                    FirstName = judge.Name.Split(' ').Length > 1 ? judge.Name.Split(' ')[1] : "",
                     LastName = judge.Name.Split(' ')[0],
                     Role = EUserRole.Judge
                 };
@@ -81,15 +81,18 @@ namespace chdScoring.BusinessLogic.Services
             if ((dto.Username?.ToLower() ?? "").StartsWith($"judge"))
             {
                 dto.Id = int.TryParse(dto.Username.Trim().Substring(dto.Username.Length - 1, 1), out var id) ? id : 0;
-                var judge = await judgeRepository.FirstOrDefaultAsync(x => x.Id == dto.Id && x.Pin.ToString("D4") == dto.Password)
+                var judge = await judgeRepository.FirstOrDefaultAsync(x => x.Id == dto.Id)
                             ?? throw new Exception("Kein Judge gefunden");
-                return new csUserDto
+                if (judge.Pin.ToString("D4") == dto.Password)
                 {
-                    Id = dto.Id.Value,
-                    FirstName = judge.Name.Split(' ')[1],
-                    LastName = judge.Name.Split(' ')[0],
-                    Role = EUserRole.Judge
-                };
+                    return new csUserDto
+                    {
+                        Id = dto.Id.Value,
+                        FirstName = judge.Name.Split(' ').Length > 1 ? judge.Name.Split(' ')[1] : "",
+                        LastName = judge.Name.Split(' ')[0],
+                        Role = EUserRole.Judge
+                    };
+                }
             }
 
             throw new Exception();
