@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Management" Version="10.0.11" />
-    <PackageReference Include="chd.UI.Base.WPF" Version="2.0.26233.152" />
+    <PackageReference Include="chd.UI.Base.WPF" Version="2.0.26243.154" />
     <PackageReference Include="System.Speech" Version="10.0.11" />
   </ItemGroup>
   <ItemGroup>

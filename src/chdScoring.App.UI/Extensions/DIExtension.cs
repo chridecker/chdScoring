@@ -52,7 +52,7 @@ namespace chdScoring.App.UI.Extensions
 
             services.AddTransient<IPrintHelper, PrintHelper>();
 
-            services.AddChdScoringClient<ApiKeyHandler>(configuration,(sp) => configuration.GetApiKey("chdScoringApi"));
+            services.AddChdScoringClient<ApiKeyProvider>(configuration,(sp) => configuration.GetApiKey("chdScoringApi"));
             return services;
         }
     }

@@ -46,7 +46,7 @@ builder.Services.AddCors(options =>
 
 
 builder.Services.AddBaseApi();
-builder.Services.AddApiKeyAuth(builder.Configuration);
+builder.Services.AddApiKeyAuth<ApiKeyHandler>();
 builder.Services.AddchdScoringDataAccess(builder.Configuration);
 builder.Services.AddHostedService<PrintExecuteService>();
 builder.Services.AddHostedService<ImportExecuteService>();

@@ -1,4 +1,5 @@
 ﻿using chd.Api.Base.Client.Extensions;
+using chd.Api.Base.Contracts.Interfaces;
 using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Interfaces;
 using chdScoring.Contracts.Settings;
@@ -11,33 +12,30 @@ namespace chdScoring.Main.Client.Extensions
 {
     public static class DIExtensions
     {
-        public static IServiceCollection AddChdScoringClient<TKeyHandler>(this IServiceCollection services, IConfiguration configuration, Func<IServiceProvider, Uri> func)
-        where TKeyHandler : class, IApiKeyHandler
+        public static IServiceCollection AddChdScoringClient<TApiKeyProvider>(this IServiceCollection services, IConfiguration configuration, Func<IServiceProvider, Uri> func)
+        where TApiKeyProvider : class, IApiKeyProvider
         {
-            services.AddTransient<IApiKeyHandler, TKeyHandler>();
-            services.AddTransient<ApiKeyHttpInterceptionDelegateHandler>();
-
             services.AddHttpClient<PrintClient>(sp => func.Invoke(sp).Append(ROOT).Append(Print.ROUTE));
             services.AddTransient<IPrintService, PrintClient>();
 
             services.AddHttpClient<TimerClient>(sp => func.Invoke(sp).Append(ROOT).Append(Control.ROUTE))
-                .AddHttpMessageHandler<ApiKeyHttpInterceptionDelegateHandler>();
+                .AddApiKeyHttpMessageHandler<TApiKeyProvider>(services);
             services.AddTransient<ITimerService, TimerClient>();
 
             services.AddHttpClient<JudgeClient>(sp => func.Invoke(sp).Append(ROOT).Append(Judge.ROUTE))
-                .AddHttpMessageHandler<ApiKeyHttpInterceptionDelegateHandler>();
+                .AddApiKeyHttpMessageHandler<TApiKeyProvider>(services);
             services.AddTransient<IJudgeService, JudgeClient>();
 
             services.AddHttpClient<ScoringClient>(sp => func.Invoke(sp).Append(ROOT).Append(Scoring.ROUTE))
-                .AddHttpMessageHandler<ApiKeyHttpInterceptionDelegateHandler>();
+                .AddApiKeyHttpMessageHandler<TApiKeyProvider>(services);
             services.AddTransient<IScoringService, ScoringClient>();
 
             services.AddHttpClient<PilotClient>(sp => func.Invoke(sp).Append(ROOT).Append(Pilot.ROUTE))
-                .AddHttpMessageHandler<ApiKeyHttpInterceptionDelegateHandler>();
+                .AddApiKeyHttpMessageHandler<TApiKeyProvider>(services);
             services.AddTransient<IPilotService, PilotClient>();
 
             services.AddHttpClient<DatabaseClient>(sp => func.Invoke(sp).Append(ROOT).Append(Database.ROUTE))
-                .AddHttpMessageHandler<ApiKeyHttpInterceptionDelegateHandler>();
+                .AddApiKeyHttpMessageHandler<TApiKeyProvider>(services);
             services.AddTransient<IDatabaseService, DatabaseClient>();
 
             services.AddHttpClient<ImportClient>(sp => func.Invoke(sp).Append(ROOT).Append(Import.ROUTE));

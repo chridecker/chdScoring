@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 <ItemGroup>
-		<PackageReference Include="chd.Hub.Base.Client" Version="2.0.26233.152" />
+		<PackageReference Include="chd.Hub.Base.Client" Version="2.0.26243.154" />
 	</ItemGroup>
 <ItemGroup>
   <ProjectReference Include="..\chdScoring.Main.Client\chdScoring.Main.Client.csproj" />

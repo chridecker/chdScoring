@@ -1,4 +1,5 @@
-﻿using chdScoring.BusinessLogic.Hubs;
+﻿using chd.Api.Base.Extensions;
+using chdScoring.BusinessLogic.Hubs;
 using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;

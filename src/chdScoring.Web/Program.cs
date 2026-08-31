@@ -2,6 +2,7 @@ using chd.Api.Base.Client.Extensions;
 using chdScoring.Main.Client.Extensions;
 using chdScoring.Web.Services;
 using System.Runtime.CompilerServices;
+using chd.Api.Base.Contracts.Interfaces;
 using chdScoring.Contracts.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +21,7 @@ builder.Services.AddCors(options =>
 });
 
 
-builder.Services.AddChdScoringClient<IApiKeyHandler>(builder.Configuration, _ => builder.Configuration.GetApiKey("chdScoringApi"));
+builder.Services.AddChdScoringClient<ApiKeyProvider>(builder.Configuration, _ => builder.Configuration.GetApiKey("chdScoringApi"));
 builder.Services.AddSingleton<ImageCache>();
 builder.Services.AddSingleton<IconStyleService>(_ => new IconStyleService() { IconStyle = chd.UI.Base.Contracts.Enum.EIconStyle.Regular });
 // Add services to the container.
