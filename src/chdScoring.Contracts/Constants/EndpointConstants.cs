@@ -4,23 +4,30 @@
     {
         public const string ROOT = "chdScoring";
 
+        public class Authentication
+        {
+            public const string ROUTE = "authentication";
+            public const string USER = "user";
+            public const string USER_KEY = "userkey";
+        }
+
         public class Pilot
         {
             public const string ROUTE = "pilot";
-            public const string GET_Img= "getimg";
-            public const string GET_AllCountries= "allcountries";
+            public const string GET_Img = "getimg";
+            public const string GET_AllCountries = "allcountries";
             public const string GET_OpenRound = "openround";
             public const string GET_RoundResult = "roundresult";
-            public const string GET_FinishedRounds= "finishedrounds";
+            public const string GET_FinishedRounds = "finishedrounds";
             public const string POST_SetPilotActive = "setpilotactive";
             public const string POST_UnloadPilot = "unloadpilot";
             public const string GET_Round = "round";
             public const string GET_All = "getall";
-            public const string POST_AddNew= "AddNew";
-            public const string POST_Delete= "Delete";
+            public const string POST_AddNew = "AddNew";
+            public const string POST_Delete = "Delete";
             public const string POST_SetStart = "SetStart";
-            public const string POST_Reflight= "Reflight";
-            public const string POST_UPDATE_DATA= "updatedata";
+            public const string POST_Reflight = "Reflight";
+            public const string POST_UPDATE_DATA = "updatedata";
 
         }
         public class Judge
@@ -34,8 +41,8 @@
         {
             public const string ROUTE = "score";
             public const string POST_Save = "savescore";
-            public const string POST_Confirm= "confirmscores";
-            public const string POST_UnConfirm= "unconfirmscores";
+            public const string POST_Confirm = "confirmscores";
+            public const string POST_UnConfirm = "unconfirmscores";
             public const string POST_Update = "updatescore";
 
         }
@@ -72,9 +79,9 @@
         public class Import
         {
             public const string ROUTE = "import";
-            public const string POST_BIN= "bin";
-            public const string POST_JSON= "json";
-            public const string POST_JSONRESULT= "jsonresult";
+            public const string POST_BIN = "bin";
+            public const string POST_JSON = "json";
+            public const string POST_JSONRESULT = "jsonresult";
         }
     }
 }

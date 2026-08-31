@@ -1,4 +1,6 @@
-﻿using chd.Api.Base.Extensions;
+﻿using chd.Api.Base.Contracts.Constants;
+using chd.Api.Base.Extensions;
+using chd.UI.Base.Contracts.Dtos.Authentication;
 using chdScoring.BusinessLogic.Hubs;
 using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Dtos;
@@ -20,6 +22,8 @@ namespace chdScoring.Main.WebServer.Extensions
         {
             var mainGroup = app.MapGroup(ROOT).WithTags(ROOT);
 
+            var authentication = mainGroup.MapGroup(EndpointConstants.Authentication.ROUTE).WithTags(EndpointConstants.Authentication.ROUTE).RequireApiKeyAuth();
+
             var control = mainGroup.MapGroup(EndpointConstants.Control.ROUTE).WithTags(EndpointConstants.Control.ROUTE).RequireApiKeyAuth();
 
             var scoring = mainGroup.MapGroup(Scoring.ROUTE).WithTags(Scoring.ROUTE).RequireApiKeyAuth();
@@ -30,6 +34,13 @@ namespace chdScoring.Main.WebServer.Extensions
 
             var print = mainGroup.MapGroup(Print.ROUTE).WithTags(Print.ROUTE);
             var import = mainGroup.MapGroup(Import.ROUTE).WithTags(Import.ROUTE);
+
+            authentication.MapPost(Authentication.USER,
+                async (LoginDto<int> dto, IAuthenticationService service, CancellationToken ct) =>
+                    await service.GetUserAsync(dto, ct));
+
+            authentication.MapGet(Authentication.USER_KEY,
+                async (IAuthenticationService service, HttpContext context, CancellationToken ct) => await service.GetUserFromApiKeyAsync(context.User, ct));
 
             import.MapPost(Import.POST_BIN, async (ImportFileDto dto, IImportService service, CancellationToken ct) => await service.ImportBinFile(dto, ct));
             import.MapPost(Import.POST_JSON, async (ImportFileDto dto, IImportService service, CancellationToken ct) => await service.ImportJsonFile(dto, ct));
@@ -103,7 +114,7 @@ namespace chdScoring.Main.WebServer.Extensions
                 => await service.GetFinishedRound(cancellationToken));
 
 
-            judges.MapGet(Judge.GET_Flight, async (IJudgeService judgesService, CancellationToken cancellationToken) 
+            judges.MapGet(Judge.GET_Flight, async (IJudgeService judgesService, CancellationToken cancellationToken)
                 => await judgesService.GetCurrentFlight(cancellationToken));
 
             judges.MapGet(Judge.GET_All, async (IJudgeService judgeService, CancellationToken cancellationToken)

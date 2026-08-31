@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="chd.Api.Base.Contracts" Version="2.0.26243.154" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.12" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.2.12" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" />

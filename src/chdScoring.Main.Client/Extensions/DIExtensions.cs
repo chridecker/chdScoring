@@ -18,6 +18,10 @@ namespace chdScoring.Main.Client.Extensions
             services.AddHttpClient<PrintClient>(sp => func.Invoke(sp).Append(ROOT).Append(Print.ROUTE));
             services.AddTransient<IPrintService, PrintClient>();
 
+            services.AddHttpClient<AuthenticationClient>(sp => func.Invoke(sp).Append(ROOT).Append(Authentication.ROUTE))
+                .AddApiKeyHttpMessageHandler<TApiKeyProvider>(services);
+            services.AddTransient<IAuthenticationClient, AuthenticationClient>();
+            
             services.AddHttpClient<TimerClient>(sp => func.Invoke(sp).Append(ROOT).Append(Control.ROUTE))
                 .AddApiKeyHttpMessageHandler<TApiKeyProvider>(services);
             services.AddTransient<ITimerService, TimerClient>();

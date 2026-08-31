@@ -13,7 +13,7 @@ namespace chdScoring.Main.Client.Clients
 {
     public class DatabaseClient : BaseApiService, IDatabaseService
     {
-        public DatabaseClient(ILogger<BaseApiService> logger, IHttpClientFactory httpClientFactory) : base(logger, httpClientFactory)
+        public DatabaseClient(ILogger<DatabaseClient> logger, IHttpClientFactory httpClientFactory) : base(logger, httpClientFactory)
         {
         }
 

@@ -28,7 +28,7 @@ namespace chdScoring.DataAccess.Repositories.Base
 
 
         public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> expression) => this._context.Set<TEntity>().Where(expression);
-        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression) => await this._context.Set<TEntity>().FirstOrDefaultAsync(expression);
+        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default) => await this._context.Set<TEntity>().FirstOrDefaultAsync(expression, cancellationToken);
 
         public async Task<bool> Delete(TEntity entity)
         {

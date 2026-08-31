@@ -31,6 +31,11 @@ namespace chdScoring.DataAccess.EFCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ApiKey>(builder =>
+            {
+                builder.ToTable("apikey").HasKey(x => x.Id);
+            });
+
             modelBuilder.Entity<Round>(builder =>
             {
                 builder.ToTable("durchgang").HasKey(x => new { x.Teilnehmer, x.Durchgang });
