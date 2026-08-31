@@ -9,7 +9,7 @@ using chdScoring.Contracts.Interfaces;
 
 namespace chdScoring.App.UI.Services
 {
-    public class chdScoringProfileService(IAuthenticationService authenticationService) : ProfileService<int, int>, IchdScoringProfileService
+    public class chdScoringProfileService(IAuthenticationClient authenticationService) : ProfileService<int, int>, IchdScoringProfileService
     {
         public csUserDto? CsUser => this.User is csUserDto cs ? cs : null;
 
