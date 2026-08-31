@@ -19,13 +19,14 @@ namespace chdScoring.Main.WebServer.Extensions
         {
             var mainGroup = app.MapGroup(ROOT).WithTags(ROOT);
 
-            var control = mainGroup.MapGroup(EndpointConstants.Control.ROUTE).WithTags(EndpointConstants.Control.ROUTE);
+            var control = mainGroup.MapGroup(EndpointConstants.Control.ROUTE).WithTags(EndpointConstants.Control.ROUTE).RequireApiKeyAuth();
 
             var scoring = mainGroup.MapGroup(Scoring.ROUTE).WithTags(Scoring.ROUTE).RequireApiKeyAuth();
-            var judges = mainGroup.MapGroup(Judge.ROUTE).WithTags(Judge.ROUTE);
+            var judges = mainGroup.MapGroup(Judge.ROUTE).WithTags(Judge.ROUTE).RequireApiKeyAuth();
 
-            var pilot = mainGroup.MapGroup(Pilot.ROUTE).WithTags(Pilot.ROUTE);
-            var database = mainGroup.MapGroup(Database.ROUTE).WithTags(Database.ROUTE);
+            var pilot = mainGroup.MapGroup(Pilot.ROUTE).WithTags(Pilot.ROUTE).RequireApiKeyAuth();
+            var database = mainGroup.MapGroup(Database.ROUTE).WithTags(Database.ROUTE).RequireApiKeyAuth();
+
             var print = mainGroup.MapGroup(Print.ROUTE).WithTags(Print.ROUTE);
             var import = mainGroup.MapGroup(Import.ROUTE).WithTags(Import.ROUTE);
 
@@ -101,10 +102,11 @@ namespace chdScoring.Main.WebServer.Extensions
                 => await service.GetFinishedRound(cancellationToken));
 
 
-            judges.MapGet(Judge.GET_Flight, async (IJudgeService judgesService) => await judgesService.GetCurrentFlight());
+            judges.MapGet(Judge.GET_Flight, async (IJudgeService judgesService, CancellationToken cancellationToken) 
+                => await judgesService.GetCurrentFlight(cancellationToken));
 
             judges.MapGet(Judge.GET_All, async (IJudgeService judgeService, CancellationToken cancellationToken)
-                => await judgeService.GetJudges());
+                => await judgeService.GetJudges(cancellationToken));
 
 
             scoring.MapPost(Scoring.POST_Save, async (SaveScoreDto dto, IScoringService service, IFlightCacheService cache, IHubContext<FlightHub, IFlightHub> hub, CancellationToken cancellationToken) =>

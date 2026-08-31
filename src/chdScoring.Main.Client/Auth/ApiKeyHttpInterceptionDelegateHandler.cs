@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-public class HttpInterceptionDelegateHandler(IApiKeyHandler keyHandler) : DelegatingHandler
+public class ApiKeyHttpInterceptionDelegateHandler(IApiKeyHandler keyHandler) : DelegatingHandler
 {
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {

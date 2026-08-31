@@ -15,28 +15,32 @@ namespace chdScoring.Main.Client.Extensions
         where TKeyHandler : class, IApiKeyHandler
         {
             services.AddTransient<IApiKeyHandler, TKeyHandler>();
-            services.AddTransient<HttpInterceptionDelegateHandler>();
+            services.AddTransient<ApiKeyHttpInterceptionDelegateHandler>();
 
             services.AddHttpClient<PrintClient>(sp => func.Invoke(sp).Append(ROOT).Append(Print.ROUTE));
             services.AddTransient<IPrintService, PrintClient>();
 
-            services.AddHttpClient<TimerClient>(sp => func.Invoke(sp).Append(ROOT).Append(Control.ROUTE));
+            services.AddHttpClient<TimerClient>(sp => func.Invoke(sp).Append(ROOT).Append(Control.ROUTE))
+                .AddHttpMessageHandler<ApiKeyHttpInterceptionDelegateHandler>();
             services.AddTransient<ITimerService, TimerClient>();
 
-            services.AddHttpClient<JudgeClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointConstants.Judge.ROUTE));
+            services.AddHttpClient<JudgeClient>(sp => func.Invoke(sp).Append(ROOT).Append(Judge.ROUTE))
+                .AddHttpMessageHandler<ApiKeyHttpInterceptionDelegateHandler>();
             services.AddTransient<IJudgeService, JudgeClient>();
 
-            services.AddHttpClient<ScoringClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointConstants.Scoring.ROUTE))
-                .AddHttpMessageHandler<HttpInterceptionDelegateHandler>();
+            services.AddHttpClient<ScoringClient>(sp => func.Invoke(sp).Append(ROOT).Append(Scoring.ROUTE))
+                .AddHttpMessageHandler<ApiKeyHttpInterceptionDelegateHandler>();
             services.AddTransient<IScoringService, ScoringClient>();
 
-            services.AddHttpClient<PilotClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointConstants.Pilot.ROUTE));
+            services.AddHttpClient<PilotClient>(sp => func.Invoke(sp).Append(ROOT).Append(Pilot.ROUTE))
+                .AddHttpMessageHandler<ApiKeyHttpInterceptionDelegateHandler>();
             services.AddTransient<IPilotService, PilotClient>();
 
-            services.AddHttpClient<DatabaseClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointConstants.Database.ROUTE));
+            services.AddHttpClient<DatabaseClient>(sp => func.Invoke(sp).Append(ROOT).Append(Database.ROUTE))
+                .AddHttpMessageHandler<ApiKeyHttpInterceptionDelegateHandler>();
             services.AddTransient<IDatabaseService, DatabaseClient>();
 
-            services.AddHttpClient<ImportClient>(sp => func.Invoke(sp).Append(ROOT).Append(EndpointConstants.Import.ROUTE));
+            services.AddHttpClient<ImportClient>(sp => func.Invoke(sp).Append(ROOT).Append(Import.ROUTE));
             services.AddTransient<IImportService, ImportClient>();
             return services;
         }
