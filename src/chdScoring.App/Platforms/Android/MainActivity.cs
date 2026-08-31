@@ -33,8 +33,6 @@ namespace chdScoring.App
 
             this.OnBackPressedDispatcher.AddCallback(this, new BackPress(this._appInfoService));
 
-            this.Window?.AddFlags(WindowManagerFlags.Fullscreen);
-
             WindowCompat.SetDecorFitsSystemWindows(this.Window, false);
             WindowInsetsControllerCompat windowInsetsController = new WindowInsetsControllerCompat(this.Window, this.Window.DecorView);
             // Hide system bars
