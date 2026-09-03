@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ManagedNativeWifi" Version="3.0.2" />
     <PackageReference Include="System.Management" Version="10.0.11" />
     <PackageReference Include="chd.UI.Base.WPF" Version="2.0.26243.154" />
     <PackageReference Include="System.Speech" Version="10.0.11" />

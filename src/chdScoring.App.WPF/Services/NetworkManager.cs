@@ -1,8 +1,9 @@
-﻿using System;
+﻿using chdScoring.App.UI.Interfaces;
+using chdScoring.Contracts.Dtos;
+using ManagedNativeWifi;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using chdScoring.App.UI.Interfaces;
-using chdScoring.Contracts.Dtos;
 
 namespace chdScoring.App.WPF.Services
 {
@@ -10,17 +11,35 @@ namespace chdScoring.App.WPF.Services
     {
         public Task<List<WifiNetworkDto>> ScanNetworks(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var ssids = NativeWifi.EnumerateAvailableNetworkSsids();
+            return Task.FromResult(ssids.Select(s => new WifiNetworkDto { SSID = s.ToString() }).ToList());
         }
 
-        public Task<bool> ConnectToNetwork(string ssid, string password, CancellationToken cancellationToken)
+        public async Task<bool> ConnectToNetwork(string ssid, string password, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var network = NativeWifi.EnumerateAvailableNetworks()
+                .Where(x => x.ToString() == ssid)
+                .OrderByDescending(o => o.SignalQuality)
+                .FirstOrDefault();
+
+            if (network is null)
+            {
+                return false;
+            }
+
+            return await NativeWifi.ConnectNetworkAsync(
+                interfaceId: network.InterfaceInfo.Id,
+                profileName: network.ProfileName,
+                bssType: network.BssType,
+                timeout: TimeSpan.FromSeconds(10));
+
         }
 
-        public Task<string> GetCurrentNetwork(CancellationToken cancellationToken)
+        public async Task<string> GetCurrentNetwork(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var adapter = NativeWifi.EnumerateInterfaces().FirstOrDefault(x => x.State == InterfaceState.Connected);
+            var c = NativeWifi.GetCurrentConnection(adapter.Id);
+            return c.result is ActionResult.Success ? c.value.Ssid.ToString() : string.Empty;
         }
     }
 }
