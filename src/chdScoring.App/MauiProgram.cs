@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using System.Reflection;
 using Microsoft.Maui.LifecycleEvents;
 using chd.UI.Base.Contracts.Interfaces.Update;
+using MauiWifiManager;
 #if ANDROID
 using Maui.Android.InAppUpdates;
 #endif
@@ -19,6 +20,7 @@ namespace chdScoring.App
         {
             var builder = MauiApp.CreateBuilder();
             builder.UseMauiApp<App>()
+                .UseMauiWifiManager()
                  .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
