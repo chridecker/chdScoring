@@ -1,0 +1,22 @@
+﻿@page "/fc-scoring"
+@using chd.UI.Base.Client.Implementations.Authorization
+@using chdScoring.App.UI.Pages.Components
+@using chdScoring.Contracts.Dtos
+@inherits BaseChdScoringPage
+
+
+<div class="scoring" style="zoom: @(this._zoom)%">
+    <FigurTable Maneouvres="this.Maneouvres"
+                ScoresConfirmed="false"
+                Current="this._current"
+                EditManeouvre="this.SetCurrent"
+                SelectManeouvre="this.SetCurrent"
+                EditManeouvreEnabled="true" />
+
+    <NumPadScorePanel ScoreSaved="this.ScoreSaved" NeedsJudgeConfirmation="false" IsConfirmed="false"
+                      CancellationToken="this._token" UseJudgeConfirmQuestion="false"
+                      Judge="this.Judge" Pilot="this._dto?.Pilot" PanelDisabled="this._panelDisabled" Round="(this._dto?.Round?.Id ?? 0)" Maneouvre="this._current" />
+</div>
+
+<FloatingActionNavigation FAIcon="pen" OnClick="async () => await this.ChoosePilot()" TextActive="Daten wählen">
+</FloatingActionNavigation>

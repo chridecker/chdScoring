@@ -11,7 +11,7 @@
         </div>
         @foreach (var man in this.Maneouvres.OrderBy(o => o.Id))
         {
-            <div class="ft-row @this._cssFigur(man)" @ondblclick="async () => await this.ClickEditScore(man)">
+            <div class="ft-row @this._cssFigur(man)" @onclick="async () => await this.SelectManeouvre(man)" @ondblclick="async () => await this.ClickEditScore(man)">
                 <div class="ft-content">@man.Id.ToString("D2")</div>
                 <div class="ft-content">@man.Name</div>
                 <div class="ft-content  score @(man.Saved ? "saved" : "")">
