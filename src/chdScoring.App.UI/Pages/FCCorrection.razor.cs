@@ -33,7 +33,7 @@ namespace chdScoring.App.UI.Pages
         private JudgeDto Judge => this._dto?.Judges.FirstOrDefault(x => x.Id == (this._judge));
 
 
-        private bool _panelDisabled => this._dto is null|| this._current is null;
+        private bool _panelDisabled => this._dto is null || this._current is null;
 
         [Inject] ITTSService _ttsService { get; set; }
         [Inject] private IJudgeService _judgeService { get; set; }
@@ -50,14 +50,14 @@ namespace chdScoring.App.UI.Pages
 
         private async Task ChoosePilot()
         {
-            var finishedRounds = await this.pilotService.GetFinishedFlights();
+            var finishedRounds = await this.pilotService.GetFinishedFlights(this._token);
             var parameters = new ModalParameters
             {
                 { nameof(SearchModalComponent<FinishedRoundDto, int>.Items), finishedRounds
                     .OrderByDescending(o=>o.Round.Id)
                     .ThenByDescending(o => o.Start)
                     .ToList() },
-                { nameof(SearchModalComponent<FinishedRoundDto, int>.Name),(FinishedRoundDto r)=> $"R{r.Round.Id}, {r.Pilot.Id} {r.Pilot.Name}," },
+                { nameof(SearchModalComponent<FinishedRoundDto, int>.Name),(FinishedRoundDto r)=> $"{r.Pilot.Id} {r.Pilot.Name}, Round {r.Round.Id}, " },
                 { nameof(SearchModalComponent<FinishedRoundDto, int>.DisableOrder), true },
             };
             var modalInstance = this.modalHandler.Show<SearchModalComponent<FinishedRoundDto, int>>("PDF erstellen", parameters);
@@ -66,6 +66,7 @@ namespace chdScoring.App.UI.Pages
             if (result.Confirmed && result.Data is FinishedRoundDto dto)
             {
                 this._dto = await this.pilotService.GetRoundData(dto.Pilot.Id, dto.Round.Id, this._token);
+                this._current = this.Maneouvres?.OrderBy(o => o.Id).FirstOrDefault();
                 await this.InvokeAsync(this.StateHasChanged);
             }
         }
@@ -92,6 +93,6 @@ namespace chdScoring.App.UI.Pages
             await this.InvokeAsync(this.StateHasChanged);
             return true;
         }
-      
+
     }
 }
