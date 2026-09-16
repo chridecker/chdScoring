@@ -80,6 +80,7 @@ namespace chdScoring.App.UI.Services
 
         public Task<int> GetScoringZoom() => this.GetSettingLocal<int>(SettingConstants.ScoringZoom);
         public Task<bool> GetUseJudgeConfirmQuestion() => this.GetSettingLocal<bool>(SettingConstants.Use_JudgeConfirm_Question);
+        public Task<bool> GetUseFCZeroQuestion() => this.GetSettingLocal<bool>(SettingConstants.Use_FCZero_Question);
 
         public abstract Task ShowToast(string message, CancellationToken cancellationToken = default);
 

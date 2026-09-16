@@ -18,5 +18,6 @@
         public const string Use_UIX= "USE_UIX";
 
         public const string Use_JudgeConfirm_Question= "USE_Judge_Confirm_Question";
+        public const string Use_FCZero_Question= "USE_FC_Zero_Question";
     }
 }

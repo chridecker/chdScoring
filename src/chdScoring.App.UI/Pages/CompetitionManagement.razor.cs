@@ -28,6 +28,7 @@ namespace chdScoring.App.UI.Pages
         private IEnumerable<string> _databaseConnections;
         private string _currentDatabaseConnection;
         private bool _autoPrint;
+        private bool _useFCZeroQuestion;
 
         private string _autoPrintIco => this._autoPrint ? "print-slash" : "bolt-auto";
 
@@ -45,6 +46,7 @@ namespace chdScoring.App.UI.Pages
             this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
 
             this._autoPrint = await this._printService.GetAutoPrintSetting(this._token);
+            this._useFCZeroQuestion = await this.settingManager.GetUseFCZeroQuestion();
 
             await base.OnInitializedAsync();
         }
@@ -150,11 +152,39 @@ namespace chdScoring.App.UI.Pages
                 && this._dto.ManeouvreLst.Values.Any(a => a.Any(aa => !aa.Score.HasValue)) || !avgScore.HasValue)
             {
                 await this._vibrationHelper.Vibrate(3, TimeSpan.FromMilliseconds(400), this._token);
-                if (await this.modalHandler.ShowOkCancelDialog("Nicht alle Judges haben alle Figuren gewertet!", this.settingManager.IsiOS) != EDialogResult.OK)
+                if (await this.modalHandler.ShowOkCancelDialog("Nicht alle Judges haben alle Figuren gewertet!", this.settingManager.IsiOS) is not EDialogResult.OK)
                 {
                     return;
                 }
             }
+            else if (this._dto.ScoreMode is Contracts.Enums.EScoreMode.FCScore
+                     && _useFCZeroQuestion
+                     && (this._dto.ManeouvreLst.Values.Any(a => a.Any(aa => !aa.Score.HasValue)) || !avgScore.HasValue)
+                     && await this.modalHandler.ShowYesNoDialog("Nicht alle Wertungen sind erfasst! Wertungen mit 0 erfassen?", this.settingManager.IsiOS) is EDialogResult.Yes)
+            {
+                var scoreDtoLst = new List<SaveScoreDto>();
+
+                foreach (var kvp in this._dto.ManeouvreLst)
+                {
+                    foreach (var man in kvp.Value.Where(x => !x.Score.HasValue))
+                    {
+                        scoreDtoLst.Add(new SaveScoreDto()
+                        {
+                            Judge = kvp.Key,
+                            Pilot = this._dto.Pilot.Id,
+                            Round = this._dto.Round.Id,
+                            Figur = man.Id,
+                            Value = 0,
+                        });
+                    }
+                }
+
+                foreach (var score in scoreDtoLst)
+                {
+                    _ = await this._scoringService.SaveScore(score, this._token);
+                }
+            }
+
             var pilot = this._dto.Pilot.Id;
             var round = this._dto.Round.Id;
             var printPdf = this._dto.ScoreMode is not Contracts.Enums.EScoreMode.FCScore;

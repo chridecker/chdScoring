@@ -41,7 +41,10 @@
             <SettingCheckbox SettingText="Use UIX" Checked="@this._useUix" OnChange="async (e) => await UpdateUIX(e)" />
         </div>
         <div class="setting">
-            <SettingCheckbox SettingText="Use Judge Confirm QUestion" Checked="@this._useJudgeConfirmQuestion" OnChange="async (e) => await UpdateJudgeConfirmQuestion(e)" />
+            <SettingCheckbox SettingText="Use Judge Confirm Question" Checked="@this._useJudgeConfirmQuestion" OnChange="async (e) => await UpdateJudgeConfirmQuestion(e)" />
+        </div>
+        <div class="setting">
+            <SettingCheckbox SettingText="Use FlighCoach fill to Zero Question" Checked="@this._useFCZeroQuestion" OnChange="async (e) => await UpdateFCZeroQuestion(e)" />
         </div>
     </ChdAuthorizeView>
 
