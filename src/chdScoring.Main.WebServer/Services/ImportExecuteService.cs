@@ -121,19 +121,19 @@ namespace chdScoring.Main.WebServer.Services
         private async Task<ImportRoundScoreDto> CreateDtoFromFile(FileInfo file, CancellationToken cancellationToken)
         {
             var fs = new FileStream(file.FullName, FileMode.Open, FileAccess.Read);
-            var scores = await JsonSerializer.DeserializeAsync<decimal[]>(fs, JsonSerializerOptions.Web, cancellationToken);
+            var scoreDto = await JsonSerializer.DeserializeAsync<FCScoringDto>(fs, JsonSerializerOptions.Web, cancellationToken);
             await fs.DisposeAsync();
 
             var dto = new ImportRoundScoreDto
             {
                 Judge = 1,
             };
-            for (int i = 0; i < scores.Length; i++)
+            foreach(var score in scoreDto.Scores.OrderBy(o => o.Index))
             {
                 dto.Scores.Add(new()
                 {
-                    Figure = i + 1,
-                    Value = scores[i]
+                    Figure = score.Index,
+                    Value = score.Score
                 });
             }
             var fileName = file.Name.Replace(file.Extension, "");
