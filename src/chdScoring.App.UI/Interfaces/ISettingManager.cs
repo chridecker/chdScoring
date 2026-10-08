@@ -5,7 +5,7 @@ namespace chdScoring.App.UI.Interfaces
     public interface ISettingManager : IBaseClientSettingManager
     {
         Task<string> MainUrl { get; }
-        Task<string> ApiKey { get; }
+        string ApiKey { get; }
         Task UpdateMainUrl(string url);
         Task UpdateApiKey(string key);
 

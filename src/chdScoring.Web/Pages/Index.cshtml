@@ -17,11 +17,16 @@
     <script>
 
         var hubUrl = '@this.Model.HubClientUrl';
+        var apiKey = '@this.Model.ApiKey';
         var render = '@this.Model.RenderSetting';
         var mode= '@this.Model.Mode';
 
         const connection = new signalR.HubConnectionBuilder()
-             .withUrl(hubUrl)
+            .withUrl(hubUrl, {
+                headers: {
+                    "x-api-key": apiKey
+                }
+            })
              .build();
 
         connection.onclose(async () => {

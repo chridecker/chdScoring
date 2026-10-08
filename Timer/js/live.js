@@ -17,7 +17,9 @@ async function startHubConnection(connection) {
             pilotElement.querySelector(".name").innerHTML =   dto.pilot.id + " " + dto.pilot.name;
             
             var countryImageElement = pilotElement.querySelector(".country .custom-image img");
-            countryImageElement.src = dto.pilot.countryImage.src;
+            if (dto.pilot.countryImage != undefined) {
+                countryImageElement.src = dto.pilot.countryImage.src;
+            }
             
             var timeElement = controlCenter.querySelector(".left-time");
             timeElement.innerHTML = formatMMSS(parseTimeSpan(dto.leftTime));

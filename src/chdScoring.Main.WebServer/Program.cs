@@ -62,7 +62,7 @@ app.UseCors("AllowLocalhost");
 app.MapChdScoring();
 
 app.AddApiLogger();
-app.MapHub<FlightHub>("/chdScoring/flight-hub");
+app.MapHub<FlightHub>("/chdScoring/flight-hub");//.RequireApiKeyAuth();
 
 
 app.UseBaseApi();

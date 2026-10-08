@@ -57,7 +57,7 @@ namespace chdScoring.App.UI.Pages
             this.Title = PageTitleConstants.Settings;
 
             this._baseAddress = await this.settingManager.MainUrl;
-            this._apiKey = await this.settingManager.ApiKey;
+            this._apiKey = this.settingManager.ApiKey;
             this._currentVersion = await this._updateService.CurrentVersion();
             this._developerMode = await this.settingManager.GetSettingLocal<bool>(SettingConstants.DeveloperMode);
             this._autoRedirect = await this.settingManager.GetSettingLocal(SettingConstants.AutoRedirectTo);
@@ -150,7 +150,7 @@ namespace chdScoring.App.UI.Pages
             await this.settingManager.StoreSettingLocal<bool>(SettingConstants.DeveloperMode, (bool)e.Value);
             await this.InvokeAsync(this.StateHasChanged);
         }
-   
+
         private async Task UpdateUIX(ChangeEventArgs e)
         {
             await this.settingManager.StoreSettingLocal<bool>(SettingConstants.Use_UIX, (bool)e.Value);
@@ -161,7 +161,7 @@ namespace chdScoring.App.UI.Pages
             await this.settingManager.StoreSettingLocal<bool>(SettingConstants.Use_JudgeConfirm_Question, (bool)e.Value);
             await this.InvokeAsync(this.StateHasChanged);
         }
-        
+
         private async Task UpdateFCZeroQuestion(ChangeEventArgs e)
         {
             await this.settingManager.StoreSettingLocal<bool>(SettingConstants.Use_FCZero_Question, (bool)e.Value);

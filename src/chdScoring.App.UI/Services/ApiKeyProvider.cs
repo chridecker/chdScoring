@@ -9,6 +9,6 @@ namespace chdScoring.App.UI.Services
 {
     public class ApiKeyProvider(ISettingManager settingManager) : IApiKeyProvider
     {
-        public Task<string> GetApiKeyAsync(CancellationToken cancellationToken = new CancellationToken()) => settingManager.ApiKey;
+        public string GetApiKey() => settingManager.ApiKey;
     }
 }

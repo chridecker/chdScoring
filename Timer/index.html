@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>chdScoring - Timer</title>
-     <link rel="stylesheet" href="css/fa.css" />
+    <link rel="stylesheet" href="css/fa.css" />
     <link rel="stylesheet" href="css/site.css" />
 </head>
 <body>
     <div id="timer-container">
         <div class="pause-container">
-             <i class="fa fa-circle-pause fa-regular"></i>
+            <i class="fa fa-circle-pause fa-regular"></i>
         </div>
         <div class="timer-container hide">
             <div class="pilot">
@@ -35,11 +35,18 @@
     </div>
     <script src="js/fa.js"></script>
     <script src="js/signalr.js"></script>
-    <script src="js/site.js" ></script>
+    <script src="js/timer.js"></script>
     <script>
         const connection = new signalR.HubConnectionBuilder()
-        .withUrl("http://localhost:5205/chdscoring/timer-hub")
-        .build();
+            .withUrl("http://localhost:8081/chdscoring/flight-hub", {
+                transport: signalR.HttpTransportType.LongPolling,
+                headers: {
+                    "X-Api-Key": "ch3510ri"
+                }
+            })
+            .withAutomaticReconnect()
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
 
         connection.onclose(async () => {
             await startHubConnection(connection);

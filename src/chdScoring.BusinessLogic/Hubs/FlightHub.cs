@@ -5,10 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using chd.Hub.Base.Server;
+using chdScoring.DataAccess.Contracts.Domain;
 
 namespace chdScoring.BusinessLogic.Hubs
 {
-    public class FlightHub : Hub<IFlightHub>, IFlightHub
+    public class FlightHub : BaseAuthenticationHub<IFlightHub, ApiKey>, IFlightHub
     {
         private readonly IFlightCacheService _flightCacheService;
 
@@ -16,10 +18,11 @@ namespace chdScoring.BusinessLogic.Hubs
         {
             _flightCacheService = flightCacheService;
         }
-        public async override Task OnConnectedAsync()
+        public override async Task OnConnectedAsync()
         {
             await this.Clients.Caller.ReceiveFlightData(this._flightCacheService.GetCurrentFlight(DateTime.Now), this.Context.ConnectionAborted);
             await this.Clients.Caller.ReceiveRoundData(this._flightCacheService.GetCurrentRoundResults(), this.Context.ConnectionAborted);
+
             await base.OnConnectedAsync();
         }
 

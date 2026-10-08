@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
 using System.Transactions;
+using chd.Api.Base.Contracts.Interfaces;
 
 namespace chdScoring.Web.Pages
 {
@@ -18,24 +19,26 @@ namespace chdScoring.Web.Pages
         private readonly ImageCache _imageCache;
 
         public string HubClientUrl => new UriBuilder($"{this._configuration.GetApiKey("chdScoringApi")}chdscoring/flight-hub").Uri.ToString();
+        public string ApiKey { get; }
 
         [BindProperty(SupportsGet = true)]
         public string Mode { get; set; }
 
 
-        public string RenderSetting => string.IsNullOrWhiteSpace(this.Mode) ? "RenderTimer" 
-            : (string.Equals(this.Mode,"live",StringComparison.OrdinalIgnoreCase),string.Equals(this.Mode,"round",StringComparison.OrdinalIgnoreCase)) switch
-        {
-            (true,_) => "RenderLive",
-            (_,true) => "RenderRoundResult",
-            _ => "RenderTimer"
-        };
+        public string RenderSetting => string.IsNullOrWhiteSpace(this.Mode) ? "RenderTimer"
+            : (string.Equals(this.Mode, "live", StringComparison.OrdinalIgnoreCase), string.Equals(this.Mode, "round", StringComparison.OrdinalIgnoreCase)) switch
+            {
+                (true, _) => "RenderLive",
+                (_, true) => "RenderRoundResult",
+                _ => "RenderTimer"
+            };
 
-        public IndexModel(IConfiguration configuration, IPilotService pilotService, ImageCache imageCache)
+        public IndexModel(IConfiguration configuration, IPilotService pilotService, IApiKeyProvider _apiKeyProvider, ImageCache imageCache)
         {
             this._configuration = configuration;
             this._pilotService = pilotService;
             this._imageCache = imageCache;
+            ApiKey = _apiKeyProvider.GetApiKey();
         }
 
         public void OnGet(string? colorScheme = "light-mode")

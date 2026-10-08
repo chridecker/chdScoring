@@ -37,15 +37,22 @@ namespace chdScoring.App.UI.Services
             }
             return this._mainUrl;
         });
-        public Task<string> ApiKey => Task.Run(async () =>
+
+        public string ApiKey
         {
-            if (string.IsNullOrWhiteSpace(this._apiKey))
+            get
             {
-                this._apiKey = await this.GetSettingLocal<string>(SettingConstants.ApiKey)
-                ?? this._configuration.GetSection("X-API-KEY").Value;
+                if (string.IsNullOrWhiteSpace(this._apiKey))
+                {
+                    var key = this.GetSettingLocal<string>(SettingConstants.ApiKey);
+                    Task.WaitAny(Task.Delay(TimeSpan.FromSeconds(5)), key);
+
+                    this._apiKey = key.IsCompleted && !string.IsNullOrWhiteSpace(key.Result) ? key.Result : this._configuration.GetSection("X-API-KEY").Value;
+                }
+
+                return this._apiKey;
             }
-            return this._apiKey;
-        });
+        }
 
         public bool IsiOS => this._isiOS();
 

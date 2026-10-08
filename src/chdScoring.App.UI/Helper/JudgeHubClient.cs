@@ -1,24 +1,43 @@
-﻿using chd.Hub.Base.Client;
+﻿using chd.Api.Base.Contracts.Constants;
+using chd.Api.Base.Contracts.Interfaces;
+using chd.Hub.Base.Client;
 using chdScoring.App.UI.Interfaces;
+using chdScoring.App.UI.Services;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
+using Microsoft.AspNetCore.Http.Connections.Client;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 
 namespace chdScoring.App.UI.Helper
 {
-    public class JudgeHubClient : BaseHubClient<IFlightHub>, IJudgeHubClient
+    public class JudgeHubClient : BaseAuthenticationHubClient<IFlightHub>, IJudgeHubClient
     {
+        private readonly IApiKeyProvider _apiKeyProvider;
         private readonly IJudgeDataCache _judgeDataCache;
         private readonly ISettingManager _settingManager;
         private readonly INotificationManagerService _notificationManagerService;
 
-        public JudgeHubClient(ILogger<JudgeHubClient> logger, IJudgeDataCache judgeDataCache, ISettingManager settingManager, INotificationManagerService notificationManagerService): base(logger)
+        public JudgeHubClient(ILogger<JudgeHubClient> logger, IApiKeyProvider apiKeyProvider, IJudgeDataCache judgeDataCache, ISettingManager settingManager, INotificationManagerService notificationManagerService) : base(logger, apiKeyProvider)
         {
+            _apiKeyProvider = apiKeyProvider;
             this._judgeDataCache = judgeDataCache;
             this._settingManager = settingManager;
             this._notificationManagerService = notificationManagerService;
+        }
+
+
+        protected override Action<HttpConnectionOptions> ConfigureHttpOptions => AddApiKey2;
+
+
+        protected void AddApiKey2(HttpConnectionOptions options)
+        {
+            if (!options.Headers.ContainsKey(ApiKeyConstants.HEADER_KEY))
+            {
+                var key = _apiKeyProvider.GetApiKey();
+                options.Headers.Add(ApiKeyConstants.HEADER_KEY, key);
+            }
         }
 
         public event EventHandler<CurrentFlight> DataReceived;
@@ -34,7 +53,7 @@ namespace chdScoring.App.UI.Helper
 
         protected override async Task DoInvokations(HubConnection connection, CancellationToken cancellationToken)
         {
-            
+
         }
 
         protected override void SpecificReinitialize(HubConnection connection)
