@@ -4,6 +4,13 @@
     {
         public const string ROOT = "chdScoring";
 
+        public class ApiKey
+        {
+            public const string ROUTE = "apikey";
+            public const string GET = "getall";
+            public const string SAVE = "save";
+            public const string DELETE = "delete";
+        }
         public class Authentication
         {
             public const string ROUTE = "authentication";

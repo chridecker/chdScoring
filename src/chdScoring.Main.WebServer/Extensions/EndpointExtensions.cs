@@ -22,6 +22,8 @@ namespace chdScoring.Main.WebServer.Extensions
         {
             var mainGroup = app.MapGroup(ROOT).WithTags(ROOT);
 
+            var apiKey = mainGroup.MapGroup(EndpointConstants.ApiKey.ROUTE).WithTags(EndpointConstants.ApiKey.ROUTE).RequireApiKeyAuth();
+
             var authentication = mainGroup.MapGroup(EndpointConstants.Authentication.ROUTE).WithTags(EndpointConstants.Authentication.ROUTE).RequireApiKeyAuth();
 
             var control = mainGroup.MapGroup(EndpointConstants.Control.ROUTE).WithTags(EndpointConstants.Control.ROUTE).RequireApiKeyAuth();
@@ -34,6 +36,10 @@ namespace chdScoring.Main.WebServer.Extensions
 
             var print = mainGroup.MapGroup(Print.ROUTE).WithTags(Print.ROUTE);
             var import = mainGroup.MapGroup(Import.ROUTE).WithTags(Import.ROUTE);
+
+            apiKey.MapGet(ApiKey.GET, async (IApiKeyService service, CancellationToken ct) => await service.GetAllAsync(ct));
+            apiKey.MapPost(ApiKey.SAVE, async (ApiKeyDto dto, IApiKeyService service, CancellationToken ct) => await service.SaveAsync(dto, ct));   
+            apiKey.MapDelete(ApiKey.DELETE, async (int id, IApiKeyService service, CancellationToken ct) => await service.DeleteAsync(id, ct));   
 
             authentication.MapPost(Authentication.USER,
                 async (LoginDto<int> dto, IAuthenticationService service, CancellationToken ct) =>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using chd.Api.Base.Contracts.Constants;
@@ -33,7 +34,7 @@ namespace chdScoring.BusinessLogic.Services
                 return new csUserDto
                 {
                     Id = judge.Id,
-                    FirstName = judge.Name.Split(' ').Length > 1 ? judge.Name.Split(' ')[1] : "",
+                    FirstName = judge.Name.Split(' ').Length > 1 ? judge.Name.Split(' ')[1] : judge.Vorname,
                     LastName = judge.Name.Split(' ')[0],
                     Role = entry.Role
                 };
@@ -54,30 +55,6 @@ namespace chdScoring.BusinessLogic.Services
 
         public async Task<csUserDto> GetUserAsync(LoginDto<int> dto, CancellationToken cancellationToken)
         {
-            if (dto.Id.HasValue)
-            {
-                var judge = await judgeRepository.FirstOrDefaultAsync(x =>
-                    x.Id == dto.Id, cancellationToken)
-                            ?? throw new Exception("Kein Judge gefunden");
-                return new csUserDto
-                {
-                    Id = dto.Id.Value,
-                    FirstName = judge.Name.Split(' ').Length > 1 ? judge.Name.Split(' ')[1] : "",
-                    LastName = judge.Name.Split(' ')[0],
-                    Role = EUserRole.Judge
-                };
-            }
-            if (dto.Id == RightConstants.AdminId || (dto.Username?.ToLower() == "admin" && dto.Password == "ch3510ri"))
-            {
-                return new csUserDto
-                {
-                    FirstName = "Christoph",
-                    LastName = "Decker",
-                    Id = RightConstants.AdminId,
-                    Role = EUserRole.Admin
-
-                };
-            }
             if ((dto.Username?.ToLower() ?? "").StartsWith($"judge"))
             {
                 dto.Id = int.TryParse(dto.Username.Trim().Substring(dto.Username.Length - 1, 1), out var id) ? id : 0;

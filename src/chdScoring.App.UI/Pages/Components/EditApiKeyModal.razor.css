@@ -1,0 +1,50 @@
+﻿.edit-key {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    height: 100%;
+}
+
+    .edit-key .key-section {
+        padding: 0.2rem;
+        background: var(--chd-bg-lighter);
+        border-radius: 0.8rem;
+    }
+
+        .edit-key .key-section.data {
+            display: grid;
+            grid-template-columns: max-content auto;
+            gap: 0.2rem;
+        }
+
+            .edit-key .key-section.data .country {
+                display: flex;
+                gap: 0.5rem;
+                border: 1px solid;
+                padding: 0.1rem;
+                align-items: center;
+            }
+
+                .edit-key .key-section.data .country img {
+                    height: 1.5rem;
+                    border: 1px solid;
+                    border-radius: 0.2rem;
+                }
+
+    .edit-key .button-section {
+        display: grid;
+        padding: 0;
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+        margin-top: auto;
+    }
+
+        .edit-key .button-section button.btn-primary {
+            background: var(--chd-bg-lighter);
+        }
+
+@media only screen and (min-width: 800px) {
+    .edit-key {
+        width: min(30rem, 100%);
+    }
+}

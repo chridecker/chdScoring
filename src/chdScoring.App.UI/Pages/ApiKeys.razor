@@ -1,0 +1,122 @@
+@using chd.UI.Base.Client.Implementations.Authorization
+@using chd.UI.Base.Components.General
+@using chd.UI.Base.Components.General.Pagination
+@using chd.UI.Base.Contracts.Enum
+@using chdScoring.App.UI.Extensions
+@using chdScoring.Contracts.Constants
+@using chdScoring.App.UI.Pages.Components
+@using chdScoring.App.UI.Pages.Components.Management
+@using chdScoring.Contracts.Dtos
+@using chdScoring.Contracts.Enums
+@inherits BaseChdScoringPage
+@page "/apikeys"
+@using chdScoring.Contracts.Interfaces
+@inject IApiKeyService apiKeyService
+@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.AdminId })]
+<div class="keys">
+    @foreach (var key in this._keys.OrderBy(o => o.Id))
+    {
+        <div class="key-row @(_current?.Id == key.Id ? "active" : "")" @onclick="() => { this._current = key; }">
+            <div class="name">@key.Key</div>
+            <div class="name">@key.Role</div>
+            <div class="name">@key.Surname</div>
+            <div class="name">@key.Lastname</div>
+            <div class="name">@key.JudgeId</div>
+        </div>
+    }
+</div>
+
+<FloatingActionNavigation FAIcon="plus" OnClick="this.AddKey">
+    @if (_current is not null)
+    {
+        <FloatingActionButton FAClass="pen" Title="Edit" OnClick="this.EditKey" />
+        <FloatingActionButton FAClass="trash" Title="Delete" OnClick="this.DeleteKey" />
+    }
+</FloatingActionNavigation>
+
+@code
+{
+    List<ApiKeyDto> _keys = [];
+    ApiKeyDto _current;
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.Title = PageTitleConstants.Keys;
+        _keys = await apiKeyService.GetAllAsync(_token);
+        await base.OnInitializedAsync();
+    }
+    private async Task AddKey()
+    {
+        var key = new ApiKeyDto()
+        {
+            Id = this._keys.Max(m => m.Id) + 1,
+            Role = EUserRole.None,
+        };
+
+        var modal = await this.modalHandler.Show<EditApiKeyModal>("Api Key", new ModalParameters()
+        {
+            {nameof(EditApiKeyModal.ApiKey),key},
+            {nameof(EditApiKeyModal.IsNew),true}
+        }, new ModalOptions
+        {
+            Size = ModalSize.ExtraLarge
+        }).Result;
+        if (modal.Confirmed)
+        {
+            if (modal.Data is not null
+                && modal.Data is ApiKeyDto editDto)
+            {
+                await this.apiKeyService.SaveAsync(editDto, this._token);
+            }
+
+            this._keys = await this.apiKeyService.GetAllAsync(this._token);
+            await this.InvokeAsync(this.StateHasChanged);
+        }
+    }
+
+    private async Task DeleteKey()
+    {
+        if (_current is not null
+         && await this.modalHandler.ShowYesNoDialog("Api Key löschen?", this.settingManager.IsiOS) == EDialogResult.Yes)
+        {
+            await apiKeyService.DeleteAsync(_current.Id, this._token);
+            this._keys = await this.apiKeyService.GetAllAsync(this._token);
+            await this.InvokeAsync(this.StateHasChanged);
+        }
+    }
+
+    private async Task EditKey()
+    {
+        if (_current is null)
+        {
+            return;
+        }
+
+        var key = new ApiKeyDto
+        {
+            Id = _current.Id,
+            Key = _current.Key,
+            Lastname = _current.Lastname,
+            JudgeId = _current.JudgeId,
+            Role = _current.Role,
+            Surname = _current.Surname
+        };
+
+        var modal = await this.modalHandler.Show<EditApiKeyModal>("Api Key", new ModalParameters()
+        {
+            {nameof(EditApiKeyModal.ApiKey),key},
+            {nameof(EditApiKeyModal.IsNew),false}
+        }, new ModalOptions
+        {
+            Size = ModalSize.ExtraLarge
+        }).Result;
+        if (modal.Confirmed
+            && modal.Data is not null
+            && modal.Data is ApiKeyDto editDto)
+        {
+            await this.apiKeyService.SaveAsync(editDto, this._token);
+            this._keys = await this.apiKeyService.GetAllAsync(this._token);
+            await this.InvokeAsync(this.StateHasChanged);
+        }
+    }
+}

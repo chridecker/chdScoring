@@ -1,0 +1,88 @@
+@using Blazored.Modal.Services
+@using chd.UI.Base.Client.Implementations.Services
+@using chd.UI.Base.Components.General.Search
+@using chd.UI.Base.Contracts.Enum
+@using chdScoring.App.UI.Extensions
+@using chdScoring.Contracts.Dtos
+@using chdScoring.Contracts.Enums
+@using chdScoring.Contracts.Interfaces
+<div class="edit-key">
+    <div class="key-section data">
+        <div class="label"></div>
+        <input type="text" @bind-value="this.ApiKey.Key" placeholder="Api Key" />
+        <div class="label"></div>
+        <input type="text" @bind-value="this.ApiKey.Surname" placeholder="Vorname" />
+        <div class="label"></div>
+        <input type="text" @bind-value="this.ApiKey.Lastname" placeholder="Nachname" />
+        <div class="label"></div>
+        <input type="number" @bind-value="this.ApiKey.JudgeId" placeholder="JudgeId" />
+        <div class="label"></div>
+        <Selection Values="@this._redirectOptions" @bind-SelectedValue="this.SelectedRole" />
+    </div>
+    <div class="button-section">
+        <button class="btn btn-secondary" @onclick="this.Cancel">Abbrechen</button>
+        <button class="btn btn-primary" @onclick="this.Save">Speichern</button>
+    </div>
+</div>
+
+
+@code {
+
+    private Dictionary<EUserRole, RenderFragment> _redirectOptions = new Dictionary<EUserRole, RenderFragment>();
+
+    [Inject] IApiKeyService apiKeyService { get; set; }
+    [Inject] IModalHandler modalService { get; set; }
+    [Inject] ISettingManager settingManager { get; set; }
+
+    [CascadingParameter] public BlazoredModalInstance ModalInstance { get; set; }
+    [Parameter] public bool IsNew { get; set; }
+    [Parameter] public ApiKeyDto ApiKey { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        InitSelection();
+        await base.OnInitializedAsync();
+    }
+
+    private Task Save() => this.ModalInstance.CloseAsync(ModalResult.Ok(this.ApiKey));
+
+    private Task Cancel() => this.ModalInstance.CancelAsync();
+
+    private void InitSelection()
+    {
+        foreach (var role in Enum.GetValues<EUserRole>())
+        {
+            this._redirectOptions.Add(role, CreateOption(Enum.GetName(role), "circle-check"));
+        }
+    }
+
+    private RenderFragment CreateOption(string text, string icon = "circle-check") => builder =>
+    {
+        builder.OpenComponent(0, typeof(SelectionOption));
+        builder.AddAttribute(1, nameof(SelectionOption.FAClass), icon);
+        builder.AddAttribute(2, nameof(SelectionOption.Text), text);
+        builder.CloseComponent();
+    };
+
+    private KeyValuePair<EUserRole, RenderFragment>? _selectedRole;
+
+    private KeyValuePair<EUserRole, RenderFragment>? SelectedRole
+    {
+        get => this._selectedRole;
+        set
+        {
+            this._selectedRole = value;
+            this.SelectedRoleChanged(value);
+        }
+    }
+    private async Task SelectedRoleChanged(KeyValuePair<EUserRole, RenderFragment>? val)
+    {
+        this._selectedRole = val;
+        if (val.HasValue)
+        {
+            ApiKey.Role = val.Value.Key;
+        }
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+}
