@@ -24,6 +24,8 @@ namespace chdScoring.DataAccess.Repositories
             var currentRound = await this._context.Database.SqlQueryRaw<int>($"SELECT MIN(durchgang) as Value FROM wettkampf_leitung WHERE STATUS < {(int)EFlightState.Saved}").FirstOrDefaultAsync(cancellationToken: token);
             return await this._context.Wettkampf_Leitung.Where(x => x.Durchgang == currentRound)
                 .Include(i => i.Pilot)
+                .ThenInclude(i => i.Country_Image)
+                .AsSplitQuery()
                 .ToListAsync(cancellationToken: token);
         }
 

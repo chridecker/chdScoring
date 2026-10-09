@@ -73,6 +73,7 @@ namespace chdScoring.DataAccess.DAL
             var wl = await this._wettkampfLeitungRepository
                 .Where(x => x.Status >= (int)EFlightState.OnAir)
                 .Include(i => i.Pilot)
+                .ThenInclude(i => i.Country_Image)
                 .FirstOrDefaultAsync(x => x.Teilnehmer == pilot && x.Durchgang == round);
 
             return await this.GetRoundData(dto, wl, cancellationToken);
@@ -95,6 +96,11 @@ namespace chdScoring.DataAccess.DAL
                 Firstname = wl.Pilot.Vorname,
                 Lastname = wl.Pilot.Nachname,
                 CountryId = wl.Pilot.Land,
+                CountryImage = new ImageDto()
+                {
+                    Data = wl.Pilot.Country_Image?.Img_Data,
+                    Type = wl.Pilot.Country_Image?.Img_Type,
+                }
             };
             dto.JudgeConfirms = confirms.Select(s => new JudgeConfirmDto() { Durchgang = s.Durchgang, Judge = s.Judge, Teilnehmer = s.Teilnehmer });
             dto.Judges = judges.Select(judge => new JudgeDto { Id = judge.Id, Name = $"{judge.Vorname} {judge.Name.ToUpper()}", EditScore = judge.EditScore });

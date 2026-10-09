@@ -121,7 +121,7 @@ namespace chdScoring.DataAccess.DAL
         {
             var rounds = await this._wettkampfLeitungRepository.Where(x => x.Status >= (int)EFlightState.Saved)
                 .Include(x => x.Pilot).ThenInclude(i => i.Country_Image)
-                .AsSplitQuery().ToListAsync();
+                .AsSplitQuery().ToListAsync(cancellationToken);
             return rounds.Select(s => new FinishedRoundDto
             {
                 Start = s.Start,
@@ -137,7 +137,7 @@ namespace chdScoring.DataAccess.DAL
                     CountryImage = new ImageDto()
                     {
                         Data = s.Pilot.Country_Image.Img_Data,
-                        Type = s.Pilot.Country_Image.Img_Type
+                        Type = s.Pilot.Country_Image.Img_Type,
                     }
                 },
                 Round = new()
