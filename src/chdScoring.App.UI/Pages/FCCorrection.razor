@@ -13,7 +13,7 @@
                 SelectManeouvre="this.SetCurrent"
                 EditManeouvreEnabled="true" />
 
-    <NumPadScorePanel ScoreSaved="this.ScoreSaved" NeedsJudgeConfirmation="false" IsConfirmed="false"
+    <NumPadScorePanel Mode="Contracts.Enums.EScoreMode.FCScore" ScoreSaved="this.ScoreSaved" NeedsJudgeConfirmation="false" IsConfirmed="false"
                       CancellationToken="this._token" UseJudgeConfirmQuestion="false"
                       Judge="this.Judge" Pilot="this._dto?.Pilot" PanelDisabled="this._panelDisabled" Round="(this._dto?.Round?.Id ?? 0)" Maneouvre="this._current" />
 </div>

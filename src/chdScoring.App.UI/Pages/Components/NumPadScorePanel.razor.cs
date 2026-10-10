@@ -5,6 +5,7 @@ using chdScoring.App.UI.Extensions;
 using chdScoring.App.UI.Interfaces;
 using chdScoring.App.UI.Services;
 using chdScoring.Contracts.Dtos;
+using chdScoring.Contracts.Enums;
 using DocumentFormat.OpenXml.Presentation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -29,6 +30,7 @@ namespace chdScoring.App.UI.Pages.Components
         [Parameter] public JudgeDto Judge { get; set; }
 
         [Parameter] public ManeouvreDto Maneouvre { get; set; }
+        [Parameter] public EScoreMode Mode { get; set; } = EScoreMode.TBL;
 
         [Parameter] public bool PanelDisabled { get; set; }
         [Parameter] public bool NeedsJudgeConfirmation { get; set; }
@@ -95,6 +97,18 @@ namespace chdScoring.App.UI.Pages.Components
                 if (this._scoreValue.Value <= 0) { this._scoreValue = 0; }
                 if (this._scoreValue.Value >= 10) { this._scoreValue = 10; }
             }
+            else if (Mode is EScoreMode.FCScore)
+            {
+                if (this._scoreValue.HasValue)
+                {
+                    this._scoreValue += i / 10;
+                    this._commaPressed |= false;
+                }
+                else if (!this._scoreValue.HasValue)
+                {
+                    this._scoreValue = i;
+                }
+            }
             else
             {
                 if (this._scoreValue.HasValue && _scoreValue == 1 && i == 10)
@@ -130,7 +144,7 @@ namespace chdScoring.App.UI.Pages.Components
             this._vibrationHelper.Vibrate(TimeSpan.FromMilliseconds(100));
             await this.InvokeAsync(this.StateHasChanged);
 
-            if (this._scoreValue.HasValue)
+            if (this._scoreValue.HasValue && Mode is not EScoreMode.FCScore)
             {
                 await this._tTSService.SpeakAsync(this._scoreValue.Value.ToString("#.#"));
             }
