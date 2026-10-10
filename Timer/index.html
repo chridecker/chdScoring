@@ -38,14 +38,12 @@
     <script src="js/timer.js"></script>
     <script>
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl("http://localhost:8081/chdscoring/flight-hub", {
-                transport: signalR.HttpTransportType.LongPolling,
+            .withUrl("http://10.0.0.22:8081/chdscoring/flight-hub", {
                 headers: {
                     "X-Api-Key": "ch3510ri"
                 }
             })
             .withAutomaticReconnect()
-            .configureLogging(signalR.LogLevel.Information)
             .build();
 
         connection.onclose(async () => {

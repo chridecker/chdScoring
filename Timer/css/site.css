@@ -6,8 +6,8 @@
     --chd-primary-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-primary-transparent) 10%, var(--chd-primary) 90%);
     --chd-primary-semi-transparent: var(--chd-lightblue-semi-transparent);
     --chd-font-color: rgb(204, 204, 220);
-    --chd-font-color-transparent: rgba(255,255,255,0.1);
-    --chd-font-color-semi-transparent: rgba(255,255,255,0.5);
+    --chd-font-color-transparent: rgba(255, 255, 255, 0.1);
+    --chd-font-color-semi-transparent: rgba(255, 255, 255, 0.5);
     --chd-font-color-alternate: black;
     --chd-bg: rgb(24, 27, 31);
     --chd-bg-transparent: rgba(24, 27, 31, 0.1);
@@ -52,58 +52,54 @@
     --chd-blue-semi-transparent: rgba(20, 50, 250, 0.5);
     --chd-grey-gradient: linear-gradient(to right, transparent 0%, var(--chd-grey-transparent) 10%, var(--chd-grey) 90%);
     --chd-grey-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-grey-transparent) 10%, var(--chd-grey) 90%);
-    --chd-grey: rgb(128,128,128);
-    --chd-grey-transparent: rgba(128,128,128, 0.1);
-    --chd-grey-semi-transparent: rgba(128,128,128, 0.5);
+    --chd-grey: rgb(128, 128, 128);
+    --chd-grey-transparent: rgba(128, 128, 128, 0.1);
+    --chd-grey-semi-transparent: rgba(128, 128, 128, 0.5);
     --chd-lightgrey-gradient: linear-gradient(to right, transparent 0%, var(--chd-lightgrey-transparent) 10%, var(--chd-lightgrey) 90%);
     --chd-lightgrey-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-lightgrey-transparent) 10%, var(--chd-lightgrey) 90%);
-    --chd-lightgrey: rgb(211,211,211);
-    --chd-lightgrey-transparent: rgba(211,211,211, 0.1);
-    --chd-lightgrey-semi-transparent: rgba(211,211,211, 0.5);
-    --chd-lightblue: rgb(173,216,230);
-    --chd-lightblue-transparent: rgba(173,216,230,0.1);
+    --chd-lightgrey: rgb(211, 211, 211);
+    --chd-lightgrey-transparent: rgba(211, 211, 211, 0.1);
+    --chd-lightgrey-semi-transparent: rgba(211, 211, 211, 0.5);
+    --chd-lightblue: rgb(173, 216, 230);
+    --chd-lightblue-transparent: rgba(173, 216, 230, 0.1);
     --chd-lightblue-semi-transparent: rgba(173, 216, 230, 0.5);
     --chd-lightblue-gradient: linear-gradient(to right, transparent 0%, var(--chd-lightblue-transparent) 10%, var(--chd-lightblue) 90%);
     --chd-lightblue-gradient-left: linear-gradient(to left, transparent 0%, var(--chd-lightblue-transparent) 10%, var(--chd-lightblue) 90%);
-    --chd-ios-blue: rgb(0,145,255);
+    --chd-ios-blue: rgb(0, 145, 255);
 }
 
 
-.light-mode {
+
+.light-mode * {
+    /*Colors*/
+    --chd-font-color: black;
+    --chd-font-color-transparent: rgba(0, 0, 0, 0.1);
+    --chd-font-color-semi-transparent: rgba(0, 0, 0, 0.5);
+    --chd-font-color-alternate: white;
+    --chd-bg: white;
+    --chd-bg-transparent: rgba(255, 255, 255, 0.1);
+    --chd-bg-semi-transparent: rgba(255, 255, 255, 0.5);
+    --chd-bg-lighter: #c7c7c7;
+    --chd-bg-darker: white;
+    --chd-primary: var(--chd-lightblue);
+    --chd-primary-transparent: var(--chd-lightblue-transparent);
+    --chd-primary-semi-transparent: var(--chd-lightblue-semi-transparent);
+    --chd-scondary: var(--chd-lightgrey);
+    --chd-scondary-transparent: var(--chd-lightgrey-transparent);
+    --chd-scondary-semi-transparent: var(--chd-lightgrey-semi-transparent);
+    --chd-table-alternate: rgba(0, 0, 0, .8);
+    --chd-ios-blue: rgb(0, 136, 255);
 }
 
-    .light-mode * {
-        /*Colors*/
-        --chd-font-color: black;
-        --chd-font-color-transparent: rgba(0,0,0,0.1);
-        --chd-font-color-semi-transparent: rgba(0,0,0,0.5);
-        --chd-font-color-alternate: white;
-        --chd-bg: white;
-        --chd-bg-transparent: rgba(255,255,255, 0.1);
-        --chd-bg-semi-transparent: rgba(255,255,255, 0.5);
-        --chd-bg-lighter: #c7c7c7;
-        --chd-bg-darker: white;
-        --chd-primary: var(--chd-lightblue);
-        --chd-primary-transparent: var(--chd-lightblue-transparent);
-        --chd-primary-semi-transparent: var(--chd-lightblue-semi-transparent);
-        --chd-scondary: var(--chd-lightgrey);
-        --chd-scondary-transparent: var(--chd-lightgrey-transparent);
-        --chd-scondary-semi-transparent: var(--chd-lightgrey-semi-transparent);
-        --chd-table-alternate: rgba(0, 0, 0, .8);
-        --chd-ios-blue: rgb(0,136,255);
-    }
-
-    .light-mode:root {
-        color-scheme: light !important;
-    }
-
-html {
+.light-mode:root {
+    color-scheme: light !important;
 }
+
 
 html {
     font-size: 1rem;
     position: relative;
-    display:flex;
+    display: flex;
 }
 
 
@@ -114,8 +110,8 @@ body {
     background-color: var(--chd-bg);
     min-height: 100vh;
     min-height: 100dvh;
-    display:grid;
-    grid-template-rows:max-content;
+    display: grid;
+    grid-template-rows: max-content;
 }
 
 @media not print {
@@ -136,21 +132,10 @@ body {
 }
 
 
-html, body {
+html,
+body {
     font-size: 1.1rem;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
 }
 
 
@@ -162,7 +147,7 @@ html, body {
 }
 
 
-#timer-container .hide{
+#timer-container .hide {
     display: none;
 }
 
@@ -173,51 +158,81 @@ html, body {
     align-content: center;
 }
 
+.timer-container .pilot {
+    padding: 0 1rem;
+    display: flex;
+    border-bottom: 1px solid white;
+    height: 50vh;
+    align-items: center;
+    font-size: 8rem;
+    gap: 6rem;
+}
+
+.timer-container .pilot .country .custom-image img {
+    height: 14rem;
+    border: 1px solid;
+    border-radius: 0.5rem;
+}
+
+.timer-container .pilot .number {
+    font-size: 10rem;
+}
+
+.timer-container .pilot .name {
+    line-height: 1;
+}
+
+.timer-container .time {
+    height: 50vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.timer-container .time .icon {
+    border: 0.5rem solid;
+    padding: 5rem;
+    border-radius: 50%;
+}
+
+.timer-container .time .icon svg {
+    height: 10rem;
+}
+
+.timer-container .time .left-time {
+    font-size: 18rem;
+    text-align: right;
+    font-weight: 500;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
     .timer-container .pilot {
-        padding: 0 1rem;
-        display: flex;
-        border-bottom: 1px solid white;
-        height: 50vh;
-        align-items: center;
-        font-size: 8rem;
-        gap: 6rem;
-    }
-            .timer-container .pilot .country .custom-image img {
-                height: 14rem;
-                border: 1px solid; 
-                border-radius:0.5rem;
-            }
-
-        .timer-container .pilot .number {
-            font-size: 10rem;
-        }
-
-        .timer-container .pilot .name {
-            line-height: 1;
-        }
-
-    .timer-container .time {
-        height: 50vh;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
+        font-size: 4rem;
     }
 
-        .timer-container .time .icon {
-            border: 0.5rem solid;
-            padding: 5rem;
-            border-radius: 50%;
-        }
 
-            .timer-container .time .icon svg {
-                height: 10rem;
-            }
+    .timer-container .pilot .number {
+        font-size: 5rem;
+    }
 
-        .timer-container .time .left-time {
-            font-size: 18rem;
-            text-align: right;
-            font-weight: 500;
-        }
+    .timer-container .pilot .country .custom-image img {
+        height: 7rem;
+    }
+
+    .timer-container .time .left-time {
+        font-size: 10rem;
+    }
+
+    .timer-container .time .icon {
+        padding: 2rem;
+    }
+
+    .timer-container .time .icon svg {
+        font-size: 4rem;
+    }
+}
+
 
 .pause-container {
     height: 100%;
@@ -228,16 +243,17 @@ html, body {
 }
 
 
-    .pause-container svg.svg-inline--fa {
-        margin:10rem;
-        height: 25rem;
-    }
-    .pause-container i.fa {
-        height: 25rem;
-    }
+.pause-container svg.svg-inline--fa {
+    margin: 10rem;
+    height: 25rem;
+}
+
+.pause-container i.fa {
+    height: 25rem;
+}
 
 
-    
+
 .control-center {
     padding: 0.2rem;
     display: flex;
@@ -245,80 +261,67 @@ html, body {
     flex-direction: column;
 }
 
-    .control-center .pilot-data {
-        display: grid;
-        grid-template-columns: repeat(2,max-content) auto;
-        gap: 1rem;
-        font-size: 4.5rem;
-    }
-
-        .control-center .pilot-data .country {
-        }
-
-            .control-center .pilot-data .country .custom-image img {
-                height: 7rem;
-                border: 1px solid;
-                border-radius:0.3rem;
-            }
-
-        .control-center .pilot-data .name {
-        }
-
-        .control-center .pilot-data .left-time {
-            text-align: right;
-            align-content: center;
-            margin-right: 2rem;
-            font-size: 6rem;
-        }
-
-    .control-center .maneouvres {
-        display: flex;
-        flex-direction: column;
-        gap: 0.1rem;
-    }
-
-        .control-center .maneouvres .maneouvre {
-            display: grid;
-            grid-template-columns: max-content auto max-content;
-            gap: 1rem;
-            border-bottom: 1px dashed var(--chd-grey);
-            padding-bottom: 0.1rem;
-            font-size: 1.5rem;
-        }
-
-            .control-center .maneouvres .maneouvre:last-child {
-                border-bottom: none;
-            }
-
-            .control-center .maneouvres .maneouvre .figur-id {
-            }
-
-            .control-center .maneouvres .maneouvre .figur {
-            }
-
-            .control-center .maneouvres .maneouvre .judge-scores {
-                display: grid;
-                grid-template-columns: repeat(attr(data-judges-count type(<number>)),1fr);
-                gap: 0.5rem;
-            }
-
-                .control-center .maneouvres .maneouvre .judge-scores .judge-score {
-                    display: flex;
-                    gap: 0.5rem;
-                    font-size: 1.5rem;
-                    padding: 0 0.2rem;
-                    width: 6rem;
-                    justify-content: center;
-                }
-
-                    .control-center .maneouvres .maneouvre .judge-scores .judge-score .score-total {
-                        display: none;
-                    }
-
-                    .control-center .maneouvres .maneouvre .judge-scores .judge-score .score-raw {
-                        align-content: center;
-                        font-size: 1.6rem;
-                    }
+.control-center .pilot-data {
+    display: grid;
+    grid-template-columns: repeat(2, max-content) auto;
+    gap: 1rem;
+    font-size: 4.5rem;
+}
 
 
+.control-center .pilot-data .country .custom-image img {
+    height: 7rem;
+    border: 1px solid;
+    border-radius: 0.3rem;
+}
 
+.control-center .pilot-data .left-time {
+    text-align: right;
+    align-content: center;
+    margin-right: 2rem;
+    font-size: 6rem;
+}
+
+.control-center .maneouvres {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.control-center .maneouvres .maneouvre {
+    display: grid;
+    grid-template-columns: max-content auto max-content;
+    gap: 1rem;
+    border-bottom: 1px dashed var(--chd-grey);
+    padding-bottom: 0.1rem;
+    font-size: 1.5rem;
+}
+
+.control-center .maneouvres .maneouvre:last-child {
+    border-bottom: none;
+}
+
+
+.control-center .maneouvres .maneouvre .judge-scores {
+    display: grid;
+    grid-template-columns: repeat(attr(data-judges-count type(<number>)), 1fr);
+    gap: 0.5rem;
+}
+
+.control-center .maneouvres .maneouvre .judge-scores .judge-score {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    padding: 0 0.2rem;
+    width: 6rem;
+    justify-content: center;
+}
+
+.control-center .maneouvres .maneouvre .judge-scores .judge-score .score-total {
+    display: none;
+}
+
+.control-center .maneouvres .maneouvre .judge-scores .judge-score .score-raw {
+    align-content: center;
+    font-size: 1.6rem;
+}
