@@ -17,6 +17,7 @@ namespace chdScoring.App.Platforms.Android
         {
         }
 
-        protected override bool _isiOS()=> false;
+        protected override bool _isiOS() => false;
+        protected override bool _apiKeyIsEditable() => true;
     }
 }

@@ -18,6 +18,7 @@ namespace chdScoring.App.UI.Interfaces
         Task SetAutoRedirectTo(string value);
         T? GetNativSetting<T>(string key) where T : class;
         void SetNativSetting<T>(string key, T value) where T : class;
+        bool ApiKeyIsEditable { get; }
         bool IsiOS { get; }
         Task ShowToast(string message, CancellationToken cancellationToken = default);
         void CloseApp();

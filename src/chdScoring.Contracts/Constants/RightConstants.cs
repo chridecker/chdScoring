@@ -8,5 +8,6 @@ namespace chdScoring.Contracts.Constants
     {
         public const int AdminId = -1;
         public const int Viewer = 10;
+        public const int Judge = 20;
     }
 }

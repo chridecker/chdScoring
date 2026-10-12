@@ -8,9 +8,9 @@
             <IconButton FAClass="plane" OnClick="() => this.GoHome()" />
         </ImageContent>
         <MenuContent>
-            <NavItem href="" Match="NavLinkMatch.All" IconFAClass="whistle" Title="@PageTitleConstants.Scoring" />
+            <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId, RightConstants.Judge }" href="" Match="NavLinkMatch.All" IconFAClass="whistle" Title="@PageTitleConstants.Scoring" />
             <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId, RightConstants.Viewer }" href="viewer" IconFAClass="glasses" Title="Viewer" />
-            <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId }" href="controlcenter" IconFAClass="calculator" Title="Control Center" />
+            <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId, RightConstants.Viewer }" href="controlcenter" IconFAClass="calculator" Title="Control Center" />
             <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId }" href="correction" IconFAClass="pen-to-square" Title="Score Correction" />
             <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId }" href="competitionmanagement" IconFAClass="stopwatch" Title="Competition Management" />
             <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId }" href="pilots" IconFAClass="people-group" Title="Pilots" />

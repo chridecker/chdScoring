@@ -22,7 +22,15 @@
     </div>
     <div class="setting">
         X-API-KEY:
-        <input type="text" value="@this._apiKey" @onchange="async (e) => await this.UpdateApiKey(e)" />
+        @if (settingManager.ApiKeyIsEditable)
+        {
+            <input type="text" value="@this._apiKey" @onchange="async (e) => await this.UpdateApiKey(e)" />
+        }
+        else
+        {
+            <input type="text" readonly="readonly" value="@this._apiKey"  />
+        }
+
     </div>
     <ChdAuthorizeView TRightId="int" TUserId="int" Rights="[RightConstants.AdminId]">
 

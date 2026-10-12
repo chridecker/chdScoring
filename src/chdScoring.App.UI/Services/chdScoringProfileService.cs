@@ -24,9 +24,17 @@ namespace chdScoring.App.UI.Services
                         new() { Id = RightConstants.AdminId, Name = "Administrator" },
                         };
                 }
+                else if (user.Role == EUserRole.Viewer)
+                {
+                    perm.UserRightLst = new List<UserRightDto<int>> {
+                        new() { Id = RightConstants.Viewer, Name = "Viewer" },
+                        };
+                }
                 else if (user.Role == EUserRole.Judge)
                 {
-                    perm.UserRightLst = new List<UserRightDto<int>>();
+                    perm.UserRightLst = new List<UserRightDto<int>> {
+                        new() { Id = RightConstants.Judge, Name = "Judge" },
+                    };
 
                 }
             }

@@ -55,8 +55,10 @@ namespace chdScoring.App.UI.Services
         }
 
         public bool IsiOS => this._isiOS();
+        public bool ApiKeyIsEditable => this._apiKeyIsEditable();
 
         protected abstract bool _isiOS();
+        protected abstract bool _apiKeyIsEditable();
 
         public async Task UpdateMainUrl(string url)
         {

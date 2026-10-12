@@ -3,7 +3,7 @@
 @using chdScoring.Contracts.Constants
 @inherits BaseChdScoringPage
 @page "/controlcenter"
-@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.AdminId })]
+@attribute [chdAuthorize<int>(Rights = new int[] { RightConstants.AdminId, RightConstants.Viewer })]
 
 @if (this._dto is not null)
 {
@@ -20,9 +20,18 @@
                     <div class="judge-scores">
                         @foreach (var judge in this._dto.Judges.OrderBy(o => o.Id))
                         {
-                            <div class="@(this._scoreClass(judge, maneouvre))" @ondblclick="async()=>await this.OpenHistory(judge, maneouvre)">
-                                <div class="judge-score @_scoreConfirmed(judge)">@_score(judge, maneouvre)?.ToString("0.#")</div>
-                            </div>
+                            <ChdAuthorizeView TRightId="int" TUserId="int" Rights="[RightConstants.AdminId]">
+                                <Authorized>
+                                    <div class="@(this._scoreClass(judge, maneouvre))" @ondblclick="async () => await this.OpenHistory(judge, maneouvre)">
+                                        <div class="judge-score @_scoreConfirmed(judge)">@_score(judge, maneouvre)?.ToString("0.#")</div>
+                                    </div>
+                                </Authorized>
+                                <NotAuthorized>
+                                    <div>
+                                        <div class="judge-score @_scoreConfirmed(judge)">@_score(judge, maneouvre)?.ToString("0.#")</div>
+                                    </div>
+                                </NotAuthorized>
+                            </ChdAuthorizeView>
                         }
                     </div>
                 </div>
