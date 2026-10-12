@@ -9,6 +9,7 @@ namespace chdScoring.Contracts.Interfaces
 {
     public interface IApiKeyService
     {
+        Task<ApiKeyDto> GetAsync(string key, CancellationToken cancellationToken);
         Task<List<ApiKeyDto>> GetAllAsync(CancellationToken cancellationToken);
         Task SaveAsync(ApiKeyDto dto, CancellationToken cancellationToken); 
         Task DeleteAsync(int id, CancellationToken cancellationToken);

@@ -5,7 +5,7 @@
         None = 0,
         Guest = 1,
         Judge = 2,
-        Supervisor = 3,
+        Viewer = 3,
         Admin = 4,
     }
 }

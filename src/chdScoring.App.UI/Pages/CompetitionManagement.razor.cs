@@ -311,10 +311,10 @@ namespace chdScoring.App.UI.Pages
             await this.InvokeAsync(this.StateHasChanged);
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool dispose)
         {
             this._judgeHubClient.DataReceived -= this._judgeHubClient_DataReceived;
-            base.Dispose();
+            base.Dispose(dispose);
         }
     }
 }

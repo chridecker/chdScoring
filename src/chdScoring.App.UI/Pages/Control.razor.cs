@@ -77,11 +77,11 @@ namespace chdScoring.App.UI.Pages
         }
 
 
-        public override void Dispose()
+        protected override void Dispose(bool dispose)
         {
             this._deviceDisplayService.KeepScreenOn = false;
             this._judgeHubClient.DataReceived -= this._judgeHubClient_DataReceived;
-            base.Dispose();
+            base.Dispose(dispose);
         }
     }
 }

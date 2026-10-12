@@ -13,5 +13,6 @@ namespace chdScoring.Contracts.Dtos
         public int? JudgeId { get; set; }
         public string Surname { get; set; }
         public string Lastname { get; set; }
+        public string? Redirect { get; set; }
     }
 }

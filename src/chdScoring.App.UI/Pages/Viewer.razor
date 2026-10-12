@@ -6,7 +6,7 @@
 @inherits BaseChdScoringPage
 
 
-@if (this._dto.Pilot is null)
+@if (this._dto?.Pilot is null)
 {
     <div class="pause-container">
         <CustomIcon FAClass="circle-pause" Style="@EIconStyle.Regular" />
@@ -85,12 +85,12 @@
         await this.InvokeAsync(this.StateHasChanged);
     }
 
-    public override void Dispose()
+    protected override void Dispose(bool dispose)
     {
         this._deviceDisplayService.KeepScreenOn = false;
 
         this._judgeHubClient.Connected -= this._judgeHubClient_Connected;
-        base.Dispose();
+        base.Dispose(dispose);
     }
 
 }

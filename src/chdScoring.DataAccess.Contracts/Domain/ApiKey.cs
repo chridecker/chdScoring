@@ -13,5 +13,6 @@ namespace chdScoring.DataAccess.Contracts.Domain
         public int? JudgeId { get; set; }
         public string Surname { get; set; }
         public string Lastname { get; set; }
+        public string? Redirect { get; set; }
     }
 }

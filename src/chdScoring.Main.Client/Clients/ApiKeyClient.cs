@@ -13,13 +13,16 @@ namespace chdScoring.Main.Client.Clients
     public class ApiKeyClient(ILogger<ApiKeyClient> logger, IHttpClientFactory httpClientFactory)
         : BaseApiService(logger, httpClientFactory), IApiKeyService
     {
+        public Task<ApiKeyDto> GetAsync(string key, CancellationToken cancellationToken)
+        => this.Get<ApiKeyDto>(GET.SetUrlParameters((nameof(key), key)), cancellationToken);
+
         public Task<List<ApiKeyDto>> GetAllAsync(CancellationToken cancellationToken)
-        => this.Get<List<ApiKeyDto>>(GET, cancellationToken);
+        => this.Get<List<ApiKeyDto>>(GETALL, cancellationToken);
 
         public Task SaveAsync(ApiKeyDto dto, CancellationToken cancellationToken)
             => this.Post(SAVE, dto, cancellationToken);
 
         public Task DeleteAsync(int id, CancellationToken cancellationToken)
-            => this.Delete(DELETE.SetUrlParameters(("id", id)), cancellationToken);
+            => this.Delete(DELETE.SetUrlParameters((nameof(id), id)), cancellationToken);
     }
 }

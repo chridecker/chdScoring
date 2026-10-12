@@ -17,7 +17,10 @@
         <div class="label"></div>
         <input type="number" @bind-value="this.ApiKey.JudgeId" placeholder="JudgeId" />
         <div class="label"></div>
+        <input type="text" @bind-value="this.ApiKey.Redirect" placeholder="Redirect" />
+        <div class="label"></div>
         <Selection Values="@this._redirectOptions" @bind-SelectedValue="this.SelectedRole" />
+        
     </div>
     <div class="button-section">
         <button class="btn btn-secondary" @onclick="this.Cancel">Abbrechen</button>

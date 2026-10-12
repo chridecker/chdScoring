@@ -11,6 +11,7 @@ namespace chdScoring.App.UI.Pages
 {
     public abstract class BaseChdScoringPage : PageComponentBase<int, int>, IDisposable
     {
+        private volatile bool _isDisposing = false;
         private CancellationTokenSource _cts = new();
         protected CancellationToken _token => _cts.Token;
 
@@ -26,10 +27,20 @@ namespace chdScoring.App.UI.Pages
 
 
 
-        public virtual void Dispose()
+        public void Dispose()
+        {
+            if (_isDisposing)
+            {
+                return;
+            }
+
+            _isDisposing = true;
+            this.Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
         {
             this._cts.Cancel();
-            this._cts.Dispose();
         }
     }
 }

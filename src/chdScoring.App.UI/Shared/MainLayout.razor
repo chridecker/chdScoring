@@ -6,6 +6,7 @@
 @inject IScrollInfoService scrollInfoService
 @inject IchdScoringProfileService profileService
 @inject IAppInfoService appInfoService
+@inject NavigationManager _navManager
 @implements IDisposable
 
 <div class="page @(this.clientSettings.IsiOS ? "ios" : "")">
@@ -38,11 +39,20 @@
     protected override async Task OnInitializedAsync()
     {
         this.appInfoService.ExitApplication += this.ExitApplication;
-        await profileService.LoginAsync(new()
-        {
-        });
+        profileService.UserChanged += this.UserChanged;
+        await profileService.LoginAsync(new());
+
 
         await base.OnInitializedAsync();
+    }
+
+    private async void UserChanged(object? sender, UserDto<int, int> user)
+    {
+        if (!string.IsNullOrWhiteSpace(this.profileService.CsUser?.Redirect)
+            && this._navManager.Uri == this._navManager.BaseUri && !this._navManager.Uri.Contains(this.profileService.CsUser.Redirect))
+        {
+            this._navManager.NavigateTo($"{this._navManager.BaseUri}{this.profileService.CsUser.Redirect}");
+        }
     }
 
     private async void ExitApplication(object? sender, bool exit)
@@ -57,6 +67,7 @@
     public void Dispose()
     {
         this.appInfoService.ExitApplication -= this.ExitApplication;
+        profileService.UserChanged -= this.UserChanged;
         this._cts.Cancel();
     }
 }

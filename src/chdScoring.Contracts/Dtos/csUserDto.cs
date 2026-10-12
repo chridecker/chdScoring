@@ -6,5 +6,6 @@ namespace chdScoring.Contracts.Dtos
     public class csUserDto : UserDto<int, int>
     {
         public EUserRole Role { get; set; }
+        public string? Redirect { get; set; }
     }
 }

@@ -34,6 +34,8 @@ namespace chdScoring.DataAccess.EFCore
             modelBuilder.Entity<ApiKey>(builder =>
             {
                 builder.ToTable("apikey").HasKey(x => x.Id);
+
+                builder.Property(p => p.Redirect).IsRequired(false);
             });
 
             modelBuilder.Entity<Round>(builder =>

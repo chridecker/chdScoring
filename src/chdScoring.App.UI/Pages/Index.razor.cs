@@ -256,15 +256,14 @@ namespace chdScoring.App.UI.Pages
         }
 
 
-        public override void Dispose()
+        protected override void Dispose(bool dispose)
         {
-            this._deviceDisplayService.KeepScreenOn = false;
-            this._deviceDisplayService.ScreenBrightness = this._currentBrightness;
-
             this._judgeHubClient.Connected -= this._judgeHubClient_Connected;
             this._profileService.UserChanged -= this._profileService_UserChanged;
             this._batteryService.InfoChanged -= this._batteryService_InfoChanged;
-            base.Dispose();
+            this._deviceDisplayService.KeepScreenOn = false;
+            this._deviceDisplayService.ScreenBrightness = this._currentBrightness;
+            base.Dispose(dispose);
         }
     }
 }

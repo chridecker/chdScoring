@@ -7,5 +7,6 @@ namespace chdScoring.Contracts.Constants
     public static class RightConstants
     {
         public const int AdminId = -1;
+        public const int Viewer = 10;
     }
 }

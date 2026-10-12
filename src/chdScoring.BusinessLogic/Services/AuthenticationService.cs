@@ -44,8 +44,8 @@ namespace chdScoring.BusinessLogic.Services
                 FirstName = entry.Surname,
                 LastName = entry.Lastname,
                 Id = RightConstants.AdminId,
-                Role = entry.Role
-
+                Role = entry.Role,
+                Redirect = entry.Redirect
             };
         }
         public Task<csUserDto> GetUserFromApiKeyAsync(CancellationToken cancellationToken = default)

@@ -7,7 +7,8 @@
         public class ApiKey
         {
             public const string ROUTE = "apikey";
-            public const string GET = "getall";
+            public const string GETALL = "getall";
+            public const string GET= "get";
             public const string SAVE = "save";
             public const string DELETE = "delete";
         }

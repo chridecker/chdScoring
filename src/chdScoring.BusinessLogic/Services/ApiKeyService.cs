@@ -23,8 +23,24 @@ namespace chdScoring.BusinessLogic.Services
                 Lastname = s.Lastname,
                 Surname = s.Surname,
                 Key = s.Key,
-                Role = s.Role
+                Role = s.Role,
+                Redirect = s.Redirect
             }).ToList();
+        }
+
+        public async Task<ApiKeyDto> GetAsync(string key, CancellationToken cancellationToken)
+        {
+            var s = await apiKeyRepository.FirstOrDefaultAsync(x => x.Key == key, cancellationToken);
+            return new ApiKeyDto()
+            {
+                Id = s.Id,
+                JudgeId = s.JudgeId,
+                Lastname = s.Lastname,
+                Surname = s.Surname,
+                Key = s.Key,
+                Role = s.Role,
+                Redirect = s.Redirect
+            };
         }
 
         public async Task SaveAsync(ApiKeyDto dto, CancellationToken cancellationToken)
@@ -39,7 +55,8 @@ namespace chdScoring.BusinessLogic.Services
                     Lastname = dto.Lastname,
                     Surname = dto.Surname,
                     Key = dto.Key,
-                    Role = dto.Role
+                    Role = dto.Role,
+                    Redirect = dto.Redirect
                 };
             }
             else
@@ -49,6 +66,7 @@ namespace chdScoring.BusinessLogic.Services
                 apiKey.Surname = dto.Surname;
                 apiKey.Key = dto.Key;
                 apiKey.Role = dto.Role;
+                apiKey.Redirect = dto.Redirect;
             }
 
             await apiKeyRepository.SaveAsync(apiKey, cancellationToken);
