@@ -1,0 +1,96 @@
+﻿@page "/viewer"
+@using chd.UI.Base.Client.Implementations.Authorization
+@using chd.UI.Base.Contracts.Enum
+@using chdScoring.App.UI.Pages.Components
+@using chdScoring.Contracts.Dtos
+@inherits BaseChdScoringPage
+
+
+@if (this._dto.Pilot is null)
+{
+    <div class="pause-container">
+        <CustomIcon FAClass="circle-pause" Style="@EIconStyle.Regular" />
+    </div>
+    return;
+}
+
+<div class="timer-container">
+    <div class="pilot">
+        <div class="country">
+            <div class="custom-image">
+                <img alt="@this._dto.Pilot.Country" src="@this._dto.Pilot.CountryImage.Src" />
+            </div>
+        </div>
+        <div class="number">@this._dto.Pilot.Id</div>
+        <div class="name">@this._dto.Pilot.Name</div>
+    </div>
+    <div class="time">
+        <div class="icon">
+            @if (!this._dto.LeftTime.HasValue)
+            {
+                <CustomIcon FAClass="hand" Style="@EIconStyle.Thin" />
+            }
+            else if (this._dto.LeftTime.Value <= this._dto.Round.Time)
+            {
+                if (this._dto.LeftTime.Value > TimeSpan.Zero)
+                {
+                    <CustomIcon FAClass="plane-departure" Style="@EIconStyle.Thin" />
+                }
+                else
+                {
+                    <CustomIcon FAClass="plane-slash" Style="@EIconStyle.Thin" />
+                }
+            }
+            else
+            {
+                <CustomIcon FAClass="play-pause" Style="@EIconStyle.Thin" />
+            }
+        </div>
+        <div class="left-time">@_leftTime</div>
+    </div>
+</div>
+
+
+
+@code {
+    private CurrentFlight _dto;
+
+    private string _leftTime => (this._dto?.LeftTime.HasValue ?? false) && this._dto.LeftTime.Value <= this._dto.Round.Time ?
+        this._dto.LeftTime.Value > TimeSpan.Zero ? this._dto.LeftTime.Value.ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : this._dto.Round.Time.ToString("mm\\:ss");
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.Title = PageTitleConstants.Viewer;
+        this._dto = this._judgeDataCache.Data;
+
+        if (!this._judgeHubClient.IsConnected)
+        {
+            await this._judgeHubClient.StartAsync(this._token);
+
+        }
+        this._judgeHubClient.Connected += this._judgeHubClient_Connected;
+        this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
+
+        await base.OnInitializedAsync();
+    }
+
+    private async void _judgeHubClient_Connected(object? sender, EventArgs e)
+    {
+        await this._judgeHubClient.RegisterControlCenter(this._token);
+    }
+
+    private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)
+    {
+        this._dto = e;
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+    public override void Dispose()
+    {
+        this._deviceDisplayService.KeepScreenOn = false;
+
+        this._judgeHubClient.Connected -= this._judgeHubClient_Connected;
+        base.Dispose();
+    }
+
+}

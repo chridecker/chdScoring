@@ -90,6 +90,7 @@ namespace chdScoring.App.UI.Pages
             this._redirectOptions.Add("", CreateColorOption(PageTitleConstants.Scoring, "whistle"));
             this._redirectOptions.Add("controlcenter", CreateColorOption(PageTitleConstants.ControlCenter, "calculator"));
             this._redirectOptions.Add("competitionmanagement", CreateColorOption(PageTitleConstants.CompetitionManagement, "stopwatch"));
+            this._redirectOptions.Add("viewer", CreateColorOption(PageTitleConstants.Viewer, "glasses"));
             this._selectedAutoRedirect = this._redirectOptions.FirstOrDefault(x => x.Key == this._autoRedirect);
         }
 
