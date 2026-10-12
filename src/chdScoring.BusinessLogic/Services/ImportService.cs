@@ -20,11 +20,6 @@ namespace chdScoring.BusinessLogic.Services
         {
             _optionsMonitor = optionsMonitor;
         }
-        public Task<bool> ImportBinFile(ImportFileDto dto, CancellationToken cancellationToken)
-        => this.CreateFile(dto, FolderConstants.Bin, "bin", cancellationToken);
-
-        public Task<bool> ImportJsonFile(ImportFileDto dto, CancellationToken cancellationToken)
-            => this.CreateFile(dto, FolderConstants.Json, "json", cancellationToken);
 
         public Task<bool> ImportJsonResultFile(ImportFileDto dto, CancellationToken cancellationToken)
             => this.CreateFile(dto, FolderConstants.JsonResult, "json", cancellationToken);

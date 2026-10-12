@@ -15,12 +15,6 @@ namespace chdScoring.Main.Client.Clients
         {
         }
 
-        public Task<bool> ImportBinFile(ImportFileDto dto, CancellationToken cancellationToken)
-            => this.Post<bool>(EndpointConstants.Import.POST_BIN, dto, cancellationToken);
-
-        public Task<bool> ImportJsonFile(ImportFileDto dto, CancellationToken cancellationToken)
-            => this.Post<bool>(EndpointConstants.Import.POST_JSON, dto, cancellationToken);
-
         public Task<bool> ImportJsonResultFile(ImportFileDto dto, CancellationToken cancellationToken)
             => this.Post<bool>(EndpointConstants.Import.POST_JSONRESULT, dto, cancellationToken);
     }

@@ -49,8 +49,6 @@ namespace chdScoring.Main.WebServer.Extensions
             authentication.MapGet(Authentication.USER_KEY,
                 async (IAuthenticationService service, HttpContext context, CancellationToken ct) => await service.GetUserFromApiKeyAsync(context.User, ct));
 
-            import.MapPost(Import.POST_BIN, async (ImportFileDto dto, IImportService service, CancellationToken ct) => await service.ImportBinFile(dto, ct));
-            import.MapPost(Import.POST_JSON, async (ImportFileDto dto, IImportService service, CancellationToken ct) => await service.ImportJsonFile(dto, ct));
             import.MapPost(Import.POST_JSONRESULT, async (ImportFileDto dto, IImportService service, CancellationToken ct) => await service.ImportJsonResultFile(dto, ct));
 
             print.MapGet(Print.GET_PDF, async (IPrintService svc, CancellationToken ct) => await svc.GetPdfLst(ct));

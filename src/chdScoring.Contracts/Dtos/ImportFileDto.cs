@@ -9,6 +9,5 @@ namespace chdScoring.Contracts.Dtos
         public int Pilot { get; set; }
         public int Round { get; set; }
         public byte[] File { get; set; }
-        public string Type { get; set; }
     }
 }

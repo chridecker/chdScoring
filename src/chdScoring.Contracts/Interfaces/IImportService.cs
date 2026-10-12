@@ -9,8 +9,6 @@ namespace chdScoring.Contracts.Interfaces
 {
     public interface IImportService
     {
-        Task<bool> ImportBinFile(ImportFileDto dto, CancellationToken cancellationToken);
-        Task<bool> ImportJsonFile(ImportFileDto dto, CancellationToken cancellationToken);
         Task<bool> ImportJsonResultFile(ImportFileDto dto, CancellationToken cancellationToken);
     }
 }

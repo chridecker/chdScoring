@@ -38,25 +38,20 @@
             @(_fileName)
         }
     </IconButton>
-    <select @bind="_dto.Type">
-        <option value="bin" selected>Bin-File</option>
-        <option value="json">Json-File</option>
-        <option value="json-result">Json-Result-File</option>
-    </select>
-    <IconButton FAClass="upload" Disabled="@_diableUpload" OnClick="ImportFile">Import File</IconButton>
+    
+    <IconButton FAClass="upload" Disabled="@_disableUpload" OnClick="ImportFile">Import File</IconButton>
 </div>
 
 
 @code {
     ImportFileDto _dto = new()
     {
-        Round = 1,
-        Type = "bin"
+        Round = 0,
     };
     OpenRoundDto _pilotDto;
     string _fileName;
 
-    private bool _diableUpload => string.IsNullOrEmpty(this._fileName) || this._pilotDto is null || this._dto.Round <= 0;
+    private bool _disableUpload => string.IsNullOrEmpty(this._fileName) || this._pilotDto is null || this._dto.Round <= 0;
 
     private async Task ChoosePilot()
     {
@@ -94,7 +89,6 @@
         _ = await this.modalHandler.ShowSmallDialog("Import erfolgreich", EDialogButtons.OK);
         this._dto = new()
         {
-            Type = "bin",
             Round = this._dto.Round,
             Pilot = this._dto.Pilot
         };
@@ -108,11 +102,5 @@
         this._fileName = fileName;
     }
 
-    private Task<bool> GetUploadTask() => (this._dto.Type) switch
-    {
-        "bin" => service.ImportBinFile(this._dto, _token),
-        "json" => service.ImportJsonFile(this._dto, _token),
-        "json-result" => service.ImportJsonResultFile(this._dto, _token),
-        _ => Task.FromResult(false)
-    };
+    private Task<bool> GetUploadTask() => service.ImportJsonResultFile(this._dto, _token);
 }
