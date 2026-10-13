@@ -8,7 +8,7 @@
             <IconButton FAClass="plane" OnClick="() => this.GoHome()" />
         </ImageContent>
         <MenuContent>
-            <DynamicNavMenu T="int" TUserId="int" TRightId="int" MenuCaption="" UseFavorites="false">
+            <DynamicNavMenu T="int" TUserId="int" TRightId="int" MenuCaption="" UseFavorites="@this._useFav">
                 <AdditionalNavContent>
                     @if (this._useUix)
                     {

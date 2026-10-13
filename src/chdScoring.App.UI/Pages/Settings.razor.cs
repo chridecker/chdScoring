@@ -22,6 +22,7 @@ namespace chdScoring.App.UI.Pages
         private int _scoringZoom;
         private string _speechLanguage;
         private bool _useUix;
+        private bool _useFav;
         private bool _useJudgeConfirmQuestion;
         private bool _useFCZeroQuestion;
         private Dictionary<string, RenderFragment> _speechLanguages = new Dictionary<string, RenderFragment>();
@@ -155,6 +156,11 @@ namespace chdScoring.App.UI.Pages
         private async Task UpdateUIX(ChangeEventArgs e)
         {
             await this.settingManager.StoreSettingLocal<bool>(SettingConstants.Use_UIX, (bool)e.Value);
+            await this.InvokeAsync(this.StateHasChanged);
+        }
+        private async Task UpdateFav(ChangeEventArgs e)
+        {
+            await this.settingManager.StoreSettingLocal<bool>(SettingConstants.Use_Favorites, (bool)e.Value);
             await this.InvokeAsync(this.StateHasChanged);
         }
         private async Task UpdateJudgeConfirmQuestion(ChangeEventArgs e)

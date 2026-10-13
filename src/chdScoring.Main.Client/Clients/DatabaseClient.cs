@@ -7,13 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using chd.Api.Base.Contracts.Interfaces;
 using static chdScoring.Contracts.Constants.EndpointConstants;
 
 namespace chdScoring.Main.Client.Clients
 {
-    public class DatabaseClient : BaseApiService, IDatabaseService
+    public class DatabaseClient : BaseAuthenticationApiService, IDatabaseService
     {
-        public DatabaseClient(ILogger<DatabaseClient> logger, IHttpClientFactory httpClientFactory) : base(logger, httpClientFactory)
+        public DatabaseClient(ILogger<DatabaseClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, apiKeyProvider, httpClientFactory)
         {
         }
 

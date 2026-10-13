@@ -1,18 +1,21 @@
 ﻿using chd.UI.Base.Contracts.Dtos.NavMenuNode;
 using chd.UI.Base.Contracts.Interfaces.NavMenu;
 using chdScoring.App.UI.Constants;
+using chdScoring.App.UI.Interfaces;
+using chdScoring.Contracts.Constants;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using chdScoring.Contracts.Constants;
+using chdScoring.Contracts.Extensions;
 
 namespace chdScoring.App.UI.Services
 {
-    public class NavMenuService : INavMenuNodeService<int, int, int>
+    public class NavMenuService(INavMenuFavoritesService favoritesService) : INavMenuNodeService<int, int, int>
     {
+        private List<NavMenuNodeDto<int, int>> _lst = [];
+
         public async Task<IList<NavMenuNodeDto<int, int>>> LoadNavMenuNodes(CancellationToken cancellationToken)
         {
-            var menuLst = new List<NavMenuNodeDto<int, int>>();
             var home = CreateNavMenuNode(1, PageTitleConstants.Scoring, "scoring", "whistle", [RightConstants.AdminId, RightConstants.Judge]);
 
             var timer = CreateNavMenuNode(2, "Timer", "timer", "stopwatch", [RightConstants.AdminId, RightConstants.Viewer]);
@@ -20,33 +23,37 @@ namespace chdScoring.App.UI.Services
 
             var viewer = CreateNavFolderNode(4, "Viewer", "glasses", timer, cc);
 
-            var correction = CreateNavMenuNode(4, "Score Correction", "correction", "pen-to-square", [RightConstants.AdminId]);
-            var compMgmt = CreateNavMenuNode(4, "Competition Management", "competitionmanagement", "stopwatch", [RightConstants.AdminId]);
-            var pilots = CreateNavMenuNode(4, "Pilots", "pilots", "people-group", [RightConstants.AdminId]);
+            var correction = CreateNavMenuNode(5, "Score Correction", "correction", "pen-to-square", [RightConstants.AdminId]);
+            var compMgmt = CreateNavMenuNode(6, "Competition Management", "competitionmanagement", "stopwatch", [RightConstants.AdminId]);
+            var pilots = CreateNavMenuNode(7, "Pilots", "pilots", "people-group", [RightConstants.AdminId]);
 
-            var import = CreateNavMenuNode(7, "Import", "import", "file-import", [RightConstants.AdminId]);
-            var fcScoreCorrection = CreateNavMenuNode(8, "FC-Score", "fc-scoring", "keyboard", [RightConstants.AdminId]);
+            var import = CreateNavMenuNode(8, "Import", "import", "file-import", [RightConstants.AdminId]);
+            var fcScoreCorrection = CreateNavMenuNode(9, "FC-Score", "fc-scoring", "keyboard", [RightConstants.AdminId]);
 
             var fc = CreateNavFolderNode(10, "FlightCoach", "folder", import, fcScoreCorrection);
 
+            _lst.Add(home);
+            _lst.Add(viewer);
+            _lst.Add(correction);
+            _lst.Add(compMgmt);
+            _lst.Add(pilots);
+            _lst.Add(fc);
 
-            menuLst.Add(home);
-            menuLst.Add(viewer);
-            menuLst.Add(correction);
-            menuLst.Add(compMgmt);
-            menuLst.Add(pilots);
-            menuLst.Add(fc);
-
-            return menuLst;
+            return _lst;
         }
 
-        public async Task<IList<NavMenuNodeDto<int, int>>> LoadNavMenuNodeFavorites(int userId, CancellationToken cancellationToken) => [];
+        public async Task<IList<NavMenuNodeDto<int, int>>> LoadNavMenuNodeFavorites(int userId,
+            CancellationToken cancellationToken)
+        {
+            var favorites = await favoritesService.GetAsync<int>(cancellationToken);
+            return _lst.Flatten(n => n.SubMenuNodeLst).Where(x => favorites.Contains(x.Id)).ToList();
+        }
 
-        public Task<bool> AddToFavorites<T>(T id, int userId, CancellationToken cancellationToken = new CancellationToken())
-            => Task.FromResult(false);
+        public Task<bool> AddToFavorites(int id, int userId, CancellationToken cancellationToken = new CancellationToken())
+            => favoritesService.AddAsync(id, cancellationToken);
 
-        public Task<bool> RemoveFromFavorites<T>(T id, int userId, CancellationToken cancellationToken = new CancellationToken())
-            => Task.FromResult(false);
+        public Task<bool> RemoveFromFavorites(int id, int userId, CancellationToken cancellationToken = new CancellationToken())
+            => favoritesService.RemoveAsync(id, cancellationToken);
 
         private NavMenuNodeDto<int, int> CreateNavMenuNode(int id, string title, string url, string icon, int[] rights = null)
         {

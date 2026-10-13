@@ -6,12 +6,13 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using chd.Api.Base.Contracts.Interfaces;
 using static chdScoring.Contracts.Constants.EndpointConstants.ApiKey;
 
 namespace chdScoring.Main.Client.Clients
 {
-    public class ApiKeyClient(ILogger<ApiKeyClient> logger, IHttpClientFactory httpClientFactory)
-        : BaseApiService(logger, httpClientFactory), IApiKeyService
+    public class ApiKeyClient(ILogger<ApiKeyClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory)
+        : BaseAuthenticationApiService(logger, apiKeyProvider, httpClientFactory), IApiKeyService
     {
         public Task<ApiKeyDto> GetAsync(string key, CancellationToken cancellationToken)
         => this.Get<ApiKeyDto>(GET.SetUrlParameters((nameof(key), key)), cancellationToken);

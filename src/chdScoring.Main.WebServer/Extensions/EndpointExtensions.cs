@@ -20,19 +20,19 @@ namespace chdScoring.Main.WebServer.Extensions
 
         public static IEndpointRouteBuilder MapChdScoring(this IEndpointRouteBuilder app)
         {
-            var mainGroup = app.MapGroup(ROOT).WithTags(ROOT);
+            var mainGroup = app.MapGroup(ROOT).WithTags(ROOT).RequireApiKeyAuth();
 
-            var apiKey = mainGroup.MapGroup(EndpointConstants.ApiKey.ROUTE).WithTags(EndpointConstants.ApiKey.ROUTE).RequireApiKeyAuth();
+            var apiKey = mainGroup.MapGroup(EndpointConstants.ApiKey.ROUTE).WithTags(EndpointConstants.ApiKey.ROUTE);
 
-            var authentication = mainGroup.MapGroup(EndpointConstants.Authentication.ROUTE).WithTags(EndpointConstants.Authentication.ROUTE).RequireApiKeyAuth();
+            var authentication = mainGroup.MapGroup(EndpointConstants.Authentication.ROUTE).WithTags(EndpointConstants.Authentication.ROUTE);
 
-            var control = mainGroup.MapGroup(EndpointConstants.Control.ROUTE).WithTags(EndpointConstants.Control.ROUTE).RequireApiKeyAuth();
+            var control = mainGroup.MapGroup(EndpointConstants.Control.ROUTE).WithTags(EndpointConstants.Control.ROUTE);
 
-            var scoring = mainGroup.MapGroup(Scoring.ROUTE).WithTags(Scoring.ROUTE).RequireApiKeyAuth();
-            var judges = mainGroup.MapGroup(Judge.ROUTE).WithTags(Judge.ROUTE).RequireApiKeyAuth();
+            var scoring = mainGroup.MapGroup(Scoring.ROUTE).WithTags(Scoring.ROUTE);
+            var judges = mainGroup.MapGroup(Judge.ROUTE).WithTags(Judge.ROUTE);
 
-            var pilot = mainGroup.MapGroup(Pilot.ROUTE).WithTags(Pilot.ROUTE).RequireApiKeyAuth();
-            var database = mainGroup.MapGroup(Database.ROUTE).WithTags(Database.ROUTE).RequireApiKeyAuth();
+            var pilot = mainGroup.MapGroup(Pilot.ROUTE).WithTags(Pilot.ROUTE);
+            var database = mainGroup.MapGroup(Database.ROUTE).WithTags(Database.ROUTE);
 
             var print = mainGroup.MapGroup(Print.ROUTE).WithTags(Print.ROUTE);
             var import = mainGroup.MapGroup(Import.ROUTE).WithTags(Import.ROUTE);

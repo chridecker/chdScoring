@@ -24,5 +24,38 @@ namespace chdScoring.Contracts.Extensions
 
             return standardDeviation;
         }
+
+        public static IEnumerable<T> Flatten<T>(this IEnumerable<T> source, Func<T, IEnumerable<T>> childSelector)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (childSelector == null) throw new ArgumentNullException(nameof(childSelector));
+
+            var stack = new Stack<T>();
+
+            // Elemente in umgekehrter Reihenfolge auf den Stack legen, 
+            // damit die ursprüngliche Reihenfolge bei der Ausgabe erhalten bleibt.
+            var list = source as List<T> ?? new List<T>(source);
+            for (int i = list.Count - 1; i >= 0; i--)
+            {
+                stack.Push(list[i]);
+            }
+
+            while (stack.Count > 0)
+            {
+                var current = stack.Pop();
+                yield return current;
+
+                var children = childSelector(current);
+                if (children != null)
+                {
+                    // Auch die Kinder in umgekehrter Reihenfolge pushen (für korrekte Tiefensuche-Reihenfolge)
+                    var childList = children as List<T> ?? new List<T>(children);
+                    for (int i = childList.Count - 1; i >= 0; i--)
+                    {
+                        stack.Push(childList[i]);
+                    }
+                }
+            }
+        }
     }
 }

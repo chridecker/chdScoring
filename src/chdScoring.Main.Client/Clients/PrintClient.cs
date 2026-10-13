@@ -7,13 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using chd.Api.Base.Contracts.Interfaces;
 using static chdScoring.Contracts.Constants.EndpointConstants;
 
 namespace chdScoring.Main.Client.Clients
 {
-    public class PrintClient : BaseApiService, IPrintService
+    public class PrintClient : BaseAuthenticationApiService, IPrintService
     {
-        public PrintClient(ILogger<BaseApiService> logger, IHttpClientFactory httpClientFactory) : base(logger, httpClientFactory)
+        public PrintClient(ILogger<BaseApiService> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, apiKeyProvider, httpClientFactory)
         {
         }
 

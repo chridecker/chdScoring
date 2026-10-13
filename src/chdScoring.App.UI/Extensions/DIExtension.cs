@@ -31,6 +31,7 @@ namespace chdScoring.App.UI.Extensions
 
             services.AddUtilities<chdScoringProfileService, int, int, HandleUserIdLogin, TSettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, TUpdateService>(profileServiceLifeTime);
 
+            services.AddScoped< INavMenuFavoritesService,NavMenuFavoritesService>();
             services.AddNavMenuServices<NavMenuService, int, int, int, NavMenuNode<int, int, int>>();
 
             services.AddMauiModalHandler();

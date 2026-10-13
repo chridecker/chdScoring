@@ -1,23 +1,27 @@
-﻿using chdScoring.Contracts.Dtos;
+﻿using chd.Hub.Base.Server;
+using chdScoring.BusinessLogic.Services;
+using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
+using chdScoring.DataAccess.Contracts.Domain;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using chd.Hub.Base.Server;
-using chdScoring.DataAccess.Contracts.Domain;
-using Microsoft.Extensions.Logging;
 
 namespace chdScoring.BusinessLogic.Hubs
 {
     public class FlightHub : BaseAuthenticationHub<IFlightHub>, IFlightHub
     {
         private readonly IFlightCacheService _flightCacheService;
+        private readonly IApiLogger _apiLogger;
 
-        public FlightHub(IFlightCacheService flightCacheService, ILogger<FlightHub> logger) : base(logger)
+        public FlightHub(IFlightCacheService flightCacheService, ILogger<FlightHub> logger, IApiLogger apiLogger) : base(logger)
         {
             _flightCacheService = flightCacheService;
+            _apiLogger = apiLogger;
         }
         public override async Task OnConnectedAsync()
         {
@@ -25,6 +29,8 @@ namespace chdScoring.BusinessLogic.Hubs
             await this.Clients.Caller.ReceiveRoundData(this._flightCacheService.GetCurrentRoundResults(), this.Context.ConnectionAborted);
 
             await base.OnConnectedAsync();
+            var time = DateTime.Now;
+            await _apiLogger.Log($"{time}: {Context.GetHttpContext().Request.Host} connected ID:{Context.ConnectionId}, API-Key:{_apiKey}");
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)

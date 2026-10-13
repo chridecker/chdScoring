@@ -27,12 +27,14 @@ namespace chdScoring.App.UI.Shared
 
         private bool collapseNavMenu = true;
         private bool _useUix;
+        private bool _useFav;
 
         private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
         protected override async Task OnInitializedAsync()
         {
             this._useUix = await this._settingManager.GetSettingLocal<bool>(SettingConstants.Use_UIX);
+            this._useFav = await this._settingManager.GetSettingLocal<bool>(SettingConstants.Use_Favorites);
             this.RegisterEvents();
             await base.OnInitializedAsync();
         }

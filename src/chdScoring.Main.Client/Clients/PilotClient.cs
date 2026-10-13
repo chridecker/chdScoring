@@ -1,5 +1,6 @@
 ﻿using chd.Api.Base.Client;
 using chd.Api.Base.Client.Extensions;
+using chd.Api.Base.Contracts.Interfaces;
 using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
@@ -7,9 +8,9 @@ using Microsoft.Extensions.Logging;
 
 namespace chdScoring.Main.Client.Clients
 {
-    public class PilotClient : BaseApiService, IPilotService
+    public class PilotClient : BaseAuthenticationApiService, IPilotService
     {
-        public PilotClient(ILogger<PilotClient> logger, IHttpClientFactory httpClientFactory) : base(logger, httpClientFactory)
+        public PilotClient(ILogger<PilotClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, apiKeyProvider, httpClientFactory)
         {
         }
 

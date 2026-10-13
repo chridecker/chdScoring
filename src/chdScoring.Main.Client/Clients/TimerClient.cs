@@ -1,4 +1,5 @@
 ﻿using chd.Api.Base.Client;
+using chd.Api.Base.Contracts.Interfaces;
 using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
@@ -6,9 +7,9 @@ using Microsoft.Extensions.Logging;
 
 namespace chdScoring.Main.Client.Clients
 {
-    public class TimerClient : BaseApiService, ITimerService
+    public class TimerClient : BaseAuthenticationApiService, ITimerService
     {
-        public TimerClient(ILogger<TimerClient> logger, IHttpClientFactory httpClientFactory) : base(logger, httpClientFactory)
+        public TimerClient(ILogger<TimerClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, apiKeyProvider, httpClientFactory)
         {
         }
 
