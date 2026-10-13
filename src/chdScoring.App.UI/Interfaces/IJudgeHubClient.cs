@@ -1,4 +1,5 @@
 ﻿using chd.Hub.Base.Client;
+using chd.Hub.Base.Contracts.Interfaces;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 

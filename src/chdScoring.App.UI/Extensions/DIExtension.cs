@@ -2,6 +2,7 @@
 using chd.UI.Base.Client.Extensions;
 using chd.UI.Base.Client.Implementations.Services;
 using chd.UI.Base.Client.Implementations.Services.Base;
+using chd.UI.Base.Components.General.Nav;
 using chd.UI.Base.Contracts.Interfaces.Services;
 using chd.UI.Base.Contracts.Interfaces.Services.Base;
 using chdScoring.App.UI.Helper;
@@ -29,6 +30,8 @@ namespace chdScoring.App.UI.Extensions
             services.AddAuthorizationCore();
 
             services.AddUtilities<chdScoringProfileService, int, int, HandleUserIdLogin, TSettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, TUpdateService>(profileServiceLifeTime);
+
+            services.AddNavMenuServices<NavMenuService, int, int, int, NavMenuNode<int, int, int>>();
 
             services.AddMauiModalHandler();
 

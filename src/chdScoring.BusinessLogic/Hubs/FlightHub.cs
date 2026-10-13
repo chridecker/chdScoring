@@ -7,14 +7,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using chd.Hub.Base.Server;
 using chdScoring.DataAccess.Contracts.Domain;
+using Microsoft.Extensions.Logging;
 
 namespace chdScoring.BusinessLogic.Hubs
 {
-    public class FlightHub : BaseAuthenticationHub<IFlightHub, ApiKey>, IFlightHub
+    public class FlightHub : BaseAuthenticationHub<IFlightHub>, IFlightHub
     {
         private readonly IFlightCacheService _flightCacheService;
 
-        public FlightHub(IFlightCacheService flightCacheService)
+        public FlightHub(IFlightCacheService flightCacheService, ILogger<FlightHub> logger) : base(logger)
         {
             _flightCacheService = flightCacheService;
         }
