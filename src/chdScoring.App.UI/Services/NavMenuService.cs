@@ -1,16 +1,18 @@
-﻿using chd.UI.Base.Contracts.Dtos.NavMenuNode;
+﻿using chd.UI.Base.Client.Implementations.Authorization;
+using chd.UI.Base.Contracts.Dtos.NavMenuNode;
+using chd.UI.Base.Contracts.Interfaces.Authentication;
 using chd.UI.Base.Contracts.Interfaces.NavMenu;
 using chdScoring.App.UI.Constants;
 using chdScoring.App.UI.Interfaces;
 using chdScoring.Contracts.Constants;
+using chdScoring.Contracts.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using chdScoring.Contracts.Extensions;
 
 namespace chdScoring.App.UI.Services
 {
-    public class NavMenuService(INavMenuFavoritesService favoritesService) : INavMenuNodeService<int, int, int>
+    public class NavMenuService(ISettingManager settingManager) : INavMenuNodeService<int, int, int>
     {
         private List<NavMenuNodeDto<int, int>> _lst = [];
 
@@ -45,15 +47,32 @@ namespace chdScoring.App.UI.Services
         public async Task<IList<NavMenuNodeDto<int, int>>> LoadNavMenuNodeFavorites(int userId,
             CancellationToken cancellationToken)
         {
-            var favorites = await favoritesService.GetAsync<int>(cancellationToken);
+            var favorites = await settingManager.GetSettingLocal<List<int>>(SettingConstants.UserNavFavorites) ?? [];
             return _lst.Flatten(n => n.SubMenuNodeLst).Where(x => favorites.Contains(x.Id)).ToList();
         }
 
-        public Task<bool> AddToFavorites(int id, int userId, CancellationToken cancellationToken = new CancellationToken())
-            => favoritesService.AddAsync(id, cancellationToken);
+        public async Task<bool> AddToFavorites(int id, int userId, CancellationToken cancellationToken = new CancellationToken())
+        {
+            var lst = await settingManager.GetSettingLocal<List<int>>(SettingConstants.UserNavFavorites) ?? [];
+            if (!lst.Contains(id))
+            {
+                lst.Add(id);
+                await settingManager.StoreSettingLocal(SettingConstants.UserNavFavorites, lst);
+            }
+            return true;
+        }
 
-        public Task<bool> RemoveFromFavorites(int id, int userId, CancellationToken cancellationToken = new CancellationToken())
-            => favoritesService.RemoveAsync(id, cancellationToken);
+        public async Task<bool> RemoveFromFavorites(int id, int userId, CancellationToken cancellationToken = new CancellationToken())
+        {
+            var lst = await settingManager.GetSettingLocal<List<int>>(SettingConstants.UserNavFavorites) ?? [];
+            if (lst.Contains(id))
+            {
+                lst.Remove(id);
+                await settingManager.StoreSettingLocal(SettingConstants.UserNavFavorites, lst);
+            }
+            return true;
+        }
+
 
         private NavMenuNodeDto<int, int> CreateNavMenuNode(int id, string title, string url, string icon, int[] rights = null)
         {

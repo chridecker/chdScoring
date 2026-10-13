@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using chdScoring.Contracts.Enums;
 using chdScoring.Contracts.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,11 @@ namespace chdScoring.DataAccess.DAL
         }
         public async Task<bool> Calculate(int round, CancellationToken stoppingToken)
         {
+            if((await _stammDatenRepository.FirstOrDefaultAsync(_ => true, stoppingToken)).Score_Mode != (int)EScoreMode.TBL)
+            {
+                return false;
+            }
+
             var teilnehmerLst = (await this._wettkampfLeitungRepository.Where(x => x.Durchgang == round).Include(i => i.Pilot).ToListAsync()).Select(s => s.Pilot);
             var judgesDG = await this._judgeRepository.GetRoundPanel(round, stoppingToken);
             var figuren = await this._figurRepository.GetProgramToRound(round, stoppingToken);
