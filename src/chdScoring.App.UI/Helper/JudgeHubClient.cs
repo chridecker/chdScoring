@@ -14,37 +14,22 @@ namespace chdScoring.App.UI.Helper
 {
     public class JudgeHubClient : BaseAuthenticationHubClient<IFlightHub>, IJudgeHubClient
     {
-        private readonly IApiKeyProvider _apiKeyProvider;
         private readonly IJudgeDataCache _judgeDataCache;
         private readonly ISettingManager _settingManager;
         private readonly INotificationManagerService _notificationManagerService;
 
         public JudgeHubClient(ILogger<JudgeHubClient> logger, IApiKeyProvider apiKeyProvider, IJudgeDataCache judgeDataCache, ISettingManager settingManager, INotificationManagerService notificationManagerService) : base(logger, apiKeyProvider)
         {
-            _apiKeyProvider = apiKeyProvider;
             this._judgeDataCache = judgeDataCache;
             this._settingManager = settingManager;
             this._notificationManagerService = notificationManagerService;
         }
 
-
-        protected override Action<HttpConnectionOptions> ConfigureHttpOptions => AddApiKey2;
-
-
-        protected void AddApiKey2(HttpConnectionOptions options)
-        {
-            if (!options.Headers.ContainsKey(ApiKeyConstants.HEADER_KEY))
-            {
-                var key = _apiKeyProvider.GetApiKey();
-                options.Headers.Add(ApiKeyConstants.HEADER_KEY, key);
-            }
-        }
-
         public event EventHandler<CurrentFlight> DataReceived;
 
-        protected override Uri LoadUri()
+        protected override async Task<Uri> LoadUri(CancellationToken cancellationToken)
         {
-            var baseAddress = this._settingManager.MainUrl.Result;
+            var baseAddress = await this._settingManager.MainUrl;
             return new UriBuilder($"{baseAddress}chdscoring/flight-hub").Uri;
         }
 

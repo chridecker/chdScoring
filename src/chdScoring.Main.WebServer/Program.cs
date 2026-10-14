@@ -56,21 +56,18 @@ builder.Services.AddHostedService<chdScoringService>();
 builder.Services.AddSignalR();
 
 var app = builder.Build();
+app.UseRouting();
 
 app.UseCors("AllowLocalhost");
+app.AddApiLogger();
 
 app.MapChdScoring();
 
-app.AddApiLogger();
-app.MapHub<FlightHub>("/chdScoring/flight-hub");//.RequireApiKeyAuth();
-
-
 app.UseBaseApi();
 app.MapBaseApi("chdScoringAPI");
+app.MapHub<FlightHub>("/chdScoring/flight-hub").RequireSignalRKeyAuth();
+app.MapHub<DeviceHub>("/chdScoring/device-hub").RequireSignalRKeyAuth();
 
-app.UseRouting();
-
-app.UseAuthentication();
 app.UseAuthorization();
 
 

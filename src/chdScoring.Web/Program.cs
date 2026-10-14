@@ -12,10 +12,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost", policy =>
     {
-        policy.AllowAnyHeader()
+        policy.SetIsOriginAllowed(_ => true)
+            .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowAnyOrigin()
-              .SetIsOriginAllowed(origin => true)
               .AllowCredentials(); // wichtig für SignalR
     });
 });

@@ -49,6 +49,9 @@
             <SettingCheckbox SettingText="Use UIX" Checked="@this._useUix" OnChange="async (e) => await UpdateUIX(e)" />
         </div>
         <div class="setting">
+            <SettingCheckbox SettingText="Use Favorites" Checked="@this._useFav" OnChange="async (e) => await UpdateFav(e)" />
+        </div>
+        <div class="setting">
             <SettingCheckbox SettingText="Use Judge Confirm Question" Checked="@this._useJudgeConfirmQuestion" OnChange="async (e) => await UpdateJudgeConfirmQuestion(e)" />
         </div>
         <div class="setting">

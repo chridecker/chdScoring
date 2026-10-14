@@ -1,26 +1,19 @@
 ﻿@using chd.UI.Base.Contracts.Enum
-@using chdScoring.App.UI.Services;
-@inject ISettingManager settingManager
 
-<div class="nav-menu @(this.settingManager.IsiOS ? "ios" : "")">
+<div class="nav-menu @(this._settingManager.IsiOS ? "ios" : "")">
     <NavMenuBase Visible="this.Visible">
         <ImageContent>
             <IconButton FAClass="plane" OnClick="() => this.GoHome()" />
         </ImageContent>
         <MenuContent>
-            <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId, RightConstants.Judge }" href="" Match="NavLinkMatch.All" IconFAClass="whistle" Title="@PageTitleConstants.Scoring" />
-            <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId, RightConstants.Viewer }" href="viewer" IconFAClass="glasses" Title="Viewer" />
-            <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId, RightConstants.Viewer }" href="controlcenter" IconFAClass="calculator" Title="Control Center" />
-            <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId }" href="correction" IconFAClass="pen-to-square" Title="Score Correction" />
-            <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId }" href="competitionmanagement" IconFAClass="stopwatch" Title="Competition Management" />
-            <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId }" href="pilots" IconFAClass="people-group" Title="Pilots" />
-            <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId }" href="import" IconFAClass="file-import" Title="Import" />
-            <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId }" href="fc-scoring" IconFAClass="keyboard" Title="FC-Score" />
-            <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId }" href="apikeys" IconFAClass="key" Title="Api Keys" />
-            @if (this._useUix)
-            {
-                <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId }" href="uix" IconFAClass="flask" Title="UI Xperiments" />
-            }
+            <DynamicNavMenu T="int" TUserId="int" TRightId="int" MenuCaption="" UseFavorites="@this._useFav">
+                <AdditionalNavContent>
+                    @if (this._useUix)
+                    {
+                        <AuthorizedNavItem TUserId="int" TRightId="int" Rights="new int[] { RightConstants.AdminId }" href="uix" IconFAClass="flask" Title="UI Xperiments" />
+                    }
+                </AdditionalNavContent>
+            </DynamicNavMenu>
         </MenuContent>
         <BottomContent>
             <NavItem Style="@EIconStyle.Regular" href="settings" IconFAClass="fa-gear" Title="Settings" />

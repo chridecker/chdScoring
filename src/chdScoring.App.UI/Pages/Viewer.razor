@@ -1,4 +1,4 @@
-﻿@page "/viewer"
+﻿@page "/timer"
 @using chd.UI.Base.Client.Implementations.Authorization
 @using chd.UI.Base.Contracts.Enum
 @using chdScoring.App.UI.Pages.Components
@@ -14,7 +14,7 @@
     return;
 }
 
-<div class="timer-container">
+<div class="timer-container" style="zoom: @(this._zoom)%">
     <div class="pilot">
         <div class="country">
             <div class="custom-image">
@@ -53,6 +53,7 @@
 
 
 @code {
+    private int _zoom = 100;
     private CurrentFlight _dto;
 
     private string _leftTime => (this._dto?.LeftTime.HasValue ?? false) && this._dto.LeftTime.Value <= this._dto.Round.Time ?
@@ -62,6 +63,7 @@
     {
         this.Title = PageTitleConstants.Viewer;
         this._dto = this._judgeDataCache.Data;
+        this._zoom = await this.settingManager.GetScoringZoom();
 
         if (!this._judgeHubClient.IsConnected)
         {

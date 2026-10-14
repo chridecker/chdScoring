@@ -23,9 +23,8 @@
 
         const connection = new signalR.HubConnectionBuilder()
             .withUrl(hubUrl, {
-                headers: {
-                    "x-api-key": apiKey
-                }
+               accessTokenFactory: ()=>  "ch3510r",
+                transport: signalR.HttpTransportType.WebSockets
             })
              .build();
 

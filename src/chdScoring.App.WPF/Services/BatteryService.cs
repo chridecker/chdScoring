@@ -1,16 +1,20 @@
-﻿using chdScoring.App.UI.Interfaces;
+﻿using chd.Base.UI.WPF.Hosting;
+using chdScoring.App.UI.Interfaces;
+using Microsoft.Web.WebView2.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Management;
 using System.Text;
 using System.Threading.Tasks;
-using System.Management;
-using Microsoft.Web.WebView2.Core;
 
 namespace chdScoring.App.WPF.Services
 {
     public class BatteryService : IBatteryService
     {
+        private readonly IGuiContext _guiContext;
+        private readonly App _app;
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
         private double _level = 0;
@@ -21,11 +25,29 @@ namespace chdScoring.App.WPF.Services
 
         public event EventHandler InfoChanged;
 
-        public BatteryService()
+
+        public BatteryService(IGuiContext guiContext, App app)
         {
+            _guiContext = guiContext;
+            _app = app;
             this.LeveLoading();
         }
 
+        public Task ExitApplication(bool restart)
+        {
+            if (restart)
+            {
+                Process.Start(Environment.ProcessPath!);
+            }
+            this._guiContext.Invoke(_app.Shutdown);
+            return Task.CompletedTask;
+        }
+
+        public Task Identify()
+        {
+            System.Media.SystemSounds.Beep.Play();
+            return Task.CompletedTask;
+        }
 
         private void LeveLoading() => Task.Run(async () =>
         {

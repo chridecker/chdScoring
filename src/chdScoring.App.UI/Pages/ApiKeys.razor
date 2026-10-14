@@ -22,6 +22,7 @@
             <div class="name">@key.Surname</div>
             <div class="name">@key.Lastname</div>
             <div class="name">@key.JudgeId</div>
+            <div class="name">@key.Redirect</div>
         </div>
     }
 </div>
@@ -99,7 +100,8 @@
             Lastname = _current.Lastname,
             JudgeId = _current.JudgeId,
             Role = _current.Role,
-            Surname = _current.Surname
+            Redirect = _current.Redirect,
+            Surname = _current.Surname,
         };
 
         var modal = await this.modalHandler.Show<EditApiKeyModal>("Api Key", new ModalParameters()

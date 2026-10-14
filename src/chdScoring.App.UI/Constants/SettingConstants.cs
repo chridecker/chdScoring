@@ -11,11 +11,10 @@
         public const string ScoringZoom = "ScoringZoom";
         public const string AvailableLanguages = "AvailableLanguages";
         public const string SpeechLanguage = "SpeechLanguage";
+        public const string UserNavFavorites = "UserNavFavorites";
 
-        public const string Use_ControlBoard = "USE_ControlBoard";
-        public const string Use_CompMgmt = "USE_Comp_Mgmt";
-        public const string Use_Scoring = "USE_Scoring";
         public const string Use_UIX= "USE_UIX";
+        public const string Use_Favorites= "USE_Favorites";
 
         public const string Use_JudgeConfirm_Question= "USE_Judge_Confirm_Question";
         public const string Use_FCZero_Question= "USE_FC_Zero_Question";

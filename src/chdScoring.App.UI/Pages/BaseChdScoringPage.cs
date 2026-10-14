@@ -20,11 +20,22 @@ namespace chdScoring.App.UI.Pages
         [Inject] protected ISettingManager settingManager { get; set; }
         [Inject] protected IScoringService _scoringService { get; set; }
         [Inject] protected IJudgeHubClient _judgeHubClient { get; set; }
+        [Inject] protected IDeviceHubClient _deviceHubClient { get; set; }
         [Inject] protected IJudgeDataCache _judgeDataCache { get; set; }
         [Inject] protected ITimerService _timerService { get; set; }
         [Inject] protected IVibrationHelper _vibrationHelper { get; set; }
         [Inject] protected IDeviceDisplayService _deviceDisplayService { get; set; }
 
+        protected override async Task OnInitializedAsync()
+        {
+            if (!_deviceHubClient.IsConnected)
+            {
+                await _deviceHubClient.StartAsync(_cts.Token);
+            }
+            await _deviceHubClient.Update(_cts.Token);
+
+            await base.OnInitializedAsync();
+        }
 
 
         public void Dispose()

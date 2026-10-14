@@ -40,4 +40,10 @@
         .judges-score-control .judge-row .judge {
             min-width: 15rem;
         }
+
+    .judges-score-control-spacer {
+        min-width: 14rem;
+        min-height: 1rem;
+    }
 }
+

@@ -4,22 +4,28 @@
 @using chdScoring.Contracts.Dtos
 @using chdScoring.Contracts.Interfaces
 
-<div class="judges-score-control">
-    @foreach (var judge in this.Dto.Judges)
-    {
-        <div class="judge-row" @ondblclick="async () => await this.GotoJudge(judge.Id)">
-            <div class="judge">@judge.Name</div>
-            <div class="judge-scores">@this.Dto.ManeouvreLst[judge.Id].Count(x => x.Saved)</div>
-            <div class="judge-confirmed">
-                @if (this.Dto.JudgeConfirms.Any(a => a.Judge == judge.Id))
-                {
-                    <IconButton ButtonStyle="EButtonStyle.Empty" OnClick="async ()=> await this.UnConfirmScores(judge)" FAClass="badge-check" />
-                }
+@if (this.Dto is not null)
+{
+    <div class="judges-score-control">
+        @foreach (var judge in this.Dto.Judges)
+        {
+            <div class="judge-row" @ondblclick="async () => await this.GotoJudge(judge.Id)">
+                <div class="judge">@judge.Name</div>
+                <div class="judge-scores">@this.Dto.ManeouvreLst[judge.Id].Count(x => x.Saved)</div>
+                <div class="judge-confirmed">
+                    @if (this.Dto.JudgeConfirms.Any(a => a.Judge == judge.Id))
+                    {
+                        <IconButton ButtonStyle="EButtonStyle.Empty" OnClick="async () => await this.UnConfirmScores(judge)" FAClass="badge-check" />
+                    }
+                </div>
             </div>
-        </div>
-    }
-</div>
-
+        }
+    </div>
+}
+else
+{
+    <div class="judges-score-control-spacer"></div>
+}
 
 @code {
     [Parameter] public CancellationToken CancellationToken { get; set; }

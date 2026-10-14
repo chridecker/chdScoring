@@ -3,6 +3,7 @@ using chd.UI.Base.Components.General;
 using chd.UI.Base.Contracts.Interfaces.Update;
 using chdScoring.App.UI.Constants;
 using chdScoring.App.UI.Interfaces;
+using chdScoring.Contracts.Constants;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Components;
 
@@ -22,6 +23,7 @@ namespace chdScoring.App.UI.Pages
         private int _scoringZoom;
         private string _speechLanguage;
         private bool _useUix;
+        private bool _useFav;
         private bool _useJudgeConfirmQuestion;
         private bool _useFCZeroQuestion;
         private Dictionary<string, RenderFragment> _speechLanguages = new Dictionary<string, RenderFragment>();
@@ -87,10 +89,10 @@ namespace chdScoring.App.UI.Pages
 
         private void InitSelection()
         {
-            this._redirectOptions.Add("", CreateColorOption(PageTitleConstants.Scoring, "whistle"));
-            this._redirectOptions.Add("controlcenter", CreateColorOption(PageTitleConstants.ControlCenter, "calculator"));
-            this._redirectOptions.Add("competitionmanagement", CreateColorOption(PageTitleConstants.CompetitionManagement, "stopwatch"));
-            this._redirectOptions.Add("viewer", CreateColorOption(PageTitleConstants.Viewer, "glasses"));
+            foreach(var route in ClientRouteConstants.GetConstants())
+            {
+                this._redirectOptions.Add(route.Value.ToString(), CreateColorOption(route.Name));
+            }
             this._selectedAutoRedirect = this._redirectOptions.FirstOrDefault(x => x.Key == this._autoRedirect);
         }
 
@@ -155,6 +157,11 @@ namespace chdScoring.App.UI.Pages
         private async Task UpdateUIX(ChangeEventArgs e)
         {
             await this.settingManager.StoreSettingLocal<bool>(SettingConstants.Use_UIX, (bool)e.Value);
+            await this.InvokeAsync(this.StateHasChanged);
+        }
+        private async Task UpdateFav(ChangeEventArgs e)
+        {
+            await this.settingManager.StoreSettingLocal<bool>(SettingConstants.Use_Favorites, (bool)e.Value);
             await this.InvokeAsync(this.StateHasChanged);
         }
         private async Task UpdateJudgeConfirmQuestion(ChangeEventArgs e)

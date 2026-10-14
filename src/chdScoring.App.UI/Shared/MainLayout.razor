@@ -5,6 +5,7 @@
 @inject ISettingManager clientSettings
 @inject IScrollInfoService scrollInfoService
 @inject IchdScoringProfileService profileService
+@inject IDeviceHubClient deviceHubClient
 @inject IAppInfoService appInfoService
 @inject NavigationManager _navManager
 @implements IDisposable
@@ -39,6 +40,10 @@
     protected override async Task OnInitializedAsync()
     {
         this.appInfoService.ExitApplication += this.ExitApplication;
+        deviceHubClient.ChangeNavigation += OnChangeNavigation;
+        deviceHubClient.ChangeAutoRedirect += OnChangeAutoRedirect;
+        deviceHubClient.ChangeApiKey += OnChangeApiKey;
+        deviceHubClient.ChangeZoom += OnChangeZoom;
         profileService.UserChanged += this.UserChanged;
         await profileService.LoginAsync(new());
 
@@ -46,12 +51,39 @@
         await base.OnInitializedAsync();
     }
 
-    private async void UserChanged(object? sender, UserDto<int, int> user)
+    private void UserChanged(object? sender, UserDto<int, int> user)
     {
-        if (!string.IsNullOrWhiteSpace(this.profileService.CsUser?.Redirect)
-            && this._navManager.Uri == this._navManager.BaseUri && !this._navManager.Uri.Contains(this.profileService.CsUser.Redirect))
+        Navigate(this.profileService.CsUser?.Redirect);
+    }
+
+    private async void OnChangeAutoRedirect(object? sender, string redirect)
+    {
+        await clientSettings.StoreSettingLocal(SettingConstants.AutoRedirectTo, redirect);
+    }
+
+    private async void OnChangeApiKey(object? sender, string apiKey)
+    {
+        await this.clientSettings.UpdateApiKey(apiKey);
+        this.clientSettings.SetNativSetting(SettingConstants.ApiKey, apiKey);
+    }
+
+    private async void OnChangeZoom(object? sender, int zoom)
+    {
+        await clientSettings.StoreSettingLocal(SettingConstants.ScoringZoom, zoom);
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+    private void OnChangeNavigation(object? sender, string redirect)
+    {
+        Navigate(redirect);
+    }
+
+    private void Navigate(string redirect)
+    {
+        if (!string.IsNullOrWhiteSpace(redirect)
+            && !this._navManager.Uri.Contains(redirect))
         {
-            this._navManager.NavigateTo($"{this._navManager.BaseUri}{this.profileService.CsUser.Redirect}");
+            this._navManager.NavigateTo($"{this._navManager.BaseUri}{redirect}");
         }
     }
 
@@ -68,6 +100,7 @@
     {
         this.appInfoService.ExitApplication -= this.ExitApplication;
         profileService.UserChanged -= this.UserChanged;
+        deviceHubClient.ChangeNavigation -= OnChangeNavigation;
         this._cts.Cancel();
     }
 }

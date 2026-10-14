@@ -2,6 +2,7 @@
 using chd.UI.Base.Client.Extensions;
 using chd.UI.Base.Client.Implementations.Services;
 using chd.UI.Base.Client.Implementations.Services.Base;
+using chd.UI.Base.Components.General.Nav;
 using chd.UI.Base.Contracts.Interfaces.Services;
 using chd.UI.Base.Contracts.Interfaces.Services.Base;
 using chdScoring.App.UI.Helper;
@@ -16,8 +17,7 @@ namespace chdScoring.App.UI.Extensions
 {
     public static class DIExtension
     {
-        public static IServiceCollection AddChdScoringAppUI<TNetworkManager, TDeviceDisplayService, TVibrationHelper, TUpdateService, TSettingManager, TBatteryService, TTTS, TFilePickerService>(this IServiceCollection services, IConfiguration configuration, ServiceLifetime profileServiceLifeTime = ServiceLifetime.Singleton)
-            where TNetworkManager : class, INetworkManager
+        public static IServiceCollection AddChdScoringAppUI<TDeviceDisplayService, TVibrationHelper, TUpdateService, TSettingManager, TBatteryService, TTTS, TFilePickerService>(this IServiceCollection services, IConfiguration configuration, ServiceLifetime profileServiceLifeTime = ServiceLifetime.Singleton)
             where TVibrationHelper : class, IVibrationHelper
             where TSettingManager : BaseSettingManager, ISettingManager
             where TUpdateService : BaseUpdateService
@@ -30,12 +30,13 @@ namespace chdScoring.App.UI.Extensions
 
             services.AddUtilities<chdScoringProfileService, int, int, HandleUserIdLogin, TSettingManager, ISettingManager, UiHandler, IBaseUIComponentHandler, TUpdateService>(profileServiceLifeTime);
 
+            services.AddNavMenuServices<NavMenuService, int, int, int, NavMenuNode<int, int, int>>();
+
             services.AddMauiModalHandler();
 
             services.AddSingleton<IDeviceDisplayService, TDeviceDisplayService>();
             services.AddSingleton<IVibrationHelper, TVibrationHelper>();
             services.AddSingleton<IBatteryService, TBatteryService>();
-            services.AddSingleton<INetworkManager, TNetworkManager>();
             services.AddSingleton<IFilePickerService, TFilePickerService>();
 
             services.AddSingleton<IAppInfoService, AppInfoService>();
@@ -48,6 +49,8 @@ namespace chdScoring.App.UI.Extensions
 
             /* Scoped */
             services.AddScoped<INavigationHandler, NavigationHandler>();
+
+            services.AddScoped<IDeviceHubClient, DeviceHubClient>();
 
             services.AddScoped<IJudgeHubClient, JudgeHubClient>();
             services.AddSingleton<IJudgeDataCache, JudgeDataCache>();
