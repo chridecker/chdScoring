@@ -27,9 +27,9 @@ namespace chdScoring.App.UI.Helper
 
         public event EventHandler<CurrentFlight> DataReceived;
 
-        protected override Uri LoadUri()
+        protected override async Task<Uri> LoadUri(CancellationToken cancellationToken)
         {
-            var baseAddress = this._settingManager.MainUrl.Result;
+            var baseAddress = await this._settingManager.MainUrl;
             return new UriBuilder($"{baseAddress}chdscoring/flight-hub").Uri;
         }
 

@@ -55,11 +55,11 @@ namespace chdScoring.App.UI.Helper
             await SendDto(CancellationToken.None);
         }
 
-        protected override Uri LoadUri()
+        protected override async Task<Uri> LoadUri(CancellationToken cancellationToken)
         {
-            //var baseAddress = settingManager.MainUrl.Result;
-            return new UriBuilder($"http://localhost:8081/chdscoring/device-hub").Uri;
-            //return new UriBuilder($"{baseAddress}chdscoring/device-hub").Uri;
+            var baseAddress = await settingManager.MainUrl;
+            //return new UriBuilder($"http://localhost:8081/chdscoring/device-hub").Uri;
+            return new UriBuilder($"{baseAddress}chdscoring/device-hub").Uri;
         }
 
         private async Task SendDto(CancellationToken cancellationToken)

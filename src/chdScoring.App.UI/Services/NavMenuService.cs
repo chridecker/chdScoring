@@ -23,7 +23,7 @@ namespace chdScoring.App.UI.Services
             var timer = CreateNavMenuNode(2, "Timer", "timer", "stopwatch", [RightConstants.AdminId, RightConstants.Viewer]);
             var cc = CreateNavMenuNode(3, "Control Center", "controlcenter", "calculator", [RightConstants.AdminId, RightConstants.Viewer]);
 
-            var viewer = CreateNavFolderNode(4, "Viewer", "glasses", timer, cc);
+            var viewer = CreateNavFolderNode(4, "Viewer", "glasses", [RightConstants.AdminId, RightConstants.Viewer], timer, cc);
 
             var correction = CreateNavMenuNode(5, "Score Correction", "correction", "pen-to-square", [RightConstants.AdminId]);
             var compMgmt = CreateNavMenuNode(6, "Competition Management", "competitionmanagement", "stopwatch", [RightConstants.AdminId]);
@@ -32,7 +32,8 @@ namespace chdScoring.App.UI.Services
             var import = CreateNavMenuNode(8, "Import", "import", "file-import", [RightConstants.AdminId]);
             var fcScoreCorrection = CreateNavMenuNode(9, "FC-Score", "fc-scoring", "keyboard", [RightConstants.AdminId]);
 
-            var fc = CreateNavFolderNode(10, "FlightCoach", "folder", import, fcScoreCorrection);
+            var fc = CreateNavFolderNode(10, "FlightCoach", "folder", [RightConstants.AdminId], import, fcScoreCorrection);
+            var apiKeys = CreateNavMenuNode(11, "Api Keys", "apikeys", "key", [RightConstants.AdminId]);
 
             _lst.Add(home);
             _lst.Add(viewer);
@@ -40,6 +41,7 @@ namespace chdScoring.App.UI.Services
             _lst.Add(compMgmt);
             _lst.Add(pilots);
             _lst.Add(fc);
+            _lst.Add(apiKeys);
 
             return _lst;
         }
@@ -86,14 +88,15 @@ namespace chdScoring.App.UI.Services
                 NeedsAuthentication = true,
             };
         }
-        private NavMenuNodeDto<int, int> CreateNavFolderNode(int id, string title, string icon, params NavMenuNodeDto<int, int>[] children)
+        private NavMenuNodeDto<int, int> CreateNavFolderNode(int id, string title, string icon,int[] rights = null, params NavMenuNodeDto<int, int>[] children)
         {
             var folder = new NavMenuNodeDto<int, int>
             {
                 Id = id,
                 Title = title,
                 FAIcon = icon,
-                SubMenuNodeLst = children
+                SubMenuNodeLst = children,
+                Rights = rights
             };
             foreach (var child in children)
             {

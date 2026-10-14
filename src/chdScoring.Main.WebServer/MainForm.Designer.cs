@@ -261,24 +261,30 @@
             // 
             // lastUpdateDataGridViewTextBoxColumn
             // 
+            lastUpdateDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             lastUpdateDataGridViewTextBoxColumn.DataPropertyName = "LastUpdate";
             lastUpdateDataGridViewTextBoxColumn.HeaderText = "LastUpdate";
             lastUpdateDataGridViewTextBoxColumn.Name = "lastUpdateDataGridViewTextBoxColumn";
             lastUpdateDataGridViewTextBoxColumn.ReadOnly = true;
+            lastUpdateDataGridViewTextBoxColumn.Width = 5;
             // 
             // User
             // 
+            User.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             User.DataPropertyName = "User";
             User.HeaderText = "User";
             User.Name = "User";
             User.ReadOnly = true;
+            User.Width = 5;
             // 
             // CurrentSite
             // 
+            CurrentSite.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             CurrentSite.DataPropertyName = "CurrentSite";
             CurrentSite.HeaderText = "CurrentSite";
             CurrentSite.Name = "CurrentSite";
             CurrentSite.ReadOnly = true;
+            CurrentSite.Width = 5;
             // 
             // batteryLevelDataGridViewTextBoxColumn
             // 
@@ -303,10 +309,12 @@
             // 
             // currentLocalTimeDataGridViewTextBoxColumn
             // 
+            currentLocalTimeDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
             currentLocalTimeDataGridViewTextBoxColumn.DataPropertyName = "CurrentLocalTime";
             currentLocalTimeDataGridViewTextBoxColumn.HeaderText = "CurrentLocalTime";
             currentLocalTimeDataGridViewTextBoxColumn.Name = "currentLocalTimeDataGridViewTextBoxColumn";
             currentLocalTimeDataGridViewTextBoxColumn.ReadOnly = true;
+            currentLocalTimeDataGridViewTextBoxColumn.Width = 5;
             // 
             // MainForm
             // 

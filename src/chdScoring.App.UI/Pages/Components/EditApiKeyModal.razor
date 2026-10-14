@@ -20,7 +20,7 @@
         <input type="text" @bind-value="this.ApiKey.Redirect" placeholder="Redirect" />
         <div class="label"></div>
         <Selection Values="@this._redirectOptions" @bind-SelectedValue="this.SelectedRole" />
-        
+
     </div>
     <div class="button-section">
         <button class="btn btn-secondary" @onclick="this.Cancel">Abbrechen</button>
@@ -31,7 +31,7 @@
 
 @code {
 
-    private Dictionary<EUserRole, RenderFragment> _redirectOptions = new Dictionary<EUserRole, RenderFragment>();
+    private Dictionary<string, RenderFragment> _redirectOptions = new Dictionary<string, RenderFragment>();
 
     [Inject] IApiKeyService apiKeyService { get; set; }
     [Inject] IModalHandler modalService { get; set; }
@@ -55,8 +55,9 @@
     {
         foreach (var role in Enum.GetValues<EUserRole>())
         {
-            this._redirectOptions.Add(role, CreateOption(Enum.GetName(role), "circle-check"));
+            this._redirectOptions.Add(Enum.GetName(role), CreateOption(Enum.GetName(role), "circle-check"));
         }
+        this._selectedRole = _redirectOptions.FirstOrDefault(x => x.Key == Enum.GetName(ApiKey.Role));
     }
 
     private RenderFragment CreateOption(string text, string icon = "circle-check") => builder =>
@@ -67,9 +68,9 @@
         builder.CloseComponent();
     };
 
-    private KeyValuePair<EUserRole, RenderFragment>? _selectedRole;
+    private KeyValuePair<string, RenderFragment>? _selectedRole;
 
-    private KeyValuePair<EUserRole, RenderFragment>? SelectedRole
+    private KeyValuePair<string, RenderFragment>? SelectedRole
     {
         get => this._selectedRole;
         set
@@ -78,12 +79,12 @@
             this.SelectedRoleChanged(value);
         }
     }
-    private async Task SelectedRoleChanged(KeyValuePair<EUserRole, RenderFragment>? val)
+    private async Task SelectedRoleChanged(KeyValuePair<string, RenderFragment>? val)
     {
         this._selectedRole = val;
         if (val.HasValue)
         {
-            ApiKey.Role = val.Value.Key;
+            ApiKey.Role = Enum.Parse<EUserRole>(val.Value.Key);
         }
         await this.InvokeAsync(this.StateHasChanged);
     }
