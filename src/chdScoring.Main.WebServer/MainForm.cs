@@ -51,6 +51,25 @@ namespace chdScoring.Main.WebServer
             _deviceCacheService.DeviceStatusChanged += _deviceCacheService_DeviceStatusChanged;
 
             dataGridViewDevices.CellMouseClick += DataGridViewDevices_CellMouseClick;
+
+        }
+
+        //private async void BindingSourceApiKeys_CurrentChanged(object? sender, EventArgs e)
+        //{
+        //    if (sender is BindingSource bs
+        //       && bs.Current is ApiKeyDto apiKey)
+        //    {
+        //        using var scope = _serviceProvider.CreateScope();
+        //        var svc = scope.ServiceProvider.GetService<IApiKeyService>();
+        //        await svc.SaveAsync(apiKey, CancellationToken.None);
+        //    }
+        //}
+
+        protected override async void OnShown(EventArgs e)
+        {
+            await ReloadApiKeys(CancellationToken.None);
+            base.OnShown(e);
+            //bindingSourceApiKeys.CurrentItemChanged += BindingSourceApiKeys_CurrentChanged;
         }
 
         private async void DataGridViewDevices_CellMouseClick(object? sender, DataGridViewCellMouseEventArgs e)
@@ -244,6 +263,8 @@ namespace chdScoring.Main.WebServer
             using var scope = this._serviceProvider.CreateScope();
             await scope.ServiceProvider.GetRequiredService<IFlightCacheService>().Update(CancellationToken.None);
             await scope.ServiceProvider.GetService<IHubDataService>().SendAll(CancellationToken.None);
+
+            await ReloadApiKeys(CancellationToken.None);
         }
 
         private void checkBoxAutoPrint_CheckedChanged(object sender, EventArgs e)
@@ -253,6 +274,24 @@ namespace chdScoring.Main.WebServer
                 this._printCache.AutoPrint = this.checkBoxAutoPrint.Checked;
             }
         }
+
+        private async Task ReloadApiKeys(CancellationToken cancellationToken)
+        {
+            using var scope = this._serviceProvider.CreateScope();
+            var svc = scope.ServiceProvider.GetService<IApiKeyService>();
+
+            if (this.InvokeRequired)
+            {
+                await this.InvokeAsync(async () => bindingSourceApiKeys.DataSource = await svc.GetAllAsync(cancellationToken), cancellationToken);
+            }
+            else
+            {
+                bindingSourceApiKeys.DataSource = await svc.GetAllAsync(cancellationToken);
+            }
+
+
+        }
+
 
         private async void buttonImportCsv_Click(object sender, EventArgs e)
         {

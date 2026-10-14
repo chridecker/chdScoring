@@ -56,7 +56,17 @@
             currentVersionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             currentLocalTimeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             bindingSourceDevices = new BindingSource(components);
+            tabPage4 = new TabPage();
+            dataGridView1 = new DataGridView();
             openFileDialogImportCsv = new OpenFileDialog();
+            bindingSourceApiKeys = new BindingSource(components);
+            idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            keyDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            roleDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            judgeIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            surnameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            lastnameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            redirectDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             contextMenuStripSysTray.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -64,6 +74,9 @@
             tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewDevices).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSourceDevices).BeginInit();
+            tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSourceApiKeys).BeginInit();
             SuspendLayout();
             // 
             // notifyIconMain
@@ -103,6 +116,7 @@
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
+            tabControl1.Controls.Add(tabPage4);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
             tabControl1.Margin = new Padding(2);
@@ -312,9 +326,78 @@
             // 
             bindingSourceDevices.DataSource = typeof(Contracts.Dtos.DeviceStatusDto);
             // 
+            // tabPage4
+            // 
+            tabPage4.Controls.Add(dataGridView1);
+            tabPage4.Location = new Point(4, 24);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Padding = new Padding(3);
+            tabPage4.Size = new Size(1117, 526);
+            tabPage4.TabIndex = 3;
+            tabPage4.Text = "Api-Keys";
+            tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.AutoGenerateColumns = false;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, keyDataGridViewTextBoxColumn, roleDataGridViewTextBoxColumn, judgeIdDataGridViewTextBoxColumn, surnameDataGridViewTextBoxColumn, lastnameDataGridViewTextBoxColumn, redirectDataGridViewTextBoxColumn });
+            dataGridView1.DataSource = bindingSourceApiKeys;
+            dataGridView1.Dock = DockStyle.Fill;
+            dataGridView1.Location = new Point(3, 3);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.Size = new Size(1111, 520);
+            dataGridView1.TabIndex = 0;
+            // 
             // openFileDialogImportCsv
             // 
             openFileDialogImportCsv.FileName = "openFileDialogImportCsv";
+            // 
+            // bindingSourceApiKeys
+            // 
+            bindingSourceApiKeys.DataSource = typeof(Contracts.Dtos.ApiKeyDto);
+            // 
+            // idDataGridViewTextBoxColumn
+            // 
+            idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            idDataGridViewTextBoxColumn.HeaderText = "Id";
+            idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            // 
+            // keyDataGridViewTextBoxColumn
+            // 
+            keyDataGridViewTextBoxColumn.DataPropertyName = "Key";
+            keyDataGridViewTextBoxColumn.HeaderText = "Key";
+            keyDataGridViewTextBoxColumn.Name = "keyDataGridViewTextBoxColumn";
+            // 
+            // roleDataGridViewTextBoxColumn
+            // 
+            roleDataGridViewTextBoxColumn.DataPropertyName = "Role";
+            roleDataGridViewTextBoxColumn.HeaderText = "Role";
+            roleDataGridViewTextBoxColumn.Name = "roleDataGridViewTextBoxColumn";
+            // 
+            // judgeIdDataGridViewTextBoxColumn
+            // 
+            judgeIdDataGridViewTextBoxColumn.DataPropertyName = "JudgeId";
+            judgeIdDataGridViewTextBoxColumn.HeaderText = "JudgeId";
+            judgeIdDataGridViewTextBoxColumn.Name = "judgeIdDataGridViewTextBoxColumn";
+            // 
+            // surnameDataGridViewTextBoxColumn
+            // 
+            surnameDataGridViewTextBoxColumn.DataPropertyName = "Surname";
+            surnameDataGridViewTextBoxColumn.HeaderText = "Surname";
+            surnameDataGridViewTextBoxColumn.Name = "surnameDataGridViewTextBoxColumn";
+            // 
+            // lastnameDataGridViewTextBoxColumn
+            // 
+            lastnameDataGridViewTextBoxColumn.DataPropertyName = "Lastname";
+            lastnameDataGridViewTextBoxColumn.HeaderText = "Lastname";
+            lastnameDataGridViewTextBoxColumn.Name = "lastnameDataGridViewTextBoxColumn";
+            // 
+            // redirectDataGridViewTextBoxColumn
+            // 
+            redirectDataGridViewTextBoxColumn.DataPropertyName = "Redirect";
+            redirectDataGridViewTextBoxColumn.HeaderText = "Redirect";
+            redirectDataGridViewTextBoxColumn.Name = "redirectDataGridViewTextBoxColumn";
             // 
             // MainForm
             // 
@@ -335,6 +418,9 @@
             tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridViewDevices).EndInit();
             ((System.ComponentModel.ISupportInitialize)bindingSourceDevices).EndInit();
+            tabPage4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSourceApiKeys).EndInit();
             ResumeLayout(false);
         }
 
@@ -367,5 +453,15 @@
         private DataGridViewTextBoxColumn batteryChargingDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn currentVersionDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn currentLocalTimeDataGridViewTextBoxColumn;
+        private TabPage tabPage4;
+        private DataGridView dataGridView1;
+        private BindingSource bindingSourceApiKeys;
+        private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn keyDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn roleDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn judgeIdDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn surnameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn lastnameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn redirectDataGridViewTextBoxColumn;
     }
 }
