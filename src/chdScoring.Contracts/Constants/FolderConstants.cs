@@ -9,8 +9,6 @@ namespace chdScoring.Contracts.Constants
         public const string Folder = "Pdf";
         public const string Printed = "Printed";
 
-        public const string Bin = "Bin";
-        public const string Json = "Json";
         public const string JsonResult = "JsonResult";
     }
 }
