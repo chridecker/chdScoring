@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Drawing.Printing;
 using System.Formats.Asn1;
 using System.Threading;
+using chdScoring.Contracts.Constants;
 
 namespace chdScoring.Main.WebServer
 {
@@ -48,6 +49,47 @@ namespace chdScoring.Main.WebServer
             this._printCache.AutoPrintChanged += this._printCache_AutoPrintChanged;
 
             _deviceCacheService.DeviceStatusChanged += _deviceCacheService_DeviceStatusChanged;
+
+            dataGridViewDevices.CellMouseClick += DataGridViewDevices_CellMouseClick;
+        }
+
+        private async void DataGridViewDevices_CellMouseClick(object? sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Right || e.RowIndex < 0)
+                return;
+
+            // Zeile selektieren
+            dataGridViewDevices.ClearSelection();
+            dataGridViewDevices.Rows[e.RowIndex].Selected = true;
+            dataGridViewDevices.CurrentCell = dataGridViewDevices.Rows[e.RowIndex].Cells[0];
+
+            // Current aus dem Binding holen
+            if (bindingSourceDevices.Current is not DeviceStatusDto item)
+                return;
+
+            var menu = new ContextMenuStrip();
+            foreach (var route in ClientRouteConstants.GetConstants())
+            {
+                menu.Items.Add(route.Name, null, async (_, _) =>
+                {
+                    await SendRedirect(item, route.Value.ToString());
+                });
+            }
+            menu.Show(Cursor.Position);
+        }
+
+        private async Task SendRedirect(DeviceStatusDto dto, string route)
+        {
+            try
+            {
+                using var scope = this._serviceProvider.CreateScope();
+                var hubContext = scope.ServiceProvider.GetRequiredService<IHubContext<DeviceHub, IDeviceHub>>();
+                await hubContext.Clients.Client(dto.ConnectionId).NavigateTo(dto, route);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void _deviceCacheService_DeviceStatusChanged(object? sender, EventArgs e)

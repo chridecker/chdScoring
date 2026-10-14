@@ -3,6 +3,7 @@ using chd.UI.Base.Components.General;
 using chd.UI.Base.Contracts.Interfaces.Update;
 using chdScoring.App.UI.Constants;
 using chdScoring.App.UI.Interfaces;
+using chdScoring.Contracts.Constants;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Components;
 
@@ -88,10 +89,10 @@ namespace chdScoring.App.UI.Pages
 
         private void InitSelection()
         {
-            this._redirectOptions.Add("", CreateColorOption(PageTitleConstants.Scoring, "whistle"));
-            this._redirectOptions.Add("controlcenter", CreateColorOption(PageTitleConstants.ControlCenter, "calculator"));
-            this._redirectOptions.Add("competitionmanagement", CreateColorOption(PageTitleConstants.CompetitionManagement, "stopwatch"));
-            this._redirectOptions.Add("viewer", CreateColorOption(PageTitleConstants.Viewer, "glasses"));
+            foreach(var route in ClientRouteConstants.GetConstants())
+            {
+                this._redirectOptions.Add(route.Value.ToString(), CreateColorOption(route.Name));
+            }
             this._selectedAutoRedirect = this._redirectOptions.FirstOrDefault(x => x.Key == this._autoRedirect);
         }
 
