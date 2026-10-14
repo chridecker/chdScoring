@@ -1,7 +1,7 @@
 @using System.Globalization
 @using chdScoring.App.UI.Pages.Components
-@inject IJudgeHubClient apiClient
 @inject IBatteryService batteryService
+@inject IDeviceHubClient deviceHubClient
 @implements IDisposable
 @inherits LayoutComponentBase
 
@@ -21,6 +21,11 @@
 
     protected override async Task OnInitializedAsync()
     {
+        if (!deviceHubClient.IsConnected)
+        {
+            await deviceHubClient.StartAsync(_cts.Token);
+        }
+
         this.StartRefresh();
         this.batteryService.InfoChanged += this.InfoChanged;
         await base.OnInitializedAsync();
@@ -35,11 +40,16 @@
     {
         while (await this._periodicTimer.WaitForNextTickAsync(this._cts.Token))
         {
+            if (deviceHubClient.IsConnected)
+            {
+                await this.deviceHubClient.Update(this._cts.Token);
+            }
+
             await this.InvokeAsync(StateHasChanged);
         }
     }
 
-    private string GetStateCss() => apiClient?.IsConnected ?? false ? "online" : "offline";
+    private string GetStateCss() => deviceHubClient?.IsConnected ?? false ? "online" : "offline";
 
     public void Dispose()
     {

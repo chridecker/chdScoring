@@ -15,12 +15,14 @@ namespace chdScoring.Main.WebServer
         private readonly IPrintCache _printCache;
         private readonly IServiceProvider _serviceProvider;
         private readonly IDatabaseConfiguration _databaseConfiguration;
+        private readonly IDeviceCacheService _deviceCacheService;
 
-        public MainForm(IApiLogger apiLogger, IPrintCache printCache, IServiceProvider serviceProvider, IDatabaseConfiguration databaseConfiguration)
+        public MainForm(IApiLogger apiLogger, IDeviceCacheService deviceCacheService, IPrintCache printCache, IServiceProvider serviceProvider, IDatabaseConfiguration databaseConfiguration)
         {
             this._databaseConfiguration = databaseConfiguration;
             this._serviceProvider = serviceProvider;
             this._printCache = printCache;
+            this._deviceCacheService = deviceCacheService;
 
             InitializeComponent();
 
@@ -41,6 +43,20 @@ namespace chdScoring.Main.WebServer
             this.checkBoxAutoPrint.Checked = this._printCache.AutoPrint;
             this._databaseConfiguration.ConnectionChanged += this._databaseConfiguration_ConnectionChanged;
             this._printCache.AutoPrintChanged += this._printCache_AutoPrintChanged;
+
+            _deviceCacheService.DeviceStatusChanged += _deviceCacheService_DeviceStatusChanged;
+        }
+
+        private void _deviceCacheService_DeviceStatusChanged(object? sender, EventArgs e)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(() => this.bindingSourceDevices.DataSource = _deviceCacheService.GetAll());
+            }
+            else
+            {
+                this.bindingSourceDevices.DataSource = _deviceCacheService.GetAll();
+            }
         }
 
         private void _printCache_AutoPrintChanged(object? sender, bool e)

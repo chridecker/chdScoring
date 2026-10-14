@@ -66,6 +66,7 @@ app.MapChdScoring();
 app.UseBaseApi();
 app.MapBaseApi("chdScoringAPI");
 app.MapHub<FlightHub>("/chdScoring/flight-hub").RequireSignalRKeyAuth();
+app.MapHub<DeviceHub>("/chdScoring/device-hub").RequireSignalRKeyAuth();
 
 app.UseAuthorization();
 

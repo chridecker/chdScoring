@@ -52,6 +52,8 @@ namespace chdScoring.App.UI.Extensions
             /* Scoped */
             services.AddScoped<INavigationHandler, NavigationHandler>();
 
+            services.AddScoped<IDeviceHubClient, DeviceHubClient>();
+
             services.AddScoped<IJudgeHubClient, JudgeHubClient>();
             services.AddSingleton<IJudgeDataCache, JudgeDataCache>();
 
