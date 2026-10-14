@@ -13,5 +13,7 @@ namespace chdScoring.App.UI.Interfaces
         bool? Charging { get; }
 
         event EventHandler InfoChanged;
+
+        Task ExitApplication(bool restart);
     }
 }

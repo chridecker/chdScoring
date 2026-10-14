@@ -68,23 +68,84 @@ namespace chdScoring.Main.WebServer
                 return;
 
             var menu = new ContextMenuStrip();
+
+            var gotToMenu = new ToolStripMenuItem("Go To");
             foreach (var route in ClientRouteConstants.GetConstants())
             {
-                menu.Items.Add(route.Name, null, async (_, _) =>
+                gotToMenu.DropDownItems.Add(route.Name, null, async (_, _) =>
                 {
                     await SendRedirect(item, route.Value.ToString());
                 });
             }
+            menu.Items.Add(gotToMenu);
+
+            var autoRedirectMenu = new ToolStripMenuItem("Auto Redirect");
+            foreach (var route in ClientRouteConstants.GetConstants())
+            {
+                autoRedirectMenu.DropDownItems.Add(route.Name, null, async (_, _) =>
+                {
+                    await SendAutoRedirect(item, route.Value.ToString());
+                });
+            }
+            autoRedirectMenu.DropDownItems.Add("Clear", null, async (_, _) =>
+            {
+                await SendAutoRedirect(item, string.Empty);
+            });
+
+            menu.Items.Add(autoRedirectMenu);
+
+            var setZoomMenu = new ToolStripMenuItem("Zoom");
+
+            foreach (var val in new List<int> { 50, 60, 75, 80, 90, 100, 110, 125, 150, 200 }) // 50 to 200
+            {
+                setZoomMenu.DropDownItems.Add($"{val}%", null, async (_, _) =>
+                {
+                    await SetZoom(item, val);
+                });
+            }
+
+            menu.Items.Add(setZoomMenu);
+
+
+            menu.Items.Add("Restart", null, async (_, _) =>
+            {
+                await SendShutdown(item, true);
+            });
+
+
+
             menu.Show(Cursor.Position);
         }
 
-        private async Task SendRedirect(DeviceStatusDto dto, string route)
+        private Task SendShutdown(DeviceStatusDto dto, bool restart)
+            => SendDeviceHub(async c =>
+            {
+                await c.ShutDown(dto, restart);
+            }, dto);
+        private Task SendRedirect(DeviceStatusDto dto, string route)
+            => SendDeviceHub(async c =>
+            {
+                await c.NavigateTo(dto, route);
+            }, dto);
+
+        private Task SendAutoRedirect(DeviceStatusDto dto, string route)
+            => SendDeviceHub(async c =>
+            {
+                await c.SetAutoRedirect(dto, route);
+            }, dto);
+
+        private Task SetZoom(DeviceStatusDto dto, int zoom)
+            => SendDeviceHub(async c =>
+            {
+                await c.SetZoom(dto, zoom);
+            }, dto);
+        private async Task SendDeviceHub(Func<IDeviceHub, Task> action, DeviceStatusDto dto)
         {
             try
             {
                 using var scope = this._serviceProvider.CreateScope();
                 var hubContext = scope.ServiceProvider.GetRequiredService<IHubContext<DeviceHub, IDeviceHub>>();
-                await hubContext.Clients.Client(dto.ConnectionId).NavigateTo(dto, route);
+                await action(hubContext.Clients.Client(dto.ConnectionId));
             }
             catch (Exception ex)
             {

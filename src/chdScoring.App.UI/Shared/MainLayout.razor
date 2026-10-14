@@ -41,6 +41,9 @@
     {
         this.appInfoService.ExitApplication += this.ExitApplication;
         deviceHubClient.ChangeNavigation += OnChangeNavigation;
+        deviceHubClient.ChangeAutoRedirect += OnChangeAutoRedirect;
+        deviceHubClient.ChangeApiKey += OnChangeApiKey;
+        deviceHubClient.ChangeZoom += OnChangeZoom;
         profileService.UserChanged += this.UserChanged;
         await profileService.LoginAsync(new());
 
@@ -51,6 +54,23 @@
     private void UserChanged(object? sender, UserDto<int, int> user)
     {
         Navigate(this.profileService.CsUser?.Redirect);
+    }
+
+    private async void OnChangeAutoRedirect(object? sender, string redirect)
+    {
+        await clientSettings.StoreSettingLocal(SettingConstants.AutoRedirectTo, redirect);
+    }
+
+    private async void OnChangeApiKey(object? sender, string apiKey)
+    {
+        await this.clientSettings.UpdateApiKey(apiKey);
+        this.clientSettings.SetNativSetting(SettingConstants.ApiKey, apiKey);
+    }
+
+    private async void OnChangeZoom(object? sender, int zoom)
+    {
+        await clientSettings.StoreSettingLocal(SettingConstants.ScoringZoom, zoom);
+        await this.InvokeAsync(this.StateHasChanged);
     }
 
     private void OnChangeNavigation(object? sender, string redirect)

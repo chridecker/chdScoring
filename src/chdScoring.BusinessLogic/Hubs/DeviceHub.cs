@@ -33,6 +33,24 @@ namespace chdScoring.BusinessLogic.Hubs
             await this.Clients.Client(dto.ConnectionId).NavigateTo(dto, redirect);
         }
 
+        public async Task SetAutoRedirect(DeviceStatusDto dto, string redirect)
+        {
+            await this.Clients.Client(dto.ConnectionId).SetAutoRedirect(dto, redirect);
+        }
+
+        public async Task SetZoom(DeviceStatusDto dto, int zoom)
+        {
+            await this.Clients.Client(dto.ConnectionId).SetZoom(dto, zoom);
+        }
+        public async Task SetApiKey(DeviceStatusDto dto, string apiKey)
+        {
+            await this.Clients.Client(dto.ConnectionId).SetApiKey(dto, apiKey);
+        }
+        public async Task ShutDown(DeviceStatusDto dto, bool restart)
+        {
+            await this.Clients.Client(dto.ConnectionId).ShutDown(dto, restart);
+        }
+
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
             deviceCacheService.RemoveConnection(Context.ConnectionId);

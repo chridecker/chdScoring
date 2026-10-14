@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+#if ANDROID
+using Android.Content;
+using Android.App;
+#endif
 
 namespace chdScoring.App.Services
 {
@@ -25,6 +29,26 @@ namespace chdScoring.App.Services
         public string DeviceName => DeviceInfo.Current.Name;
 
         public event EventHandler InfoChanged;
+        public Task ExitApplication(bool restart)
+        {
+#if ANDROID
+            if (restart)
+            {
+                var context = Platform.CurrentActivity!;
+
+                var intent = context.PackageManager!
+                    .GetLaunchIntentForPackage(context.PackageName!);
+
+                intent!.AddFlags(ActivityFlags.ClearTop |
+                                 ActivityFlags.NewTask);
+
+                context.StartActivity(intent);
+            }
+            Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+#endif
+            return Task.CompletedTask;
+        }
+
         public BatteryService(IBattery battery)
         {
             this._battery = battery;

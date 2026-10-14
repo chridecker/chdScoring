@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.Pkcs;
-using System.Text;
-using chd.Api.Base.Contracts.Interfaces;
+﻿using chd.Api.Base.Contracts.Interfaces;
 using chd.Hub.Base.Client;
 using chd.UI.Base.Contracts.Interfaces.Update;
+using chdScoring.App.UI.Constants;
 using chdScoring.App.UI.Interfaces;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Security.Cryptography.Pkcs;
+using System.Text;
 
 namespace chdScoring.App.UI.Helper
 {
@@ -27,6 +28,9 @@ namespace chdScoring.App.UI.Helper
         private DeviceStatusDto _currentDeviceStatus;
 
         public event EventHandler<string> ChangeNavigation;
+        public event EventHandler<string> ChangeAutoRedirect;
+        public event EventHandler<int> ChangeZoom;
+        public event EventHandler<string> ChangeApiKey;
 
         public async Task Update(CancellationToken cancellationToken)
         {
@@ -46,6 +50,22 @@ namespace chdScoring.App.UI.Helper
             connection.On<DeviceStatusDto, string>(nameof(IDeviceHub.NavigateTo), (_, redirect) =>
             {
                 this.ChangeNavigation?.Invoke(this, redirect);
+            });
+            connection.On<DeviceStatusDto, string>(nameof(IDeviceHub.SetAutoRedirect), (_, redirect) =>
+            {
+                this.ChangeAutoRedirect?.Invoke(this, redirect);
+            });
+            connection.On<DeviceStatusDto, int>(nameof(IDeviceHub.SetZoom), (_, zoom) =>
+            {
+                this.ChangeZoom?.Invoke(this, zoom);
+            });
+            connection.On<DeviceStatusDto, string>(nameof(IDeviceHub.SetApiKey), (_, apiKey) =>
+            {
+                this.ChangeApiKey(this, apiKey);
+            });
+            connection.On<DeviceStatusDto, bool>(nameof(IDeviceHub.ShutDown), (_, restart) =>
+            {
+                batteryService.ExitApplication(restart);
             });
         }
 
