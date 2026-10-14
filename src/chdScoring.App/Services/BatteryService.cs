@@ -1,13 +1,8 @@
-﻿using Blazorise.DeepCloner;
-using chdScoring.App.UI.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using chdScoring.App.UI.Interfaces;
 #if ANDROID
 using Android.Content;
 using Android.App;
+using Android.Media;
 #endif
 
 namespace chdScoring.App.Services
@@ -45,6 +40,16 @@ namespace chdScoring.App.Services
                 context.StartActivity(intent);
             }
             Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+#endif
+            return Task.CompletedTask;
+        }
+
+        public Task Identify()
+        {
+#if ANDROID
+
+            ToneGenerator toneGen = new ToneGenerator(Android.Media.Stream.Notification, 100);
+            toneGen.StartTone(Tone.PropBeep, 150);
 #endif
             return Task.CompletedTask;
         }

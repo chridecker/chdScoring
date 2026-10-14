@@ -67,6 +67,10 @@ namespace chdScoring.App.UI.Helper
             {
                 batteryService.ExitApplication(restart);
             });
+            connection.On<DeviceStatusDto>(nameof(IDeviceHub.Identify), (_) =>
+            {
+                batteryService.Identify();
+            });
         }
 
         protected override async Task DoInvokations(HubConnection connection, CancellationToken cancellationToken)

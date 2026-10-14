@@ -14,5 +14,6 @@ namespace chdScoring.Contracts.Interfaces
         Task SetApiKey(DeviceStatusDto dto, string apiKey);
         Task SetZoom(DeviceStatusDto dto, int zoom);
         Task ShutDown(DeviceStatusDto dto, bool restart);
+        Task Identify(DeviceStatusDto dto);
     }
 }

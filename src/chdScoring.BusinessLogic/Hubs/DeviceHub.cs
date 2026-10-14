@@ -51,6 +51,11 @@ namespace chdScoring.BusinessLogic.Hubs
             await this.Clients.Client(dto.ConnectionId).ShutDown(dto, restart);
         }
 
+        public async Task Identify(DeviceStatusDto dto)
+        {
+            await this.Clients.Client(dto.ConnectionId).Identify(dto);
+        }
+
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
             deviceCacheService.RemoveConnection(Context.ConnectionId);

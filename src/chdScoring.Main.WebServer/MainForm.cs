@@ -126,6 +126,11 @@ namespace chdScoring.Main.WebServer
             menu.Items.Add(setZoomMenu);
 
 
+            menu.Items.Add("Beep", null, async (_, _) =>
+            {
+                await SendIdentify(item);
+            });
+
             menu.Items.Add("Restart", null, async (_, _) =>
             {
                 await SendShutdown(item, true);
@@ -135,6 +140,12 @@ namespace chdScoring.Main.WebServer
 
             menu.Show(Cursor.Position);
         }
+
+        private Task SendIdentify(DeviceStatusDto dto)
+            => SendDeviceHub(async c =>
+            {
+                await c.Identify(dto);
+            }, dto);
 
         private Task SendShutdown(DeviceStatusDto dto, bool restart)
             => SendDeviceHub(async c =>

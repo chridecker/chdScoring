@@ -42,6 +42,13 @@ namespace chdScoring.App.WPF.Services
             this._guiContext.Invoke(_app.Shutdown);
             return Task.CompletedTask;
         }
+
+        public Task Identify()
+        {
+            System.Media.SystemSounds.Beep.Play();
+            return Task.CompletedTask;
+        }
+
         private void LeveLoading() => Task.Run(async () =>
         {
             while (!_cts.Token.IsCancellationRequested)

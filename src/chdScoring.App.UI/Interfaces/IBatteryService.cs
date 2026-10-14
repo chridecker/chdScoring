@@ -15,5 +15,6 @@ namespace chdScoring.App.UI.Interfaces
         event EventHandler InfoChanged;
 
         Task ExitApplication(bool restart);
+        Task Identify();
     }
 }
