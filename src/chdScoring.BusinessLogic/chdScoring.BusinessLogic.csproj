@@ -5,13 +5,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
   <ItemGroup>
-    <PackageReference Include="chd.Api.Base.Contracts" Version="2.0.26287.170" />
-    <PackageReference Include="chd.Hub.Base.Server" Version="2.0.26287.170" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.12" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.2.12" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" />
-    <PackageReference Include="System.IO.Pipelines" Version="10.0.11" />
+    <PackageReference Include="chd.Api.Base.Contracts" Version="2.0.26287.171" />
+    <PackageReference Include="chd.Hub.Base.Server" Version="2.0.26287.171" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" />
   </ItemGroup>
 
   <ItemGroup>

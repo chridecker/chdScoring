@@ -5,6 +5,7 @@
 @inject ISettingManager clientSettings
 @inject IScrollInfoService scrollInfoService
 @inject IchdScoringProfileService profileService
+@inject IDeviceHubClient deviceHubClient
 @inject IAppInfoService appInfoService
 @inject NavigationManager _navManager
 @implements IDisposable
@@ -39,6 +40,7 @@
     protected override async Task OnInitializedAsync()
     {
         this.appInfoService.ExitApplication += this.ExitApplication;
+        deviceHubClient.ChangeNavigation += OnChangeNavigation;
         profileService.UserChanged += this.UserChanged;
         await profileService.LoginAsync(new());
 
@@ -46,12 +48,22 @@
         await base.OnInitializedAsync();
     }
 
-    private async void UserChanged(object? sender, UserDto<int, int> user)
+    private void UserChanged(object? sender, UserDto<int, int> user)
     {
-        if (!string.IsNullOrWhiteSpace(this.profileService.CsUser?.Redirect)
-            && this._navManager.Uri == this._navManager.BaseUri && !this._navManager.Uri.Contains(this.profileService.CsUser.Redirect))
+        Navigate(this.profileService.CsUser?.Redirect);
+    }
+
+    private void OnChangeNavigation(object? sender, string redirect)
+    {
+        Navigate(redirect);
+    }
+
+    private void Navigate(string redirect)
+    {
+        if (!string.IsNullOrWhiteSpace(redirect)
+            && !this._navManager.Uri.Contains(redirect))
         {
-            this._navManager.NavigateTo($"{this._navManager.BaseUri}{this.profileService.CsUser.Redirect}");
+            this._navManager.NavigateTo($"{this._navManager.BaseUri}{redirect}");
         }
     }
 
@@ -68,6 +80,7 @@
     {
         this.appInfoService.ExitApplication -= this.ExitApplication;
         profileService.UserChanged -= this.UserChanged;
+        deviceHubClient.ChangeNavigation -= OnChangeNavigation;
         this._cts.Cancel();
     }
 }

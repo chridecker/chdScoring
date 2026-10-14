@@ -54,15 +54,15 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
-		<PackageReference Include="Xamarin.Google.Android.Play.App.Update.Ktx" Version="2.1.0.19" />
+		<PackageReference Include="Xamarin.Google.Android.Play.App.Update.Ktx" Version="2.1.0.20" />
 		<PackageReference Include="Oscore.Maui.Android.InAppUpdates" Version="1.5.1" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="15.0.1" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.100" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.100" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="10.0.100" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.110" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.110" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="10.0.110" />
 		<PackageReference Include="WifiManager.Maui" Version="10.0.2" />
 	</ItemGroup>
 

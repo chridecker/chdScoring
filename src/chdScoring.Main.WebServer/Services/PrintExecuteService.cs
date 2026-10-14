@@ -4,9 +4,9 @@ using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Playwright;
-using PdfiumViewer;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
@@ -127,35 +127,14 @@ namespace chdScoring.Main.WebServer.Services
         {
             try
             {
-                var printerSettings = new PrinterSettings
+                Process.Start(new ProcessStartInfo
                 {
-                    PrinterName = printer,
-                    Copies = (short)1,
-                };
+                    FileName = info.FullName,
+                    Verb = "printto",
+                    Arguments = $"\"{printer}\"",
+                    UseShellExecute = true
+                });
 
-                var pageSettings = new PageSettings(printerSettings)
-                {
-                    Margins = new Margins(0, 0, 0, 0),
-                };
-                foreach (PaperSize paperSize in printerSettings.PaperSizes)
-                {
-                    if (paperSize.Kind == PaperKind.A4)
-                    {
-                        pageSettings.PaperSize = paperSize;
-                        break;
-                    }
-                }
-
-                using (var document = PdfDocument.Load(info.FullName))
-                {
-                    using (var printDocument = document.CreatePrintDocument())
-                    {
-                        printDocument.PrinterSettings = printerSettings;
-                        printDocument.DefaultPageSettings = pageSettings;
-                        printDocument.PrintController = new StandardPrintController();
-                        printDocument.Print();
-                    }
-                }
                 return true;
             }
             catch (Exception ex)

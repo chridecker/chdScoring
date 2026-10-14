@@ -8,6 +8,7 @@ namespace chdScoring.App.UI.Interfaces
 {
     public interface IDeviceHubClient : IBaseHubClient<IDeviceHub>
     {
+        event EventHandler<string> ChangeNavigation;
         Task Update(CancellationToken cancellationToken);
     }
 }

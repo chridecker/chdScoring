@@ -23,8 +23,14 @@ namespace chdScoring.BusinessLogic.Hubs
         {
             dto.ApiKey = _apiKey;
             dto.LastUpdate = DateTime.Now;
+            dto.ConnectionId = Context.ConnectionId;
             deviceCacheService.SetDevice(Context.ConnectionId, dto);
             return Task.CompletedTask;
+        }
+
+        public async Task NavigateTo(DeviceStatusDto dto, string redirect)
+        {
+            await this.Clients.Client(dto.ConnectionId).NavigateTo(dto, redirect);
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)

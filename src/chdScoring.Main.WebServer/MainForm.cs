@@ -1,7 +1,10 @@
+using chdScoring.BusinessLogic.Hubs;
 using chdScoring.BusinessLogic.Services;
+using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.DAL;
 using CsvHelper;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Drawing.Printing;
 using System.Formats.Asn1;

@@ -26,6 +26,8 @@ namespace chdScoring.App.UI.Helper
     {
         private DeviceStatusDto _currentDeviceStatus;
 
+        public event EventHandler<string> ChangeNavigation;
+
         public async Task Update(CancellationToken cancellationToken)
         {
             this._currentDeviceStatus.CurrentSite = navigationManager.ToBaseRelativePath(navigationManager.Uri);
@@ -41,6 +43,10 @@ namespace chdScoring.App.UI.Helper
 
         protected override void HookIncomingCalls(HubConnection connection)
         {
+            connection.On<DeviceStatusDto, string>(nameof(IDeviceHub.NavigateTo), (_, redirect) =>
+            {
+                this.ChangeNavigation?.Invoke(this, redirect);
+            });
         }
 
         protected override async Task DoInvokations(HubConnection connection, CancellationToken cancellationToken)

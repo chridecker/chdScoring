@@ -9,5 +9,6 @@ namespace chdScoring.Contracts.Interfaces
     public interface IDeviceHub
     {
         Task RegisterDeviceAsync(DeviceStatusDto dto);
+        Task NavigateTo(DeviceStatusDto dto, string redirect);
     }
 }

@@ -46,9 +46,7 @@
             button1 = new Button();
             textBoxWebLog = new TextBox();
             tabPage3 = new TabPage();
-            dataGridView1 = new DataGridView();
-            bindingSourceDevices = new BindingSource(components);
-            openFileDialogImportCsv = new OpenFileDialog();
+            dataGridViewDevices = new DataGridView();
             hostNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             lastUpdateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             User = new DataGridViewTextBoxColumn();
@@ -57,12 +55,14 @@
             batteryChargingDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             currentVersionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             currentLocalTimeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            bindingSourceDevices = new BindingSource(components);
+            openFileDialogImportCsv = new OpenFileDialog();
             contextMenuStripSysTray.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
             tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewDevices).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSourceDevices).BeginInit();
             SuspendLayout();
             // 
@@ -220,7 +220,7 @@
             // 
             // tabPage3
             // 
-            tabPage3.Controls.Add(dataGridView1);
+            tabPage3.Controls.Add(dataGridViewDevices);
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
@@ -229,28 +229,20 @@
             tabPage3.Text = "Devices";
             tabPage3.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dataGridViewDevices
             // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { hostNameDataGridViewTextBoxColumn, lastUpdateDataGridViewTextBoxColumn, User, CurrentSite, batteryLevelDataGridViewTextBoxColumn, batteryChargingDataGridViewTextBoxColumn, currentVersionDataGridViewTextBoxColumn, currentLocalTimeDataGridViewTextBoxColumn });
-            dataGridView1.DataSource = bindingSourceDevices;
-            dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.Location = new Point(3, 3);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.Size = new Size(1111, 520);
-            dataGridView1.TabIndex = 0;
-            // 
-            // bindingSourceDevices
-            // 
-            bindingSourceDevices.DataSource = typeof(Contracts.Dtos.DeviceStatusDto);
-            // 
-            // openFileDialogImportCsv
-            // 
-            openFileDialogImportCsv.FileName = "openFileDialogImportCsv";
+            dataGridViewDevices.AllowUserToAddRows = false;
+            dataGridViewDevices.AllowUserToDeleteRows = false;
+            dataGridViewDevices.AutoGenerateColumns = false;
+            dataGridViewDevices.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewDevices.Columns.AddRange(new DataGridViewColumn[] { hostNameDataGridViewTextBoxColumn, lastUpdateDataGridViewTextBoxColumn, User, CurrentSite, batteryLevelDataGridViewTextBoxColumn, batteryChargingDataGridViewTextBoxColumn, currentVersionDataGridViewTextBoxColumn, currentLocalTimeDataGridViewTextBoxColumn });
+            dataGridViewDevices.DataSource = bindingSourceDevices;
+            dataGridViewDevices.Dock = DockStyle.Fill;
+            dataGridViewDevices.Location = new Point(3, 3);
+            dataGridViewDevices.Name = "dataGridViewDevices";
+            dataGridViewDevices.ReadOnly = true;
+            dataGridViewDevices.Size = new Size(1111, 520);
+            dataGridViewDevices.TabIndex = 0;
             // 
             // hostNameDataGridViewTextBoxColumn
             // 
@@ -316,6 +308,14 @@
             currentLocalTimeDataGridViewTextBoxColumn.ReadOnly = true;
             currentLocalTimeDataGridViewTextBoxColumn.Width = 5;
             // 
+            // bindingSourceDevices
+            // 
+            bindingSourceDevices.DataSource = typeof(Contracts.Dtos.DeviceStatusDto);
+            // 
+            // openFileDialogImportCsv
+            // 
+            openFileDialogImportCsv.FileName = "openFileDialogImportCsv";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -333,7 +333,7 @@
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
             tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewDevices).EndInit();
             ((System.ComponentModel.ISupportInitialize)bindingSourceDevices).EndInit();
             ResumeLayout(false);
         }
@@ -357,7 +357,7 @@
         private OpenFileDialog openFileDialogImportCsv;
         private Button buttonImportCsv;
         private TabPage tabPage3;
-        private DataGridView dataGridView1;
+        private DataGridView dataGridViewDevices;
         private BindingSource bindingSourceDevices;
         private DataGridViewTextBoxColumn hostNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn lastUpdateDataGridViewTextBoxColumn;
