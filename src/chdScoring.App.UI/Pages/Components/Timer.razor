@@ -9,12 +9,14 @@
     <div class="pilot">
         @if (this.Dto?.Pilot is not null)
         {
-            <text>&#8470;@this.Dto.Pilot.Id @this.Dto.Pilot.Name</text>
-            <text> R @this.Dto.Round.Id</text>
-        }
-        else
-        {
-             <text>-</text> 
+            <CustomImage Class="pilot-image" Data="this.Dto.Pilot.CountryImage.Data" Type="@this.Dto.Pilot.CountryImage.Type" />
+
+            <div class="pilot-data">
+                <div class="pilot-id">&#8470;@this.Dto.Pilot.Id</div>
+                <div class="pilot-round">Round @this.Dto.Round.Id</div>
+                <div class="pilot-name">@this.Dto.Pilot.Name</div>
+
+            </div>
         }
     </div>
     <div class="time">@_leftTime</div>
@@ -31,10 +33,6 @@
         {
             <IconButton FAClass="play-pause" OnClick="async () => await this.StartStop(ETimerOperation.Start)" />
         }
-        else
-        {
-            <CustomIcon FAClass="pause" />
-        }
     </div>
 </div>
 
@@ -46,7 +44,7 @@
     [Parameter] public int Airfield { get; set; }
 
     private string _leftTime => (this.Dto?.LeftTime.HasValue ?? false) && this.Dto.LeftTime.Value <= this.Dto.Round.Time ?
-            this.Dto.LeftTime.Value > TimeSpan.Zero ? this.Dto.LeftTime.Value.ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") : 
+            this.Dto.LeftTime.Value > TimeSpan.Zero ? this.Dto.LeftTime.Value.ToString("mm\\:ss") : TimeSpan.Zero.ToString("mm\\:ss") :
             this.Dto is null ? TimeSpan.Zero.ToString("mm\\:ss") : this.Dto.Round.Time.ToString("mm\\:ss");
 
     private async Task StartStop(ETimerOperation operaetion)

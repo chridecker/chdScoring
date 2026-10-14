@@ -16,18 +16,37 @@
             background: var(--chd-bg-lighter);
         }
 
-        .controlcenter-container .competition-control ::deep button.btn svg {
-            height: 1.5rem;
-        }
+            .controlcenter-container .competition-control ::deep button.btn svg {
+                height: 1.5rem;
+            }
 
-    .controlcenter-container ::deep .judges-score-control{
-        justify-self:start;
-        align-self:end;
+    .controlcenter-container ::deep .judges-score-control {
+        justify-self: start;
+        align-self: end;
     }
 
 
-    @media only screen and (max-width: 400px) and (orientation:portrait) {
-        .controlcenter-container .competition-control {
+@media only screen and (max-width: 400px) and (orientation:portrait) {
+    .controlcenter-container .competition-control {
         grid-template-columns: repeat(2,1fr);
     }
+}
+
+@media only screen and (min-width: 1000px) and (orientation:landscape) {
+    .controlcenter-container {
+        gap: 2rem;
+    }
+
+    .controlcenter-container .competition-control ::deep button.btn {
+        height: 4rem;
+        font-size: 1.5rem;
+    }
+
+    .controlcenter-container .competition-control ::deep button.btn svg {
+        height: 2.5rem;
+    }
+
+        .controlcenter-container ::deep .judges-score-control {
+            grid-row: -1;
+        }
 }
