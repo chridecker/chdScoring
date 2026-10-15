@@ -84,8 +84,6 @@ namespace chdScoring.App.UI.Pages
             this._useJudgeConfirmQuestion = await this.settingManager.GetUseJudgeConfirmQuestion();
             this._zoom = await this.settingManager.GetScoringZoom();
 
-            this._judgeHubClient.Connected += this._judgeHubClient_Connected;
-            this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
             this._profileService.UserChanged += this._profileService_UserChanged;
             this._batteryService.InfoChanged += this._batteryService_InfoChanged;
 
@@ -94,13 +92,15 @@ namespace chdScoring.App.UI.Pages
             await base.OnInitializedAsync();
         }
 
-        private async void _judgeHubClient_Connected(object? sender, EventArgs e)
+        protected override async Task JudgeHubConnected()
         {
-            if (this._judge.HasValue && this._judge.Value > 0
-               && this._judgeHubClient.IsConnected)
+            this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
+            if (this._judge is > 0)
             {
                 await this._judgeHubClient.Register(this._judge.Value, this._token);
             }
+
+            await base.JudgeHubConnected();
         }
 
         private async void OnJudgeChanged(JudgeDto judge)
@@ -168,13 +168,6 @@ namespace chdScoring.App.UI.Pages
             if (this._judge.HasValue && this._judge.Value > 0 && this._judges.Any())
             {
                 this._selectedJudge = this._judges.FirstOrDefault(x => x.Id == this._judge.Value);
-            }
-
-            if (!this._judgeHubClient.IsConnected) { this._judgeHubClient.StartAsync(this._token); }
-
-            if (this._judgeHubClient.IsConnected && this._judge.HasValue && this._judge.Value > 0)
-            {
-                await this._judgeHubClient.Register(this._judge.Value, this._token);
             }
 
             await this.LoadCurrentData();
@@ -258,9 +251,9 @@ namespace chdScoring.App.UI.Pages
 
         protected override void Dispose(bool dispose)
         {
-            this._judgeHubClient.Connected -= this._judgeHubClient_Connected;
             this._profileService.UserChanged -= this._profileService_UserChanged;
             this._batteryService.InfoChanged -= this._batteryService_InfoChanged;
+            this._judgeHubClient.DataReceived -= this._judgeHubClient_DataReceived;
             this._deviceDisplayService.KeepScreenOn = false;
             this._deviceDisplayService.ScreenBrightness = this._currentBrightness;
             base.Dispose(dispose);

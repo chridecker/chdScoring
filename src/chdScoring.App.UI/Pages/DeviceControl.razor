@@ -27,9 +27,10 @@
     <FloatingActionNavigation>
         <FloatingActionButton FAClass="volume" Title="Beep" OnClick="async () => await _deviceHubClient.Identify(_current, _token)" />
         <FloatingActionButton FAClass="power-off" Title="Restart" OnClick="async () => await _deviceHubClient.ShutDown(_current, true, _token)" />
-        <FloatingActionButton FAClass="arrow-left-arrow-right" Title="GoTo" OnClick="async () => await GoTo(false)" />
-        <FloatingActionButton FAClass="bold-auto" Title="Set Redirect" OnClick="async () => await GoTo(true)" />
+        <FloatingActionButton FAClass="arrow-right-arrow-left" Title="GoTo" OnClick="async () => await GoTo(false)" />
+        <FloatingActionButton FAClass="bolt-auto" Title="Set Redirect" OnClick="async () => await GoTo(true)" />
         <FloatingActionButton FAClass="magnifying-glass" Title="Set Zoom" OnClick="Zoom" />
+        <FloatingActionButton FAClass="key" Title="Set ApiKey" OnClick="SetApiKey" />
     </FloatingActionNavigation>
 }
 
@@ -40,20 +41,13 @@
 
     private bool IsCurrent(DeviceStatusDto dto) => _current?.Equals(dto) ?? false;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task DeviceHubConnected()
     {
         _deviceHubClient.OnDeviceLst += OnDeviceLst;
-        if (_deviceHubClient.IsConnected)
-        {
-            await _deviceHubClient.RegisterForDevices(_token);
-        }
-        else
-        {
-            _deviceHubClient.Connected += HubConnected;
-        }
-
-        await base.OnInitializedAsync();
+        await _deviceHubClient.RegisterForDevices(_token);
+        await base.DeviceHubConnected();
     }
+
 
     private async Task GoTo(bool save)
     {
@@ -93,6 +87,16 @@
             await _deviceHubClient.SetZoom(_current, zoom, _token);
         }
     }
+    private async Task SetApiKey()
+    {
+
+        var result = await this.modalHandler.ShowSmallInputDialog("", settingManager.IsiOS, "New X-API-KEY");
+
+        if (!string.IsNullOrWhiteSpace(result))
+        {
+            await _deviceHubClient.SetApiKey(_current, result, _token);
+        }
+    }
 
     private async Task SelectRow(DeviceStatusDto dto, CancellationToken cancellationToken)
     {
@@ -100,14 +104,11 @@
         await this.InvokeAsync(this.StateHasChanged);
     }
 
-    private async void HubConnected(object? sender, EventArgs e)
-    {
-        await _deviceHubClient.RegisterForDevices(_token);
-    }
-
     private async void OnDeviceLst(object? sender, List<DeviceStatusDto> lst)
     {
+        var currentId = _current.ConnectionId;
         _devices = lst;
+        _current = _devices.FirstOrDefault(x => x.ConnectionId == currentId);
         await InvokeAsync(this.StateHasChanged);
     }
 
@@ -115,7 +116,6 @@
     {
         this._deviceHubClient.UnRegisterForDevices(_token);
         _deviceHubClient.OnDeviceLst -= OnDeviceLst;
-        _deviceHubClient.Connected -= HubConnected;
         base.Dispose(disposing);
     }
 }

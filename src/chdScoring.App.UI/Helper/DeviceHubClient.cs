@@ -33,11 +33,7 @@ namespace chdScoring.App.UI.Helper
         public event EventHandler<string> ChangeApiKey;
         public event EventHandler<List<DeviceStatusDto>> OnDeviceLst;
 
-        public async Task Update(CancellationToken cancellationToken)
-        {
-            this._currentDeviceStatus.CurrentSite = navigationManager.ToBaseRelativePath(navigationManager.Uri);
-            await SendDto(cancellationToken);
-        }
+        public Task Update(CancellationToken cancellationToken) => SendDto(cancellationToken);
 
         public Task RegisterForDevices(CancellationToken cancellationToken)
             => this.SendAsync(async conn =>
@@ -161,6 +157,14 @@ namespace chdScoring.App.UI.Helper
                     BatteryCharging = batteryService.Charging,
                     Platform = batteryService.Platform,
                 };
+            }
+            else
+            {
+                _currentDeviceStatus.CurrentLocalTime = DateTime.Now;
+                _currentDeviceStatus.User = profileService.CsUser?.FullName;
+                _currentDeviceStatus.CurrentSite = navigationManager.ToBaseRelativePath(navigationManager.Uri);
+                _currentDeviceStatus.BatteryLevel = batteryService.BatteryLevel;
+                _currentDeviceStatus.BatteryCharging = batteryService.Charging;
             }
 
             return _currentDeviceStatus;

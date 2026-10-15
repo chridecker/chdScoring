@@ -30,7 +30,7 @@ namespace chdScoring.BusinessLogic.Services
 
         public DeviceStatusDto Get(string connectionId) => this._devices.TryGetValue(connectionId, out DeviceStatusDto device) ? device : null;
 
-        public List<DeviceStatusDto> GetAll() => this._devices.Values.OrderBy(o => o.LastUpdate).ToList();
+        public List<DeviceStatusDto> GetAll() => this._devices.Values.OrderBy(o => o.HostName).ToList();
 
         public bool RemoveConnection(string connectionId)
         {

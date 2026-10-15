@@ -1,9 +1,9 @@
 ﻿@page "/timer"
-@using chd.UI.Base.Client.Implementations.Authorization
 @using chd.UI.Base.Contracts.Enum
-@using chdScoring.App.UI.Pages.Components
 @using chdScoring.Contracts.Dtos
+@using chdScoring.Contracts.Interfaces
 @inherits BaseChdScoringPage
+@inject IJudgeService judgeService
 
 
 @if (this._dto?.Pilot is null)
@@ -21,7 +21,7 @@
                 <img alt="@this._dto.Pilot.Country" src="@this._dto.Pilot.CountryImage.Src" />
             </div>
         </div>
-        <div class="number">@this._dto.Pilot.Id</div>
+        <div class="number">&#8470;@this._dto.Pilot.Id</div>
         <div class="name">@this._dto.Pilot.Name</div>
     </div>
     <div class="time">
@@ -62,25 +62,17 @@
     protected override async Task OnInitializedAsync()
     {
         this.Title = PageTitleConstants.Viewer;
-        this._dto = this._judgeDataCache.Data;
+        this._dto = this._judgeDataCache.Data ?? await judgeService.GetCurrentFlight(_token);
         this._zoom = await this.settingManager.GetScoringZoom();
-
-        if (!this._judgeHubClient.IsConnected)
-        {
-            await this._judgeHubClient.StartAsync(this._token);
-
-        }
-        this._judgeHubClient.Connected += this._judgeHubClient_Connected;
-        this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
-
 
         await base.OnInitializedAsync();
     }
 
-    private async void _judgeHubClient_Connected(object? sender, EventArgs e)
+    protected override async Task JudgeHubConnected()
     {
-        await this._judgeHubClient.RegisterControlCenter(this._token);
-        this._dto = _judgeDataCache.Data;
+        this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
+        this._judgeHubClient.RegisterControlCenter(_token);
+        await base.JudgeHubConnected();
     }
 
     private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)
@@ -93,7 +85,7 @@
     {
         this._deviceDisplayService.KeepScreenOn = false;
 
-        this._judgeHubClient.Connected -= this._judgeHubClient_Connected;
+        this._judgeHubClient.DataReceived -= this._judgeHubClient_DataReceived;
         base.Dispose(dispose);
     }
 

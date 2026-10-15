@@ -21,16 +21,16 @@ namespace chdScoring.App.UI.Pages
             this._deviceDisplayService.KeepScreenOn = true;
 
             this._dto = this._judgeDataCache.Data;
-            if (!this._judgeHubClient.IsConnected)
-            {
-                await this._judgeHubClient.StartAsync(this._token);
-
-            }
-            await this._judgeHubClient.RegisterControlCenter(this._token);
-
-            this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
+            
 
             await base.OnInitializedAsync();
+        }
+
+        protected override async Task JudgeHubConnected()
+        {
+            await this._judgeHubClient.RegisterControlCenter(this._token);
+            this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
+            await base.JudgeHubConnected();
         }
 
 

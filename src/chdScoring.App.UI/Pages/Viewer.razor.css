@@ -27,6 +27,7 @@
 
         .timer-container .pilot .name {
             line-height: 1;
+            font-size: 7rem;
         }
 
     .timer-container .time {
