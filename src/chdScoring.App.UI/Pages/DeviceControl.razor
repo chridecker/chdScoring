@@ -4,7 +4,9 @@
 @using chdScoring.App.UI.Pages.Components
 @using chdScoring.Contracts.Constants
 @using chdScoring.Contracts.Dtos
+@using chdScoring.Contracts.Interfaces
 @inherits BaseChdScoringPage
+@inject IDeviceService deviceService
 @page "/devicecontrol"
 
 <div class="devices">
@@ -24,9 +26,10 @@
 
 @if (_current is not null)
 {
-    <FloatingActionNavigation>
-        <FloatingActionButton FAClass="volume" Title="Beep" OnClick="async () => await _deviceHubClient.Identify(_current, _token)" />
-        <FloatingActionButton FAClass="power-off" Title="Restart" OnClick="async () => await _deviceHubClient.ShutDown(_current, true, _token)" />
+    <FloatingActionNavigation FAIconActive="arrows-rotate" OnClick="Refresh">
+        <FloatingActionButton FAClass="volume" Title="Beep" OnClick="async () => await deviceService.Identify(_current, _token)" />
+        <FloatingActionButton FAClass="power-off" Title="Restart" OnClick="async () => await deviceService.ShutDown(_current, true, _token)" />
+        <FloatingActionButton FAClass="circle-half-stroke" Title="Toggle Theme" OnClick="async () => await deviceService.ToggleTheme(_current, _token)" />
         <FloatingActionButton FAClass="arrow-right-arrow-left" Title="GoTo" OnClick="async () => await GoTo(false)" />
         <FloatingActionButton FAClass="bolt-auto" Title="Set Redirect" OnClick="async () => await GoTo(true)" />
         <FloatingActionButton FAClass="magnifying-glass" Title="Set Zoom" OnClick="Zoom" />
@@ -41,13 +44,16 @@
 
     private bool IsCurrent(DeviceStatusDto dto) => _current?.Equals(dto) ?? false;
 
-    protected override async Task DeviceHubConnected()
+    protected override async Task OnInitializedAsync()
     {
-        _deviceHubClient.OnDeviceLst += OnDeviceLst;
-        await _deviceHubClient.RegisterForDevices(_token);
-        await base.DeviceHubConnected();
+        await Refresh();
+        await base.OnInitializedAsync();
     }
 
+    private async Task Refresh()
+    {
+        _devices = await deviceService.GetAllAsync(_token);
+    }
 
     private async Task GoTo(bool save)
     {
@@ -63,20 +69,22 @@
         {
             if (!save)
             {
-                await _deviceHubClient.NavigateTo(_current, route, _token);
+                await deviceService.NavigateTo(_current, route, _token);
             }
             else
             {
-                await _deviceHubClient.SetAutoRedirect(_current, route, _token);
+                await deviceService.SetAutoRedirect(_current, route, _token);
             }
         }
+
+        await Refresh();
     }
 
     private async Task Zoom()
     {
         var parameters = new ModalParameters
         {
-            { nameof(SearchModalComponent<int, int>.Items), new int[]{50,66,70,80,90,100,110,125,130,150,200} },
+            { nameof(SearchModalComponent<int, int>.Items), new int[]{50,60,75,80,90,100,110,125,150,200} },
             { nameof(SearchModalComponent<int, int>.DisableOrder), true },
         };
         var modalInstance = this.modalHandler.Show<SearchModalComponent<int, int>>($"Gerät {_current.HostName} ({_current.ConnectionId})", parameters);
@@ -84,38 +92,26 @@
         var result = await modalInstance.Result;
         if (result.Confirmed && result.Data is int zoom)
         {
-            await _deviceHubClient.SetZoom(_current, zoom, _token);
+            await deviceService.SetZoom(_current, zoom, _token);
         }
+
+        await Refresh();
     }
     private async Task SetApiKey()
     {
-
         var result = await this.modalHandler.ShowSmallInputDialog("", settingManager.IsiOS, "New X-API-KEY");
 
         if (!string.IsNullOrWhiteSpace(result))
         {
-            await _deviceHubClient.SetApiKey(_current, result, _token);
+            await deviceService.SetApiKey(_current, result, _token);
         }
+
+        await Refresh();
     }
 
     private async Task SelectRow(DeviceStatusDto dto, CancellationToken cancellationToken)
     {
         _current = dto;
         await this.InvokeAsync(this.StateHasChanged);
-    }
-
-    private async void OnDeviceLst(object? sender, List<DeviceStatusDto> lst)
-    {
-        var currentId = _current.ConnectionId;
-        _devices = lst;
-        _current = _devices.FirstOrDefault(x => x.ConnectionId == currentId);
-        await InvokeAsync(this.StateHasChanged);
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        this._deviceHubClient.UnRegisterForDevices(_token);
-        _deviceHubClient.OnDeviceLst -= OnDeviceLst;
-        base.Dispose(disposing);
     }
 }

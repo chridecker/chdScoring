@@ -29,37 +29,41 @@ namespace chdScoring.App.UI.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            _deviceHubClient.Connected += DeviceHubConnected;
-            _judgeHubClient.Connected += JudgeHubConnected;
+            _deviceHubClient.Connected += OnDeviceHubConnected;
+            _judgeHubClient.Connected += OnJudgeHubConnected;
 
-            if (!_deviceHubClient.IsConnected)
+            if (_deviceHubClient.IsConnected)
             {
-                await _deviceHubClient.StartAsync(_cts.Token);
+                await this.DeviceHubConnected();
             }
+
             if (!_judgeHubClient.IsConnected)
             {
                 await _judgeHubClient.StartAsync(_cts.Token);
             }
-            await _deviceHubClient.Update(_cts.Token);
+            else
+            {
+                await this.JudgeHubConnected();
+            }
 
             await base.OnInitializedAsync();
         }
 
         protected virtual async Task DeviceHubConnected()
         {
-
+            await _deviceHubClient.Update(_cts.Token);
         }
         protected virtual async Task JudgeHubConnected()
         {
 
         }
 
-        private async void DeviceHubConnected(object? sender, EventArgs e)
+        private async void OnDeviceHubConnected(object? sender, EventArgs e)
         {
             await DeviceHubConnected();
         }
 
-        private async void JudgeHubConnected(object? sender, EventArgs e)
+        private async void OnJudgeHubConnected(object? sender, EventArgs e)
         {
             await JudgeHubConnected();
         }
@@ -77,8 +81,8 @@ namespace chdScoring.App.UI.Pages
 
         protected virtual void Dispose(bool disposing)
         {
-            _deviceHubClient.Connected -= DeviceHubConnected;
-            _judgeHubClient.Connected -= JudgeHubConnected;
+            _deviceHubClient.Connected -= OnDeviceHubConnected;
+            _judgeHubClient.Connected -= OnJudgeHubConnected;
 
             this._cts.Cancel();
         }

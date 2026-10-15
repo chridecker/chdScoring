@@ -30,44 +30,22 @@ namespace chdScoring.App.UI.Helper
         public event EventHandler<string> ChangeNavigation;
         public event EventHandler<string> ChangeAutoRedirect;
         public event EventHandler<int> ChangeZoom;
+        public event EventHandler ToggleTheme;
         public event EventHandler<string> ChangeApiKey;
-        public event EventHandler<List<DeviceStatusDto>> OnDeviceLst;
 
         public Task Update(CancellationToken cancellationToken) => SendDto(cancellationToken);
-
-        public Task RegisterForDevices(CancellationToken cancellationToken)
-            => this.SendAsync(async conn =>
-                {
-                    await conn.SendAsync(nameof(IDeviceHub.RegisterForDevices), cancellationToken);
-                });
-
-        public Task UnRegisterForDevices(CancellationToken cancellationToken)
-            => this.SendAsync(async conn =>
-                {
-                    await conn.SendAsync(nameof(IDeviceHub.UnRegisterForDevices), cancellationToken);
-                });
-
-        public Task NavigateTo(DeviceStatusDto dto, string redirect, CancellationToken cancellationToken)
-            => SendHubCommand(nameof(IDeviceHub.NavigateTo), dto, redirect, cancellationToken);
-
-        public Task SetAutoRedirect(DeviceStatusDto dto, string redirect, CancellationToken cancellationToken)
-            => SendHubCommand(nameof(IDeviceHub.SetAutoRedirect), dto, redirect, cancellationToken);
-
-        public Task SetApiKey(DeviceStatusDto dto, string apiKey, CancellationToken cancellationToken)
-            => SendHubCommand(nameof(IDeviceHub.SetApiKey), dto, apiKey, cancellationToken);
-
-        public Task SetZoom(DeviceStatusDto dto, int zoom, CancellationToken cancellationToken)
-            => SendHubCommand(nameof(IDeviceHub.SetZoom), dto, zoom, cancellationToken);
-
-        public Task ShutDown(DeviceStatusDto dto, bool restart, CancellationToken cancellationToken)
-            => SendHubCommand(nameof(IDeviceHub.ShutDown), dto, restart, cancellationToken);
-
-        public Task Identify(DeviceStatusDto dto, CancellationToken cancellationToken)
-            => SendHubCommand(nameof(IDeviceHub.Identify), dto, cancellationToken: cancellationToken);
 
         protected override void SpecificReinitialize(HubConnection connection)
         {
             profileService.UserChanged -= ProfileService_UserChanged;
+
+            connection?.Remove(nameof(IDeviceHub.NavigateTo));
+            connection?.Remove(nameof(IDeviceHub.SetAutoRedirect));
+            connection?.Remove(nameof(IDeviceHub.SetZoom));
+            connection?.Remove(nameof(IDeviceHub.SetApiKey));
+            connection?.Remove(nameof(IDeviceHub.ShutDown));
+            connection?.Remove(nameof(IDeviceHub.Identify));
+            connection?.Remove(nameof(IDeviceHub.ToggleTheme));
         }
 
         protected override Task<bool> ShouldInitialize(CancellationToken cancellationToken) => Task.FromResult(true);
@@ -98,9 +76,9 @@ namespace chdScoring.App.UI.Helper
             {
                 batteryService.Identify();
             });
-            connection.On<List<DeviceStatusDto>>(nameof(IDeviceHub.GetDevices), (lst) =>
+            connection.On<DeviceStatusDto>(nameof(IDeviceHub.ToggleTheme), (_) =>
             {
-                this.OnDeviceLst?.Invoke(this, lst);
+                ToggleTheme?.Invoke(this, EventArgs.Empty);
             });
         }
 
@@ -122,19 +100,6 @@ namespace chdScoring.App.UI.Helper
             //return new UriBuilder($"http://localhost:8081/chdscoring/device-hub").Uri;
             return new UriBuilder($"{baseAddress}chdscoring/device-hub").Uri;
         }
-
-        private Task SendHubCommand(string method, DeviceStatusDto dto, object param = null, CancellationToken cancellationToken = default)
-        => this.SendAsync(async conn =>
-            {
-                if (param is not null)
-                {
-                    await conn.SendAsync(method, dto, param, cancellationToken);
-                }
-                else
-                {
-                    await conn.SendAsync(method, dto, cancellationToken);
-                }
-            });
 
         private Task SendDto(CancellationToken cancellationToken)
         => this.SendAsync(async conn =>

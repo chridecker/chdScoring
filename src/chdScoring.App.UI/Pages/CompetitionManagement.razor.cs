@@ -40,17 +40,9 @@ namespace chdScoring.App.UI.Pages
 
             this._autoPrint = await this._printService.GetAutoPrintSetting(this._token);
             this._useFCZeroQuestion = await this.settingManager.GetUseFCZeroQuestion();
-
-            await base.OnInitializedAsync();
-        }
-
-        protected override async Task JudgeHubConnected()
-        {
-            await this._judgeHubClient.RegisterControlCenter(this._token);
-
             this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
 
-            await base.JudgeHubConnected();
+            await base.OnInitializedAsync();
         }
 
         private async Task ChangeAutoPrint()

@@ -2,6 +2,7 @@
 using chd.Api.Base.Extensions;
 using chd.UI.Base.Contracts.Dtos.Authentication;
 using chdScoring.BusinessLogic.Hubs;
+using chdScoring.BusinessLogic.Services;
 using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
@@ -24,6 +25,8 @@ namespace chdScoring.Main.WebServer.Extensions
 
             var apiKey = mainGroup.MapGroup(EndpointConstants.ApiKey.ROUTE).WithTags(EndpointConstants.ApiKey.ROUTE);
 
+            var device = mainGroup.MapGroup(Device.ROUTE).WithTags(Device.ROUTE);
+
             var authentication = mainGroup.MapGroup(EndpointConstants.Authentication.ROUTE).WithTags(EndpointConstants.Authentication.ROUTE);
 
             var control = mainGroup.MapGroup(EndpointConstants.Control.ROUTE).WithTags(EndpointConstants.Control.ROUTE);
@@ -41,6 +44,15 @@ namespace chdScoring.Main.WebServer.Extensions
             apiKey.MapGet(ApiKey.GETALL, async (IApiKeyService service, CancellationToken ct) => await service.GetAllAsync(ct));
             apiKey.MapPost(ApiKey.SAVE, async (ApiKeyDto dto, IApiKeyService service, CancellationToken ct) => await service.SaveAsync(dto, ct));
             apiKey.MapDelete(ApiKey.DELETE, async (int id, IApiKeyService service, CancellationToken ct) => await service.DeleteAsync(id, ct));
+
+            device.MapGet(Device.GETALL, async (IDeviceService svc, CancellationToken ct) => await svc.GetAllAsync(ct));
+            device.MapPost(Device.Identify, async ([FromBody] DeviceStatusDto dto, IDeviceService svc, CancellationToken ct) => await svc.Identify(dto, ct));
+            device.MapPost(Device.Navigate, async ([FromQuery] string redirect, [FromBody] DeviceStatusDto dto, IDeviceService svc, CancellationToken ct) => await svc.NavigateTo(dto, redirect, ct));
+            device.MapPost(Device.Shutdown, async ([FromQuery] bool restart, [FromBody] DeviceStatusDto dto, IDeviceService svc, CancellationToken ct) => await svc.ShutDown(dto, restart, ct));
+            device.MapPost(Device.SetApiKey, async ([FromQuery] string apiKey, [FromBody] DeviceStatusDto dto, IDeviceService svc, CancellationToken ct) => await svc.SetApiKey(dto, apiKey, ct));
+            device.MapPost(Device.SetAutoRedirect, async ([FromQuery] string redirect, [FromBody] DeviceStatusDto dto, IDeviceService svc, CancellationToken ct) => await svc.SetAutoRedirect(dto, redirect, ct));
+            device.MapPost(Device.SetZoom, async ([FromQuery] int zoom, [FromBody] DeviceStatusDto dto, IDeviceService svc, CancellationToken ct) => await svc.SetZoom(dto, zoom, ct));
+            device.MapPost(Device.ToggleTheme, async (DeviceStatusDto dto, IDeviceService svc, CancellationToken ct) => await svc.ToggleTheme(dto, ct));
 
             authentication.MapPost(Authentication.USER,
                 async (LoginDto<int> dto, IAuthenticationService service, CancellationToken ct) =>

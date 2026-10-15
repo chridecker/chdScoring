@@ -7,6 +7,7 @@
 @inject IchdScoringProfileService profileService
 @inject IDeviceHubClient deviceHubClient
 @inject IAppInfoService appInfoService
+@inject IBaseUIComponentHandler uiHandler
 @inject NavigationManager _navManager
 @implements IDisposable
 
@@ -44,6 +45,7 @@
         deviceHubClient.ChangeAutoRedirect += OnChangeAutoRedirect;
         deviceHubClient.ChangeApiKey += OnChangeApiKey;
         deviceHubClient.ChangeZoom += OnChangeZoom;
+        deviceHubClient.ToggleTheme += OnToggleTheme;
         profileService.UserChanged += this.UserChanged;
         await profileService.LoginAsync(new());
 
@@ -59,6 +61,13 @@
     private async void OnChangeAutoRedirect(object? sender, string redirect)
     {
         await clientSettings.StoreSettingLocal(SettingConstants.AutoRedirectTo, redirect);
+    }
+
+    private async void OnToggleTheme(object? sender, EventArgs e)
+    {
+        var darkMode = this.uiHandler.IsDarkMode;
+        await this.uiHandler.SetDarkMode(!darkMode);
+        await this.InvokeAsync(this.StateHasChanged);
     }
 
     private async void OnChangeApiKey(object? sender, string apiKey)
@@ -101,6 +110,10 @@
         this.appInfoService.ExitApplication -= this.ExitApplication;
         profileService.UserChanged -= this.UserChanged;
         deviceHubClient.ChangeNavigation -= OnChangeNavigation;
+        deviceHubClient.ChangeAutoRedirect -= OnChangeAutoRedirect;
+        deviceHubClient.ChangeApiKey -= OnChangeApiKey;
+        deviceHubClient.ChangeZoom -= OnChangeZoom;
+        deviceHubClient.ToggleTheme -= OnToggleTheme;
         this._cts.Cancel();
     }
 }

@@ -36,9 +36,9 @@ namespace chdScoring.App.UI.Helper
         protected override async Task<bool> ShouldInitialize(CancellationToken cancellationToken)
             => !string.IsNullOrWhiteSpace((await this._settingManager.MainUrl));
 
-        protected override async Task DoInvokations(HubConnection connection, CancellationToken cancellationToken)
+        protected override Task DoInvokations(HubConnection connection, CancellationToken cancellationToken)
         {
-
+            return Task.CompletedTask;
         }
 
         protected override void SpecificReinitialize(HubConnection connection)
@@ -66,12 +66,6 @@ namespace chdScoring.App.UI.Helper
              {
                  await conn.SendAsync(nameof(IFlightHub.RegisterAsJudge), judge, cancellationToken);
              });
-
-        public Task RegisterControlCenter(CancellationToken cancellationToken = default)
-        => this.SendAsync(async (conn) =>
-            {
-                await conn.SendAsync(nameof(IFlightHub.RegisterAsControlCenter), cancellationToken);
-            });
     }
 
 }

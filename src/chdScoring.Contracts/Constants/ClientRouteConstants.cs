@@ -29,7 +29,7 @@ namespace chdScoring.Contracts.Constants
                            BindingFlags.NonPublic |
                            BindingFlags.Static)
                 .Where(f => f.IsLiteral && !f.IsInitOnly)
-                .Select(f => (f.Name, f.GetValue(null)));
+                .Select(f => (f.Name, f.GetValue(null))).OrderBy(o => o.Name);
         }
     }
 }

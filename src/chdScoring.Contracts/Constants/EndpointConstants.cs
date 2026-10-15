@@ -19,6 +19,19 @@
             public const string USER_KEY = "userkey";
         }
 
+        public class Device
+        {
+            public const string ROUTE = "device";
+            public const string GETALL = "getall";
+            public const string Navigate = "navigate";
+            public const string Identify = "identify";
+            public const string SetAutoRedirect = "setautoredirect";
+            public const string SetApiKey = "setapikey";
+            public const string SetZoom = "setzoom";
+            public const string ToggleTheme = "ToggleTheme";
+            public const string Shutdown = "shutdown";
+        }
+
         public class Pilot
         {
             public const string ROUTE = "pilot";

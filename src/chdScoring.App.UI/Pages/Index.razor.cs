@@ -38,7 +38,7 @@ namespace chdScoring.App.UI.Pages
 
         private bool _panelDisabled => this._dto is null || this._dto.ScoreMode == Contracts.Enums.EScoreMode.FCScore || !this._dto.LeftTime.HasValue || this._dto.LeftTime.Value <= TimeSpan.Zero || this._current is null;
         private bool _needsJudgeConfirm => this._dto is null ? false : this._judge.HasValue && this._dto.JudeConfirmation;
-        private bool _isConfirmed => this._needsJudgeConfirm && this._judge.HasValue && this._judge.Value > 0 ? (this._dto?.JudgeConfirms.Any(a => a.Judge == this._judge.Value) ?? false) : true;
+        private bool _isConfirmed => this._needsJudgeConfirm && this._judge.HasValue && this._judge.Value > 0 ? (this._dto?.JudgeConfirms.Any(a => a.Judge == this._judge.Value) ?? false) : _needsJudgeConfirm;
         private bool _isAdmin => this._profileService.HasUserRight(RightConstants.AdminId);
 
         private bool _useJudgeConfirmQuestion = true;
@@ -86,6 +86,7 @@ namespace chdScoring.App.UI.Pages
 
             this._profileService.UserChanged += this._profileService_UserChanged;
             this._batteryService.InfoChanged += this._batteryService_InfoChanged;
+            this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
 
             await this.LoadData();
 
@@ -94,7 +95,6 @@ namespace chdScoring.App.UI.Pages
 
         protected override async Task JudgeHubConnected()
         {
-            this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
             if (this._judge is > 0)
             {
                 await this._judgeHubClient.Register(this._judge.Value, this._token);

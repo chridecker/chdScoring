@@ -126,6 +126,10 @@ namespace chdScoring.Main.WebServer
             menu.Items.Add(setZoomMenu);
 
 
+            menu.Items.Add("Toggle Theme", null, async (_, _) =>
+            {
+                await SendToggleTheme(item);
+            });
             menu.Items.Add("Beep", null, async (_, _) =>
             {
                 await SendIdentify(item);
@@ -141,6 +145,11 @@ namespace chdScoring.Main.WebServer
             menu.Show(Cursor.Position);
         }
 
+        private Task SendToggleTheme(DeviceStatusDto dto)
+            => SendDeviceHub(async c =>
+            {
+                await c.ToggleTheme(dto);
+            }, dto);
         private Task SendIdentify(DeviceStatusDto dto)
             => SendDeviceHub(async c =>
             {

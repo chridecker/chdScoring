@@ -41,6 +41,7 @@ namespace chdScoring.BusinessLogic.Extensions
             services.AddTransient<IPrintService, PrintService>();
             services.AddTransient<IHubDataService, HubDataService>();
             services.AddTransient<ITimerService, TimerService>();
+            services.AddTransient<IDeviceService, DeviceService>();
             services.AddTransient<IJudgeService, JudgeService>();
             services.AddTransient<IScoringService, ScoringService>();
             services.AddTransient<IPilotService, PilotService>();

@@ -64,20 +64,13 @@
         this.Title = PageTitleConstants.Viewer;
         this._dto = this._judgeDataCache.Data ?? await judgeService.GetCurrentFlight(_token);
         this._zoom = await this.settingManager.GetScoringZoom();
-
-        await base.OnInitializedAsync();
-    }
-
-    protected override async Task JudgeHubConnected()
-    {
         this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
-        this._judgeHubClient.RegisterControlCenter(_token);
-        await base.JudgeHubConnected();
+        await base.OnInitializedAsync();
     }
 
     private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)
     {
-        this._dto = e;
+        this._dto = _judgeDataCache.Data;
         await this.InvokeAsync(this.StateHasChanged);
     }
 

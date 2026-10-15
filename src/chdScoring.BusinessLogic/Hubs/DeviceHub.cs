@@ -21,7 +21,6 @@ namespace chdScoring.BusinessLogic.Hubs
             await base.OnConnectedAsync();
             await apiLogger.Log($"{Context.GetHttpContext().Request.Host} connected ID:{Context.ConnectionId}, API-Key:{GetApiKey()}");
             deviceCacheService.AddConnection(Context.ConnectionId, GetApiKey());
-            await SendDevicesToGroup();
         }
 
         public Task RegisterDeviceAsync(DeviceStatusDto dto)
@@ -30,18 +29,8 @@ namespace chdScoring.BusinessLogic.Hubs
             dto.LastUpdate = DateTime.Now;
             dto.ConnectionId = Context.ConnectionId;
             deviceCacheService.SetDevice(Context.ConnectionId, dto);
-            return SendDevicesToGroup();
+            return Task.CompletedTask;
         }
-
-        public async Task RegisterForDevices()
-        {
-            await this.Groups.AddToGroupAsync(Context.ConnectionId, HubContants.Device_Group, Context.ConnectionAborted);
-            await this.Clients.Caller.GetDevices(deviceCacheService.GetAll());
-        }
-
-        public Task UnRegisterForDevices()
-            =>this.Groups.RemoveFromGroupAsync(Context.ConnectionId, HubContants.Device_Group, Context.ConnectionAborted);
-        
 
         public async Task NavigateTo(DeviceStatusDto dto, string redirect)
         {
@@ -70,17 +59,16 @@ namespace chdScoring.BusinessLogic.Hubs
         {
             await this.Clients.Client(dto.ConnectionId).Identify(dto);
         }
-
-        public Task GetDevices(List<DeviceStatusDto> devices) => Task.CompletedTask;
+        public async Task ToggleTheme(DeviceStatusDto dto)
+        {
+            await this.Clients.Client(dto.ConnectionId).ToggleTheme(dto);
+        }
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
             deviceCacheService.RemoveConnection(Context.ConnectionId);
-            await SendDevicesToGroup();
             await base.OnDisconnectedAsync(exception);
         }
 
-        private Task SendDevicesToGroup()
-            => this.Clients.Group(HubContants.Device_Group).GetDevices(deviceCacheService.GetAll());
     }
 }

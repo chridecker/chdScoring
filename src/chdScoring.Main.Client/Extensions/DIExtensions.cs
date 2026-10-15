@@ -17,6 +17,9 @@ namespace chdScoring.Main.Client.Extensions
         {
             services.Add(new ServiceDescriptor(typeof(IApiKeyProvider), typeof(TApiKeyProvider), ServiceLifetime.Transient));
 
+            services.AddHttpClient<DeviceClient>(sp => func.Invoke(sp).Append(ROOT).Append(Device.ROUTE));
+            services.AddTransient<IDeviceService, DeviceClient>();
+            
             services.AddHttpClient<PrintClient>(sp => func.Invoke(sp).Append(ROOT).Append(Print.ROUTE));
             services.AddTransient<IPrintService, PrintClient>();
 

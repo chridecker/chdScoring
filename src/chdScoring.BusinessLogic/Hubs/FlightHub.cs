@@ -25,17 +25,11 @@ namespace chdScoring.BusinessLogic.Hubs
         }
         public override async Task OnConnectedAsync()
         {
+            await base.OnConnectedAsync();
             await this.Clients.Caller.ReceiveFlightData(this._flightCacheService.GetCurrentFlight(DateTime.Now), this.Context.ConnectionAborted);
             await this.Clients.Caller.ReceiveRoundData(this._flightCacheService.GetCurrentRoundResults(), this.Context.ConnectionAborted);
 
-            await base.OnConnectedAsync();
-            var time = DateTime.Now;
             await _apiLogger.Log($"{Context.GetHttpContext().Request.Host} connected ID:{Context.ConnectionId}, API-Key:{GetApiKey()}");
-        }
-
-        public override async Task OnDisconnectedAsync(Exception exception)
-        {
-            await base.OnDisconnectedAsync(exception);
         }
 
         public async Task<bool> RegisterAsJudge(int judge)
@@ -44,13 +38,6 @@ namespace chdScoring.BusinessLogic.Hubs
             await this.Clients.Caller.ReceiveFlightData(this._flightCacheService.GetCurrentFlight(DateTime.Now), this.Context.ConnectionAborted);
             return true;
         }
-        public async Task<bool> RegisterAsControlCenter()
-        {
-            await this.Groups.AddToGroupAsync(this.Context.ConnectionId, $"controlcenter", this.Context.ConnectionAborted);
-            await this.Clients.Caller.ReceiveFlightData(this._flightCacheService.GetCurrentFlight(DateTime.Now), this.Context.ConnectionAborted);
-            return true;
-        }
-
 
         public Task ReceiveFlightData(CurrentFlight dto, CancellationToken cancellationToken = default)
         {
