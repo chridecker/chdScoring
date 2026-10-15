@@ -1,8 +1,11 @@
 ﻿using chdScoring.App.UI.Interfaces;
+using DocumentFormat.OpenXml.InkML;
+
 #if ANDROID
 using Android.Content;
 using Android.App;
 using Android.Media;
+using chdScoring.App.Platforms.Android;
 #endif
 
 namespace chdScoring.App.Services
@@ -28,21 +31,15 @@ namespace chdScoring.App.Services
         public Task ExitApplication(bool restart)
         {
 #if ANDROID
-            if (restart)
-            {
+            
                 var context = Microsoft.Maui.ApplicationModel.Platform.AppContext;
+                var launch = context.PackageManager!.GetLaunchIntentForPackage(context.PackageName!)!;
+                launch.AddFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
 
-                var intent = context.PackageManager!.GetLaunchIntentForPackage(context.PackageName!)!;
-                intent.AddFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
-
-                var pending = PendingIntent.GetActivity(
-                    context, 0, intent,
-                    PendingIntentFlags.Immutable | PendingIntentFlags.CancelCurrent);
-
-                var alarm = (AlarmManager)context.GetSystemService(Context.AlarmService)!;
-                alarm.Set(AlarmType.Rtc, Java.Lang.JavaSystem.CurrentTimeMillis() + 300, pending);
-            }
-            Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+                var intent = new Intent(context, typeof(RestartActivity));
+                intent.AddFlags(ActivityFlags.NewTask);
+                intent.PutExtra("main_pid", Android.OS.Process.MyPid());
+                context.StartActivity(intent);
 #endif
             return Task.CompletedTask;
         }

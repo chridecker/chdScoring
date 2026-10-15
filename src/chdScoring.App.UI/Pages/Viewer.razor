@@ -73,12 +73,14 @@
         this._judgeHubClient.Connected += this._judgeHubClient_Connected;
         this._judgeHubClient.DataReceived += this._judgeHubClient_DataReceived;
 
+
         await base.OnInitializedAsync();
     }
 
     private async void _judgeHubClient_Connected(object? sender, EventArgs e)
     {
         await this._judgeHubClient.RegisterControlCenter(this._token);
+        this._dto = _judgeDataCache.Data;
     }
 
     private async void _judgeHubClient_DataReceived(object sender, CurrentFlight e)

@@ -1,4 +1,7 @@
+@using chd.UI.Base.Components.General.Search
 @using chd.UI.Base.Contracts.Enum
+@using chdScoring.App.UI.Extensions
+@using chdScoring.App.UI.Pages.Components
 @using chdScoring.Contracts.Constants
 @using chdScoring.Contracts.Dtos
 @inherits BaseChdScoringPage
@@ -23,7 +26,10 @@
 {
     <FloatingActionNavigation>
         <FloatingActionButton FAClass="volume" Title="Beep" OnClick="async () => await _deviceHubClient.Identify(_current, _token)" />
-        @* <FloatingActionButton FAClass="trash" Title="Delete" OnClick="this.DeleteKey" /> *@
+        <FloatingActionButton FAClass="power-off" Title="Restart" OnClick="async () => await _deviceHubClient.ShutDown(_current, true, _token)" />
+        <FloatingActionButton FAClass="arrow-left-arrow-right" Title="GoTo" OnClick="async () => await GoTo(false)" />
+        <FloatingActionButton FAClass="bold-auto" Title="Set Redirect" OnClick="async () => await GoTo(true)" />
+        <FloatingActionButton FAClass="magnifying-glass" Title="Set Zoom" OnClick="Zoom" />
     </FloatingActionNavigation>
 }
 
@@ -49,10 +55,49 @@
         await base.OnInitializedAsync();
     }
 
-    private Task SelectRow(DeviceStatusDto dto, CancellationToken cancellationToken)
+    private async Task GoTo(bool save)
+    {
+        var parameters = new ModalParameters
+        {
+            { nameof(SearchModalComponent<string, int>.Items), ClientRouteConstants.GetConstants().Select(s => s.Value.ToString()) },
+            { nameof(SearchModalComponent<string, int>.DisableOrder), true },
+        };
+        var modalInstance = this.modalHandler.Show<SearchModalComponent<string, int>>($"Gerät {_current.HostName} ({_current.ConnectionId})", parameters);
+
+        var result = await modalInstance.Result;
+        if (result.Confirmed && result.Data is string route)
+        {
+            if (!save)
+            {
+                await _deviceHubClient.NavigateTo(_current, route, _token);
+            }
+            else
+            {
+                await _deviceHubClient.SetAutoRedirect(_current, route, _token);
+            }
+        }
+    }
+
+    private async Task Zoom()
+    {
+        var parameters = new ModalParameters
+        {
+            { nameof(SearchModalComponent<int, int>.Items), new int[]{50,66,70,80,90,100,110,125,130,150,200} },
+            { nameof(SearchModalComponent<int, int>.DisableOrder), true },
+        };
+        var modalInstance = this.modalHandler.Show<SearchModalComponent<int, int>>($"Gerät {_current.HostName} ({_current.ConnectionId})", parameters);
+
+        var result = await modalInstance.Result;
+        if (result.Confirmed && result.Data is int zoom)
+        {
+            await _deviceHubClient.SetZoom(_current, zoom, _token);
+        }
+    }
+
+    private async Task SelectRow(DeviceStatusDto dto, CancellationToken cancellationToken)
     {
         _current = dto;
-        return Task.CompletedTask;
+        await this.InvokeAsync(this.StateHasChanged);
     }
 
     private async void HubConnected(object? sender, EventArgs e)
