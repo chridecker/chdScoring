@@ -43,13 +43,9 @@ namespace chdScoring.Main.WebServer.Services
         {
             this._importFolder = Path.Combine(this._appSettings.CurrentValue.ImportDirectory);
             var jsonResult = Path.Combine(_importFolder, FolderConstants.JsonResult);
-            var bin = Path.Combine(_importFolder, FolderConstants.Bin);
-            var json = Path.Combine(_importFolder, FolderConstants.Json);
 
             this.EnsureFoldersCreates(this._importFolder);
             this.EnsureFoldersCreates(jsonResult);
-            this.EnsureFoldersCreates(bin);
-            this.EnsureFoldersCreates(json);
 
             foreach (var db in this._databaseConfiguration.GetConnections())
             {
