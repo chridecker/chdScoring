@@ -22,6 +22,7 @@ namespace chdScoring.App.Services
         public BatteryState State => Battery.Default.State;
 
         public string DeviceName => DeviceInfo.Current.Name;
+        public string Platform => DeviceInfo.Platform.ToString();
 
         public event EventHandler InfoChanged;
         public Task ExitApplication(bool restart)
@@ -29,29 +30,38 @@ namespace chdScoring.App.Services
 #if ANDROID
             if (restart)
             {
-                var context = Platform.CurrentActivity!;
+                var context = Microsoft.Maui.ApplicationModel.Platform.AppContext;
 
-                var intent = context.PackageManager!
-                    .GetLaunchIntentForPackage(context.PackageName!);
+                var intent = context.PackageManager!.GetLaunchIntentForPackage(context.PackageName!)!;
+                intent.AddFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
 
-                intent!.AddFlags(ActivityFlags.ClearTop |
-                                 ActivityFlags.NewTask);
+                var pending = PendingIntent.GetActivity(
+                    context, 0, intent,
+                    PendingIntentFlags.Immutable | PendingIntentFlags.CancelCurrent);
 
-                context.StartActivity(intent);
+                var alarm = (AlarmManager)context.GetSystemService(Context.AlarmService)!;
+                alarm.Set(AlarmType.Rtc, Java.Lang.JavaSystem.CurrentTimeMillis() + 300, pending);
             }
             Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
 #endif
             return Task.CompletedTask;
         }
 
-        public Task Identify()
+        public async Task Identify()
         {
 #if ANDROID
 
-            ToneGenerator toneGen = new ToneGenerator(Android.Media.Stream.Notification, 100);
-            toneGen.StartTone(Tone.PropBeep, 150);
+            var tone = new Android.Media.ToneGenerator(Android.Media.Stream.Alarm, 100);
+            try
+            {
+                tone.StartTone(Android.Media.Tone.PropBeep, 300);
+                await Task.Delay(300 + 50);
+            }
+            finally
+            {
+                tone.Release();
+            }
 #endif
-            return Task.CompletedTask;
         }
 
         public BatteryService(IBattery battery)

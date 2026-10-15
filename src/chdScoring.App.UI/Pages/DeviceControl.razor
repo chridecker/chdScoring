@@ -1,5 +1,76 @@
+@using chd.UI.Base.Contracts.Enum
 @using chdScoring.Contracts.Constants
+@using chdScoring.Contracts.Dtos
 @inherits BaseChdScoringPage
-@page "/" + @ClientRouteConstants.DeviceControl
+@page "/devicecontrol"
 
+<div class="devices">
+    <Table Items="@_devices" IsSelected="IsCurrent" OnRowClick="SelectRow" HeaderColumns="@(["Host", "X-Api-Key", "Last Update", "User", "Current Site", "Battery", "Charging", "Platform"])">
+        <RowTemplate Context="device">
+            <TableData>@device.HostName</TableData>
+            <TableData>@device.ApiKey</TableData>
+            <TableData>@device.LastUpdate.Value.ToString("dd.MM.yyyy HH:mm:ss")</TableData>
+            <TableData>@device.User</TableData>
+            <TableData>@device.CurrentSite</TableData>
+            <TableData>@device.BatteryLevel.ToString("n2")%</TableData>
+            <TableData>@device.BatteryCharging</TableData>
+            <TableData>@device.Platform</TableData>
+        </RowTemplate>
+    </Table>
+</div>
 
+@if (_current is not null)
+{
+    <FloatingActionNavigation>
+        <FloatingActionButton FAClass="volume" Title="Beep" OnClick="async () => await _deviceHubClient.Identify(_current, _token)" />
+        @* <FloatingActionButton FAClass="trash" Title="Delete" OnClick="this.DeleteKey" /> *@
+    </FloatingActionNavigation>
+}
+
+@code
+{
+    DeviceStatusDto _current;
+    List<DeviceStatusDto> _devices = [];
+
+    private bool IsCurrent(DeviceStatusDto dto) => _current?.Equals(dto) ?? false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _deviceHubClient.OnDeviceLst += OnDeviceLst;
+        if (_deviceHubClient.IsConnected)
+        {
+            await _deviceHubClient.RegisterForDevices(_token);
+        }
+        else
+        {
+            _deviceHubClient.Connected += HubConnected;
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+    private Task SelectRow(DeviceStatusDto dto, CancellationToken cancellationToken)
+    {
+        _current = dto;
+        return Task.CompletedTask;
+    }
+
+    private async void HubConnected(object? sender, EventArgs e)
+    {
+        await _deviceHubClient.RegisterForDevices(_token);
+    }
+
+    private async void OnDeviceLst(object? sender, List<DeviceStatusDto> lst)
+    {
+        _devices = lst;
+        await InvokeAsync(this.StateHasChanged);
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        this._deviceHubClient.UnRegisterForDevices(_token);
+        _deviceHubClient.OnDeviceLst -= OnDeviceLst;
+        _deviceHubClient.Connected -= HubConnected;
+        base.Dispose(disposing);
+    }
+}

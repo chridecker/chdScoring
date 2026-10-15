@@ -48,6 +48,8 @@
             tabPage3 = new TabPage();
             dataGridViewDevices = new DataGridView();
             hostNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            apiKeyDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            platformDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             lastUpdateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             User = new DataGridViewTextBoxColumn();
             CurrentSite = new DataGridViewTextBoxColumn();
@@ -249,7 +251,7 @@
             dataGridViewDevices.AllowUserToDeleteRows = false;
             dataGridViewDevices.AutoGenerateColumns = false;
             dataGridViewDevices.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewDevices.Columns.AddRange(new DataGridViewColumn[] { hostNameDataGridViewTextBoxColumn, lastUpdateDataGridViewTextBoxColumn, User, CurrentSite, batteryLevelDataGridViewTextBoxColumn, batteryChargingDataGridViewTextBoxColumn, currentVersionDataGridViewTextBoxColumn, currentLocalTimeDataGridViewTextBoxColumn });
+            dataGridViewDevices.Columns.AddRange(new DataGridViewColumn[] { hostNameDataGridViewTextBoxColumn, apiKeyDataGridViewTextBoxColumn, lastUpdateDataGridViewTextBoxColumn, User, CurrentSite, batteryLevelDataGridViewTextBoxColumn, batteryChargingDataGridViewTextBoxColumn, currentVersionDataGridViewTextBoxColumn, currentLocalTimeDataGridViewTextBoxColumn, platformDataGridViewTextBoxColumn });
             dataGridViewDevices.DataSource = bindingSourceDevices;
             dataGridViewDevices.Dock = DockStyle.Fill;
             dataGridViewDevices.Location = new Point(3, 3);
@@ -265,9 +267,25 @@
             hostNameDataGridViewTextBoxColumn.Name = "hostNameDataGridViewTextBoxColumn";
             hostNameDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // apiKeyDataGridViewTextBoxColumn
+            // 
+            apiKeyDataGridViewTextBoxColumn.DataPropertyName = "ApiKey";
+            apiKeyDataGridViewTextBoxColumn.HeaderText = "X-ApiKey";
+            apiKeyDataGridViewTextBoxColumn.Name = "apiKeyDataGridViewTextBoxColumn";
+            apiKeyDataGridViewTextBoxColumn.ReadOnly = true;
+            apiKeyDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            // 
+            // platformDataGridViewTextBoxColumn
+            // 
+            platformDataGridViewTextBoxColumn.DataPropertyName = "Platform";
+            platformDataGridViewTextBoxColumn.HeaderText = "Platform";
+            platformDataGridViewTextBoxColumn.Name = "platformDataGridViewTextBoxColumn";
+            platformDataGridViewTextBoxColumn.ReadOnly = true;
+            platformDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            // 
             // lastUpdateDataGridViewTextBoxColumn
             // 
-            lastUpdateDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            lastUpdateDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             lastUpdateDataGridViewTextBoxColumn.DataPropertyName = "LastUpdate";
             lastUpdateDataGridViewTextBoxColumn.HeaderText = "LastUpdate";
             lastUpdateDataGridViewTextBoxColumn.Name = "lastUpdateDataGridViewTextBoxColumn";
@@ -315,7 +333,7 @@
             // 
             // currentLocalTimeDataGridViewTextBoxColumn
             // 
-            currentLocalTimeDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            currentLocalTimeDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             currentLocalTimeDataGridViewTextBoxColumn.DataPropertyName = "CurrentLocalTime";
             currentLocalTimeDataGridViewTextBoxColumn.HeaderText = "CurrentLocalTime";
             currentLocalTimeDataGridViewTextBoxColumn.Name = "currentLocalTimeDataGridViewTextBoxColumn";
@@ -446,6 +464,8 @@
         private DataGridView dataGridViewDevices;
         private BindingSource bindingSourceDevices;
         private DataGridViewTextBoxColumn hostNameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn apiKeyDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn platformDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn lastUpdateDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn User;
         private DataGridViewTextBoxColumn CurrentSite;

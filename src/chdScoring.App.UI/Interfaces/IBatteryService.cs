@@ -9,6 +9,7 @@ namespace chdScoring.App.UI.Interfaces
     public interface IBatteryService : IDisposable
     {
         string DeviceName { get; }
+        string Platform { get; }
         double BatteryLevel { get; }
         bool? Charging { get; }
 

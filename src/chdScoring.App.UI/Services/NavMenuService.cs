@@ -33,7 +33,10 @@ namespace chdScoring.App.UI.Services
             var fcScoreCorrection = CreateNavMenuNode(9, "FC-Score", "fc-scoring", "keyboard", [RightConstants.AdminId]);
 
             var fc = CreateNavFolderNode(10, "FlightCoach", "folder", [RightConstants.AdminId], import, fcScoreCorrection);
-            var apiKeys = CreateNavMenuNode(11, "Api Keys", "apikeys", "key", [RightConstants.AdminId]);
+
+            var devices = CreateNavMenuNode(12, "Devices", "devicecontrol", "mobile", [RightConstants.AdminId]);
+            var apiKeys = CreateNavMenuNode(13, "Api Keys", "apikeys", "key", [RightConstants.AdminId]);
+            var maintenance = CreateNavFolderNode(11, "Maintenance", "folder", [RightConstants.AdminId], devices, apiKeys);
 
             _lst.Add(home);
             _lst.Add(viewer);
@@ -41,7 +44,7 @@ namespace chdScoring.App.UI.Services
             _lst.Add(compMgmt);
             _lst.Add(pilots);
             _lst.Add(fc);
-            _lst.Add(apiKeys);
+            _lst.Add(maintenance);
 
             return _lst;
         }

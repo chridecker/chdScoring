@@ -30,7 +30,7 @@ namespace chdScoring.BusinessLogic.Hubs
 
             await base.OnConnectedAsync();
             var time = DateTime.Now;
-            await _apiLogger.Log($"{time}: {Context.GetHttpContext().Request.Host} connected ID:{Context.ConnectionId}, API-Key:{_apiKey}");
+            await _apiLogger.Log($"{Context.GetHttpContext().Request.Host} connected ID:{Context.ConnectionId}, API-Key:{GetApiKey()}");
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)

@@ -31,6 +31,7 @@ namespace chdScoring.App.UI.Helper
         public event EventHandler<string> ChangeAutoRedirect;
         public event EventHandler<int> ChangeZoom;
         public event EventHandler<string> ChangeApiKey;
+        public event EventHandler<List<DeviceStatusDto>> OnDeviceLst;
 
         public async Task Update(CancellationToken cancellationToken)
         {
@@ -38,17 +39,35 @@ namespace chdScoring.App.UI.Helper
             await SendDto(cancellationToken);
         }
 
-        public Task NavigateTo(DeviceStatusDto dto, string redirect) => SendHubCommand(nameof(IDeviceHub.NavigateTo), dto, redirect);
+        public Task RegisterForDevices(CancellationToken cancellationToken)
+            => this.SendAsync(async conn =>
+                {
+                    await conn.SendAsync(nameof(IDeviceHub.RegisterForDevices), cancellationToken);
+                });
 
-        public Task SetAutoRedirect(DeviceStatusDto dto, string redirect) => SendHubCommand(nameof(IDeviceHub.SetAutoRedirect), dto, redirect);
+        public Task UnRegisterForDevices(CancellationToken cancellationToken)
+            => this.SendAsync(async conn =>
+                {
+                    await conn.SendAsync(nameof(IDeviceHub.UnRegisterForDevices), cancellationToken);
+                });
 
-        public Task SetApiKey(DeviceStatusDto dto, string apiKey) => SendHubCommand(nameof(IDeviceHub.SetApiKey), dto, apiKey);
+        public Task NavigateTo(DeviceStatusDto dto, string redirect, CancellationToken cancellationToken)
+            => SendHubCommand(nameof(IDeviceHub.NavigateTo), dto, redirect, cancellationToken);
 
-        public Task SetZoom(DeviceStatusDto dto, int zoom) => SendHubCommand(nameof(IDeviceHub.SetZoom), dto, zoom);
+        public Task SetAutoRedirect(DeviceStatusDto dto, string redirect, CancellationToken cancellationToken)
+            => SendHubCommand(nameof(IDeviceHub.SetAutoRedirect), dto, redirect, cancellationToken);
 
-        public Task ShutDown(DeviceStatusDto dto, bool restart) => SendHubCommand(nameof(IDeviceHub.ShutDown), dto, restart);
+        public Task SetApiKey(DeviceStatusDto dto, string apiKey, CancellationToken cancellationToken)
+            => SendHubCommand(nameof(IDeviceHub.SetApiKey), dto, apiKey, cancellationToken);
 
-        public Task Identify(DeviceStatusDto dto) => SendHubCommand(nameof(IDeviceHub.Identify), dto);
+        public Task SetZoom(DeviceStatusDto dto, int zoom, CancellationToken cancellationToken)
+            => SendHubCommand(nameof(IDeviceHub.SetZoom), dto, zoom, cancellationToken);
+
+        public Task ShutDown(DeviceStatusDto dto, bool restart, CancellationToken cancellationToken)
+            => SendHubCommand(nameof(IDeviceHub.ShutDown), dto, restart, cancellationToken);
+
+        public Task Identify(DeviceStatusDto dto, CancellationToken cancellationToken)
+            => SendHubCommand(nameof(IDeviceHub.Identify), dto, cancellationToken: cancellationToken);
 
         protected override void SpecificReinitialize(HubConnection connection)
         {
@@ -83,6 +102,10 @@ namespace chdScoring.App.UI.Helper
             {
                 batteryService.Identify();
             });
+            connection.On<List<DeviceStatusDto>>(nameof(IDeviceHub.GetDevices), (lst) =>
+            {
+                this.OnDeviceLst?.Invoke(this, lst);
+            });
         }
 
         protected override async Task DoInvokations(HubConnection connection, CancellationToken cancellationToken)
@@ -104,11 +127,10 @@ namespace chdScoring.App.UI.Helper
             return new UriBuilder($"{baseAddress}chdscoring/device-hub").Uri;
         }
 
-        private async Task SendHubCommand(string method, DeviceStatusDto dto, object param = null, CancellationToken cancellationToken = default)
-        {
-            await this.SendAsync(async conn =>
+        private Task SendHubCommand(string method, DeviceStatusDto dto, object param = null, CancellationToken cancellationToken = default)
+        => this.SendAsync(async conn =>
             {
-                if (param is null)
+                if (param is not null)
                 {
                     await conn.SendAsync(method, dto, param, cancellationToken);
                 }
@@ -117,15 +139,12 @@ namespace chdScoring.App.UI.Helper
                     await conn.SendAsync(method, dto, cancellationToken);
                 }
             });
-        }
 
-        private async Task SendDto(CancellationToken cancellationToken)
-        {
-            await this.SendAsync(async conn =>
+        private Task SendDto(CancellationToken cancellationToken)
+        => this.SendAsync(async conn =>
             {
                 await conn.SendAsync(nameof(IDeviceHub.RegisterDeviceAsync), await GetCurrent(cancellationToken), cancellationToken);
             });
-        }
 
         private async Task<DeviceStatusDto> GetCurrent(CancellationToken cancellationToken)
         {
@@ -140,6 +159,7 @@ namespace chdScoring.App.UI.Helper
                     HostName = batteryService.DeviceName,
                     BatteryLevel = batteryService.BatteryLevel,
                     BatteryCharging = batteryService.Charging,
+                    Platform = batteryService.Platform,
                 };
             }
 

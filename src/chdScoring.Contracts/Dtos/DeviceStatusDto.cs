@@ -14,6 +14,7 @@ namespace chdScoring.Contracts.Dtos
         public string User { get; set; }
         public string HostName { get; set; }
         public string CurrentSite { get; set; }
+        public string Platform { get; set; }
         public Version CurrentVersion { get; set; }
         public DateTime CurrentLocalTime { get; set; }
         public DateTime? LastUpdate { get; set; }
