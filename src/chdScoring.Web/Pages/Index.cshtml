@@ -16,14 +16,15 @@
 @section Scripts {
     <script>
 
-        var hubUrl = '@this.Model.HubClientUrl';
+        var flightHubUrl = '@this.Model.FlightHubClientUrl';
+        var deviceHubUrl = '@this.Model.DeviceHubClientUrl';
         var apiKey = '@this.Model.ApiKey';
         var render = '@this.Model.RenderSetting';
         var mode= '@this.Model.Mode';
 
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl(hubUrl, {
-               accessTokenFactory: ()=>  "ch3510r",
+            .withUrl(flightHubUrl, {
+               accessTokenFactory: ()=>  apiKey,
                 transport: signalR.HttpTransportType.WebSockets
             })
              .build();
@@ -31,9 +32,21 @@
         connection.onclose(async () => {
             await startHubConnection(connection);
         });
+        
+        const deviceConnection = new signalR.HubConnectionBuilder()
+            .withUrl(deviceHubUrl, {
+               accessTokenFactory: ()=>  apiKey,
+                transport: signalR.HttpTransportType.WebSockets
+            })
+             .build();
+
+        deviceConnection.onclose(async () => {
+            await startDeviceHubConnection(deviceConnection,apiKey);
+        });
 
         // Start the connection.
         startHubConnection(connection);
+        startDeviceHubConnection(deviceConnection,apiKey);
 
     </script>
 }

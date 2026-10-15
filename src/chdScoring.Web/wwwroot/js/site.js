@@ -2,6 +2,51 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+async function startDeviceHubConnection(connection, apiKey) {
+
+    connection.start()
+        .then(() => {
+            connection.on("NavigateTo", function (dto, redirect) {
+                let mode = 'RenderTimer';
+                if (redirect == 'controlcenter') {
+                    mode = 'live';
+                }
+                else if (redirect == 'pilots') {
+                    mode = 'round';
+                }
+                const url = new URL(window.location.href);
+                url.searchParams.set("mode", mode);
+                window.history.pushState({}, "", url);
+                window.location.reload();
+            });
+            connection.on("ToggleTheme", function (dto) {
+                const url = new URL(window.location.href);
+                let theme = url.searchParams.get("colorScheme");
+                if (theme === undefined || theme == null) {
+                    theme = 'dark-mode';
+                }
+                else if (theme == 'dark-mode') {
+                    theme = 'light-mode';
+                }
+                url.searchParams.set("colorScheme", theme);
+
+                window.history.pushState({}, "", url);
+                 window.location.reload();
+            });
+            connection.invoke("RegisterDeviceAsync", {
+                apiKey: apiKey,
+                hostName: 'Web View'
+            });
+            hideErrorModal();
+        })
+        .catch(function (err) {
+            showErrorModal(err);
+            setTimeout(() => startDeviceHubConnection(connection, apiKey), 5000);
+            return console.error(err.toString());
+        });
+}
+
+
 async function startHubConnection(connection) {
     if (mode == 'Round') {
         connection.on("ReceiveRoundData", function (lst) {
@@ -50,7 +95,6 @@ async function startHubConnection(connection) {
     }
     connection.start()
         .then(() => {
-            connection.invoke("RegisterAsControlCenter");
             hideErrorModal();
         })
         .catch(function (err) {

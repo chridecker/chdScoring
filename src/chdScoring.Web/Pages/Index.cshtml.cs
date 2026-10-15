@@ -18,7 +18,8 @@ namespace chdScoring.Web.Pages
         private readonly IPilotService _pilotService;
         private readonly ImageCache _imageCache;
 
-        public string HubClientUrl => new UriBuilder($"{this._configuration.GetApiKey("chdScoringApi")}chdscoring/flight-hub").Uri.ToString();
+        public string FlightHubClientUrl => new UriBuilder($"{this._configuration.GetApiKey("chdScoringApi")}chdscoring/flight-hub").Uri.ToString();
+        public string DeviceHubClientUrl => new UriBuilder($"{this._configuration.GetApiKey("chdScoringApi")}chdscoring/device-hub").Uri.ToString();
         public string ApiKey { get; }
 
         [BindProperty(SupportsGet = true)]
