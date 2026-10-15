@@ -4,6 +4,7 @@
     {
         public const string Index = "";
         public const string Scoring = "Judge-Panel";
+        public const string DeviceControl = "Device-Center";
         public const string ControlCenter = "Control-Center";
         public const string Keys = "Api Keys";
         public const string CompetitionManagement = "Competition Management";

@@ -20,6 +20,7 @@ namespace chdScoring.Contracts.Constants
         public const string Settings = "settings";
         public const string UIX = "uix";
         public const string Viewer = "timer";
+        public const string DeviceControl = "devicecontrol";
 
         public static IEnumerable<(string Name, object? Value)> GetConstants()
         {

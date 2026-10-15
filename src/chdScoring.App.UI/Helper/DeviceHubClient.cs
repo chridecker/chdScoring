@@ -38,6 +38,18 @@ namespace chdScoring.App.UI.Helper
             await SendDto(cancellationToken);
         }
 
+        public Task NavigateTo(DeviceStatusDto dto, string redirect) => SendHubCommand(nameof(IDeviceHub.NavigateTo), dto, redirect);
+
+        public Task SetAutoRedirect(DeviceStatusDto dto, string redirect) => SendHubCommand(nameof(IDeviceHub.SetAutoRedirect), dto, redirect);
+
+        public Task SetApiKey(DeviceStatusDto dto, string apiKey) => SendHubCommand(nameof(IDeviceHub.SetApiKey), dto, apiKey);
+
+        public Task SetZoom(DeviceStatusDto dto, int zoom) => SendHubCommand(nameof(IDeviceHub.SetZoom), dto, zoom);
+
+        public Task ShutDown(DeviceStatusDto dto, bool restart) => SendHubCommand(nameof(IDeviceHub.ShutDown), dto, restart);
+
+        public Task Identify(DeviceStatusDto dto) => SendHubCommand(nameof(IDeviceHub.Identify), dto);
+
         protected override void SpecificReinitialize(HubConnection connection)
         {
             profileService.UserChanged -= ProfileService_UserChanged;
@@ -90,6 +102,21 @@ namespace chdScoring.App.UI.Helper
             var baseAddress = await settingManager.MainUrl;
             //return new UriBuilder($"http://localhost:8081/chdscoring/device-hub").Uri;
             return new UriBuilder($"{baseAddress}chdscoring/device-hub").Uri;
+        }
+
+        private async Task SendHubCommand(string method, DeviceStatusDto dto, object param = null, CancellationToken cancellationToken = default)
+        {
+            await this.SendAsync(async conn =>
+            {
+                if (param is null)
+                {
+                    await conn.SendAsync(method, dto, param, cancellationToken);
+                }
+                else
+                {
+                    await conn.SendAsync(method, dto, cancellationToken);
+                }
+            });
         }
 
         private async Task SendDto(CancellationToken cancellationToken)
