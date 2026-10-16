@@ -11,9 +11,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Content Remove="C:\Users\chrdec\.nuget\packages\pdfiumviewer.native.x86.v8-xfa\2018.4.8.256\Build\x86\pdfium.dll" />
-	  <Content Remove="C:\Users\chrdec\.nuget\packages\pdfiumviewer.native.x86_64.v8-xfa\2018.4.8.256\Build\x64\pdfium.dll" />
+	  <Content Remove="d:\.nuget\pdfiumviewer.native.x86.v8-xfa\2018.4.8.256\Build\x86\pdfium.dll" />
+	  <Content Remove="d:\.nuget\pdfiumviewer.native.x86_64.v8-xfa\2018.4.8.256\Build\x64\pdfium.dll" />
 	</ItemGroup>
+
+
 	<ItemGroup>
 		<PackageReference Include="chd.Api.Base" Version="2.0.26288.173" />
 		<PackageReference Include="CsvHelper" Version="33.1.0" />

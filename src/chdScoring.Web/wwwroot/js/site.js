@@ -1,8 +1,4 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-async function startDeviceHubConnection(connection, apiKey) {
+﻿async function startDeviceHubConnection(connection, apiKey) {
 
     connection.start()
         .then(() => {
@@ -31,6 +27,9 @@ async function startDeviceHubConnection(connection, apiKey) {
                 url.searchParams.set("colorScheme", theme);
 
                 window.history.pushState({}, "", url);
+                 window.location.reload();
+            });
+            connection.on("ShutDown", function (dto,restart) {
                  window.location.reload();
             });
             connection.invoke("RegisterDeviceAsync", {
