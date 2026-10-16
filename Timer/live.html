@@ -26,24 +26,11 @@
     </div>
 </div>
     <script src="js/fa.js"></script>
-    <script src="js/signalr.js"></script>
+<script src="js/signalr.js"></script>
+<script src="js/device.js"></script>
     <script src="js/live.js" ></script>
+    <script src="js/connection.js" ></script>
     <script>
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl("http://localhost:8081/chdscoring/flight-hub", {
-                headers: {
-                    "X-Api-Key": "ch3510ri"
-                }
-            })
-            .withAutomaticReconnect()
-        .build();
-
-        connection.onclose(async () => {
-            await startHubConnection(connection);
-        });
-
-        // Start the connection.
-        startHubConnection(connection);
     </script>
 </body>
 </html>

@@ -29,12 +29,15 @@
                 window.history.pushState({}, "", url);
                  window.location.reload();
             });
+            connection.on("SetZoom", function (dto, zoom) {
+                document.body.style.zoom = zoom + "%";
+            });
             connection.on("ShutDown", function (dto,restart) {
                  window.location.reload();
             });
             connection.invoke("RegisterDeviceAsync", {
                 apiKey: apiKey,
-                hostName: 'Web View'
+                hostName: 'Web .NET View'
             });
             hideErrorModal();
         })
