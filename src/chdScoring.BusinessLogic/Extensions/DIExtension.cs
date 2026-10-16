@@ -48,6 +48,7 @@ namespace chdScoring.BusinessLogic.Extensions
             services.AddTransient<IDatabaseService, DatabaseService>();
             services.AddTransient<IImportService, ImportService>();
             services.AddTransient<IApiKeyService, ApiKeyService>();
+            services.AddTransient<ICompetitionService, CompetitionService>();
 
             services.AddContextFactory<chdScoringContext>(ServiceLifetime.Scoped);
 

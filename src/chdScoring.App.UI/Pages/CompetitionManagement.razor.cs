@@ -22,6 +22,7 @@ namespace chdScoring.App.UI.Pages
         [Inject] IDatabaseService _databaseService { get; set; }
         [Inject] IPrintHelper _printHelper { get; set; }
         [Inject] IPrintService _printService { get; set; }
+        [Inject] ICompetitionService _competitionService { get; set; }
 
 
         private CurrentFlight _dto;
@@ -45,6 +46,14 @@ namespace chdScoring.App.UI.Pages
             await base.OnInitializedAsync();
         }
 
+        private async Task ClearData()
+        {
+            if (await this.modalHandler.ShowYesNoDialog("Clear ALL data?", settingManager.IsiOS) is EDialogResult.Yes
+                    && (await modalHandler.ShowSmallInputDialog("Type 'DELETE' to confirm", settingManager.IsiOS)) == "DELETE")
+            {
+                await this._competitionService.ClearDataAsync(_token);
+            }
+        }
         private async Task ChangeAutoPrint()
         {
             this._autoPrint = await this._printService.ChangeAutoPrint(this._token);

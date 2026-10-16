@@ -129,6 +129,12 @@ namespace chdScoring.Main.WebServer.Extensions
 
             control.MapGet(EndpointConstants.Control.GET_OpenRound, async (ITimerService service, CancellationToken cancellationToken)
                 => await service.GetFinishedRound(cancellationToken));
+            
+            control.MapPost(EndpointConstants.Control.POST_Start, async (ICompetitionService service, CancellationToken cancellationToken)
+                => await service.StartAsync(cancellationToken));
+           
+            control.MapDelete(EndpointConstants.Control.DELETE_Clear, async (ICompetitionService service, CancellationToken cancellationToken)
+                => await service.ClearDataAsync(cancellationToken));
 
 
             judges.MapGet(Judge.GET_Flight, async (IJudgeService judgesService, CancellationToken cancellationToken)

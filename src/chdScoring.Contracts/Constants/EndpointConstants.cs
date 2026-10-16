@@ -75,6 +75,8 @@
             public const string POST_TIMER = "timer";
             public const string POST_SaveRound = "saveround";
             public const string POST_CalcRound = "calcround";
+            public const string POST_Start= "start";
+            public const string DELETE_Clear = "clear";
 
         }
 
