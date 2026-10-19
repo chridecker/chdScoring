@@ -113,8 +113,11 @@ namespace chdScoring.Main.WebServer.Extensions
             pilot.MapPost(EndpointConstants.Pilot.POST_AddNew, async (PilotDto dto, IPilotService service, CancellationToken cancellationToken)
                 => await service.Add(dto, cancellationToken));
 
-            pilot.MapPost(EndpointConstants.Pilot.POST_Delete, async (PilotDto dto, IPilotService service, CancellationToken cancellationToken)
+            pilot.MapDelete(EndpointConstants.Pilot.DELETE_Delete, async ([FromBody]PilotDto dto, IPilotService service, CancellationToken cancellationToken)
                 => await service.Delete(dto, cancellationToken));
+
+            pilot.MapPost(EndpointConstants.Pilot.POST_Random, async (IPilotService service, CancellationToken cancellationToken)
+                => await service.RandomizeAsync(cancellationToken));
 
 
 

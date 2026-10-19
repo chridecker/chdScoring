@@ -21,7 +21,14 @@ namespace chdScoring.DataAccess.DAL
     {
         private readonly ITeilnehmerDurchgangJudgeRespository _teilnehmerDurchgangJudgeRespository;
 
-        public PilotDAL(ILogger<PilotDAL> logger, ITeilnehmerDurchgangJudgeRespository teilnehmerDurchgangJudgeRespository, IWettkampfLeitungRepository wettkampfLeitungRepository, ITeilnehmerRepository teilnehmerRepository, IJudgeRepository judgeRepository, IFigurRepository figurRepository, IProgrammRepository programmRepository, IWertungRepository wertungRepository, IKlasseRepository klasseRepository, ICountryImageRepository countryImageRepository, IImageRepository imageRepository, IDurchgangPanelRepository durchgangPanelRepository, IDurchgangProgramRepository durchgangProgramRepository, IFigurProgrammRepository figurProgrammRepository, IJudgePanelRepository judgePanelRepository, IStammDatenRepository stammDatenRepository, IBebwerbRepository bebwerbRepository, IDurchgangRepository durchgangRepository, ITeilnehmerBewerbRepository teilnehmerBewerbRepository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, figurProgrammRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
+        public PilotDAL(ILogger<PilotDAL> logger,
+            ITeilnehmerDurchgangJudgeRespository teilnehmerDurchgangJudgeRespository,
+            IWettkampfLeitungRepository wettkampfLeitungRepository,
+            ITeilnehmerRepository teilnehmerRepository, IJudgeRepository judgeRepository, IFigurRepository figurRepository, IProgrammRepository programmRepository,
+            IWertungRepository wertungRepository, IKlasseRepository klasseRepository, ICountryImageRepository countryImageRepository,
+            IImageRepository imageRepository, IDurchgangPanelRepository durchgangPanelRepository, IDurchgangProgramRepository durchgangProgramRepository,
+            IFigurProgrammRepository figurProgrammRepository, IJudgePanelRepository judgePanelRepository, IStammDatenRepository stammDatenRepository,
+            IBebwerbRepository bebwerbRepository, IDurchgangRepository durchgangRepository, ITeilnehmerBewerbRepository teilnehmerBewerbRepository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, figurProgrammRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
         {
             this._teilnehmerDurchgangJudgeRespository = teilnehmerDurchgangJudgeRespository;
         }
@@ -61,9 +68,9 @@ namespace chdScoring.DataAccess.DAL
 
         public async Task<bool> DeleteRoundScoring(int pilot, int round, CancellationToken cancellationToken)
         {
-            var confirms = await this._teilnehmerDurchgangJudgeRespository.Where(x => x.Teilnehmer == pilot && x.Durchgang == round).ToListAsync();
-            var scores = await this._wertungRepository.Where(x => x.Teilnehmer == pilot && x.Durchgang == round).Include(i => i.Histories).ToListAsync();
-            var durchgang = await this._durchgangRepository.FirstOrDefaultAsync(x => x.Teilnehmer == pilot && x.Durchgang == round);
+            var confirms = await this._teilnehmerDurchgangJudgeRespository.Where(x => x.Teilnehmer == pilot && x.Durchgang == round).ToListAsync(cancellationToken);
+            var scores = await this._wertungRepository.Where(x => x.Teilnehmer == pilot && x.Durchgang == round).Include(i => i.Histories).ToListAsync(cancellationToken);
+            var durchgang = await this._durchgangRepository.FirstOrDefaultAsync(x => x.Teilnehmer == pilot && x.Durchgang == round, cancellationToken);
             foreach (var c in confirms)
             {
                 await this._teilnehmerDurchgangJudgeRespository.Delete(c);
@@ -197,14 +204,14 @@ namespace chdScoring.DataAccess.DAL
 
         public async Task<bool> SetPilotActive(LoadPilotDto dto, CancellationToken cancellationToken)
         {
-            var active = await this._wettkampfLeitungRepository.FirstOrDefaultAsync(x => x.Status == (int)EFlightState.OnAir);
+            var active = await this._wettkampfLeitungRepository.FirstOrDefaultAsync(x => x.Status == (int)EFlightState.OnAir, cancellationToken);
             if (active is not null)
             {
                 active.Status = (int)EFlightState.Loaded;
                 active.Start_Time = TimeSpan.Zero;
                 await this._wettkampfLeitungRepository.SaveAsync(active, cancellationToken);
             }
-            var wl = await this._wettkampfLeitungRepository.FirstOrDefaultAsync(x => x.Teilnehmer == dto.Pilot && x.Durchgang == dto.Round);
+            var wl = await this._wettkampfLeitungRepository.FirstOrDefaultAsync(x => x.Teilnehmer == dto.Pilot && x.Durchgang == dto.Round, cancellationToken);
             if (wl != null)
             {
                 wl.Status = (int)EFlightState.OnAir;
@@ -254,12 +261,8 @@ namespace chdScoring.DataAccess.DAL
             });
         }
 
-        public async Task<bool> ChangeStartNumber(PilotDto pilot, int number, CancellationToken cancellationToken = default)
-        {
-            using var client = new HttpClient();
-            var res = await client.GetAsync($"http://localhost/operations/change_startnumber.php?id={pilot.Id}&newid={number}");
-            return res.IsSuccessStatusCode;
-        }
+        public Task<bool> ChangeStartNumber(PilotDto pilot, int number, CancellationToken cancellationToken = default)
+            => this._teilnehmerRepository.ChangeStartNumber(pilot.Id, number, cancellationToken);
 
         public async Task<bool> UpdatePilotData(PilotDto dto, CancellationToken cancellationToken)
         {

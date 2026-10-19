@@ -1,4 +1,5 @@
 @using chd.UI.Base.Client.Implementations.Services
+@using chd.UI.Base.Components.General.Search
 @using chd.UI.Base.Contracts.Enum
 @using chdScoring.App.UI.Extensions
 @using chdScoring.App.UI.Pages.Components
@@ -9,7 +10,7 @@
 <div class="pilots">
     @foreach (var pilot in this._pilots.OrderBy(o => o.Id))
     {
-        <div class="pilot-row" @ondblclick="async () => await this.EditPilot(pilot)">
+        <div class="pilot-row @(_current?.Id == pilot.Id ? "selected" : string.Empty)" @onclick="() => _current = pilot" @ondblclick="async () => await this.EditPilot(pilot)">
             <CustomImage Class="pilot-image" Data="pilot.CountryImage.Data" Type="@pilot.CountryImage.Type" />
             <div class="id">@pilot.Id</div>
             <div class="name">@pilot.Name</div>
@@ -20,19 +21,72 @@
 </div>
 
 <FloatingActionNavigation FAIconActive="user-plus" OnClick="this.AddPilot">
-    <FloatingActionButton FAClass="shuffle" Title="Randomize" OnClick="this.Randomize" />
+    <FloatingActionButton FAClass="rotate"  
+                          OnClick="async () => await this.ChangeStartNumber()"
+                          Title="Change StartNumber"
+                          CssClass="dot-btn-save large" />
+    <FloatingActionButton FAClass="shuffle" Title="Randomize" OnClick="this.Randomize"/>
+    @if (_current is not null)
+    {
+        <FloatingActionButton FAClass="arrows-repeat-1"
+                              OnClick="async () => await this.ReflightRound()"
+                              Title="Reflight"
+                              CssClass="dot-btn-save large"/>
+        <FloatingActionButton FAClass="pen" Title="Edit" OnClick="async () => await this.EditPilot(this._current)"/>
+
+    }
 </FloatingActionNavigation>
 
 
 
 
 @code {
+    private PilotDto _current;
     private List<PilotDto> _pilots = [];
 
     protected override async Task OnInitializedAsync()
     {
-        this._pilots = (await this.pilotService.GetAllPilots(this._token)).ToList();
+        await Refresh();
         await base.OnInitializedAsync();
+    }
+
+    private async Task Refresh()
+    {
+        this._pilots = (await this.pilotService.GetAllPilots(this._token)).ToList();
+    }
+
+    private async Task ReflightRound()
+    {
+        var finishedRounds = (await this.pilotService.GetFinishedFlights()).Where(x => x.Pilot.Id == _current.Id).ToList();
+        var parameters = new ModalParameters
+        {
+            { nameof(SearchModalComponent<FinishedRoundDto, int>.Items), finishedRounds.OrderBy(o=>o.Pilot.Name).ThenBy(o=>o.Round.Id).ThenBy(o => o.Start).ToList() },
+            { nameof(SearchModalComponent<FinishedRoundDto, int>.Name),(FinishedRoundDto r)=> $"{r.Pilot.Name}, Runde {r.Round.Id}" },
+            { nameof(SearchModalComponent<FinishedRoundDto, int>.DisableOrder), true },
+        };
+        var modalInstance = this.modalHandler.Show<SearchModalComponent<FinishedRoundDto, int>>("Runde wiederholen", parameters);
+
+        var result = await modalInstance.Result;
+        if (result.Confirmed && result.Data is FinishedRoundDto dto
+                             && await this.modalHandler.ShowYesNoDialog($"{dto.Pilot.Name} Runde {dto.Round.Id} wirklich löschen?", this.settingManager.IsiOS) == EDialogResult.Yes)
+        {
+            await this.pilotService.ReflightRound(new() { Pilot = dto.Pilot.Id, Round = dto.Round.Id }, this._token);
+        }
+    }
+
+    private async Task ChangeStartNumber()
+    {
+        if (_current is not null
+        && int.TryParse(await this.modalHandler.ShowSmallInputDialog($"Welche Nummer?", this.settingManager.IsiOS, "Neue Startnummer... "), out int id))
+        {
+                await this.pilotService.SetStartnumber(new()
+                {
+                    NewStartId = id,
+                    Pilot = _current
+                });
+                await Refresh();
+                await this.InvokeAsync(this.StateHasChanged);
+        }
     }
 
     private async Task AddPilot()
@@ -62,7 +116,7 @@
                 && await this.pilotService.Add(editDto, this._token))
             {
             }
-            this._pilots = (await this.pilotService.GetAllPilots(this._token)).ToList();
+                await Refresh();
             await this.InvokeAsync(this.StateHasChanged);
         }
     }
@@ -71,9 +125,13 @@
     {
         if (await this.modalHandler.ShowYesNoDialog("Teilnehmer IDs zufällig auslosen?", this.settingManager.IsiOS) == EDialogResult.Yes)
         {
-
+            await pilotService.RandomizeAsync(_token);
+            await Refresh();
+            await this.InvokeAsync(this.StateHasChanged);
         }
     }
+
+
 
     private async Task EditPilot(PilotDto dto)
     {
@@ -103,7 +161,7 @@
         {
             if (await this.pilotService.UpdatePilotData(editDto, this._token))
             {
-                this._pilots = (await this.pilotService.GetAllPilots(this._token)).ToList();
+                await Refresh();
                 await this.InvokeAsync(this.StateHasChanged);
             }
         }

@@ -2,6 +2,7 @@
 using chdScoring.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.DAL;
 using chdScoring.DataAccess.Contracts.Domain;
+using Mysqlx.Crud;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,31 @@ namespace chdScoring.BusinessLogic.Services
        => this._dal.LoadRoundResults(round, cancellationToken);
 
 
-        public Task<bool> ReflightRound(ReflightRoundDto dto, CancellationToken cancellationToken = default) => this._dal.DeleteRoundScoring(dto.Pilot, dto.Round, cancellationToken);
+        public async Task<bool> RandomizeAsync(CancellationToken cancellationToken)
+        {
+            var pilots = await this._dal.GetAllPilots(cancellationToken);
+            var draw = pilots
+                .OrderBy(_ => Random.Shared.Next())
+                .ToList();
+            foreach (var (pilot, i) in draw.Select((s, i) => (s, i)))
+            {
+                await this._dal.ChangeStartNumber(pilot, i + 1, cancellationToken);
+            }
+
+            return true;
+        }
+
+        public async Task<bool> ReflightRound(ReflightRoundDto dto, CancellationToken cancellationToken = default)
+        {
+            if (await this._dal.DeleteRoundScoring(dto.Pilot, dto.Round, cancellationToken))
+            {
+                await this._flightCacheService.Update(cancellationToken);
+                await this._hubDataService.SendAll(cancellationToken);
+                return true;
+            }
+
+            return false;
+        }
 
         public async Task<bool> SetPilotActive(LoadPilotDto dto, CancellationToken cancellationToken)
         {
@@ -74,14 +99,14 @@ namespace chdScoring.BusinessLogic.Services
 
         public async Task<IEnumerable<CountryDto>> GetCountries(CancellationToken cancellationToken = default)
         {
-            var all = await this._dal.GetAllCountryImages(cancellationToken); 
+            var all = await this._dal.GetAllCountryImages(cancellationToken);
             return all.Select(s => new CountryDto()
             {
-                 Id = s.Img_Id,
-                 Code = s.Short.ToUpper(),
-                 Name = s.Name,
-                 Type = s.Img_Type,
-                 Base64 = Convert.ToBase64String(s.Img_Data),
+                Id = s.Img_Id,
+                Code = s.Short.ToUpper(),
+                Name = s.Name,
+                Type = s.Img_Type,
+                Base64 = Convert.ToBase64String(s.Img_Data),
             });
         }
 

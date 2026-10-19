@@ -24,6 +24,16 @@
 
 
 <FloatingActionNavigation FAIconActive="file-pdf" OnClick="async () => await this.CreatePdf()" TextActive="Create Pdf">
+    
+    <FloatingActionButton FAClass="eraser"
+                          OnClick="async () => await this.ClearData()"
+                          Title="Clear Data"
+                          CssClass="dot-btn-save large" />
+
+    <FloatingActionButton FAClass="play"
+                          OnClick="async () => await this.Start()"
+                          Title="Start Comp"
+                          CssClass="dot-btn-save large" />
 
     <FloatingActionButton FAClass="floppy-disks"
                           OnClick="async () => await this.CalculateTBL()"
@@ -35,10 +45,6 @@
                           Title="Manual print existing Pdf"
                           CssClass="dot-btn-save large" />
 
-    <FloatingActionButton FAClass="rotate"
-                          OnClick="async () => await this.ChangeStartNumber()"
-                          Title="Change StartNumber"
-                          CssClass="dot-btn-save large" />
 
     <FloatingActionButton FAClass="@_autoPrintIco"
                           OnClick="async () => await this.ChangeAutoPrint()"
@@ -50,14 +56,7 @@
                           Title="Choose Database"
                           CssClass="dot-btn-save large" />
 
-    <FloatingActionButton FAClass="arrows-repeat-1"
-                          OnClick="async () => await this.ReflightRound()"
-                          Title="Reflight"
-                          CssClass="dot-btn-save large" />
+   
 
-    <FloatingActionButton FAClass="eraser"
-                          OnClick="async () => await this.ClearData()"
-                          Title="Clear Data"
-                          CssClass="dot-btn-save large" />
 </FloatingActionNavigation>
 

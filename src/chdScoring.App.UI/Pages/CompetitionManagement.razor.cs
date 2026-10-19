@@ -54,44 +54,21 @@ namespace chdScoring.App.UI.Pages
                 await this._competitionService.ClearDataAsync(_token);
             }
         }
+        
+        private async Task Start()
+        {
+            if (await this.modalHandler.ShowYesNoDialog("Start next round?", settingManager.IsiOS) is EDialogResult.Yes)
+            {
+                await this._competitionService.StartAsync(_token);
+            }
+        }
         private async Task ChangeAutoPrint()
         {
             this._autoPrint = await this._printService.ChangeAutoPrint(this._token);
             await this.InvokeAsync(this.StateHasChanged);
         }
 
-        private async Task ChangeStartNumber()
-        {
-            var pilots = await this.pilotService.GetAllPilots(this._token);
-            if (!pilots.Any()) { return; }
-            var parameters = new ModalParameters
-                     {
-                         { nameof(SearchModalComponent<OpenRoundDto, int>.Items), pilots.Select(s => new OpenRoundDto()
-                         {
-                             StartNumber = 0,
-                             Pilot = s,
-                             Round = 0
-                         }) },
-                         { nameof(SearchModalComponent<OpenRoundDto, int>.RenderType),typeof(NextPilotSearchItem) },
-                         { nameof(SearchModalComponent<OpenRoundDto, int>.RenderParameterDict),(OpenRoundDto dto)=> SearchModalComponent<OpenRoundDto,int>.CreateRenderParameterDict(dto,((x)=> nameof(NextPilotSearchItem.Dto),(x)=>x))},
-                         { nameof(SearchModalComponent<OpenRoundDto, int>.DisableOrder), true },
-                     };
-            var modalInstance = this.modalHandler.Show<SearchModalComponent<OpenRoundDto, int>>("Pilot Startnummer ändern", parameters);
-
-            var result = await modalInstance.Result;
-            if (result.Confirmed && result.Data is OpenRoundDto dto)
-            {
-                var val = await this.modalHandler.ShowSmallInputDialog($"Welche Nummer?", this.settingManager.IsiOS, "Neue Startnummer... ");
-                if (int.TryParse(val, out int id))
-                {
-                    await this.pilotService.SetStartnumber(new()
-                    {
-                        NewStartId = id,
-                        Pilot = dto.Pilot
-                    });
-                }
-            }
-        }
+       
         private async Task SetBreak()
         {
             if ((this._dto?.LeftTime.HasValue ?? false)
@@ -106,24 +83,7 @@ namespace chdScoring.App.UI.Pages
             }, this._token);
         }
 
-        private async Task ReflightRound()
-        {
-            var finishedRounds = await this.pilotService.GetFinishedFlights();
-            var parameters = new ModalParameters
-                     {
-                         { nameof(SearchModalComponent<FinishedRoundDto, int>.Items), finishedRounds.OrderBy(o=>o.Pilot.Name).ThenBy(o=>o.Round.Id).ThenBy(o => o.Start).ToList() },
-                         { nameof(SearchModalComponent<FinishedRoundDto, int>.Name),(FinishedRoundDto r)=> $"{r.Pilot.Name}, Runde {r.Round.Id}" },
-                         { nameof(SearchModalComponent<FinishedRoundDto, int>.DisableOrder), true },
-                     };
-            var modalInstance = this.modalHandler.Show<SearchModalComponent<FinishedRoundDto, int>>("Runde wiederholen", parameters);
-
-            var result = await modalInstance.Result;
-            if (result.Confirmed && result.Data is FinishedRoundDto dto
-                && await this.modalHandler.ShowYesNoDialog($"{dto.Pilot.Name} Runde {dto.Round.Id} wirklich löschen?", this.settingManager.IsiOS) == EDialogResult.Yes)
-            {
-                await this.pilotService.ReflightRound(new() { Pilot = dto.Pilot.Id, Round = dto.Round.Id }, this._token);
-            }
-        }
+       
 
         private async Task LoadDatabaseData()
         {

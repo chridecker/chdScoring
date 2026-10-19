@@ -8,5 +8,6 @@ namespace chdScoring.DataAccess.Contracts.Repositories
     public interface ITeilnehmerRepository : IBaseEntityRepository<Teilnehmer>
     {
         Task<Teilnehmer> FindById(int teilnehmer, CancellationToken cancellationToken);
+        Task<bool> ChangeStartNumber(int id, int newId, CancellationToken cancellationToken);
     }
 }

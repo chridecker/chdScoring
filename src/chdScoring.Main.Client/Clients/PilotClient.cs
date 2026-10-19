@@ -48,6 +48,9 @@ namespace chdScoring.Main.Client.Clients
         public Task<bool> Add(PilotDto dto, CancellationToken cancellationToken = default)
         => this.Post<bool>(EndpointConstants.Pilot.POST_AddNew, dto, cancellationToken);
         public Task<bool> Delete(PilotDto dto, CancellationToken cancellationToken = default)
-        => this.Post<bool>(EndpointConstants.Pilot.POST_Delete, dto, cancellationToken);
+        => this.Delete<bool>(EndpointConstants.Pilot.DELETE_Delete, dto, cancellationToken);
+
+        public Task<bool> RandomizeAsync(CancellationToken cancellationToken = default)
+        => this.Post<bool>(EndpointConstants.Pilot.POST_Random, cancellationToken);
     }
 }

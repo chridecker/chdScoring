@@ -21,5 +21,6 @@ namespace chdScoring.Contracts.Interfaces
         Task<IEnumerable<CountryDto>> GetCountries(CancellationToken cancellationToken = default);
         Task<bool> Delete(PilotDto dto, CancellationToken cancellationToken = default);
         Task<bool> Add(PilotDto dto, CancellationToken cancellationToken = default);
+        Task<bool> RandomizeAsync(CancellationToken cancellationToken);
     }
 }

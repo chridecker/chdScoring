@@ -15,6 +15,9 @@
         .pilots .pilot-row:hover {
             background: var(--chd-primary-transparent);
         }
+        .pilots .pilot-row.selected {
+            background: var(--chd-primary-semi-transparent);
+        }
 
         .pilots .pilot-row:last-child {
             border-bottom: none;
