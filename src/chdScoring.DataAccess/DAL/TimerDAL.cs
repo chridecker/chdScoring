@@ -3,6 +3,7 @@ using chdScoring.Contracts.Enums;
 using chdScoring.DataAccess.Contracts.DAL;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
+using chdScoring.DataAccess.Contracts.Repositories.Base;
 using chdScoring.DataAccess.DAL.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -17,17 +18,13 @@ namespace chdScoring.DataAccess.DAL
     public class TimerDAL : BaseDAL, ITimerDAL
     {
         public TimerDAL(ILogger<TimerDAL> logger,
-            IWettkampfLeitungRepository wettkampfLeitungRepository,
-            ITeilnehmerRepository teilnehmerRepository,
-            IJudgeRepository judgeRepository,
-            IFigurRepository figurRepository,
-            IProgrammRepository programmRepository,
-            IWertungRepository wertungRepository,
-            IKlasseRepository klasseRepository,
-            ICountryImageRepository countryImageRepository,
-            IImageRepository imageRepository, IDurchgangPanelRepository durchgangPanelRepository,
-            IDurchgangProgramRepository durchgangProgramRepository, IFigurProgrammRepository figurProgrammRepository,
-            IJudgePanelRepository judgePanelRepository, IStammDatenRepository stammDatenRepository, IBebwerbRepository bebwerbRepository, IDurchgangRepository durchgangRepository, ITeilnehmerBewerbRepository teilnehmerBewerbRepository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, figurProgrammRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
+            IWettkampfLeitungRepository wettkampfLeitungRepository, ITeilnehmerRepository teilnehmerRepository, IJudgeRepository judgeRepository,
+            IFigurRepository figurRepository, IProgrammRepository programmRepository, IWertungRepository wertungRepository, IKlasseRepository klasseRepository,
+            IBaseEntityRepository<Country_Images> countryImageRepository, IBaseEntityRepository<Images> imageRepository, IBaseEntityRepository<Durchgang_Panel> durchgangPanelRepository,
+            IBaseEntityRepository<Durchgang_Programm> durchgangProgramRepository, IBaseEntityRepository<Judge_Panel> judgePanelRepository,
+            IBaseEntityRepository<Contracts.Domain.Stammdaten> stammDatenRepository, IBaseEntityRepository<Bewerb> bebwerbRepository, IDurchgangRepository durchgangRepository,
+            IBaseEntityRepository<Teilnehmer_Bewerb> teilnehmerBewerbRepository
+            ) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
         {
         }
 

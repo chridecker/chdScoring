@@ -16,5 +16,6 @@ namespace chdScoring.DataAccess.Contracts.Repositories.Base
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default);
         Task<bool> Delete(TEntity entity);
         Task<int> Count(CancellationToken cancellationToken);
+        Task<bool> Exists(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken);
     }
 }

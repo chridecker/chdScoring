@@ -19,6 +19,9 @@ namespace chdScoring.Main.Client.Extensions
 
             services.AddHttpClient<CompetitionClient>(sp => func.Invoke(sp).Append(ROOT).Append(Control.ROUTE));
             services.AddTransient<ICompetitionService, CompetitionClient>();
+           
+            services.AddHttpClient<StammdatenClient>(sp => func.Invoke(sp).Append(ROOT).Append(Stammdaten.ROUTE));
+            services.AddTransient<IStammdatenService, StammdatenClient>();
 
             services.AddHttpClient<DeviceClient>(sp => func.Invoke(sp).Append(ROOT).Append(Device.ROUTE));
             services.AddTransient<IDeviceService, DeviceClient>();

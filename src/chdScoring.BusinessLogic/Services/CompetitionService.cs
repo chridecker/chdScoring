@@ -11,12 +11,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using chdScoring.DataAccess.Contracts.Repositories.Base;
 
 namespace chdScoring.BusinessLogic.Services
 {
     public class CompetitionService(
         ITeilnehmerRepository teilnehmerRepository,
-        IStammDatenRepository stammDatenRepository,
+        IBaseEntityRepository<Stammdaten> stammDatenRepository,
         IWettkampfLeitungRepository wettkampfLeitungRepository,
         IDurchgangRepository durchgangRepository,
         IContextFactory<chdScoringContext> contextFactory,

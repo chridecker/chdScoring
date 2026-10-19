@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using chd.Api.Base.Contracts.Interfaces;
+using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
+using chdScoring.DataAccess.Contracts.Repositories.Base;
 using Microsoft.Extensions.Configuration;
 
 namespace chdScoring.Main.WebServer.Services
 {
-    public class ApiKeyHandler(IConfiguration configuration, IApiKeyRepository apiKeyRepository) : IApiKeyHandler
+    public class ApiKeyHandler(IConfiguration configuration, IBaseEntityRepository<ApiKey> apiKeyRepository) : IApiKeyHandler
     {
         public async Task<bool> IsValid(string requestKey, CancellationToken cancellationToken = default)
         {
             var key = configuration.GetSection("X-Api-Key").Value;
-            return await apiKeyRepository.Exists(requestKey, cancellationToken) || string.Equals(key, requestKey);
+            return await apiKeyRepository.Exists(x => x.Key == requestKey, cancellationToken) || string.Equals(key, requestKey);
         }
 
         public async Task<string> GetCustomData(string requestKey, CancellationToken cancellationToken = default)

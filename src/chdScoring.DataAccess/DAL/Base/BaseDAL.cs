@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
+using chdScoring.DataAccess.Contracts.Domain;
+using chdScoring.DataAccess.Contracts.Repositories.Base;
 
 namespace chdScoring.DataAccess.DAL.Base
 {
@@ -17,16 +19,15 @@ namespace chdScoring.DataAccess.DAL.Base
         protected readonly IProgrammRepository _programmRepository;
         protected readonly IWertungRepository _wertungRepository;
         protected readonly IKlasseRepository _klasseRepository;
-        protected readonly ICountryImageRepository _countryImageRepository;
-        protected readonly IImageRepository _imageRepository;
-        protected readonly IDurchgangPanelRepository _durchgangPanelRepository;
-        protected readonly IDurchgangProgramRepository _durchgangProgramRepository;
-        protected readonly IFigurProgrammRepository _figurProgrammRepository;
-        protected readonly IJudgePanelRepository _judgePanelRepository;
-        protected readonly IStammDatenRepository _stammDatenRepository;
-        protected readonly IBebwerbRepository _bebwerbRepository;
+        protected readonly IBaseEntityRepository<Country_Images> _countryImageRepository;
         protected readonly IDurchgangRepository _durchgangRepository;
-        protected readonly ITeilnehmerBewerbRepository _teilnehmerBewerbRepository;
+        protected readonly IBaseEntityRepository<Images> _imageRepository;
+        protected readonly IBaseEntityRepository<Durchgang_Panel> _durchgangPanelRepository;
+        protected readonly IBaseEntityRepository<Durchgang_Programm> _durchgangProgramRepository;
+        protected readonly IBaseEntityRepository<Judge_Panel> _judgePanelRepository;
+        protected readonly IBaseEntityRepository<Stammdaten> _stammDatenRepository;
+        protected readonly IBaseEntityRepository<Bewerb> _bebwerbRepository;
+        protected readonly IBaseEntityRepository<Teilnehmer_Bewerb> _teilnehmerBewerbRepository;
 
         public BaseDAL(ILogger<BaseDAL> logger,
             IWettkampfLeitungRepository wettkampfLeitungRepository,
@@ -36,16 +37,15 @@ namespace chdScoring.DataAccess.DAL.Base
             IProgrammRepository programmRepository,
             IWertungRepository wertungRepository,
             IKlasseRepository klasseRepository,
-            ICountryImageRepository countryImageRepository,
-            IImageRepository imageRepository,
-            IDurchgangPanelRepository durchgangPanelRepository,
-            IDurchgangProgramRepository durchgangProgramRepository,
-            IFigurProgrammRepository figurProgrammRepository,
-            IJudgePanelRepository judgePanelRepository,
-            IStammDatenRepository stammDatenRepository,
-            IBebwerbRepository bebwerbRepository,
+            IBaseEntityRepository<Country_Images> countryImageRepository,
+            IBaseEntityRepository<Images> imageRepository,
+            IBaseEntityRepository<Durchgang_Panel> durchgangPanelRepository,
+            IBaseEntityRepository<Durchgang_Programm> durchgangProgramRepository,
+            IBaseEntityRepository<Judge_Panel> judgePanelRepository,
+            IBaseEntityRepository<Stammdaten> stammDatenRepository,
+            IBaseEntityRepository<Bewerb> bebwerbRepository,
             IDurchgangRepository durchgangRepository,
-            ITeilnehmerBewerbRepository teilnehmerBewerbRepository
+            IBaseEntityRepository<Teilnehmer_Bewerb> teilnehmerBewerbRepository
             )
         {
             this._logger = logger;
@@ -60,7 +60,6 @@ namespace chdScoring.DataAccess.DAL.Base
             this._imageRepository = imageRepository;
             this._durchgangPanelRepository = durchgangPanelRepository;
             this._durchgangProgramRepository = durchgangProgramRepository;
-            this._figurProgrammRepository = figurProgrammRepository;
             this._judgePanelRepository = judgePanelRepository;
             this._stammDatenRepository = stammDatenRepository;
             this._bebwerbRepository = bebwerbRepository;

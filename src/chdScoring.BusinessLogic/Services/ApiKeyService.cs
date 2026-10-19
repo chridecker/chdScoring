@@ -8,10 +8,11 @@ using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
+using chdScoring.DataAccess.Contracts.Repositories.Base;
 
 namespace chdScoring.BusinessLogic.Services
 {
-    public class ApiKeyService(IApiKeyRepository apiKeyRepository) : IApiKeyService
+    public class ApiKeyService(IBaseEntityRepository<ApiKey> apiKeyRepository) : IApiKeyService
     {
         public async Task<List<ApiKeyDto>> GetAllAsync(CancellationToken cancellationToken)
         {

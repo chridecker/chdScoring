@@ -26,6 +26,9 @@ namespace chdScoring.DataAccess.Repositories.Base
             this._context = contextFactory.Create();
         }
 
+        public Task<bool> Exists(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken)
+            => this._context.Set<TEntity>().AnyAsync(expression, cancellationToken);
+
         public Task<int> Count(CancellationToken cancellationToken) =>
             _context.Set<TEntity>().CountAsync(cancellationToken);
 

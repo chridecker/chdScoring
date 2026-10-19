@@ -4,6 +4,7 @@ using chdScoring.Contracts.Enums;
 using chdScoring.DataAccess.Contracts.DAL;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
+using chdScoring.DataAccess.Contracts.Repositories.Base;
 using chdScoring.DataAccess.DAL.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -20,16 +21,17 @@ namespace chdScoring.DataAccess.DAL
 {
     public class PilotDAL : BaseDAL, IPilotDAL
     {
-        private readonly ITeilnehmerDurchgangJudgeRespository _teilnehmerDurchgangJudgeRespository;
+        private readonly IBaseEntityRepository<Teilnehmer_Durchgang_Judge> _teilnehmerDurchgangJudgeRespository;
 
         public PilotDAL(ILogger<PilotDAL> logger,
-            ITeilnehmerDurchgangJudgeRespository teilnehmerDurchgangJudgeRespository,
-            IWettkampfLeitungRepository wettkampfLeitungRepository,
-            ITeilnehmerRepository teilnehmerRepository, IJudgeRepository judgeRepository, IFigurRepository figurRepository, IProgrammRepository programmRepository,
-            IWertungRepository wertungRepository, IKlasseRepository klasseRepository, ICountryImageRepository countryImageRepository,
-            IImageRepository imageRepository, IDurchgangPanelRepository durchgangPanelRepository, IDurchgangProgramRepository durchgangProgramRepository,
-            IFigurProgrammRepository figurProgrammRepository, IJudgePanelRepository judgePanelRepository, IStammDatenRepository stammDatenRepository,
-            IBebwerbRepository bebwerbRepository, IDurchgangRepository durchgangRepository, ITeilnehmerBewerbRepository teilnehmerBewerbRepository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, figurProgrammRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
+            IWettkampfLeitungRepository wettkampfLeitungRepository, ITeilnehmerRepository teilnehmerRepository, IJudgeRepository judgeRepository,
+            IFigurRepository figurRepository, IProgrammRepository programmRepository, IWertungRepository wertungRepository, IKlasseRepository klasseRepository,
+            IBaseEntityRepository<Country_Images> countryImageRepository, IBaseEntityRepository<Images> imageRepository, IBaseEntityRepository<Durchgang_Panel> durchgangPanelRepository,
+            IBaseEntityRepository<Durchgang_Programm> durchgangProgramRepository,  IBaseEntityRepository<Judge_Panel> judgePanelRepository,
+            IBaseEntityRepository<Contracts.Domain.Stammdaten> stammDatenRepository, IBaseEntityRepository<Bewerb> bebwerbRepository, IDurchgangRepository durchgangRepository,
+            IBaseEntityRepository<Teilnehmer_Bewerb> teilnehmerBewerbRepository,
+            IBaseEntityRepository<Teilnehmer_Durchgang_Judge> teilnehmerDurchgangJudgeRespository) 
+            : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
         {
             this._teilnehmerDurchgangJudgeRespository = teilnehmerDurchgangJudgeRespository;
         }
@@ -76,7 +78,7 @@ namespace chdScoring.DataAccess.DAL
         }
         public async Task<bool> DeletePilot(PilotDto dto, CancellationToken cancellationToken)
         {
-            var entity = await this._teilnehmerRepository.FindById(dto.Id, cancellationToken);
+            var entity = await this._teilnehmerRepository.FirstOrDefaultAsync(x => x.Id == dto.Id, cancellationToken);
             if (entity is null) { return false; }
             return await this._teilnehmerRepository.Delete(entity);
         }
@@ -233,7 +235,7 @@ namespace chdScoring.DataAccess.DAL
 
         public async Task<Country_Images> GetCountryImage(int id, CancellationToken cancellationToken)
         {
-            return await this._countryImageRepository.FindById(id, cancellationToken);
+            return await this._countryImageRepository.FirstOrDefaultAsync(x => x.Img_Id == id, cancellationToken);
         }
         public Task<IEnumerable<Country_Images>> GetAllCountryImages(CancellationToken cancellationToken) => this._countryImageRepository.FindAll(cancellationToken);
 
@@ -250,7 +252,7 @@ namespace chdScoring.DataAccess.DAL
 
         public async Task<bool> UpdatePilotData(PilotDto dto, CancellationToken cancellationToken)
         {
-            var pilot = await this._teilnehmerRepository.FindById(dto.Id, cancellationToken);
+            var pilot = await this._teilnehmerRepository.FirstOrDefaultAsync(x => x.Id == dto.Id, cancellationToken);
             if (pilot is not null)
             {
                 pilot.Club = dto.Club;

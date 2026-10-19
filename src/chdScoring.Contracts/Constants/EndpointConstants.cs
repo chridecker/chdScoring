@@ -36,7 +36,6 @@
         {
             public const string ROUTE = "pilot";
             public const string GET_Img = "getimg";
-            public const string GET_RoundScore = "getroundscore";
             public const string GET_AllCountries = "allcountries";
             public const string GET_OpenRound = "openround";
             public const string GET_RoundResult = "roundresult";
@@ -107,6 +106,13 @@
         {
             public const string ROUTE = "import";
             public const string POST_JSONRESULT = "jsonresult";
+        }
+
+        public class Stammdaten
+        {
+            public const string ROUTE = "stammdaten";
+            public const string GET_Image = "getimage";
+            public const string GET_Stammdaten= "get";
         }
     }
 }

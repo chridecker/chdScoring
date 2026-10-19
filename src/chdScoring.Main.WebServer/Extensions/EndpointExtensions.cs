@@ -39,6 +39,12 @@ namespace chdScoring.Main.WebServer.Extensions
 
             var print = mainGroup.MapGroup(Print.ROUTE).WithTags(Print.ROUTE);
             var import = mainGroup.MapGroup(Import.ROUTE).WithTags(Import.ROUTE);
+            var stammdaten = mainGroup.MapGroup(Stammdaten.ROUTE).WithTags(Stammdaten.ROUTE);
+
+            stammdaten.MapGet(Stammdaten.GET_Image,
+                async (int id, IStammdatenService svc, CancellationToken ct) => await svc.GetImage(id, ct));
+            stammdaten.MapGet(Stammdaten.GET_Stammdaten,
+                async (IStammdatenService svc, CancellationToken ct) => await svc.Get(ct));
 
             apiKey.MapGet(ApiKey.GET, async (string key, IApiKeyService service, CancellationToken ct) => await service.GetAsync(key, ct));
             apiKey.MapGet(ApiKey.GETALL, async (IApiKeyService service, CancellationToken ct) => await service.GetAllAsync(ct));
@@ -78,8 +84,6 @@ namespace chdScoring.Main.WebServer.Extensions
             pilot.MapGet(EndpointConstants.Pilot.GET_Img, async (int id, IPilotService service, CancellationToken cancellationToken)
                 => await service.GetCountryImage(id, cancellationToken));
 
-            pilot.MapGet(EndpointConstants.Pilot.GET_RoundScore, async (int id, int round, IPilotService service, CancellationToken cancellationToken)
-                => await service.GetResult(id, round, cancellationToken));
             pilot.MapGet(EndpointConstants.Pilot.GET_AllCountries, async (IPilotService service, CancellationToken cancellationToken)
                 => await service.GetCountries(cancellationToken));
 

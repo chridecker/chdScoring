@@ -3,6 +3,7 @@ using chdScoring.Contracts.Extensions;
 using chdScoring.DataAccess.Contracts.DAL;
 using chdScoring.DataAccess.Contracts.Domain;
 using chdScoring.DataAccess.Contracts.Repositories;
+using chdScoring.DataAccess.Contracts.Repositories.Base;
 using chdScoring.DataAccess.DAL.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -16,11 +17,18 @@ namespace chdScoring.DataAccess.DAL
 {
     public class ScoreDAL : BaseDAL, IScoreDAL
     {
-        private readonly IWertungHistoryRepository _wertungHistoryRepository;
-        private readonly ITeilnehmerDurchgangJudgeRespository _teilnehmerDurchgangJudgeRespository;
+        private readonly IBaseEntityRepository<Wertung_History> _wertungHistoryRepository;
+        private readonly IBaseEntityRepository<Teilnehmer_Durchgang_Judge> _teilnehmerDurchgangJudgeRespository;
 
-        public ScoreDAL(ILogger<ScoreDAL> logger, IWettkampfLeitungRepository wettkampfLeitungRepository, IWertungHistoryRepository wertungHistoryRepository, ITeilnehmerDurchgangJudgeRespository teilnehmerDurchgangJudgeRespository,
-            ITeilnehmerRepository teilnehmerRepository, IJudgeRepository judgeRepository, IFigurRepository figurRepository, IProgrammRepository programmRepository, IWertungRepository wertungRepository, IKlasseRepository klasseRepository, ICountryImageRepository countryImageRepository, IImageRepository imageRepository, IDurchgangPanelRepository durchgangPanelRepository, IDurchgangProgramRepository durchgangProgramRepository, IFigurProgrammRepository figurProgrammRepository, IJudgePanelRepository judgePanelRepository, IStammDatenRepository stammDatenRepository, IBebwerbRepository bebwerbRepository, IDurchgangRepository durchgangRepository, ITeilnehmerBewerbRepository teilnehmerBewerbRepository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, figurProgrammRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
+        public ScoreDAL(ILogger<ScoreDAL> logger,
+            IWettkampfLeitungRepository wettkampfLeitungRepository, ITeilnehmerRepository teilnehmerRepository, IJudgeRepository judgeRepository,
+            IFigurRepository figurRepository, IProgrammRepository programmRepository, IWertungRepository wertungRepository, IKlasseRepository klasseRepository,
+            IBaseEntityRepository<Country_Images> countryImageRepository, IBaseEntityRepository<Images> imageRepository, IBaseEntityRepository<Durchgang_Panel> durchgangPanelRepository,
+            IBaseEntityRepository<Durchgang_Programm> durchgangProgramRepository,  IBaseEntityRepository<Judge_Panel> judgePanelRepository,
+            IBaseEntityRepository<Contracts.Domain.Stammdaten> stammDatenRepository, IBaseEntityRepository<Bewerb> bebwerbRepository, IDurchgangRepository durchgangRepository,
+            IBaseEntityRepository<Teilnehmer_Bewerb> teilnehmerBewerbRepository, IBaseEntityRepository<Wertung_History> wertungHistoryRepository,
+            IBaseEntityRepository<Teilnehmer_Durchgang_Judge> teilnehmerDurchgangJudgeRespository) 
+            : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository,  judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
         {
             this._wertungHistoryRepository = wertungHistoryRepository;
             this._teilnehmerDurchgangJudgeRespository = teilnehmerDurchgangJudgeRespository;
@@ -174,7 +182,8 @@ namespace chdScoring.DataAccess.DAL
 
         public async Task<bool> ConfirmScores(ConfirmScoresDto saveScoreDto, CancellationToken cancellationToken)
         {
-            if (await this._teilnehmerDurchgangJudgeRespository.Exists(saveScoreDto.Pilot, saveScoreDto.Round, saveScoreDto.Judge, cancellationToken))
+            if (await this._teilnehmerDurchgangJudgeRespository.Exists(x => x.Teilnehmer == saveScoreDto.Pilot && x.Durchgang == saveScoreDto.Round && x.Judge == saveScoreDto.Judge
+            , cancellationToken))
             {
                 return false;
             }
@@ -189,7 +198,9 @@ namespace chdScoring.DataAccess.DAL
         }
         public async Task<bool> UnConfirmScores(ConfirmScoresDto saveScoreDto, CancellationToken cancellationToken)
         {
-            if (await this._teilnehmerDurchgangJudgeRespository.Exists(saveScoreDto.Pilot, saveScoreDto.Round, saveScoreDto.Judge, cancellationToken))
+            if (await this._teilnehmerDurchgangJudgeRespository.Exists(x => x.Teilnehmer == saveScoreDto.Pilot
+            && x.Durchgang == saveScoreDto.Round
+            && x.Judge == saveScoreDto.Judge, cancellationToken))
             {
                 var entry = await this._teilnehmerDurchgangJudgeRespository.FirstOrDefaultAsync(x => x.Judge == saveScoreDto.Judge && x.Teilnehmer == saveScoreDto.Pilot && x.Durchgang == saveScoreDto.Round);
                 return await this._teilnehmerDurchgangJudgeRespository.Delete(entry);

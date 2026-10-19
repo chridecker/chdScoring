@@ -6,17 +6,20 @@ using chdScoring.DataAccess.Contracts.DAL;
 using chdScoring.DataAccess.Contracts.DAL.Base;
 using chdScoring.DataAccess.Contracts.Interfaces;
 using chdScoring.DataAccess.Contracts.Repositories;
+using chdScoring.DataAccess.Contracts.Repositories.Base;
 using chdScoring.DataAccess.DAL;
 using chdScoring.DataAccess.EFCore;
 using chdScoring.DataAccess.Repositories;
+using chdScoring.DataAccess.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 
 
@@ -49,11 +52,13 @@ namespace chdScoring.BusinessLogic.Extensions
             services.AddTransient<IImportService, ImportService>();
             services.AddTransient<IApiKeyService, ApiKeyService>();
             services.AddTransient<ICompetitionService, CompetitionService>();
+            services.AddTransient<IStammdatenService, StammdatenService>();
 
             services.AddContextFactory<chdScoringContext>(ServiceLifetime.Scoped);
 
             services.AddDALs<CurrentFlightDAL, ICurrentFlightDAL>(ServiceLifetime.Scoped);
             services.AddRepositories<TeilnehmerRepository, ITeilnehmerRepository>(ServiceLifetime.Scoped);
+            services.AddDefaultRepositories(ServiceLifetime.Scoped);
 
             return services;
         }
@@ -102,6 +107,20 @@ namespace chdScoring.BusinessLogic.Extensions
 
             return services;
         }
+
+        private static IServiceCollection AddDefaultRepositories(this IServiceCollection services, ServiceLifetime lifetime)
+        {
+            var contractAssembly = Assembly.GetAssembly(typeof(IBaseEntityRepository<>));
+
+            foreach (var type in contractAssembly.GetTypes().Where(x => x.Namespace.EndsWith("Contracts.Domain")))
+            {
+                services.Add(new(typeof(IBaseEntityRepository<>).MakeGenericType(type), typeof(DefaultRepository<>).MakeGenericType(type), lifetime));
+            }
+
+            return services;
+        }
+
+
 
         private static IServiceCollection AddContextFactory<TContext>(this IServiceCollection services, ServiceLifetime lifetime)
             where TContext : DbContext

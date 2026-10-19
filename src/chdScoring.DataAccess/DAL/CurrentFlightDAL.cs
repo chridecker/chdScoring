@@ -13,21 +13,24 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
+using chdScoring.Contracts.Constants;
+using chdScoring.DataAccess.Contracts.Repositories.Base;
 using static chdScoring.Contracts.Constants.EndpointConstants;
 
 namespace chdScoring.DataAccess.DAL
 {
     public class CurrentFlightDAL : BaseDAL, ICurrentFlightDAL
     {
-        private readonly ITeilnehmerDurchgangJudgeRespository _teilnehmerDurchgangJudgeRespository;
+        private readonly IBaseEntityRepository<Teilnehmer_Durchgang_Judge> _teilnehmerDurchgangJudgeRespository;
 
         public CurrentFlightDAL(ILogger<CurrentFlightDAL> logger,
             IWettkampfLeitungRepository wettkampfLeitungRepository, ITeilnehmerRepository teilnehmerRepository, IJudgeRepository judgeRepository,
             IFigurRepository figurRepository, IProgrammRepository programmRepository, IWertungRepository wertungRepository, IKlasseRepository klasseRepository,
-            ICountryImageRepository countryImageRepository, IImageRepository imageRepository, IDurchgangPanelRepository durchgangPanelRepository,
-            IDurchgangProgramRepository durchgangProgramRepository, IFigurProgrammRepository figurProgrammRepository, IJudgePanelRepository judgePanelRepository,
-            IStammDatenRepository stammDatenRepository, IBebwerbRepository bebwerbRepository, IDurchgangRepository durchgangRepository, ITeilnehmerBewerbRepository teilnehmerBewerbRepository,
-            ITeilnehmerDurchgangJudgeRespository teilnehmerDurchgangJudgeRespository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, figurProgrammRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
+            IBaseEntityRepository<Country_Images> countryImageRepository, IBaseEntityRepository<Images> imageRepository, IBaseEntityRepository<Durchgang_Panel> durchgangPanelRepository,
+            IBaseEntityRepository<Durchgang_Programm> durchgangProgramRepository,  IBaseEntityRepository<Judge_Panel> judgePanelRepository,
+            IBaseEntityRepository<Contracts.Domain.Stammdaten> stammDatenRepository, IBaseEntityRepository<Bewerb> bebwerbRepository, IDurchgangRepository durchgangRepository,
+            IBaseEntityRepository<Teilnehmer_Bewerb> teilnehmerBewerbRepository,
+            IBaseEntityRepository<Teilnehmer_Durchgang_Judge> teilnehmerDurchgangJudgeRespository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository,  judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
         {
             this._teilnehmerDurchgangJudgeRespository = teilnehmerDurchgangJudgeRespository;
         }
@@ -74,7 +77,7 @@ namespace chdScoring.DataAccess.DAL
                 .Where(x => x.Status >= (int)EFlightState.OnAir)
                 .Include(i => i.Pilot)
                 .ThenInclude(i => i.Country_Image)
-                .FirstOrDefaultAsync(x => x.Teilnehmer == pilot && x.Durchgang == round);
+                .FirstOrDefaultAsync(x => x.Teilnehmer == pilot && x.Durchgang == round,cancellationToken);
 
             return await this.GetRoundData(dto, wl, cancellationToken);
         }
@@ -100,7 +103,11 @@ namespace chdScoring.DataAccess.DAL
                 {
                     Data = wl.Pilot.Country_Image?.Img_Data,
                     Type = wl.Pilot.Country_Image?.Img_Type,
-                }
+                },
+                Club = wl.Pilot.Club,
+                Country = wl.Pilot.Country_Image.Name,
+                CountryCode = wl.Pilot.Country_Image.Short.ToUpper(),
+                License = wl.Pilot.License
             };
             dto.JudgeConfirms = confirms.Select(s => new JudgeConfirmDto() { Durchgang = s.Durchgang, Judge = s.Judge, Teilnehmer = s.Teilnehmer });
             dto.Judges = judges.Select(judge => new JudgeDto { Id = judge.Id, Name = $"{judge.Vorname} {judge.Name.ToUpper()}", EditScore = judge.EditScore });
@@ -112,7 +119,6 @@ namespace chdScoring.DataAccess.DAL
 
             foreach (var judge in judges.OrderBy(o => o.Id))
             {
-                var dict = new Dictionary<int, IEnumerable<ManeouvreDto>>();
                 var judgeScores = scores.Where(x => x.Judge == judge.Id);
                 var figurs = new List<ManeouvreDto>();
                 for (int i = 1; i <= maneouvreLst.Count(); i++)
