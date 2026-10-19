@@ -41,9 +41,11 @@
             public const string GET_RoundResult = "roundresult";
             public const string GET_FinishedRounds = "finishedrounds";
             public const string POST_SetPilotActive = "setpilotactive";
+            public const string POST_ChangeStartOrder = "changestartorder";
             public const string POST_UnloadPilot = "unloadpilot";
             public const string GET_Round = "round";
             public const string GET_All = "getall";
+            public const string GET_Startorder = "getstartorder";
             public const string POST_AddNew = "AddNew";
             public const string DELETE_Delete = "Delete";
             public const string POST_Random= "Random";

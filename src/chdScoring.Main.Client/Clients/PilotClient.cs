@@ -28,6 +28,15 @@ namespace chdScoring.Main.Client.Clients
         public Task<IEnumerable<CountryDto>> GetCountries(CancellationToken cancellationToken)
            => base.Get<IEnumerable<CountryDto>>(EndpointConstants.Pilot.GET_AllCountries, cancellationToken);
 
+        public Task<List<PilotRoundDto>> GetStartingOrderPerRound(int? round, CancellationToken cancellationToken)
+        {
+            if (round.HasValue)
+            {
+                return base.Get<List<PilotRoundDto>>(EndpointConstants.Pilot.GET_Startorder.SetUrlParameters((nameof(round), round)), cancellationToken);
+            }
+            return base.Get<List<PilotRoundDto>>(EndpointConstants.Pilot.GET_Startorder, cancellationToken);
+        }
+
 
         public Task<IEnumerable<RoundResultDto>> GetRoundResult(int? round, CancellationToken cancellationToken)
            => base.Get<IEnumerable<RoundResultDto>>(round.HasValue ? EndpointConstants.Pilot.GET_RoundResult.SetUrlParameters(("round", round)) : EndpointConstants.Pilot.GET_RoundResult, cancellationToken);
@@ -40,6 +49,9 @@ namespace chdScoring.Main.Client.Clients
 
         public Task<bool> SetStartnumber(SetStartNumberDto dto, CancellationToken cancellationToken = default)
         => this.Post<bool>(EndpointConstants.Pilot.POST_SetStart, dto, cancellationToken);
+
+        public Task<bool> ChangeStartNumber(int newStart, PilotRoundDto dto, CancellationToken cancellationToken = default)
+        => this.Post<bool>(EndpointConstants.Pilot.POST_ChangeStartOrder.SetUrlParameters((nameof(newStart), newStart)), dto, cancellationToken);
 
         public Task<bool> ReflightRound(ReflightRoundDto dto, CancellationToken cancellationToken = default)
         => this.Post<bool>(EndpointConstants.Pilot.POST_Reflight, dto, cancellationToken);

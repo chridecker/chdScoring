@@ -22,5 +22,7 @@ namespace chdScoring.Contracts.Interfaces
         Task<bool> Delete(PilotDto dto, CancellationToken cancellationToken = default);
         Task<bool> Add(PilotDto dto, CancellationToken cancellationToken = default);
         Task<bool> RandomizeAsync(CancellationToken cancellationToken);
+        Task<List<PilotRoundDto>> GetStartingOrderPerRound(int? round, CancellationToken cancellationToken);
+        Task<bool> ChangeStartNumber(int number, PilotRoundDto dto, CancellationToken cancellationToken);
     }
 }

@@ -27,7 +27,11 @@ namespace chdScoring.App.UI.Services
 
             var correction = CreateNavMenuNode(5, "Score Correction", "correction", "pen-to-square", [RightConstants.AdminId]);
             var compMgmt = CreateNavMenuNode(6, "Competition Management", "competitionmanagement", "stopwatch", [RightConstants.AdminId]);
-            var pilots = CreateNavMenuNode(7, "Pilots", "pilots", "people-group", [RightConstants.AdminId]);
+
+
+            var pilots = CreateNavMenuNode(14, "Pilots", "pilots", "people-group", [RightConstants.AdminId]);
+            var start = CreateNavMenuNode(15, "Startorder", "startorder", "arrow-down-1-9", [RightConstants.AdminId]);
+            var pilotsFolder = CreateNavFolderNode(7, "Pilots", "pilots", [RightConstants.AdminId], pilots, start);
 
             var import = CreateNavMenuNode(8, "Import", "import", "file-import", [RightConstants.AdminId]);
             var fcScoreCorrection = CreateNavMenuNode(9, "FC-Score", "fc-scoring", "keyboard", [RightConstants.AdminId]);
@@ -42,7 +46,7 @@ namespace chdScoring.App.UI.Services
             _lst.Add(viewer);
             _lst.Add(correction);
             _lst.Add(compMgmt);
-            _lst.Add(pilots);
+            _lst.Add(pilotsFolder);
             _lst.Add(fc);
             _lst.Add(maintenance);
 

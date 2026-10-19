@@ -26,7 +26,8 @@ namespace chdScoring.BusinessLogic.Services
             this._flightCacheService = flightCacheService;
         }
 
-
+        public Task<bool> ChangeStartNumber(int newStart, PilotRoundDto dto, CancellationToken cancellationToken)
+            => _dal.ChangeStartingOrder(newStart, dto.Pilot.Id, dto.Round, cancellationToken);
         public Task<bool> Delete(PilotDto dto, CancellationToken cancellationToken = default) => this._dal.DeletePilot(dto, cancellationToken);
         public Task<bool> Add(PilotDto dto, CancellationToken cancellationToken = default) => this._dal.AddNewPilot(dto, cancellationToken);
         public Task<bool> UpdatePilotData(PilotDto dto, CancellationToken cancellationToken = default) => this._dal.UpdatePilotData(dto, cancellationToken);
@@ -34,6 +35,8 @@ namespace chdScoring.BusinessLogic.Services
         public Task<bool> SetStartnumber(SetStartNumberDto dto, CancellationToken cancellationToken = default)
             => this._dal.ChangeStartNumber(dto.Pilot, dto.NewStartId, cancellationToken);
 
+        public Task<List<PilotRoundDto>> GetStartingOrderPerRound(int? round, CancellationToken cancellationToken)
+            => this._dal.GetStartingOrderPerRound(round, cancellationToken);
 
         public Task<IEnumerable<PilotDto>> GetAllPilots(CancellationToken cancellationToken = default)
         => this._dal.GetAllPilots(cancellationToken);

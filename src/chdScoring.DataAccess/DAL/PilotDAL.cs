@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -59,6 +60,20 @@ namespace chdScoring.DataAccess.DAL
             };
             return await this._teilnehmerBewerbRepository.SaveAsync(e, cancellationToken);
         }
+
+        public async Task<bool> ChangeStartingOrder(int newStart, int pilot, int round,
+            CancellationToken cancellationToken)
+        {
+            var wl = await _wettkampfLeitungRepository.FirstOrDefaultAsync(x => x.Teilnehmer == pilot && x.Durchgang == round,
+                cancellationToken);
+            if (wl is not null && wl.Start != newStart)
+            {
+                wl.Start = newStart;
+                await _wettkampfLeitungRepository.SaveAsync(wl, cancellationToken);
+            }
+
+            return true;
+        }
         public async Task<bool> DeletePilot(PilotDto dto, CancellationToken cancellationToken)
         {
             var entity = await this._teilnehmerRepository.FindById(dto.Id, cancellationToken);
@@ -88,6 +103,48 @@ namespace chdScoring.DataAccess.DAL
                 Pilot = pilot,
                 Round = round
             }, cancellationToken);
+        }
+
+        public async Task<List<PilotRoundDto>> GetStartingOrderPerRound(int? round, CancellationToken cancellationToken)
+        {
+            if (!round.HasValue)
+            {
+                round = (await this._wettkampfLeitungRepository.Where(x => x.Status == (int)EFlightState.Loaded).OrderBy(o => o.Durchgang).FirstOrDefaultAsync())?.Durchgang ?? 0;
+            }
+
+            var wl = await this._wettkampfLeitungRepository.Where(x => x.Durchgang == round).OrderBy(o => o.Start)
+                .Include(i => i.Pilot)
+                .ThenInclude(i => i.Country_Image)
+                .ToListAsync(cancellationToken);
+            var lst = new List<PilotRoundDto>();
+
+            foreach (var wettkampfLeitung in wl)
+            {
+                lst.Add(new()
+                {
+                    Round = round.Value,
+                    StartNr = wettkampfLeitung.Start,
+                    State = (EFlightState)wettkampfLeitung.Status,
+                    Pilot = new()
+                    {
+                        Id = wettkampfLeitung.Pilot.Id,
+                        Firstname = wettkampfLeitung.Pilot.Vorname,
+                        Lastname = wettkampfLeitung.Pilot.Nachname,
+                        Club = wettkampfLeitung.Pilot.Club,
+                        Country = wettkampfLeitung.Pilot.Country_Image.Name,
+                        CountryImage = new()
+                        {
+                            Data = wettkampfLeitung.Pilot.Country_Image.Img_Data,
+                            Type = wettkampfLeitung.Pilot.Country_Image.Img_Type
+                        },
+                        CountryCode = wettkampfLeitung.Pilot.Country_Image.Short,
+                        CountryId = wettkampfLeitung.Pilot.Land,
+                        License = wettkampfLeitung.Pilot.License
+                    }
+                });
+            }
+
+            return lst;
         }
 
         public async Task<IEnumerable<OpenRoundDto>> LoadOpenPilots(int? round, CancellationToken cancellationToken)

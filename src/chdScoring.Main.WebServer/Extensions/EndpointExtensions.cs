@@ -95,6 +95,12 @@ namespace chdScoring.Main.WebServer.Extensions
             pilot.MapGet(EndpointConstants.Pilot.GET_All, async (IPilotService service, CancellationToken cancellationToken)
                 => await service.GetAllPilots(cancellationToken));
 
+            pilot.MapGet(EndpointConstants.Pilot.GET_Startorder, async (int? round, IPilotService service, CancellationToken cancellationToken)
+                => await service.GetStartingOrderPerRound(round, cancellationToken));
+
+            pilot.MapPost(EndpointConstants.Pilot.POST_ChangeStartOrder, async ([FromQuery] int newStart, [FromBody] PilotRoundDto dto, IPilotService service, CancellationToken cancellationToken)
+                => await service.ChangeStartNumber(newStart, dto, cancellationToken));
+
             pilot.MapPost(EndpointConstants.Pilot.POST_SetPilotActive, async (LoadPilotDto dto, IPilotService service, CancellationToken cancellationToken)
                 => await service.SetPilotActive(dto, cancellationToken));
 
@@ -113,7 +119,7 @@ namespace chdScoring.Main.WebServer.Extensions
             pilot.MapPost(EndpointConstants.Pilot.POST_AddNew, async (PilotDto dto, IPilotService service, CancellationToken cancellationToken)
                 => await service.Add(dto, cancellationToken));
 
-            pilot.MapDelete(EndpointConstants.Pilot.DELETE_Delete, async ([FromBody]PilotDto dto, IPilotService service, CancellationToken cancellationToken)
+            pilot.MapDelete(EndpointConstants.Pilot.DELETE_Delete, async ([FromBody] PilotDto dto, IPilotService service, CancellationToken cancellationToken)
                 => await service.Delete(dto, cancellationToken));
 
             pilot.MapPost(EndpointConstants.Pilot.POST_Random, async (IPilotService service, CancellationToken cancellationToken)
@@ -132,10 +138,10 @@ namespace chdScoring.Main.WebServer.Extensions
 
             control.MapGet(EndpointConstants.Control.GET_OpenRound, async (ITimerService service, CancellationToken cancellationToken)
                 => await service.GetFinishedRound(cancellationToken));
-            
+
             control.MapPost(EndpointConstants.Control.POST_Start, async (ICompetitionService service, CancellationToken cancellationToken)
                 => await service.StartAsync(cancellationToken));
-           
+
             control.MapDelete(EndpointConstants.Control.DELETE_Clear, async (ICompetitionService service, CancellationToken cancellationToken)
                 => await service.ClearDataAsync(cancellationToken));
 

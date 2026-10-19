@@ -1,0 +1,71 @@
+@using chdScoring.App.UI.Extensions
+@using chdScoring.Contracts.Dtos
+@inherits BaseChdScoringPage
+
+@page "/startorder"
+
+<DropListWrapper T="int?" Values="[null, 1, 2, 3, 4, 5, 6]" Value="this._selectedRound" ValueChanged="this.OnRoundChanged" Context="round">
+    Round @round
+</DropListWrapper>
+
+<Table T="PilotRoundDto" Items="_rounds" IsSelected="IsCurrent" OnRowClick="OnRowClick"
+       HeaderColumns="[]">
+    <RowTemplate Context="row">
+        <TableData>@row.StartNr</TableData>
+        <TableData>@row.Pilot.Id</TableData>
+        <TableData>@row.Pilot.Name</TableData>
+        <TableData>@row.Round</TableData>
+        <TableData>@row.State</TableData>
+    </RowTemplate>
+</Table>
+
+
+@if (_current is not null)
+{
+    <FloatingActionNavigation FAIconActive="arrows-rotate" OnClick="Refresh">
+        <FloatingActionButton FAClass="rotate" Title="Change" OnClick="ChangeStartNumber" />
+    </FloatingActionNavigation>
+}
+
+@code {
+    int? _selectedRound = null;
+    PilotRoundDto _current;
+    List<PilotRoundDto> _rounds = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        _rounds = await this.pilotService.GetStartingOrderPerRound(_selectedRound, _token);
+        await base.OnInitializedAsync();
+    }
+
+    private async void OnRoundChanged(int? round)
+    {
+        this._selectedRound = round;
+        await Refresh();
+    }
+
+    private async Task ChangeStartNumber()
+    {
+        var res = await modalHandler.ShowSmallInputDialog("Select new Startnumber", settingManager.IsiOS, "Startnumber");
+        if (int.TryParse(res, out var newStart))
+        {
+            await pilotService.ChangeStartNumber(newStart, _current, _token);
+            await Refresh();
+        }
+    }
+
+    private async Task Refresh()
+    {
+        _rounds = await this.pilotService.GetStartingOrderPerRound(_selectedRound, _token);
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+    private bool IsCurrent(PilotRoundDto dto) => _current?.Pilot.Id == dto.Pilot.Id;
+
+    private async Task OnRowClick(PilotRoundDto dto, CancellationToken cancellation)
+    {
+        _current = dto;
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+}

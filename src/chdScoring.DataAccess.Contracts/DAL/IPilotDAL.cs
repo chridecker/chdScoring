@@ -22,5 +22,9 @@ namespace chdScoring.DataAccess.Contracts.DAL
         Task<IEnumerable<Country_Images>> GetAllCountryImages(CancellationToken cancellationToken);
         Task<bool> AddNewPilot(PilotDto dto, CancellationToken cancellationToken);
         Task<bool> DeletePilot(PilotDto dto, CancellationToken cancellationToken);
+        Task<List<PilotRoundDto>> GetStartingOrderPerRound(int? round, CancellationToken cancellationToken);
+
+        Task<bool> ChangeStartingOrder(int newStart, int pilot, int round,
+            CancellationToken cancellationToken);
     }
 }
