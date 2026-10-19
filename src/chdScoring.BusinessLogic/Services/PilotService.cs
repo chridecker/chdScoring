@@ -26,6 +26,9 @@ namespace chdScoring.BusinessLogic.Services
             this._flightCacheService = flightCacheService;
         }
 
+
+        public Task<RoundDataDto> GetResult(int id, int round, CancellationToken cancellationToken) => _cDal.GetRoundData(id, round, cancellationToken);
+
         public Task<bool> ChangeStartNumber(int newStart, PilotRoundDto dto, CancellationToken cancellationToken)
             => _dal.ChangeStartingOrder(newStart, dto.Pilot.Id, dto.Round, cancellationToken);
         public Task<bool> Delete(PilotDto dto, CancellationToken cancellationToken = default) => this._dal.DeletePilot(dto, cancellationToken);

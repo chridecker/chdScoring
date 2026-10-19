@@ -24,5 +24,6 @@ namespace chdScoring.Contracts.Interfaces
         Task<bool> RandomizeAsync(CancellationToken cancellationToken);
         Task<List<PilotRoundDto>> GetStartingOrderPerRound(int? round, CancellationToken cancellationToken);
         Task<bool> ChangeStartNumber(int number, PilotRoundDto dto, CancellationToken cancellationToken);
+        Task<RoundDataDto> GetResult(int id, int round, CancellationToken cancellationToken);
     }
 }

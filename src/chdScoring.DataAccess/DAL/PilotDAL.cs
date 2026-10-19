@@ -125,22 +125,7 @@ namespace chdScoring.DataAccess.DAL
                     Round = round.Value,
                     StartNr = wettkampfLeitung.Start,
                     State = (EFlightState)wettkampfLeitung.Status,
-                    Pilot = new()
-                    {
-                        Id = wettkampfLeitung.Pilot.Id,
-                        Firstname = wettkampfLeitung.Pilot.Vorname,
-                        Lastname = wettkampfLeitung.Pilot.Nachname,
-                        Club = wettkampfLeitung.Pilot.Club,
-                        Country = wettkampfLeitung.Pilot.Country_Image.Name,
-                        CountryImage = new()
-                        {
-                            Data = wettkampfLeitung.Pilot.Country_Image.Img_Data,
-                            Type = wettkampfLeitung.Pilot.Country_Image.Img_Type
-                        },
-                        CountryCode = wettkampfLeitung.Pilot.Country_Image.Short,
-                        CountryId = wettkampfLeitung.Pilot.Land,
-                        License = wettkampfLeitung.Pilot.License
-                    }
+                    Pilot = MapPilot(wettkampfLeitung.Pilot)
                 });
             }
 
@@ -162,22 +147,7 @@ namespace chdScoring.DataAccess.DAL
             {
                 StartNumber = wl.Start,
                 Round = round.Value,
-                Pilot = new PilotDto
-                {
-                    Id = wl.Teilnehmer,
-                    Firstname = wl.Pilot.Vorname,
-                    Lastname = wl.Pilot.Nachname,
-                    Club = wl.Pilot.Club,
-                    License = wl.Pilot.License,
-                    CountryId = wl.Pilot.Land,
-                    Country = wl.Pilot.Country_Image.Name,
-                    CountryCode = wl.Pilot.Country_Image.Short,
-                    CountryImage = new ImageDto
-                    {
-                        Data = wl.Pilot.Country_Image.Img_Data,
-                        Type = wl.Pilot.Country_Image.Img_Type
-                    }
-                }
+                Pilot = MapPilot(wl.Pilot)
             });
         }
 
@@ -189,21 +159,7 @@ namespace chdScoring.DataAccess.DAL
             return rounds.Select(s => new FinishedRoundDto
             {
                 Start = s.Start,
-                Pilot = new()
-                {
-                    Id = s.Pilot.Id,
-                    Club = s.Pilot.Club,
-                    Firstname = s.Pilot.Vorname,
-                    Lastname = s.Pilot.Nachname,
-                    License = s.Pilot.License,
-                    Country = s.Pilot.Country_Image.Name,
-                    CountryCode = s.Pilot.Country_Image.Short,
-                    CountryImage = new ImageDto()
-                    {
-                        Data = s.Pilot.Country_Image.Img_Data,
-                        Type = s.Pilot.Country_Image.Img_Type,
-                    }
-                },
+                Pilot = MapPilot(s.Pilot),
                 Round = new()
                 {
                     Id = s.Durchgang,
@@ -238,21 +194,7 @@ namespace chdScoring.DataAccess.DAL
                     Score = wl.Round.Wert_abs,
                     ScoreProm = (decimal)wl.Round.Wert_prom,
                     Rank = rank++,
-                    Pilot = new PilotDto
-                    {
-                        Id = wl.Teilnehmer,
-                        Firstname = wl.Pilot.Vorname,
-                        Lastname = wl.Pilot.Nachname,
-                        License = wl.Pilot.License,
-                        Club = wl.Pilot.Club,
-                        Country = wl.Pilot.Country_Image.Name,
-                        CountryCode = wl.Pilot.Country_Image.Short,
-                        CountryImage = new ImageDto
-                        {
-                            Data = wl.Pilot.Country_Image.Img_Data,
-                            Type = wl.Pilot.Country_Image.Img_Type
-                        }
-                    }
+                    Pilot = MapPilot(wl.Pilot)
                 };
                 retValue.Add(dto);
             }
@@ -300,22 +242,7 @@ namespace chdScoring.DataAccess.DAL
             var lst = await this._teilnehmerRepository.Where(x => true).
                 Include(i => i.Country_Image).ToListAsync(cancellationToken);
 
-            return lst.Select(s => new PilotDto()
-            {
-                Id = s.Id,
-                Firstname = s.Vorname,
-                Lastname = s.Nachname,
-                Club = s.Club,
-                CountryId = s.Land,
-                License = s.License,
-                Country = s.Country_Image.Name,
-                CountryCode = s.Country_Image.Short,
-                CountryImage = new ImageDto
-                {
-                    Data = s.Country_Image.Img_Data,
-                    Type = s.Country_Image.Img_Type
-                }
-            });
+            return lst.Select(s => MapPilot(s));
         }
 
         public Task<bool> ChangeStartNumber(PilotDto pilot, int number, CancellationToken cancellationToken = default)
@@ -335,5 +262,32 @@ namespace chdScoring.DataAccess.DAL
             }
             return false;
         }
+
+        public async Task<PilotDto> Get(int id, CancellationToken cancellationToken)
+        {
+            var t = await _teilnehmerRepository
+                .Where(x => x.Id == id)
+                .Include(i => i.Country_Image)
+                .FirstOrDefaultAsync(cancellationToken);
+            return MapPilot(t);
+        }
+
+        private PilotDto MapPilot(Teilnehmer teilnehmer)
+            => new()
+            {
+                Id = teilnehmer.Id,
+                Firstname = teilnehmer.Vorname,
+                Lastname = teilnehmer.Nachname,
+                Club = teilnehmer.Club,
+                CountryId = teilnehmer.Land,
+                License = teilnehmer.License,
+                Country = teilnehmer.Country_Image.Name,
+                CountryCode = teilnehmer.Country_Image.Short,
+                CountryImage = new ImageDto
+                {
+                    Data = teilnehmer.Country_Image.Img_Data,
+                    Type = teilnehmer.Country_Image.Img_Type
+                }
+            };
     }
 }

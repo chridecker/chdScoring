@@ -26,5 +26,7 @@ namespace chdScoring.DataAccess.Contracts.DAL
 
         Task<bool> ChangeStartingOrder(int newStart, int pilot, int round,
             CancellationToken cancellationToken);
+
+        Task<PilotDto> Get(int id, CancellationToken cancellationToken);
     }
 }

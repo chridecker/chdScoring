@@ -19,6 +19,9 @@ namespace chdScoring.Main.Client.Clients
         public Task<IEnumerable<OpenRoundDto>> GetOpenRound(int? round, CancellationToken cancellationToken)
              => base.Get<IEnumerable<OpenRoundDto>>(round.HasValue ? EndpointConstants.Pilot.GET_OpenRound.SetUrlParameters(("round", round)) : EndpointConstants.Pilot.GET_OpenRound, cancellationToken);
 
+        public Task<RoundDataDto> GetResult(int id, int round, CancellationToken cancellationToken)
+             => base.Get<RoundDataDto<>(EndpointConstants.Pilot.GET_RoundScore.SetUrlParameters((nameof(id), id), (nameof(round), round)), cancellationToken);
+
         public Task<RoundDataDto> GetRoundData(int pilot, int round, CancellationToken cancellationToken)
            => base.Get<RoundDataDto>(EndpointConstants.Pilot.GET_Round.SetUrlParameters((nameof(pilot), pilot), (nameof(round), round)), cancellationToken);
 
