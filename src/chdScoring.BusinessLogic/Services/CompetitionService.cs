@@ -101,7 +101,7 @@ namespace chdScoring.BusinessLogic.Services
             var groups = new Dictionary<int, Dictionary<int, int>>();
             var t = 0;
             var participantLst = await teilnehmerRepository.FindAll(cancellationToken);
-            int[] participantArray = participantLst.Select(s => s.Id).ToArray();
+            int[] participantArray = participantLst.OrderBy(o => o.Id).Select(s => s.Id).ToArray();
             for (int d = 0; d < rounds; d++)
             {
                 if (!groups.ContainsKey(d))
