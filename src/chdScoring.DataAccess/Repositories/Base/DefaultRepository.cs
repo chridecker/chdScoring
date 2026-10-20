@@ -7,11 +7,9 @@ using Microsoft.Extensions.Logging;
 
 namespace chdScoring.DataAccess.Repositories.Base
 {
-    public class DefaultRepository<TEntity> : BaseRepository<TEntity> where TEntity : class
-    {
-        public DefaultRepository(ILogger<DefaultRepository<TEntity>> logger, 
-            IContextFactory<chdScoringContext> contextFactory) : base(logger, contextFactory)
-        {
-        }
-    }
+    public class DefaultRepository<TEntity>(
+        ILogger<DefaultRepository<TEntity>> logger,
+        IContextFactory<chdScoringContext> contextFactory)
+        : BaseRepository<TEntity>(logger, contextFactory)
+        where TEntity : class;
 }

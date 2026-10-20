@@ -10,15 +10,13 @@ using System.Threading.Tasks;
 
 namespace chdScoring.DataAccess.Repositories
 {
-    public class KlasseRepository : BaseRepository<Klassen>, IKlasseRepository
+    public class KlasseRepository(ILogger<KlasseRepository> logger, IContextFactory<chdScoringContext> contextFactory)
+        : BaseRepository<Klassen>(logger, contextFactory), IKlasseRepository
     {
-        public KlasseRepository(ILogger<KlasseRepository> logger,  IContextFactory<chdScoringContext> contextFactory): base(logger, contextFactory)
-        {
-        }
         public async Task<Klassen> GetCurrentKlasse(CancellationToken cancellationToken)
         {
-            var st = await this._context.Stammdaten.FirstOrDefaultAsync(cancellationToken: cancellationToken);  
-            return await this._context.Klassen.FirstOrDefaultAsync(x => x.Id == st.Klasse, cancellationToken);
+            var st = await this._context.Set<Stammdaten>().FirstOrDefaultAsync(cancellationToken: cancellationToken);  
+            return await this._context.Set<Klassen>().FirstOrDefaultAsync(x => x.Id == st.Klasse, cancellationToken);
         }
     }
 }

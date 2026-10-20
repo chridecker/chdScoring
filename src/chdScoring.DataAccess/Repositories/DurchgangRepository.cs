@@ -11,12 +11,11 @@ using System.Threading.Tasks;
 
 namespace chdScoring.DataAccess.Repositories
 {
-    public class DurchgangRepository : BaseRepository<Round>, IDurchgangRepository
+    public class DurchgangRepository(
+        ILogger<DurchgangRepository> logger,
+        IContextFactory<chdScoringContext> contextFactory)
+        : BaseRepository<Round>(logger, contextFactory), IDurchgangRepository
     {
-        public DurchgangRepository(ILogger<DurchgangRepository> logger,  IContextFactory<chdScoringContext> contextFactory) : base(logger, contextFactory)
-        {
-        }
-
         public async Task<bool> NoramlizeRound(int round, decimal normalization, CancellationToken cancellationToken)
         {
             foreach (var dg in await this.Where(x => x.Durchgang == round).ToListAsync(cancellationToken))

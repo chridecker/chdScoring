@@ -11,15 +11,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace chdScoring.DataAccess.Repositories
 {
-    public class TeilnehmerRepository : BaseRepository<Teilnehmer>, ITeilnehmerRepository
+    public class TeilnehmerRepository(
+        ILogger<TeilnehmerRepository> logger,
+        IContextFactory<chdScoringContext> contextFactory)
+        : BaseRepository<Teilnehmer>(logger, contextFactory), ITeilnehmerRepository
     {
         private const int ChangeNr = -99;
-        public TeilnehmerRepository(ILogger<TeilnehmerRepository> logger, IContextFactory<chdScoringContext> contextFactory) : base(logger, contextFactory)
-        {
-        }
 
         public Task<Teilnehmer> FindById(int teilnehmer, CancellationToken cancellationToken)
-        => this._context.Teilnehmer.FindAsync(teilnehmer, cancellationToken).AsTask();
+        => this._context.Set<Teilnehmer>().FindAsync(teilnehmer, cancellationToken).AsTask();
 
         public async Task<bool> ChangeStartNumber(int id, int newId, CancellationToken cancellationToken)
         {

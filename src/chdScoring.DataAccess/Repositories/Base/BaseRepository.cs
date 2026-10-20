@@ -15,16 +15,13 @@ using System.Threading.Tasks;
 
 namespace chdScoring.DataAccess.Repositories.Base
 {
-    public abstract class BaseRepository<TEntity> : IBaseEntityRepository<TEntity> where TEntity : class
+    public abstract class BaseRepository<TEntity>(
+        ILogger<BaseRepository<TEntity>> logger,
+        IContextFactory<chdScoringContext> contextFactory)
+        : IBaseEntityRepository<TEntity>
+        where TEntity : class
     {
-        protected readonly ILogger<BaseRepository<TEntity>> _logger;
-        protected readonly chdScoringContext _context;
-
-        protected BaseRepository(ILogger<BaseRepository<TEntity>> logger, IContextFactory<chdScoringContext> contextFactory)
-        {
-            this._logger = logger;
-            this._context = contextFactory.Create();
-        }
+        protected readonly chdScoringContext _context = contextFactory.Create();
 
         public Task<bool> Exists(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken)
             => this._context.Set<TEntity>().AnyAsync(expression, cancellationToken);

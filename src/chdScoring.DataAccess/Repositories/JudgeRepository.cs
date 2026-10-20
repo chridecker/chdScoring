@@ -13,17 +13,14 @@ using System.Threading.Tasks;
 
 namespace chdScoring.DataAccess.Repositories
 {
-    public class JudgeRepository : BaseRepository<Judge>, IJudgeRepository
+    public class JudgeRepository(ILogger<JudgeRepository> logger, IContextFactory<chdScoringContext> contextFactory)
+        : BaseRepository<Judge>(logger, contextFactory), IJudgeRepository
     {
-        public JudgeRepository(ILogger<JudgeRepository> logger,  IContextFactory<chdScoringContext> contextFactory): base(logger, contextFactory)
-        {
-        }
-
         public async Task<IEnumerable<Judge>> GetRoundPanel(int round, CancellationToken cancellationToken)
         {
-            var panel = await this._context.Durchgang_Panel.FirstOrDefaultAsync(x => x.Durchgang == round);
-            var judges =  this._context.Judge_Panel.Where(x => x.Panel == panel.Panel);
-            return await this._context.Judge.Where(x => judges.Any(a => a.Judge == x.Id)).ToListAsync(cancellationToken: cancellationToken);
+            var panel = await this._context.Set<Durchgang_Panel>().FirstOrDefaultAsync(x => x.Durchgang == round);
+            var judges =  this._context.Set<Judge_Panel>().Where(x => x.Panel == panel.Panel);
+            return await this._context.Set<Judge>().Where(x => judges.Any(a => a.Judge == x.Id)).ToListAsync(cancellationToken: cancellationToken);
         }
     }
 }

@@ -3,32 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace chdScoring.DataAccess.EFCore
 {
-    public class chdScoringContext : DbContext
+    public class chdScoringContext(DbContextOptions<chdScoringContext> dbContextOptions) : DbContext(dbContextOptions)
     {
-
-        public DbSet<Teilnehmer> Teilnehmer { get; set; }
-        public DbSet<Stammdaten> Stammdaten { get; set; }
-        public DbSet<Durchgang_Panel> Durchgang_Panel { get; set; }
-        public DbSet<Figur> Figur { get; set; }
-        public DbSet<Figur_Programm> Figur_Programm { get; set; }
-        public DbSet<Round> Durchgang { get; set; }
-        public DbSet<Programm> Programm { get; set; }
-        public DbSet<Durchgang_Programm> Durchgang_Programm { get; set; }
-        public DbSet<Wertung> Wertung { get; set; }
-        public DbSet<Wertung_History> Wertung_History { get; set; }
-        public DbSet<Teilnehmer_Durchgang_Judge> Teilnehmer_Durchgang_Judges { get; set; }
-        public DbSet<Judge> Judge { get; set; }
-        public DbSet<Judge_Panel> Judge_Panel { get; set; }
-        public DbSet<Country_Images> Country_Images { get; set; }
-        public DbSet<Images> Images { get; set; }
-        public DbSet<Wettkampf_Leitung> Wettkampf_Leitung { get; set; }
-        public DbSet<Klassen> Klassen { get; set; }
-
-
-        public chdScoringContext(DbContextOptions<chdScoringContext> dbContextOptions) : base(dbContextOptions)
-        {
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ApiKey>(builder =>
