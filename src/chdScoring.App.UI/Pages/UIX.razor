@@ -15,6 +15,7 @@
 </div>
 
 <IconButton FAClass="xmark" OnClick="Error" />
+<IconButton FAClass="stop" OnClick="Stop" />
 <IconButton FAClass="power-off" OnClick="Restart" />
 
 <input type="range" min="1" step="1" max="100" value="@_displayBrightness" @onchange="async (e) => await this.UpdateBrightness(e)" />
@@ -50,10 +51,8 @@
     }
 
 
-    private async Task Error()
-    {
-        await ttsService.SpeakAsync(_message);
-    }
+    private Task Error() => ttsService.SpeakAsync(_message);
+    private Task Stop() => ttsService.CancelAsync();
 
     private async Task Alert()
     {

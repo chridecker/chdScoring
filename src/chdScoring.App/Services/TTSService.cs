@@ -1,5 +1,6 @@
 ﻿using chdScoring.App.UI.Constants;
 using chdScoring.App.UI.Interfaces;
+using chdScoring.App.UI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,45 +9,28 @@ using System.Threading.Tasks;
 
 namespace chdScoring.App.Services
 {
-    public class TTSService : ITTSService
+    public class TTSService(ISettingManager settingManager)
+        : BaseTTSService
     {
-        private readonly ISettingManager _settingManager;
-
-        private CancellationTokenSource _cts;
-
-        public TTSService(ISettingManager settingManager)
+        protected override async Task Speak(string message, CancellationToken cancellationToken)
         {
-            this._settingManager = settingManager;
-        }
-        public async Task SpeakAsync(string message)
-        {
-            if (string.IsNullOrWhiteSpace(message)) { return; }
             var lang = "de";
-            var selectedLang = await this._settingManager.GetSettingLocal(SettingConstants.SpeechLanguage);
+            var selectedLang = await settingManager.GetSettingLocal(SettingConstants.SpeechLanguage);
             if (string.IsNullOrEmpty(selectedLang)) { return; }
-
-
             var locales = await TextToSpeech.Default.GetLocalesAsync();
-
             if (!string.IsNullOrWhiteSpace(selectedLang) && locales.Any(x => x.Language.StartsWith(selectedLang.Substring(0, 2))))
             {
                 lang = selectedLang;
             }
-
             var options = new SpeechOptions()
             {
                 Locale = locales.FirstOrDefault(x => x.Language.StartsWith(lang)),
+                Pitch = 1f,
+                Rate = 1f,
+                Volume = 1f
             };
+            await TextToSpeech.Default.SpeakAsync(message, options, cancelToken: cancellationToken);
 
-            if (this._cts is not null && !this._cts.IsCancellationRequested)
-            {
-                this._cts.Cancel();
-                await Task.Delay(100);
-            }
-            this._cts = new();
-            await TextToSpeech.Default.SpeakAsync(message, options, cancelToken: this._cts.Token);
-            this._cts?.Cancel();
-            this._cts = null;
         }
     }
 }

@@ -9,5 +9,6 @@ namespace chdScoring.App.UI.Interfaces
     public interface ITTSService
     {
         Task SpeakAsync(string message);
+        Task CancelAsync();
     }
 }
