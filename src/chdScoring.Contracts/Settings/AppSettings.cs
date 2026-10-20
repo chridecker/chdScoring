@@ -8,5 +8,6 @@ namespace chdScoring.Contracts.Settings
         public TimeSpan SendInterval { get; set; }
 
         public string ImportDirectory { get; set; }
+        public string RoundScorePrintUrl { get; set; }
     }
 }

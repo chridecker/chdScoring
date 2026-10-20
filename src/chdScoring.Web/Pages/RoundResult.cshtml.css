@@ -15,6 +15,10 @@ th {
     padding: 0.2cm;
 }
 
+    th.logo {
+        text-align: end;
+    }
+
 td {
     font-size: 10pt;
     padding: 0cm;
@@ -78,9 +82,15 @@ tr.teilnehmer th {
 
 tr.footer td {
     padding-top: 0cm;
-    text-align: right;
+    text-align: left;
+    text-wrap: nowrap;
 }
 
     tr.footer td:nth-child(2) {
         padding-right: 1rem;
+        text-align: right;
     }
+
+td i.judge-name {
+    font-size: 9pt;
+}

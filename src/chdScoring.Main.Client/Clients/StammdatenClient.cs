@@ -22,5 +22,8 @@ namespace chdScoring.Main.Client.Clients
 
         public Task<StammdatenDto> Get(CancellationToken cancellationToken)
             => this.Get<StammdatenDto>(Stammdaten.GET_Stammdaten, cancellationToken);
+        
+        public Task<string> GetRoundResultPdfUrl(CancellationToken cancellationToken)
+            => this.Get<string>(Stammdaten.GET_RoundResultPdfUrl, cancellationToken);
     }
 }

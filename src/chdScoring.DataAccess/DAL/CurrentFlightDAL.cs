@@ -27,10 +27,10 @@ namespace chdScoring.DataAccess.DAL
             IWettkampfLeitungRepository wettkampfLeitungRepository, ITeilnehmerRepository teilnehmerRepository, IJudgeRepository judgeRepository,
             IFigurRepository figurRepository, IProgrammRepository programmRepository, IWertungRepository wertungRepository, IKlasseRepository klasseRepository,
             IBaseEntityRepository<Country_Images> countryImageRepository, IBaseEntityRepository<Images> imageRepository, IBaseEntityRepository<Durchgang_Panel> durchgangPanelRepository,
-            IBaseEntityRepository<Durchgang_Programm> durchgangProgramRepository,  IBaseEntityRepository<Judge_Panel> judgePanelRepository,
+            IBaseEntityRepository<Durchgang_Programm> durchgangProgramRepository, IBaseEntityRepository<Judge_Panel> judgePanelRepository,
             IBaseEntityRepository<Contracts.Domain.Stammdaten> stammDatenRepository, IBaseEntityRepository<Bewerb> bebwerbRepository, IDurchgangRepository durchgangRepository,
             IBaseEntityRepository<Teilnehmer_Bewerb> teilnehmerBewerbRepository,
-            IBaseEntityRepository<Teilnehmer_Durchgang_Judge> teilnehmerDurchgangJudgeRespository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository,  judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
+            IBaseEntityRepository<Teilnehmer_Durchgang_Judge> teilnehmerDurchgangJudgeRespository) : base(logger, wettkampfLeitungRepository, teilnehmerRepository, judgeRepository, figurRepository, programmRepository, wertungRepository, klasseRepository, countryImageRepository, imageRepository, durchgangPanelRepository, durchgangProgramRepository, judgePanelRepository, stammDatenRepository, bebwerbRepository, durchgangRepository, teilnehmerBewerbRepository)
         {
             this._teilnehmerDurchgangJudgeRespository = teilnehmerDurchgangJudgeRespository;
         }
@@ -77,7 +77,7 @@ namespace chdScoring.DataAccess.DAL
                 .Where(x => x.Status >= (int)EFlightState.OnAir)
                 .Include(i => i.Pilot)
                 .ThenInclude(i => i.Country_Image)
-                .FirstOrDefaultAsync(x => x.Teilnehmer == pilot && x.Durchgang == round,cancellationToken);
+                .FirstOrDefaultAsync(x => x.Teilnehmer == pilot && x.Durchgang == round, cancellationToken);
 
             return await this.GetRoundData(dto, wl, cancellationToken);
         }
@@ -91,7 +91,8 @@ namespace chdScoring.DataAccess.DAL
             var maneouvreLst = (await this._figurRepository.GetProgramToRound(round, cancellationToken)).OrderBy(o => o.Id);
             var scores = await this._wertungRepository.GetScoresToPilotInRound(wl.Teilnehmer, round, cancellationToken);
             var confirms = await this._teilnehmerDurchgangJudgeRespository.Where(x => x.Teilnehmer == wl.Teilnehmer && x.Durchgang == wl.Durchgang).ToListAsync(cancellationToken);
-
+            var roundResult =
+                await _durchgangRepository.FirstOrDefaultAsync(x => x.Durchgang == round && x.Teilnehmer == wl.Pilot.Id, cancellationToken);
 
             dto.Pilot = new PilotDto
             {
@@ -115,6 +116,7 @@ namespace chdScoring.DataAccess.DAL
             {
                 Id = round,
                 Program = program.Title,
+                Time = roundResult is null ? TimeSpan.Zero : TimeSpan.FromSeconds(roundResult.Duration)
             };
 
             foreach (var judge in judges.OrderBy(o => o.Id))

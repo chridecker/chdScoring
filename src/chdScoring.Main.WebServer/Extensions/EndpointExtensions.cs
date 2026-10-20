@@ -43,8 +43,12 @@ namespace chdScoring.Main.WebServer.Extensions
 
             stammdaten.MapGet(Stammdaten.GET_Image,
                 async (int id, IStammdatenService svc, CancellationToken ct) => await svc.GetImage(id, ct));
+
             stammdaten.MapGet(Stammdaten.GET_Stammdaten,
                 async (IStammdatenService svc, CancellationToken ct) => await svc.Get(ct));
+
+            stammdaten.MapGet(Stammdaten.GET_RoundResultPdfUrl,
+                async (IStammdatenService svc, CancellationToken ct) => await svc.GetRoundResultPdfUrl(ct));
 
             apiKey.MapGet(ApiKey.GET, async (string key, IApiKeyService service, CancellationToken ct) => await service.GetAsync(key, ct));
             apiKey.MapGet(ApiKey.GETALL, async (IApiKeyService service, CancellationToken ct) => await service.GetAllAsync(ct));

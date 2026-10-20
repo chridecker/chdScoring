@@ -8,22 +8,18 @@ using System.Threading.Tasks;
 
 namespace chdScoring.App.UI.Helper
 {
-    public class PrintHelper : IPrintHelper
+    public class PrintHelper(IPrintService printService, IStammdatenService stammdatenService) : IPrintHelper
     {
-        private readonly IPrintService _printService;
-
-        public PrintHelper(IPrintService printService)
-        {
-            this._printService = printService;
-        }
         public async Task<bool> PrintRound(int pilot, int round, string? database = null, CancellationToken cancellationToken = default)
         {
-            var url = $"http://localhost/print_durchgang.php?teilnehmer={pilot}&round={round}";
+            var url = await stammdatenService.GetRoundResultPdfUrl(cancellationToken);
+
+            url = $"{url}?teilnehmer={pilot}&round={round}";
             if (!string.IsNullOrWhiteSpace(database))
             {
                 url += $"&db={database.ToLower()}";
             }
-            return await this._printService.PrintToPdfAsync(new Contracts.Dtos.CreatePdfDto()
+            return await printService.PrintToPdfAsync(new Contracts.Dtos.CreatePdfDto()
             {
                 Url = url,
                 Name = $"R_{round}_P_{pilot}.pdf",

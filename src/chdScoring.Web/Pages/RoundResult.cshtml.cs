@@ -17,10 +17,10 @@ namespace chdScoring.Web.Pages
         public decimal JudgeResult(int id) => Data.ManeouvreLst[id].Select(s => (s.Score ?? 0) * s.Value).Sum();
         public decimal RoundResult => Data.ManeouvreLst.Select(s => s.Value.Select(ss => (ss.Score ?? 0) * ss.Value).Sum()).Average();
 
-        public async Task OnGet(int id, int round, string? colorScheme = "light-mode")
+        public async Task OnGet(int teilnehmer, int round, string? colorScheme = "light-mode")
         {
             ViewData["ColorScheme"] = colorScheme;
-            Data = await pilotService.GetRoundData(id, round, this.HttpContext.RequestAborted);
+            Data = await pilotService.GetRoundData(teilnehmer, round, this.HttpContext.RequestAborted);
             Logo = await stammdatenService.GetImage(2, HttpContext.RequestAborted);
             Stammdaten = await stammdatenService.Get(HttpContext.RequestAborted);
         }

@@ -25,7 +25,7 @@ var path = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
 var config = new ConfigurationBuilder().AddJsonFile(path).Build();
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.AddJsonFile(path);
+builder.Configuration.AddJsonFile(path, false, true);
 builder.Logging.ClearProviders();
 builder.Logging.AddNLogWeb();
 

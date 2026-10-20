@@ -113,6 +113,7 @@
             public const string ROUTE = "stammdaten";
             public const string GET_Image = "getimage";
             public const string GET_Stammdaten= "get";
+            public const string GET_RoundResultPdfUrl= "getroundresultpdfurl";
         }
     }
 }

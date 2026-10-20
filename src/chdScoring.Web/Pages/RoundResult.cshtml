@@ -1,4 +1,5 @@
 ﻿@page
+@using chdScoring.Contracts.Enums
 @model chdScoring.Web.Pages.RoundResultModel
 @{
 }
@@ -8,7 +9,7 @@
         <th colspan="@Model.Data.Judges.Count()+2" class="headline" style="text-align:left; vertical-align:bottom;">
             Scoring Table @Model.Stammdaten.TournamentName (@Model.Stammdaten.From.ToString("dd.MM.yy") - @Model.Stammdaten.To.ToString("dd.MM.yy"))
         </th>
-        <th colspan="2"><img src="@Model.Logo.Src" /></th>
+        <th colspan="2" class="logo"><img src="@Model.Logo.Src" /></th>
     </tr>
     <tr class="teilnehmer">
         <th colspan="3">Pilot</th>
@@ -29,7 +30,7 @@
         <th class="figur">&#8470;</th>
         <th class="figur">Manoeuvre</th>
         <th class="figur" style="text-align:center;">K</th>
-        @if (@Model.Data.Judges.Count() == 1)
+        @if (@Model.Stammdaten.Score_Mode is EScoreMode.FCScore)
         {
             <th class="judge"></th>
             <th class="judge"></th>
@@ -49,7 +50,7 @@
             <td>@figur.Id.ToString("D2")</td>
             <td class="figur">@figur.Name</td>
             <td style="text-align:center;">@figur.Value</td>
-            @if (Model.Data.Judges.Count() == 1)
+            @if (Model.Stammdaten.Score_Mode is EScoreMode.FCScore)
             {
                 <td colspan="3"></td>
             }
@@ -62,32 +63,33 @@
                     }
                     else
                     {
-                        @((score.Value.FirstOrDefault(x => x.Id == figur.Id).Score ?? 0).ToString("#.####"))
+                        @((score.Value.FirstOrDefault(x => x.Id == figur.Id).Score ?? 0).ToString(Model.Stammdaten.Score_Mode is EScoreMode.FCScore ? "0.0###" : "0.0"))
                     }
                 </td>
             }
-            <td align='center'>@Model.Data.ManeouvreLst.Values.SelectMany(s => s).Where(x => x.Id == figur.Id).Select(s => (s.Score ?? 0) * s.Value).Sum().ToString("#.####")</td>
+            <td align='center'>@Model.Data.ManeouvreLst.Values.SelectMany(s => s).Where(x => x.Id == figur.Id).Select(s => (s.Score ?? 0) * s.Value).Sum().ToString("0.00##")</td>
         </tr>
     }
     <tr class="gesamt">
         <th colspan="3"></th>
-        @if (Model.Data.Judges.Count() == 1)
+        @if (Model.Stammdaten.Score_Mode is EScoreMode.FCScore)
         {
             <td colspan='3'></td>
         }
         @foreach (var judge in Model.Data.Judges)
         {
             <td style="text-align: center; padding-bottom: 0.1cm;">
-                @Model.JudgeResult(judge.Id) (@((1-(Model.JudgeResult(judge.Id) / Model.RoundResult) * -100 ).ToString("#.##"))%)<br />
-                @judge.Name
+                @Model.JudgeResult(judge.Id).ToString("0.00") (@(((1-(Model.JudgeResult(judge.Id) / Model.RoundResult)) * -100).ToString("0.0"))%)
+                <br />
+                <i class="judge-name">@judge.Name</i>
             </td>
         }
 
-        <th>@Model.RoundResult.ToString("#.####")</th>
+        <th>@Model.RoundResult.ToString("0.00##")</th>
     </tr>
     <tr class="footer">
-        <td>@DateTime.Now.ToString("dd.MM.yy HH:mm")</td>
-        <td colspan="@(Model.Data.Judges.Count() == 1 ? 7 : Model.Data.Judges.Count() + 3)">
+        <td colspan="2">@DateTime.Now.ToString("dd.MM.yyyy HH:mm")</td>
+        <td colspan="@(Model.Stammdaten.Score_Mode is EScoreMode.FCScore ? 6 : Model.Data.Judges.Count() + 2)">
             chdScoring 3.0 &copy; @DateTime.Now.Year
         </td>
     </tr>

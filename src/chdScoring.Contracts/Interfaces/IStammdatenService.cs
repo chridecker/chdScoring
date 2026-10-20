@@ -11,5 +11,6 @@ namespace chdScoring.Contracts.Interfaces
     {
         Task<ImageDto> GetImage(int id, CancellationToken cancellationToken);
         Task<StammdatenDto> Get(CancellationToken cancellationToken);
+        Task<string> GetRoundResultPdfUrl(CancellationToken cancellationToken);
     }
 }
