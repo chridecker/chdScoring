@@ -1,6 +1,7 @@
-﻿using System.Text;
-using chdScoring.BusinessLogic.Services;
+﻿using chdScoring.BusinessLogic.Services;
 using Microsoft.AspNetCore.Http;
+using System.Net;
+using System.Text;
 
 namespace chdScoring.Main.WebServer.Extensions
 {
@@ -8,9 +9,16 @@ namespace chdScoring.Main.WebServer.Extensions
     {
         public async Task InvokeAsync(HttpContext context, IApiLogger logger)
         {
+            var ip = context.Connection.RemoteIpAddress;
+            var hostName = string.Empty;
+            if (ip != null)
+            {
+                var hostEntry = await Dns.GetHostEntryAsync(ip);
+                hostName = hostEntry.HostName;
+            }
             var apiKey = context.Request.Headers.TryGetValue("x-api-key", out var key) ? key.ToString() : string.Empty;
             var call =
-                $"{context.Request.Host}({apiKey}) {context.Request.Method} {context.Request.Path}{context.Request.QueryString}";
+                $"{(!string.IsNullOrWhiteSpace(hostName) ? hostName : ip)}({apiKey}) {context.Request.Method} {context.Request.Path}{context.Request.QueryString}";
             var detail = string.Empty;
             if (logger.LogDetail)
             {

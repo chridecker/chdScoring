@@ -8,34 +8,37 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace chdScoring.BusinessLogic.Hubs
 {
-    public class FlightHub : BaseAuthenticationHub<IFlightHub>, IFlightHub
+    public class FlightHub(IFlightCacheService flightCacheService, ILogger<FlightHub> logger, IApiLogger apiLogger)
+        : BaseAuthenticationHub<IFlightHub>(logger), IFlightHub
     {
-        private readonly IFlightCacheService _flightCacheService;
-        private readonly IApiLogger _apiLogger;
-
-        public FlightHub(IFlightCacheService flightCacheService, ILogger<FlightHub> logger, IApiLogger apiLogger) : base(logger)
-        {
-            _flightCacheService = flightCacheService;
-            _apiLogger = apiLogger;
-        }
         public override async Task OnConnectedAsync()
         {
             await base.OnConnectedAsync();
-            await this.Clients.Caller.ReceiveFlightData(this._flightCacheService.GetCurrentFlight(DateTime.Now), this.Context.ConnectionAborted);
-            await this.Clients.Caller.ReceiveRoundData(this._flightCacheService.GetCurrentRoundResults(), this.Context.ConnectionAborted);
+            await this.Clients.Caller.ReceiveFlightData(flightCacheService.GetCurrentFlight(DateTime.Now), this.Context.ConnectionAborted);
+            await this.Clients.Caller.ReceiveRoundData(flightCacheService.GetCurrentRoundResults(), this.Context.ConnectionAborted);
 
-            await _apiLogger.Log($"{Context.GetHttpContext().Request.Host} connected ID:{Context.ConnectionId}, API-Key:{GetApiKey()}");
+            var context = Context.GetHttpContext();
+            var ip = context.Connection.RemoteIpAddress;
+            var hostName = string.Empty;
+            if (ip != null)
+            {
+                var hostEntry = await Dns.GetHostEntryAsync(ip);
+                hostName = hostEntry.HostName;
+            }
+
+            await apiLogger.Log($"{(!string.IsNullOrWhiteSpace(hostName) ? hostName : ip)}({GetApiKey()}) connected ID: {Context.ConnectionId}");
         }
 
         public async Task<bool> RegisterAsJudge(int judge)
         {
             await this.Groups.AddToGroupAsync(this.Context.ConnectionId, $"judge{judge}", this.Context.ConnectionAborted);
-            await this.Clients.Caller.ReceiveFlightData(this._flightCacheService.GetCurrentFlight(DateTime.Now), this.Context.ConnectionAborted);
+            await this.Clients.Caller.ReceiveFlightData(flightCacheService.GetCurrentFlight(DateTime.Now), this.Context.ConnectionAborted);
             return true;
         }
 

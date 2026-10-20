@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using chd.Hub.Base.Server;
+﻿using chd.Hub.Base.Server;
 using chdScoring.BusinessLogic.Services;
 using chdScoring.Contracts.Constants;
 using chdScoring.Contracts.Dtos;
 using chdScoring.Contracts.Interfaces;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace chdScoring.BusinessLogic.Hubs
 {
@@ -19,7 +21,16 @@ namespace chdScoring.BusinessLogic.Hubs
         public override async Task OnConnectedAsync()
         {
             await base.OnConnectedAsync();
-            await apiLogger.Log($"{Context.GetHttpContext().Request.Host} connected ID:{Context.ConnectionId}, API-Key:{GetApiKey()}");
+            var context = Context.GetHttpContext();
+            var ip = context.Connection.RemoteIpAddress;
+            var hostName = string.Empty;
+            if (ip != null)
+            {
+                var hostEntry = await Dns.GetHostEntryAsync(ip);
+                hostName = hostEntry.HostName;
+            }
+
+            await apiLogger.Log($"{(!string.IsNullOrWhiteSpace(hostName) ? hostName : ip)}({GetApiKey()}) connected ID: {Context.ConnectionId}");
             deviceCacheService.AddConnection(Context.ConnectionId, GetApiKey());
         }
 
