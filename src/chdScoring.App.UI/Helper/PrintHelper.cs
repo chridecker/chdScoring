@@ -10,7 +10,7 @@ namespace chdScoring.App.UI.Helper
 {
     public class PrintHelper(IPrintService printService, IStammdatenService stammdatenService) : IPrintHelper
     {
-        public async Task<bool> PrintRound(int pilot, int round, string? database = null, CancellationToken cancellationToken = default)
+        public async Task<bool> PrintRound(int pilot, int round,bool landscape = true, string? database = null, CancellationToken cancellationToken = default)
         {
             var url = await stammdatenService.GetRoundResultPdfUrl(cancellationToken);
 
@@ -23,7 +23,7 @@ namespace chdScoring.App.UI.Helper
             {
                 Url = url,
                 Name = $"R_{round}_P_{pilot}.pdf",
-                Landscape = true,
+                Landscape = landscape,
             }, cancellationToken);
         }
     }
