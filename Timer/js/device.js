@@ -1,5 +1,5 @@
 
-async function startDeviceHubConnection(connection, apiKey) {
+async function startDeviceHubConnection(connection, apiKey, name) {
     connection.start()
         .then(() => {
             connection.on("NavigateTo", function (dto, redirect) {
@@ -27,11 +27,11 @@ async function startDeviceHubConnection(connection, apiKey) {
             connection.invoke("RegisterDeviceAsync",
                 {
                     apiKey: apiKey,
-                    hostName: 'Web View'
+                    hostName: name
                 });
         })
         .catch(function (err) {
-            setTimeout(() => startDeviceHubConnection(connection), 5000);
+            setTimeout(() => startDeviceHubConnection(connection, apiKey, name), 5000);
             return console.error(err.toString());
         });
 }

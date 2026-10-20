@@ -1,4 +1,4 @@
-﻿async function startDeviceHubConnection(connection, apiKey) {
+﻿async function startDeviceHubConnection(connection, apiKey, name) {
 
     connection.start()
         .then(() => {
@@ -37,13 +37,13 @@
             });
             connection.invoke("RegisterDeviceAsync", {
                 apiKey: apiKey,
-                hostName: 'Web .NET View'
+                hostName: name
             });
             hideErrorModal();
         })
         .catch(function (err) {
             showErrorModal(err);
-            setTimeout(() => startDeviceHubConnection(connection, apiKey), 5000);
+            setTimeout(() => startDeviceHubConnection(connection, apiKey, name), 5000);
             return console.error(err.toString());
         });
 }

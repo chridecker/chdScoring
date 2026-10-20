@@ -19,6 +19,7 @@
         var flightHubUrl = '@this.Model.FlightHubClientUrl';
         var deviceHubUrl = '@this.Model.DeviceHubClientUrl';
         var apiKey = '@this.Model.ApiKey';
+        var name = '@this.Model.Name';
         var render = '@this.Model.RenderSetting';
         var mode= '@this.Model.Mode';
 
@@ -41,12 +42,12 @@
              .build();
 
         deviceConnection.onclose(async () => {
-            await startDeviceHubConnection(deviceConnection,apiKey);
+            await startDeviceHubConnection(deviceConnection, apiKey, name);
         });
 
         // Start the connection.
         startHubConnection(connection);
-        startDeviceHubConnection(deviceConnection,apiKey);
+        startDeviceHubConnection(deviceConnection, apiKey, name);
 
     </script>
 }

@@ -2,11 +2,10 @@
   "profiles": {
     "chdScoring.Main.WebServer": {
       "commandName": "Project",
-      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:65405;http://localhost:65406"
+      "applicationUrl": ""
     }
   }
 }

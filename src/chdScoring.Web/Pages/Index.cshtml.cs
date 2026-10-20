@@ -21,6 +21,7 @@ namespace chdScoring.Web.Pages
         public string FlightHubClientUrl => new UriBuilder($"{this._configuration.GetApiKey("chdScoringApi")}chdscoring/flight-hub").Uri.ToString();
         public string DeviceHubClientUrl => new UriBuilder($"{this._configuration.GetApiKey("chdScoringApi")}chdscoring/device-hub").Uri.ToString();
         public string ApiKey { get; }
+        public string Name { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public string Mode { get; set; }
@@ -42,9 +43,10 @@ namespace chdScoring.Web.Pages
             ApiKey = _apiKeyProvider.GetApiKey();
         }
 
-        public void OnGet(string? colorScheme = "light-mode")
+        public void OnGet(string? colorScheme = "light-mode", string name = "Web .NET View")
         {
             this.ViewData["ColorScheme"] = colorScheme;
+            this.Name = name;
         }
 
         public async Task<IActionResult> OnPostRenderTimer([FromBody] CurrentFlight dto)

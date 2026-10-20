@@ -2,6 +2,10 @@ const address = new URL(window.location.href);
 const apiKey = address.searchParams.get("apiKey");
 const server = address.searchParams.get("server");
 const url = "http://" + server + ":8081/chdscoring/";
+let name = address.searchParams.get("name");
+if (name == null || name == "") {
+    name = "Web View";
+}
 
 const deviceConnection = new signalR.HubConnectionBuilder()
     .withUrl(url + "device-hub", {
@@ -12,7 +16,7 @@ const deviceConnection = new signalR.HubConnectionBuilder()
     .build();
 
 deviceConnection.onclose(async () => {
-    await startDeviceHubConnection(deviceConnection);
+    await startDeviceHubConnection(deviceConnection, apiKey, name);
 });
 
 const connection = new signalR.HubConnectionBuilder()
@@ -28,5 +32,5 @@ connection.onclose(async () => {
 });
 
 // Start the connection.
-startDeviceHubConnection(deviceConnection, apiKey);
+startDeviceHubConnection(deviceConnection, apiKey, name);
 startHubConnection(connection);
