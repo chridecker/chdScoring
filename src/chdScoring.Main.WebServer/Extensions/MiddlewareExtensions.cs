@@ -6,6 +6,8 @@ namespace chdScoring.Main.WebServer.Extensions
     {
         public static IApplicationBuilder AddApiLogger(this IApplicationBuilder app)
         => app.UseMiddleware<ApiLoggingMiddleware>();
+        public static IApplicationBuilder AddDatabaseInterceptor(this IApplicationBuilder app)
+        => app.UseMiddleware<DatabaseMiddleware>();
 
     }
 }

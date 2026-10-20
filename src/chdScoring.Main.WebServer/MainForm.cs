@@ -356,5 +356,10 @@ namespace chdScoring.Main.WebServer
                 MessageBox.Show(this, $"Fehler beim Importieren der CSV: {ex.Message}", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void checkBoxDetailLog_CheckedChanged(object sender, EventArgs e)
+        {
+            _apiLogger.LogDetail = checkBoxDetailLog.Checked;
+        }
     }
 }

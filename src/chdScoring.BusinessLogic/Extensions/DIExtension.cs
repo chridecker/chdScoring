@@ -144,6 +144,7 @@ namespace chdScoring.BusinessLogic.Extensions
                 }
             }
 
+            services.Add(new ServiceDescriptor(typeof(IInterceptedDatabaseConfiguration), typeof(InterceptedDatabaseConfiguration), lifetime));
             services.Add(new ServiceDescriptor(typeof(IContextFactory<TContext>), typeof(ContextFactory<TContext>), lifetime));
             return services;
         }

@@ -60,6 +60,7 @@ app.UseRouting();
 
 app.UseCors("AllowLocalhost");
 app.AddApiLogger();
+app.AddDatabaseInterceptor();
 
 app.MapChdScoring();
 

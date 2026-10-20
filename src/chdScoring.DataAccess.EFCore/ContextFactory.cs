@@ -14,16 +14,26 @@ namespace chdScoring.DataAccess.EFCore
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IDatabaseConfiguration _databaseConfiguration;
+        private readonly IInterceptedDatabaseConfiguration _interceptedDatabaseConfiguration;
 
-        public ContextFactory(IServiceProvider serviceProvider, IDatabaseConfiguration databaseConfiguration)
+        public ContextFactory(IServiceProvider serviceProvider, IDatabaseConfiguration databaseConfiguration, IInterceptedDatabaseConfiguration interceptedDatabaseConfiguration)
         {
             this._serviceProvider = serviceProvider;
             this._databaseConfiguration = databaseConfiguration;
+            _interceptedDatabaseConfiguration = interceptedDatabaseConfiguration;
         }
 
         public TContext Create()
         {
-            var builder = this._serviceProvider.GetKeyedService<DbContextOptionsBuilder<TContext>>(this._databaseConfiguration.CurrentConnection);
+            var connection = this._databaseConfiguration.CurrentConnection;
+            if (!string.IsNullOrWhiteSpace(_interceptedDatabaseConfiguration.Name)
+                && _databaseConfiguration.GetConnections().Any(a => a.Name == _interceptedDatabaseConfiguration.Name))
+            {
+                connection = _interceptedDatabaseConfiguration.Name;
+
+            }
+
+            var builder = this._serviceProvider.GetKeyedService<DbContextOptionsBuilder<TContext>>(connection);
             return (TContext)Activator.CreateInstance(typeof(TContext), builder.Options);
         }
     }

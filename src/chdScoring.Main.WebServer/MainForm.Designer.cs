@@ -49,7 +49,6 @@
             dataGridViewDevices = new DataGridView();
             hostNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             apiKeyDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            platformDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             lastUpdateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             User = new DataGridViewTextBoxColumn();
             CurrentSite = new DataGridViewTextBoxColumn();
@@ -57,11 +56,10 @@
             batteryChargingDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             currentVersionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             currentLocalTimeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            platformDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             bindingSourceDevices = new BindingSource(components);
             tabPage4 = new TabPage();
             dataGridView1 = new DataGridView();
-            openFileDialogImportCsv = new OpenFileDialog();
-            bindingSourceApiKeys = new BindingSource(components);
             idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             keyDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             roleDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -69,6 +67,9 @@
             surnameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             lastnameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             redirectDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            bindingSourceApiKeys = new BindingSource(components);
+            openFileDialogImportCsv = new OpenFileDialog();
+            checkBoxDetailLog = new CheckBox();
             contextMenuStripSysTray.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -203,6 +204,7 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(checkBoxDetailLog);
             tabPage2.Controls.Add(button1);
             tabPage2.Controls.Add(textBoxWebLog);
             tabPage2.Location = new Point(4, 24);
@@ -269,19 +271,12 @@
             // 
             // apiKeyDataGridViewTextBoxColumn
             // 
+            apiKeyDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             apiKeyDataGridViewTextBoxColumn.DataPropertyName = "ApiKey";
             apiKeyDataGridViewTextBoxColumn.HeaderText = "X-ApiKey";
             apiKeyDataGridViewTextBoxColumn.Name = "apiKeyDataGridViewTextBoxColumn";
             apiKeyDataGridViewTextBoxColumn.ReadOnly = true;
-            apiKeyDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            // 
-            // platformDataGridViewTextBoxColumn
-            // 
-            platformDataGridViewTextBoxColumn.DataPropertyName = "Platform";
-            platformDataGridViewTextBoxColumn.HeaderText = "Platform";
-            platformDataGridViewTextBoxColumn.Name = "platformDataGridViewTextBoxColumn";
-            platformDataGridViewTextBoxColumn.ReadOnly = true;
-            platformDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            apiKeyDataGridViewTextBoxColumn.Width = 81;
             // 
             // lastUpdateDataGridViewTextBoxColumn
             // 
@@ -290,7 +285,7 @@
             lastUpdateDataGridViewTextBoxColumn.HeaderText = "LastUpdate";
             lastUpdateDataGridViewTextBoxColumn.Name = "lastUpdateDataGridViewTextBoxColumn";
             lastUpdateDataGridViewTextBoxColumn.ReadOnly = true;
-            lastUpdateDataGridViewTextBoxColumn.Width = 5;
+            lastUpdateDataGridViewTextBoxColumn.Width = 91;
             // 
             // User
             // 
@@ -338,7 +333,16 @@
             currentLocalTimeDataGridViewTextBoxColumn.HeaderText = "CurrentLocalTime";
             currentLocalTimeDataGridViewTextBoxColumn.Name = "currentLocalTimeDataGridViewTextBoxColumn";
             currentLocalTimeDataGridViewTextBoxColumn.ReadOnly = true;
-            currentLocalTimeDataGridViewTextBoxColumn.Width = 5;
+            currentLocalTimeDataGridViewTextBoxColumn.Width = 127;
+            // 
+            // platformDataGridViewTextBoxColumn
+            // 
+            platformDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            platformDataGridViewTextBoxColumn.DataPropertyName = "Platform";
+            platformDataGridViewTextBoxColumn.HeaderText = "Platform";
+            platformDataGridViewTextBoxColumn.Name = "platformDataGridViewTextBoxColumn";
+            platformDataGridViewTextBoxColumn.ReadOnly = true;
+            platformDataGridViewTextBoxColumn.Width = 78;
             // 
             // bindingSourceDevices
             // 
@@ -366,14 +370,6 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(1111, 520);
             dataGridView1.TabIndex = 0;
-            // 
-            // openFileDialogImportCsv
-            // 
-            openFileDialogImportCsv.FileName = "openFileDialogImportCsv";
-            // 
-            // bindingSourceApiKeys
-            // 
-            bindingSourceApiKeys.DataSource = typeof(Contracts.Dtos.ApiKeyDto);
             // 
             // idDataGridViewTextBoxColumn
             // 
@@ -416,6 +412,25 @@
             redirectDataGridViewTextBoxColumn.DataPropertyName = "Redirect";
             redirectDataGridViewTextBoxColumn.HeaderText = "Redirect";
             redirectDataGridViewTextBoxColumn.Name = "redirectDataGridViewTextBoxColumn";
+            // 
+            // bindingSourceApiKeys
+            // 
+            bindingSourceApiKeys.DataSource = typeof(Contracts.Dtos.ApiKeyDto);
+            // 
+            // openFileDialogImportCsv
+            // 
+            openFileDialogImportCsv.FileName = "openFileDialogImportCsv";
+            // 
+            // checkBoxDetailLog
+            // 
+            checkBoxDetailLog.AutoSize = true;
+            checkBoxDetailLog.Location = new Point(950, 32);
+            checkBoxDetailLog.Name = "checkBoxDetailLog";
+            checkBoxDetailLog.Size = new Size(79, 19);
+            checkBoxDetailLog.TabIndex = 2;
+            checkBoxDetailLog.Text = "Log Detail";
+            checkBoxDetailLog.UseVisualStyleBackColor = true;
+            checkBoxDetailLog.CheckedChanged += checkBoxDetailLog_CheckedChanged;
             // 
             // MainForm
             // 
@@ -483,5 +498,6 @@
         private DataGridViewTextBoxColumn surnameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn lastnameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn redirectDataGridViewTextBoxColumn;
+        private CheckBox checkBoxDetailLog;
     }
 }
