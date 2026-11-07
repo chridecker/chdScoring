@@ -27,6 +27,8 @@ jobs:
     env:
       BUILD_CONFIG: ${{ github.event.inputs.build_config }}
       SOLUTION: 'chdscoring.sln'
+      APP_PROJECT: 'src/chdScoring.App/chdScoring.App.csproj'
+      PACKAGE_NAME: 'com.chdscoring.app'
       
     runs-on: windows-latest
 
