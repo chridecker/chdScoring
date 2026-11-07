@@ -8,6 +8,11 @@ on:
         type: choice
         options: [Release, Debug]
         default: 'Release'
+      play_track:
+        description: 'Google Play Track'
+        type: choice
+        options: [internal, alpha, beta, production]
+        default: internal
       
 permissions:
   contents: write
