@@ -44,6 +44,9 @@ jobs:
    
     - name: Install Maui
       run: dotnet workload install maui 
+
+    - name: Restore dependencies
+      run: dotnet restore
            
     - name: Set Version
       shell: pwsh
