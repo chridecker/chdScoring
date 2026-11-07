@@ -13,6 +13,11 @@ on:
         type: choice
         options: [internal, alpha, beta, production]
         default: internal
+      play_status:
+        description: 'Google Play Status'
+        type: choice
+        options: [complete, draft]
+        default: draft
       
 permissions:
   contents: write
@@ -101,7 +106,7 @@ jobs:
         packageName: ${{ env.PACKAGE_NAME }}
         releaseFiles: release/*.aab
         track: ${{ inputs.play_track }}
-        status: completed        # "draft", falls die App in Play noch im Entwurfsstatus ist
+        status:  ${{ inputs.play_status }} # "completed"   "draft", falls die App in Play noch im Entwurfsstatus ist
 
      
         
