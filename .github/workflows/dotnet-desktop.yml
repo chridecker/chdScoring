@@ -77,14 +77,10 @@ jobs:
       shell: pwsh
       run: |
         New-Item -ItemType Directory -Force release | Out-Null
-        if ("${{ inputs.use_aab }}" -eq "true") {
-          $aab = Get-ChildItem -Recurse src -Filter *-Signed.aab | Where-Object { $_.FullName -match 'publish' } | Select-Object -First 1
-          Copy-Item $aab.FullName "release/chdScoring-${{ env.VERSION }}.aab"
-        }
-        if ("${{ inputs.use_apk }}" -eq "true") {
-          $apk = Get-ChildItem -Recurse src -Filter *.apk | Where-Object { $_.FullName -match 'publish' } | Select-Object -First 1
-          Copy-Item $apk.FullName "release/chdScoring-${{ env.VERSION }}.apk"
-        }
+        $aab = Get-ChildItem -Recurse src -Filter *-Signed.aab | Where-Object { $_.FullName -match 'publish' } | Select-Object -First 1
+        Copy-Item $aab.FullName "release/chdScoring-${{ env.VERSION }}.aab"
+        $apk = Get-ChildItem -Recurse src -Filter *.apk | Where-Object { $_.FullName -match 'publish' } | Select-Object -First 1
+        Copy-Item $apk.FullName "release/chdScoring-${{ env.VERSION }}.apk"
   
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
