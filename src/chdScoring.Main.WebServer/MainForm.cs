@@ -10,21 +10,22 @@ using System.Drawing.Printing;
 using System.Formats.Asn1;
 using System.Threading;
 using chdScoring.Contracts.Constants;
+using chd.Base.Hosting.Forms.Base;
+using chd.Base.Hosting.Contracts.Interfaces;
+using chd.Base.Hosting.Forms.Extensions;
 
 namespace chdScoring.Main.WebServer
 {
-    public partial class MainForm : Form
+    public partial class MainForm : BaseDiForm
     {
-        private readonly IApiLogger _apiLogger;
         private readonly IPrintCache _printCache;
-        private readonly IServiceProvider _serviceProvider;
         private readonly IDatabaseConfiguration _databaseConfiguration;
         private readonly IDeviceCacheService _deviceCacheService;
 
-        public MainForm(IApiLogger apiLogger, IDeviceCacheService deviceCacheService, IPrintCache printCache, IServiceProvider serviceProvider, IDatabaseConfiguration databaseConfiguration)
+        public MainForm(IModuleManager moduleManager, IDeviceCacheService deviceCacheService, IPrintCache printCache, IServiceProvider serviceProvider, IDatabaseConfiguration databaseConfiguration)
+        : base(moduleManager, serviceProvider)
         {
             this._databaseConfiguration = databaseConfiguration;
-            this._serviceProvider = serviceProvider;
             this._printCache = printCache;
             this._deviceCacheService = deviceCacheService;
 
@@ -42,8 +43,6 @@ namespace chdScoring.Main.WebServer
             this.comboBox1.SelectedValueChanged += this.ComboBox1_SelectedValueChanged;
 
             this.Resize += this.MainForm_Resize;
-            this._apiLogger = apiLogger;
-            this._apiLogger.LogAdded += this._apiLogger_LogAdded;
             this.checkBoxAutoPrint.Checked = this._printCache.AutoPrint;
             this._databaseConfiguration.ConnectionChanged += this._databaseConfiguration_ConnectionChanged;
             this._printCache.AutoPrintChanged += this._printCache_AutoPrintChanged;
@@ -54,22 +53,10 @@ namespace chdScoring.Main.WebServer
 
         }
 
-        //private async void BindingSourceApiKeys_CurrentChanged(object? sender, EventArgs e)
-        //{
-        //    if (sender is BindingSource bs
-        //       && bs.Current is ApiKeyDto apiKey)
-        //    {
-        //        using var scope = _serviceProvider.CreateScope();
-        //        var svc = scope.ServiceProvider.GetService<IApiKeyService>();
-        //        await svc.SaveAsync(apiKey, CancellationToken.None);
-        //    }
-        //}
-
         protected override async void OnShown(EventArgs e)
         {
             await ReloadApiKeys(CancellationToken.None);
             base.OnShown(e);
-            //bindingSourceApiKeys.CurrentItemChanged += BindingSourceApiKeys_CurrentChanged;
         }
 
         private async void DataGridViewDevices_CellMouseClick(object? sender, DataGridViewCellMouseEventArgs e)
@@ -182,8 +169,7 @@ namespace chdScoring.Main.WebServer
         {
             try
             {
-                using var scope = this._serviceProvider.CreateScope();
-                var hubContext = scope.ServiceProvider.GetRequiredService<IHubContext<DeviceHub, IDeviceHub>>();
+                var hubContext = this.GetService<IHubContext<DeviceHub, IDeviceHub>>();
                 await action(hubContext.Clients.Client(dto.ConnectionId));
             }
             catch (Exception ex)
@@ -222,19 +208,6 @@ namespace chdScoring.Main.WebServer
                 this._printCache.SetPrinter(cb.SelectedItem.ToString());
             }
         }
-
-        private void _apiLogger_LogAdded(object? sender, EventArgs e)
-        {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(() => this.textBoxWebLog.Text = this._apiLogger.Text);
-            }
-            else
-            {
-                this.textBoxWebLog.Text = this._apiLogger.Text;
-            }
-        }
-
         private void MainForm_Resize(object? sender, EventArgs e) => this.ShowHide(this.WindowState == FormWindowState.Minimized);
 
         private void schließenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -242,10 +215,6 @@ namespace chdScoring.Main.WebServer
 
         private void notifyIconMain_MouseDoubleClick(object sender, MouseEventArgs e) => this.ShowHide(false);
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this._apiLogger.Clear();
-        }
 
         private void öffnenToolStripMenuItem_Click(object sender, EventArgs e) => this.ShowHide(false);
         private void ShowHide(bool hide)
@@ -280,9 +249,8 @@ namespace chdScoring.Main.WebServer
                     this.comboBoxDataBase.SelectedItem = e;
                 }
             });
-            using var scope = this._serviceProvider.CreateScope();
-            await scope.ServiceProvider.GetRequiredService<IFlightCacheService>().Update(CancellationToken.None);
-            await scope.ServiceProvider.GetService<IHubDataService>().SendAll(CancellationToken.None);
+            await this.GetService<IFlightCacheService>().Update(CancellationToken.None);
+            await this.GetService<IHubDataService>().SendAll(CancellationToken.None);
 
             await ReloadApiKeys(CancellationToken.None);
         }
@@ -297,19 +265,8 @@ namespace chdScoring.Main.WebServer
 
         private async Task ReloadApiKeys(CancellationToken cancellationToken)
         {
-            using var scope = this._serviceProvider.CreateScope();
-            var svc = scope.ServiceProvider.GetService<IApiKeyService>();
-
-            if (this.InvokeRequired)
-            {
-                await this.InvokeAsync(async () => bindingSourceApiKeys.DataSource = await svc.GetAllAsync(cancellationToken), cancellationToken);
-            }
-            else
-            {
-                bindingSourceApiKeys.DataSource = await svc.GetAllAsync(cancellationToken);
-            }
-
-
+            var svc = this.GetService<IApiKeyService>();
+            this.TryInvoke(async () => bindingSourceApiKeys.DataSource = await svc.GetAllAsync(cancellationToken));
         }
 
 
@@ -317,10 +274,11 @@ namespace chdScoring.Main.WebServer
         {
             if (this.openFileDialogImportCsv.ShowDialog(this) != DialogResult.OK) { return; }
             using var fileStream = this.openFileDialogImportCsv.OpenFile();
-            using var reader = new CsvReader(new StreamReader(fileStream), System.Globalization.CultureInfo.InvariantCulture);
 
-            using var scope = this._serviceProvider.CreateScope();
-            var service = scope.ServiceProvider.GetRequiredService<IPilotService>();
+
+            using var reader = CsvReader.Create(fileStream);
+
+            var service = this.GetService<IPilotService>();
             var pilots = await service.GetAllPilots(CancellationToken.None);
             var countries = await service.GetCountries(CancellationToken.None);
             var pilotsCount = pilots.Any() ? pilots.Max(s => s.Id) : 0;
@@ -329,11 +287,11 @@ namespace chdScoring.Main.WebServer
             {
                 while (await reader.ReadAsync())
                 {
-                    var name = reader.GetField(1);
-                    var lastname = reader.GetField(2);
-                    var club = reader.GetField(4);
-                    var license = reader.GetField(5);
-                    var country = reader.GetField(3);
+                    var name = reader[1].ToString();
+                    var lastname = reader[2].ToString();
+                    var club = reader[4].ToString();
+                    var license = reader[5].ToString();
+                    var country = reader[3].ToString();
 
 
                     if (!await service.Add(new Contracts.Dtos.PilotDto
@@ -355,11 +313,6 @@ namespace chdScoring.Main.WebServer
             {
                 MessageBox.Show(this, $"Fehler beim Importieren der CSV: {ex.Message}", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void checkBoxDetailLog_CheckedChanged(object sender, EventArgs e)
-        {
-            _apiLogger.LogDetail = checkBoxDetailLog.Checked;
         }
     }
 }

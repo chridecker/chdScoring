@@ -19,7 +19,7 @@ namespace chdScoring.Main.WebServer.Services
 {
     public class ImportExecuteService : BackgroundService
     {
-        private readonly IApiLogger _apiLogger;
+        private readonly ILogger<ImportExecuteService> _logger;
         private readonly IServiceProvider _serviceProvider;
         private readonly IDatabaseConfiguration _databaseConfiguration;
         private readonly IPrintService _printService;
@@ -29,10 +29,10 @@ namespace chdScoring.Main.WebServer.Services
         private BlockingCollection<ImportRoundScoreDto> _importCollection = [];
         private Task _executer;
 
-        public ImportExecuteService(IApiLogger apiLogger, IServiceProvider serviceProvider, IDatabaseConfiguration databaseConfiguration, IPrintService printService,
+        public ImportExecuteService(ILogger<ImportExecuteService> logger, IServiceProvider serviceProvider, IDatabaseConfiguration databaseConfiguration, IPrintService printService,
             IOptionsMonitor<AppSettings> appSettings)
         {
-            _apiLogger = apiLogger;
+            this._logger = logger;
             this._serviceProvider = serviceProvider;
             this._databaseConfiguration = databaseConfiguration;
             this._printService = printService;
@@ -68,7 +68,7 @@ namespace chdScoring.Main.WebServer.Services
                 }
                 catch (Exception ex)
                 {
-                    await this._apiLogger.Log(ex.Message);
+                    this._logger.LogError(ex.Message);
                 }
                 await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
             }
@@ -94,7 +94,7 @@ namespace chdScoring.Main.WebServer.Services
                 }
                 catch (Exception ex)
                 {
-                    await this._apiLogger.Log(ex.Message);
+                    this._logger.LogError(ex.Message);
                 }
             }
         }

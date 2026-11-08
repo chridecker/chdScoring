@@ -1,16 +1,9 @@
-using chdScoring.BusinessLogic.Extensions;
 using chdScoring.Main.WebServer;
-using Microsoft.Extensions.Configuration;
-using WindowsFormsLifetime;
 using NLog.Web;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
-using chdScoring.Main.WebServer.Services;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using chdScoring.Main.WebServer.Extensions;
-using chd.Api.Base.Extensions;
-using chdScoring.BusinessLogic.Hubs;
+using chd.Base.Hosting.Forms;
+using chd.Base.Hosting.Extensions;
+using chdScoring.Main.WebServer.Modules;
+using chdScoring.BusinessLogic.Extensions;
 
 
 //Microsoft.Playwright.Program.Main(["install"]);
@@ -24,54 +17,18 @@ var path = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
 
 var config = new ConfigurationBuilder().AddJsonFile(path).Build();
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = DiFormHost.CreateApplicationBuilder<MainForm>(args);
+
 builder.Configuration.AddJsonFile(path, false, true);
-builder.Logging.ClearProviders();
 builder.Logging.AddNLogWeb();
 
-builder.WebHost.UseUrls(config.GetValue<string>("BaseAddress"));
+builder.AddModuleManager().AddModule<ServerModule>();
 
-builder.Host.UseWindowsFormsLifetime<MainForm>();
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowLocalhost", policy =>
-    {
-        policy.SetIsOriginAllowed(_ => true)
-                .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials(); // wichtig für SignalR
-    });
-});
-
-
-builder.Services.AddBaseApi();
-builder.Services.AddApiKeyAuth<ApiKeyHandler>();
 builder.Services.AddchdScoringDataAccess(builder.Configuration);
-builder.Services.AddHostedService<PrintExecuteService>();
-builder.Services.AddHostedService<ImportExecuteService>();
-builder.Services.AddHostedService<chdScoringService>();
 
 
-builder.Services.AddSignalR();
 
 var app = builder.Build();
-app.UseRouting();
-
-app.UseCors("AllowLocalhost");
-app.AddApiLogger();
-app.AddDatabaseInterceptor();
-
-app.MapChdScoring();
-
-app.UseBaseApi();
-app.MapBaseApi("chdScoringAPI");
-app.MapHub<FlightHub>("/chdScoring/flight-hub").RequireSignalRKeyAuth();
-app.MapHub<DeviceHub>("/chdScoring/device-hub").RequireSignalRKeyAuth();
-
-app.UseAuthorization();
-
-
 app.Run();
 
 

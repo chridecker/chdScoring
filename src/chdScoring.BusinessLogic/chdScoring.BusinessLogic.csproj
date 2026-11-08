@@ -9,9 +9,8 @@
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
   <ItemGroup>
-    <PackageReference Include="chd.Api.Base.Contracts" Version="2.0.26309.211" />
-    <PackageReference Include="chd.Hub.Base.Server" Version="2.0.26309.211" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" />
+    <PackageReference Include="chd.Api.Base.Contracts" Version="2.0.26312.213" />
+    <PackageReference Include="chd.Hub.Base.Server" Version="2.0.26312.213" />
   </ItemGroup>
 
   <ItemGroup>

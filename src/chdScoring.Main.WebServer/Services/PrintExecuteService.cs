@@ -17,12 +17,12 @@ namespace chdScoring.Main.WebServer.Services
     public class PrintExecuteService : BackgroundService
     {
         private readonly IPrintCache _printCache;
-        private readonly IApiLogger _logger;
+        private readonly ILogger _logger;
         private readonly IDatabaseConfiguration _databaseConfiguration;
         private string _folder;
 
 
-        public PrintExecuteService(IPrintCache printCache, IApiLogger logger, IDatabaseConfiguration databaseConfiguration)
+        public PrintExecuteService(IPrintCache printCache, ILogger<PrintExecuteService> logger, IDatabaseConfiguration databaseConfiguration)
         {
             this._printCache = printCache;
             this._logger = logger;
@@ -64,7 +64,7 @@ namespace chdScoring.Main.WebServer.Services
                 }
                 catch (Exception ex)
                 {
-                    await this._logger.Log(ex.Message);
+                    this._logger.LogError(ex.Message);
                 }
 
                 await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
@@ -139,7 +139,7 @@ namespace chdScoring.Main.WebServer.Services
             }
             catch (Exception ex)
             {
-                this._logger?.Log(ex.Message);
+                this._logger?.LogError(ex.Message);
                 return false;
             }
         }

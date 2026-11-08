@@ -35,9 +35,8 @@ namespace chdScoring.BusinessLogic.Extensions
             services.Configure<DBSettings>(nameof(EDBConnection.SQLite), configuration.GetSection($"{nameof(DBSettings)}:{nameof(EDBConnection.SQLite)}"));
 
             services.AddSingleton<IPrintCache, PrintCache>();
-            services.AddSingleton<IApiLogger, ApiLogger>();
-            services.AddSingleton<IFlightCacheService, FlightCacheService>();
             services.AddSingleton<IDeviceCacheService, DeviceCacheService>();
+            services.AddSingleton<IFlightCacheService, FlightCacheService>();
 
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IDataImportService, DataImportService>();
