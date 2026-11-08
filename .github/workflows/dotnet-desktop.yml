@@ -16,7 +16,7 @@ on:
       play_status:
         description: 'Google Play Status'
         type: choice
-        options: [complete, draft]
+        options: [completed, draft]
         default: draft
       
 permissions:
