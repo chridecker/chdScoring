@@ -1,14 +1,17 @@
-﻿using chd.Api.Base.Client.Extensions;
+﻿using System.Reflection;
+using chd.Api.Base.Client.Extensions;
 using chd.Base.Hosting.Contracts.Settings;
 using chd.Base.Hosting.Modules;
 using chdScoring.Contracts.Settings;
 using chdScoring.Main.Client.Extensions;
+using chdScoring.Web.Pages;
 using chdScoring.Web.Services;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 
 namespace chdScoring.Main.WebServer.Modules
 {
-    public class WebModule(IOptionsMonitor<WebModuleSettings> optionsMonitor) : BaseWebModule<WebModuleSettings>(optionsMonitor)
+    public class WebModule(IOptionsMonitor<RclModuleSettings> optionsMonitor) : BaseRclModule<RclModuleSettings>(optionsMonitor)
     {
         protected override void ConfigureModuleLogging(ILoggingBuilder logging, IServiceProvider appServices)
         {
@@ -34,18 +37,12 @@ namespace chdScoring.Main.WebServer.Modules
             services.AddChdScoringClient<ApiKeyProvider>(configuration, sp => new Uri(sp.GetService<IOptionsMonitor<AppSettings>>().CurrentValue.LocalApiUrl));
             services.AddSingleton<ImageCache>();
             services.AddSingleton<IconStyleService>(_ => new IconStyleService() { IconStyle = chd.UI.Base.Contracts.Enum.EIconStyle.Regular });
-            services.AddRazorPages();
         }
 
         protected override void ConfigureWebModule(WebApplication app)
         {
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.MapStaticAssets();
-            app.MapRazorPages()
-               .WithStaticAssets();
         }
+
+        protected override Assembly RclAssembly => typeof(IndexModel).Assembly;
     }
 }

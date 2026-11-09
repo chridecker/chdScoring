@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - chdScoring.Web</title>
     <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/chdScoring.Web.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="_content/chdScoring.Web/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="_content/chdScoring.Web/lib/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="_content/chdScoring.Web/css/site.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="_content/chdScoring.Web/chdScoring.Web.styles.css" asp-append-version="true" /> *@
+    <link rel="stylesheet" href="~/_content/chdScoring.Web/chdScoring.Web.bundle.scp.css" asp-append-version="true" />
 </head>
 <body>
     @RenderBody()
 
-    <script src="~/lib/signalR/signalR.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/fontawesome/js/all.min.js" asp-append-version="true"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="_content/chdScoring.Web/lib/signalR/signalR.min.js"></script>
+    <script src="_content/chdScoring.Web/lib/jquery/dist/jquery.min.js"></script>
+    <script src="_content/chdScoring.Web/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="_content/chdScoring.Web/lib/fontawesome/js/all.min.js" asp-append-version="true"></script>
+    <script src="_content/chdScoring.Web/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
