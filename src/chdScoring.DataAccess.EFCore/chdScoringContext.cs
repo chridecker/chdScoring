@@ -14,10 +14,17 @@ namespace chdScoring.DataAccess.EFCore
                 builder.Property(p => p.Redirect).IsRequired(false);
             });
 
+            modelBuilder.Entity<Bewerb>(builder => { builder.ToTable("bewerb").HasKey(x => x.Id); });
+            modelBuilder.Entity<Judge>(builder => { builder.ToTable("judge").HasKey(x => x.Id); });
+            modelBuilder.Entity<Figur>(builder => { builder.ToTable("figur").HasKey(x => x.Id); });
+            modelBuilder.Entity<Programm>(builder => { builder.ToTable("programm").HasKey(x => x.Id); });
+            modelBuilder.Entity<Stammdaten>(builder => { builder.ToTable("stammdaten").HasKey(x => x.Id); });
+
             modelBuilder.Entity<Round>(builder =>
             {
                 builder.ToTable("durchgang").HasKey(x => new { x.Teilnehmer, x.Durchgang });
             });
+            modelBuilder.Entity<Durchgang_Airfield>().HasKey(x => new { x.Airfield, x.Durchgang });
             modelBuilder.Entity<Durchgang_Panel>().HasKey(x => new { x.Panel, x.Durchgang });
             modelBuilder.Entity<Durchgang_Programm>(builder =>
             {
