@@ -1,9 +1,14 @@
-using chdScoring.Main.WebServer;
-using NLog.Web;
-using chd.Base.Hosting.Forms;
 using chd.Base.Hosting.Extensions;
-using chdScoring.Main.WebServer.Modules;
+using chd.Base.Hosting.Forms;
 using chdScoring.BusinessLogic.Extensions;
+using chdScoring.BusinessLogic.Services;
+using chdScoring.Contracts.Enums;
+using chdScoring.Contracts.Interfaces;
+using chdScoring.Contracts.Settings;
+using chdScoring.Main.WebServer;
+using chdScoring.Main.WebServer.Modules;
+using NLog.Web;
+using System.Configuration;
 
 
 //Microsoft.Playwright.Program.Main(["install"]);
@@ -20,13 +25,19 @@ var config = new ConfigurationBuilder().AddJsonFile(path).Build();
 var builder = DiFormHost.CreateApplicationBuilder<MainForm>(args);
 
 builder.Configuration.AddJsonFile(path, false, true);
+
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection(nameof(AppSettings)));
+
 builder.Logging.AddNLogWeb();
 
 builder.AddModuleManager().AddModule<ServerModule>();
 
-builder.Services.AddchdScoringDataAccess(builder.Configuration);
+builder.Services.Configure<DBSettings>(nameof(EDBConnection.MySql), builder.Configuration.GetSection($"{nameof(DBSettings)}:{nameof(EDBConnection.MySql)}"));
+builder.Services.Configure<DBSettings>(nameof(EDBConnection.SQLite), builder.Configuration.GetSection($"{nameof(DBSettings)}:{nameof(EDBConnection.SQLite)}"));
 
-
+builder.Services.AddSingleton<IPrintCache, PrintCache>();
+builder.Services.AddSingleton<IDatabaseConfiguration, DatabaseConfiguration>();
+builder.Services.AddSingleton<IDeviceCacheService, DeviceCacheService>();
 
 var app = builder.Build();
 app.Run();

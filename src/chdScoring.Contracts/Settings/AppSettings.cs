@@ -9,5 +9,7 @@ namespace chdScoring.Contracts.Settings
 
         public string ImportDirectory { get; set; }
         public string RoundScorePrintUrl { get; set; }
+
+        public string ApiKey { get; set; }
     }
 }

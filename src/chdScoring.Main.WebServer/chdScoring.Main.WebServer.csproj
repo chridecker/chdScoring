@@ -19,8 +19,8 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="chd.Api.Base" Version="2.0.26312.213" />
-		<PackageReference Include="chd.Base.Hosting.Forms" Version="2.0.26312.213" />
+		<PackageReference Include="chd.Api.Base" Version="2.0.26313.215" />
+		<PackageReference Include="chd.Base.Hosting.Forms" Version="2.0.26313.215" />
 		<PackageReference Include="CsvHelper" Version="34.0.0" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" />
 		<PackageReference Include="NLog.Web.AspNetCore" Version="6.2.2" />

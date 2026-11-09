@@ -36,6 +36,11 @@
             this.schließenToolStripMenuItem = new ToolStripMenuItem();
             this.tabControl1 = new TabControl();
             this.tabPage1 = new TabPage();
+            this.groupBoxAppSettings = new GroupBox();
+            this.textBoxRounPrintUrl = new TextBox();
+            this.label6 = new Label();
+            this.textBoxDefaultApiKey = new TextBox();
+            this.label3 = new Label();
             this.webModuleControlServer = new chd.Base.Hosting.Forms.Controls.WebModuleControl();
             this.buttonImportCsv = new Button();
             this.checkBoxAutoPrint = new CheckBox();
@@ -58,26 +63,16 @@
             this.currentLocalTimeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             this.platformDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             this.bindingSourceDevices = new BindingSource(this.components);
-            this.tabPage4 = new TabPage();
-            this.dataGridView1 = new DataGridView();
-            this.idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            this.keyDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            this.roleDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            this.judgeIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            this.surnameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            this.lastnameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            this.redirectDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             this.bindingSourceApiKeys = new BindingSource(this.components);
             this.openFileDialogImportCsv = new OpenFileDialog();
             this.contextMenuStripSysTray.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBoxAppSettings.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)this.dataGridViewDevices).BeginInit();
             ((System.ComponentModel.ISupportInitialize)this.bindingSourceDevices).BeginInit();
-            this.tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)this.dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)this.bindingSourceApiKeys).BeginInit();
             this.SuspendLayout();
             // 
@@ -118,7 +113,6 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Dock = DockStyle.Fill;
             this.tabControl1.Location = new Point(0, 0);
             this.tabControl1.Margin = new Padding(3, 4, 3, 4);
@@ -129,6 +123,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.groupBoxAppSettings);
             this.tabPage1.Controls.Add(this.webModuleControlServer);
             this.tabPage1.Controls.Add(this.buttonImportCsv);
             this.tabPage1.Controls.Add(this.checkBoxAutoPrint);
@@ -144,6 +139,53 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Settings";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxAppSettings
+            // 
+            this.groupBoxAppSettings.Controls.Add(this.textBoxRounPrintUrl);
+            this.groupBoxAppSettings.Controls.Add(this.label6);
+            this.groupBoxAppSettings.Controls.Add(this.textBoxDefaultApiKey);
+            this.groupBoxAppSettings.Controls.Add(this.label3);
+            this.groupBoxAppSettings.Location = new Point(624, 26);
+            this.groupBoxAppSettings.Name = "groupBoxAppSettings";
+            this.groupBoxAppSettings.Size = new Size(515, 129);
+            this.groupBoxAppSettings.TabIndex = 7;
+            this.groupBoxAppSettings.TabStop = false;
+            this.groupBoxAppSettings.Text = "chdScoring";
+            // 
+            // textBoxRounPrintUrl
+            // 
+            this.textBoxRounPrintUrl.Location = new Point(163, 81);
+            this.textBoxRounPrintUrl.Name = "textBoxRounPrintUrl";
+            this.textBoxRounPrintUrl.Size = new Size(325, 35);
+            this.textBoxRounPrintUrl.TabIndex = 7;
+            this.textBoxRounPrintUrl.TextChanged += this.textBoxRounPrintUrl_TextChanged;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new Point(6, 81);
+            this.label6.Name = "label6";
+            this.label6.Size = new Size(154, 30);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Round Print Url";
+            // 
+            // textBoxDefaultApiKey
+            // 
+            this.textBoxDefaultApiKey.Location = new Point(163, 40);
+            this.textBoxDefaultApiKey.Name = "textBoxDefaultApiKey";
+            this.textBoxDefaultApiKey.Size = new Size(325, 35);
+            this.textBoxDefaultApiKey.TabIndex = 1;
+            this.textBoxDefaultApiKey.TextChanged += this.textBoxDefaultApiKey_TextChanged;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new Point(6, 40);
+            this.label3.Name = "label3";
+            this.label3.Size = new Size(151, 30);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Default ApiKey";
             // 
             // webModuleControlServer
             // 
@@ -368,88 +410,6 @@
             // 
             this.bindingSourceDevices.DataSource = typeof(Contracts.Dtos.DeviceStatusDto);
             // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.dataGridView1);
-            this.tabPage4.Location = new Point(4, 39);
-            this.tabPage4.Margin = new Padding(5, 6, 5, 6);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new Padding(5, 6, 5, 6);
-            this.tabPage4.Size = new Size(1921, 1065);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Api-Keys";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AutoGenerateColumns = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new DataGridViewColumn[] { this.idDataGridViewTextBoxColumn, this.keyDataGridViewTextBoxColumn, this.roleDataGridViewTextBoxColumn, this.judgeIdDataGridViewTextBoxColumn, this.surnameDataGridViewTextBoxColumn, this.lastnameDataGridViewTextBoxColumn, this.redirectDataGridViewTextBoxColumn });
-            this.dataGridView1.DataSource = this.bindingSourceApiKeys;
-            this.dataGridView1.Dock = DockStyle.Fill;
-            this.dataGridView1.Location = new Point(5, 6);
-            this.dataGridView1.Margin = new Padding(5, 6, 5, 6);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 72;
-            this.dataGridView1.Size = new Size(1911, 1053);
-            this.dataGridView1.TabIndex = 0;
-            // 
-            // idDataGridViewTextBoxColumn
-            // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
-            this.idDataGridViewTextBoxColumn.MinimumWidth = 9;
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            this.idDataGridViewTextBoxColumn.Width = 175;
-            // 
-            // keyDataGridViewTextBoxColumn
-            // 
-            this.keyDataGridViewTextBoxColumn.DataPropertyName = "Key";
-            this.keyDataGridViewTextBoxColumn.HeaderText = "Key";
-            this.keyDataGridViewTextBoxColumn.MinimumWidth = 9;
-            this.keyDataGridViewTextBoxColumn.Name = "keyDataGridViewTextBoxColumn";
-            this.keyDataGridViewTextBoxColumn.Width = 175;
-            // 
-            // roleDataGridViewTextBoxColumn
-            // 
-            this.roleDataGridViewTextBoxColumn.DataPropertyName = "Role";
-            this.roleDataGridViewTextBoxColumn.HeaderText = "Role";
-            this.roleDataGridViewTextBoxColumn.MinimumWidth = 9;
-            this.roleDataGridViewTextBoxColumn.Name = "roleDataGridViewTextBoxColumn";
-            this.roleDataGridViewTextBoxColumn.Width = 175;
-            // 
-            // judgeIdDataGridViewTextBoxColumn
-            // 
-            this.judgeIdDataGridViewTextBoxColumn.DataPropertyName = "JudgeId";
-            this.judgeIdDataGridViewTextBoxColumn.HeaderText = "JudgeId";
-            this.judgeIdDataGridViewTextBoxColumn.MinimumWidth = 9;
-            this.judgeIdDataGridViewTextBoxColumn.Name = "judgeIdDataGridViewTextBoxColumn";
-            this.judgeIdDataGridViewTextBoxColumn.Width = 175;
-            // 
-            // surnameDataGridViewTextBoxColumn
-            // 
-            this.surnameDataGridViewTextBoxColumn.DataPropertyName = "Surname";
-            this.surnameDataGridViewTextBoxColumn.HeaderText = "Surname";
-            this.surnameDataGridViewTextBoxColumn.MinimumWidth = 9;
-            this.surnameDataGridViewTextBoxColumn.Name = "surnameDataGridViewTextBoxColumn";
-            this.surnameDataGridViewTextBoxColumn.Width = 175;
-            // 
-            // lastnameDataGridViewTextBoxColumn
-            // 
-            this.lastnameDataGridViewTextBoxColumn.DataPropertyName = "Lastname";
-            this.lastnameDataGridViewTextBoxColumn.HeaderText = "Lastname";
-            this.lastnameDataGridViewTextBoxColumn.MinimumWidth = 9;
-            this.lastnameDataGridViewTextBoxColumn.Name = "lastnameDataGridViewTextBoxColumn";
-            this.lastnameDataGridViewTextBoxColumn.Width = 175;
-            // 
-            // redirectDataGridViewTextBoxColumn
-            // 
-            this.redirectDataGridViewTextBoxColumn.DataPropertyName = "Redirect";
-            this.redirectDataGridViewTextBoxColumn.HeaderText = "Redirect";
-            this.redirectDataGridViewTextBoxColumn.MinimumWidth = 9;
-            this.redirectDataGridViewTextBoxColumn.Name = "redirectDataGridViewTextBoxColumn";
-            this.redirectDataGridViewTextBoxColumn.Width = 175;
-            // 
             // bindingSourceApiKeys
             // 
             this.bindingSourceApiKeys.DataSource = typeof(Contracts.Dtos.ApiKeyDto);
@@ -472,12 +432,12 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.groupBoxAppSettings.ResumeLayout(false);
+            this.groupBoxAppSettings.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)this.dataGridViewDevices).EndInit();
             ((System.ComponentModel.ISupportInitialize)this.bindingSourceDevices).EndInit();
-            this.tabPage4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)this.dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)this.bindingSourceApiKeys).EndInit();
             this.ResumeLayout(false);
         }
@@ -511,17 +471,13 @@
         private DataGridViewTextBoxColumn batteryChargingDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn currentVersionDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn currentLocalTimeDataGridViewTextBoxColumn;
-        private TabPage tabPage4;
-        private DataGridView dataGridView1;
         private BindingSource bindingSourceApiKeys;
-        private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn keyDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn roleDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn judgeIdDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn surnameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn lastnameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn redirectDataGridViewTextBoxColumn;
         private chd.Base.Hosting.Forms.Controls.WebModuleControl webModuleControlServer;
         private chd.Base.Hosting.Forms.Controls.ChannelLogControl channelLogControl1;
+        private GroupBox groupBoxAppSettings;
+        private TextBox textBoxDefaultApiKey;
+        private Label label3;
+        private TextBox textBoxRounPrintUrl;
+        private Label label6;
     }
 }

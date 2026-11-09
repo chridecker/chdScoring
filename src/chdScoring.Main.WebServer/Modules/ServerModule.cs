@@ -33,7 +33,7 @@ namespace chdScoring.Main.WebServer.Modules
 
             services.AddBaseApi();
             services.AddApiKeyAuth<ApiKeyHandler>();
-            services.AddchdScoringDataAccess(configuration);
+            services.AddchdScoringDataAccess(configuration,appServices);
             services.AddHostedService<PrintExecuteService>();
             services.AddHostedService<ImportExecuteService>();
             services.AddHostedService<chdScoringService>();

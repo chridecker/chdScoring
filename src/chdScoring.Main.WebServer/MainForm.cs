@@ -13,6 +13,10 @@ using chdScoring.Contracts.Constants;
 using chd.Base.Hosting.Forms.Base;
 using chd.Base.Hosting.Contracts.Interfaces;
 using chd.Base.Hosting.Forms.Extensions;
+using chdScoring.Main.WebServer.Modules;
+using chdScoring.Main.WebServer.Utils;
+using chdScoring.Contracts.Settings;
+using Microsoft.Extensions.Options;
 
 namespace chdScoring.Main.WebServer
 {
@@ -30,6 +34,11 @@ namespace chdScoring.Main.WebServer
             this._deviceCacheService = deviceCacheService;
 
             InitializeComponent();
+            var appSettings = this.GetService<IOptionsMonitor<AppSettings>>().CurrentValue;
+
+            this.textBoxDefaultApiKey.Text = appSettings.ApiKey;
+            this.textBoxRounPrintUrl.Text = appSettings.RoundScorePrintUrl;
+
 
             this._printCache.SetPrinter(PrinterSettings.InstalledPrinters[0]);
 
@@ -53,16 +62,12 @@ namespace chdScoring.Main.WebServer
 
         }
 
-        protected override async void OnShown(EventArgs e)
-        {
-            await ReloadApiKeys(CancellationToken.None);
-            base.OnShown(e);
-        }
-
         private async void DataGridViewDevices_CellMouseClick(object? sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button != MouseButtons.Right || e.RowIndex < 0)
+            {
                 return;
+            }
 
             // Zeile selektieren
             dataGridViewDevices.ClearSelection();
@@ -71,123 +76,17 @@ namespace chdScoring.Main.WebServer
 
             // Current aus dem Binding holen
             if (bindingSourceDevices.Current is not DeviceStatusDto item)
+            {
                 return;
-
-            var menu = new ContextMenuStrip();
-
-            var gotToMenu = new ToolStripMenuItem("Go To");
-            foreach (var route in ClientRouteConstants.GetConstants())
-            {
-                gotToMenu.DropDownItems.Add(route.Name, null, async (_, _) =>
-                {
-                    await SendRedirect(item, route.Value.ToString());
-                });
-            }
-            menu.Items.Add(gotToMenu);
-
-            var autoRedirectMenu = new ToolStripMenuItem("Auto Redirect");
-            foreach (var route in ClientRouteConstants.GetConstants())
-            {
-                autoRedirectMenu.DropDownItems.Add(route.Name, null, async (_, _) =>
-                {
-                    await SendAutoRedirect(item, route.Value.ToString());
-                });
-            }
-            autoRedirectMenu.DropDownItems.Add("Clear", null, async (_, _) =>
-            {
-                await SendAutoRedirect(item, string.Empty);
-            });
-
-            menu.Items.Add(autoRedirectMenu);
-
-            var setZoomMenu = new ToolStripMenuItem("Zoom");
-
-            foreach (var val in new List<int> { 50, 60, 75, 80, 90, 100, 110, 125, 150, 200 }) // 50 to 200
-            {
-                setZoomMenu.DropDownItems.Add($"{val}%", null, async (_, _) =>
-                {
-                    await SetZoom(item, val);
-                });
             }
 
-            menu.Items.Add(setZoomMenu);
-
-
-            menu.Items.Add("Toggle Theme", null, async (_, _) =>
-            {
-                await SendToggleTheme(item);
-            });
-            menu.Items.Add("Beep", null, async (_, _) =>
-            {
-                await SendIdentify(item);
-            });
-
-            menu.Items.Add("Restart", null, async (_, _) =>
-            {
-                await SendShutdown(item, true);
-            });
-
-
-
-            menu.Show(Cursor.Position);
+            await _moduleManager.HandleListContextMenu(item);
         }
 
-        private Task SendToggleTheme(DeviceStatusDto dto)
-            => SendDeviceHub(async c =>
-            {
-                await c.ToggleTheme(dto);
-            }, dto);
-        private Task SendIdentify(DeviceStatusDto dto)
-            => SendDeviceHub(async c =>
-            {
-                await c.Identify(dto);
-            }, dto);
-
-        private Task SendShutdown(DeviceStatusDto dto, bool restart)
-            => SendDeviceHub(async c =>
-            {
-                await c.ShutDown(dto, restart);
-            }, dto);
-        private Task SendRedirect(DeviceStatusDto dto, string route)
-            => SendDeviceHub(async c =>
-            {
-                await c.NavigateTo(dto, route);
-            }, dto);
-
-        private Task SendAutoRedirect(DeviceStatusDto dto, string route)
-            => SendDeviceHub(async c =>
-            {
-                await c.SetAutoRedirect(dto, route);
-            }, dto);
-
-        private Task SetZoom(DeviceStatusDto dto, int zoom)
-            => SendDeviceHub(async c =>
-            {
-                await c.SetZoom(dto, zoom);
-            }, dto);
-        private async Task SendDeviceHub(Func<IDeviceHub, Task> action, DeviceStatusDto dto)
-        {
-            try
-            {
-                var hubContext = this.GetService<IHubContext<DeviceHub, IDeviceHub>>();
-                await action(hubContext.Clients.Client(dto.ConnectionId));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString(), "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         private void _deviceCacheService_DeviceStatusChanged(object? sender, EventArgs e)
         {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(() => this.bindingSourceDevices.DataSource = _deviceCacheService.GetAll());
-            }
-            else
-            {
-                this.bindingSourceDevices.DataSource = _deviceCacheService.GetAll();
-            }
+            this.TryInvoke(() => this.bindingSourceDevices.DataSource = _deviceCacheService.GetAll());
         }
 
         private void _printCache_AutoPrintChanged(object? sender, bool e)
@@ -215,7 +114,6 @@ namespace chdScoring.Main.WebServer
 
         private void notifyIconMain_MouseDoubleClick(object sender, MouseEventArgs e) => this.ShowHide(false);
 
-
         private void öffnenToolStripMenuItem_Click(object sender, EventArgs e) => this.ShowHide(false);
         private void ShowHide(bool hide)
         {
@@ -242,17 +140,15 @@ namespace chdScoring.Main.WebServer
         }
         private async void _databaseConfiguration_ConnectionChanged(object? sender, string e)
         {
-            this.Invoke(() =>
+            this.TryInvoke(() =>
             {
                 if (this.comboBoxDataBase.SelectedItem != e)
                 {
                     this.comboBoxDataBase.SelectedItem = e;
                 }
             });
-            await this.GetService<IFlightCacheService>().Update(CancellationToken.None);
-            await this.GetService<IHubDataService>().SendAll(CancellationToken.None);
-
-            await ReloadApiKeys(CancellationToken.None);
+            await this._moduleManager.GetModuleService<IFlightCacheService>(nameof(ServerModule)).Update(CancellationToken.None);
+            await this._moduleManager.GetModuleService<IHubDataService>(nameof(ServerModule)).SendAll(CancellationToken.None);
         }
 
         private void checkBoxAutoPrint_CheckedChanged(object sender, EventArgs e)
@@ -263,55 +159,28 @@ namespace chdScoring.Main.WebServer
             }
         }
 
-        private async Task ReloadApiKeys(CancellationToken cancellationToken)
-        {
-            var svc = this.GetService<IApiKeyService>();
-            this.TryInvoke(async () => bindingSourceApiKeys.DataSource = await svc.GetAllAsync(cancellationToken));
-        }
-
 
         private async void buttonImportCsv_Click(object sender, EventArgs e)
         {
             if (this.openFileDialogImportCsv.ShowDialog(this) != DialogResult.OK) { return; }
             using var fileStream = this.openFileDialogImportCsv.OpenFile();
 
+            await _moduleManager.ImportPilots(this, fileStream, CancellationToken.None);
+        }
 
-            using var reader = CsvReader.Create(fileStream);
-
-            var service = this.GetService<IPilotService>();
-            var pilots = await service.GetAllPilots(CancellationToken.None);
-            var countries = await service.GetCountries(CancellationToken.None);
-            var pilotsCount = pilots.Any() ? pilots.Max(s => s.Id) : 0;
-
-            try
+        private void textBoxDefaultApiKey_TextChanged(object sender, EventArgs e)
+        {
+            if (sender is TextBox tB)
             {
-                while (await reader.ReadAsync())
-                {
-                    var name = reader[1].ToString();
-                    var lastname = reader[2].ToString();
-                    var club = reader[4].ToString();
-                    var license = reader[5].ToString();
-                    var country = reader[3].ToString();
-
-
-                    if (!await service.Add(new Contracts.Dtos.PilotDto
-                    {
-                        Id = ++pilotsCount,
-                        Firstname = name,
-                        Lastname = lastname,
-                        Club = club,
-                        License = license,
-                        CountryId = countries.FirstOrDefault(c => c.Name == country)?.Id ?? 0,
-                    }, CancellationToken.None))
-                    {
-                        MessageBox.Show(this, $"Fehler beim Importieren der CSV: Pilot {name} {lastname} konnte nicht hinzugefügt werden.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-                }
+                _moduleManager.SetCustom<AppSettings, string>(x => x.ApiKey, tB.Text, nameof(ServerModule));
             }
-            catch (Exception ex)
+        }
+
+        private void textBoxRounPrintUrl_TextChanged(object sender, EventArgs e)
+        {
+            if (sender is TextBox tB)
             {
-                MessageBox.Show(this, $"Fehler beim Importieren der CSV: {ex.Message}", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _moduleManager.SetCustom<AppSettings, string>(x => x.RoundScorePrintUrl, tB.Text, nameof(ServerModule));
             }
         }
     }
