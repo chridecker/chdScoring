@@ -11,5 +11,6 @@ namespace chdScoring.Contracts.Settings
         public string RoundScorePrintUrl { get; set; }
 
         public string ApiKey { get; set; }
+        public string LocalApiUrl { get; set; }
     }
 }

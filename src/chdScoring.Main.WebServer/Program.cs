@@ -30,7 +30,7 @@ builder.Services.Configure<AppSettings>(builder.Configuration.GetSection(nameof(
 
 builder.Logging.AddNLogWeb();
 
-builder.AddModuleManager().AddModule<ServerModule>();
+builder.AddModuleManager().AddModule<ServerModule>().AddModule<WebModule>();
 
 builder.Services.Configure<DBSettings>(nameof(EDBConnection.MySql), builder.Configuration.GetSection($"{nameof(DBSettings)}:{nameof(EDBConnection.MySql)}"));
 builder.Services.Configure<DBSettings>(nameof(EDBConnection.SQLite), builder.Configuration.GetSection($"{nameof(DBSettings)}:{nameof(EDBConnection.SQLite)}"));

@@ -36,7 +36,10 @@
             this.schließenToolStripMenuItem = new ToolStripMenuItem();
             this.tabControl1 = new TabControl();
             this.tabPage1 = new TabPage();
+            this.webModuleControlWeb = new chd.Base.Hosting.Forms.Controls.WebModuleControl();
             this.groupBoxAppSettings = new GroupBox();
+            this.textBoxLocalApiUrl = new TextBox();
+            this.label4 = new Label();
             this.textBoxRounPrintUrl = new TextBox();
             this.label6 = new Label();
             this.textBoxDefaultApiKey = new TextBox();
@@ -123,6 +126,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.webModuleControlWeb);
             this.tabPage1.Controls.Add(this.groupBoxAppSettings);
             this.tabPage1.Controls.Add(this.webModuleControlServer);
             this.tabPage1.Controls.Add(this.buttonImportCsv);
@@ -140,18 +144,49 @@
             this.tabPage1.Text = "Settings";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // webModuleControlWeb
+            // 
+            this.webModuleControlWeb.ChoosenIP = "All (0.0.0.0)";
+            this.webModuleControlWeb.Location = new Point(626, 10);
+            this.webModuleControlWeb.Margin = new Padding(5, 6, 5, 6);
+            this.webModuleControlWeb.ModuleDefaultPort = 8082;
+            this.webModuleControlWeb.ModuleName = "WebModule";
+            this.webModuleControlWeb.Name = "webModuleControlWeb";
+            this.webModuleControlWeb.Size = new Size(601, 103);
+            this.webModuleControlWeb.TabIndex = 8;
+            // 
             // groupBoxAppSettings
             // 
+            this.groupBoxAppSettings.Controls.Add(this.textBoxLocalApiUrl);
+            this.groupBoxAppSettings.Controls.Add(this.label4);
             this.groupBoxAppSettings.Controls.Add(this.textBoxRounPrintUrl);
             this.groupBoxAppSettings.Controls.Add(this.label6);
             this.groupBoxAppSettings.Controls.Add(this.textBoxDefaultApiKey);
             this.groupBoxAppSettings.Controls.Add(this.label3);
-            this.groupBoxAppSettings.Location = new Point(624, 26);
+            this.groupBoxAppSettings.Location = new Point(8, 122);
             this.groupBoxAppSettings.Name = "groupBoxAppSettings";
-            this.groupBoxAppSettings.Size = new Size(515, 129);
+            this.groupBoxAppSettings.Size = new Size(1219, 129);
             this.groupBoxAppSettings.TabIndex = 7;
             this.groupBoxAppSettings.TabStop = false;
             this.groupBoxAppSettings.Text = "chdScoring";
+            // 
+            // textBoxLocalApiUrl
+            // 
+            this.textBoxLocalApiUrl.Location = new Point(673, 40);
+            this.textBoxLocalApiUrl.Name = "textBoxLocalApiUrl";
+            this.textBoxLocalApiUrl.Size = new Size(325, 35);
+            this.textBoxLocalApiUrl.TabIndex = 9;
+            this.textBoxLocalApiUrl.Text = "http://localhost:8081";
+            this.textBoxLocalApiUrl.TextChanged += this.textBoxLocalApiUrl_TextChanged;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new Point(516, 40);
+            this.label4.Name = "label4";
+            this.label4.Size = new Size(130, 30);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Local Api Url";
             // 
             // textBoxRounPrintUrl
             // 
@@ -200,7 +235,7 @@
             // 
             // buttonImportCsv
             // 
-            this.buttonImportCsv.Location = new Point(16, 275);
+            this.buttonImportCsv.Location = new Point(47, 414);
             this.buttonImportCsv.Margin = new Padding(5, 6, 5, 6);
             this.buttonImportCsv.Name = "buttonImportCsv";
             this.buttonImportCsv.Size = new Size(129, 46);
@@ -212,7 +247,7 @@
             // checkBoxAutoPrint
             // 
             this.checkBoxAutoPrint.AutoSize = true;
-            this.checkBoxAutoPrint.Location = new Point(826, 197);
+            this.checkBoxAutoPrint.Location = new Point(857, 336);
             this.checkBoxAutoPrint.Margin = new Padding(3, 4, 3, 4);
             this.checkBoxAutoPrint.Name = "checkBoxAutoPrint";
             this.checkBoxAutoPrint.Size = new Size(133, 34);
@@ -224,7 +259,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new Point(16, 197);
+            this.label2.Location = new Point(47, 336);
             this.label2.Margin = new Padding(5, 0, 5, 0);
             this.label2.Name = "label2";
             this.label2.Size = new Size(90, 30);
@@ -234,7 +269,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new Point(114, 191);
+            this.comboBox1.Location = new Point(145, 330);
             this.comboBox1.Margin = new Padding(5, 6, 5, 6);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new Size(686, 38);
@@ -243,7 +278,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new Point(10, 147);
+            this.label1.Location = new Point(41, 286);
             this.label1.Margin = new Padding(5, 0, 5, 0);
             this.label1.Name = "label1";
             this.label1.Size = new Size(100, 30);
@@ -253,7 +288,7 @@
             // comboBoxDataBase
             // 
             this.comboBoxDataBase.FormattingEnabled = true;
-            this.comboBoxDataBase.Location = new Point(114, 141);
+            this.comboBoxDataBase.Location = new Point(145, 280);
             this.comboBoxDataBase.Margin = new Padding(5, 6, 5, 6);
             this.comboBoxDataBase.Name = "comboBoxDataBase";
             this.comboBoxDataBase.Size = new Size(205, 38);
@@ -479,5 +514,8 @@
         private Label label3;
         private TextBox textBoxRounPrintUrl;
         private Label label6;
+        private chd.Base.Hosting.Forms.Controls.WebModuleControl webModuleControlWeb;
+        private TextBox textBoxLocalApiUrl;
+        private Label label4;
     }
 }

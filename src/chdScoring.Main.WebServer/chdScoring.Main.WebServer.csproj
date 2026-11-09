@@ -30,6 +30,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\chdScoring.BusinessLogic\chdScoring.BusinessLogic.csproj" />
+	  <ProjectReference Include="..\chdScoring.Web\chdScoring.Web.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Update="appsettings.json">

@@ -38,6 +38,7 @@ namespace chdScoring.Main.WebServer
 
             this.textBoxDefaultApiKey.Text = appSettings.ApiKey;
             this.textBoxRounPrintUrl.Text = appSettings.RoundScorePrintUrl;
+            this.textBoxLocalApiUrl.Text = appSettings.LocalApiUrl;
 
 
             this._printCache.SetPrinter(PrinterSettings.InstalledPrinters[0]);
@@ -181,6 +182,14 @@ namespace chdScoring.Main.WebServer
             if (sender is TextBox tB)
             {
                 _moduleManager.SetCustom<AppSettings, string>(x => x.RoundScorePrintUrl, tB.Text, nameof(ServerModule));
+            }
+        }
+
+        private void textBoxLocalApiUrl_TextChanged(object sender, EventArgs e)
+        {
+            if (sender is TextBox tB)
+            {
+                _moduleManager.SetCustom<AppSettings, string>(x => x.LocalApiUrl, tB.Text, nameof(WebModule));
             }
         }
     }
