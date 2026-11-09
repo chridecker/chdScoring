@@ -13,6 +13,7 @@ using chdScoring.DataAccess.Repositories;
 using chdScoring.DataAccess.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -20,6 +21,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Reflection;
+using chd.Base.Hosting.Extensions;
 
 
 
@@ -27,17 +29,19 @@ namespace chdScoring.BusinessLogic.Extensions
 {
     public static class DIExtension
     {
-        public static IServiceCollection AddchdScoringDataAccess(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddchdScoringDataAccess(this IServiceCollection services, IConfiguration configuration, IServiceProvider appServices)
         {
             services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));
 
-            services.Configure<DBSettings>(nameof(EDBConnection.MySql), configuration.GetSection($"{nameof(DBSettings)}:{nameof(EDBConnection.MySql)}"));
-            services.Configure<DBSettings>(nameof(EDBConnection.SQLite), configuration.GetSection($"{nameof(DBSettings)}:{nameof(EDBConnection.SQLite)}"));
+           services.Configure<DBSettings>(nameof(EDBConnection.MySql), configuration.GetSection($"{nameof(DBSettings)}:{nameof(EDBConnection.MySql)}"));
+           services.Configure<DBSettings>(nameof(EDBConnection.SQLite), configuration.GetSection($"{nameof(DBSettings)}:{nameof(EDBConnection.SQLite)}"));
 
-            services.AddSingleton<IPrintCache, PrintCache>();
-            services.AddSingleton<IApiLogger, ApiLogger>();
+
+            services.CopySingletonFromContainer<IPrintCache>(appServices);
+            services.CopySingletonFromContainer<IDatabaseConfiguration>(appServices);
+            services.CopySingletonFromContainer<IDeviceCacheService>(appServices);
+
             services.AddSingleton<IFlightCacheService, FlightCacheService>();
-            services.AddSingleton<IDeviceCacheService, DeviceCacheService>();
 
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IDataImportService, DataImportService>();
@@ -125,8 +129,6 @@ namespace chdScoring.BusinessLogic.Extensions
         private static IServiceCollection AddContextFactory<TContext>(this IServiceCollection services, ServiceLifetime lifetime)
             where TContext : DbContext
         {
-            services.AddSingleton<IDatabaseConfiguration, DatabaseConfiguration>();
-
             var sp = services.BuildServiceProvider();
             var optMonitor = sp.GetRequiredService<IOptionsMonitor<DBSettings>>();
             if (optMonitor.Get(nameof(EDBConnection.MySql)).ConnectionType == EDBConnection.MySql)

@@ -48,6 +48,10 @@ namespace chdScoring.DataAccess.EFCore
             modelBuilder.Entity<Country_Images>().HasKey(x => x.Img_Id);
             modelBuilder.Entity<Images>().HasKey(x => x.Img_Id);
             modelBuilder.Entity<Klassen>().HasKey(x => x.Id);
+            modelBuilder.Entity<Stammdaten>().HasKey(x => x.Id);
+            modelBuilder.Entity<Judge>().HasKey(x => x.Id);
+            modelBuilder.Entity<Programm>().HasKey(x => x.Id);
+            modelBuilder.Entity<Figur>().HasKey(x => x.Id);
             modelBuilder.Entity<Teilnehmer>(builder =>
             {
                 builder.HasKey(x => x.Id);

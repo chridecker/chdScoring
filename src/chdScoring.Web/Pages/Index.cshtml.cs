@@ -8,18 +8,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
 using System.Transactions;
 using chd.Api.Base.Contracts.Interfaces;
+using chdScoring.Contracts.Settings;
 
 namespace chdScoring.Web.Pages
 {
     [IgnoreAntiforgeryToken]
     public class IndexModel : PageModel
     {
-        private readonly IConfiguration _configuration;
+        private readonly IOptionsMonitor<AppSettings> _optionsMonitor;
         private readonly IPilotService _pilotService;
         private readonly ImageCache _imageCache;
 
-        public string FlightHubClientUrl => new UriBuilder($"{this._configuration.GetApiKey("chdScoringApi")}chdscoring/flight-hub").Uri.ToString();
-        public string DeviceHubClientUrl => new UriBuilder($"{this._configuration.GetApiKey("chdScoringApi")}chdscoring/device-hub").Uri.ToString();
+        public string FlightHubClientUrl => new UriBuilder($"{this._optionsMonitor.CurrentValue.LocalApiUrl}chdscoring/flight-hub").Uri.ToString();
+        public string DeviceHubClientUrl => new UriBuilder($"{this._optionsMonitor.CurrentValue.LocalApiUrl}chdscoring/device-hub").Uri.ToString();
         public string ApiKey { get; }
         public string Name { get; set; }
 
@@ -35,9 +36,9 @@ namespace chdScoring.Web.Pages
                 _ => "RenderTimer"
             };
 
-        public IndexModel(IConfiguration configuration, IPilotService pilotService, IApiKeyProvider _apiKeyProvider, ImageCache imageCache)
+        public IndexModel(IOptionsMonitor<AppSettings> optionsMonitor, IPilotService pilotService, IApiKeyProvider _apiKeyProvider, ImageCache imageCache)
         {
-            this._configuration = configuration;
+            this._optionsMonitor = optionsMonitor;
             this._pilotService = pilotService;
             this._imageCache = imageCache;
             ApiKey = _apiKeyProvider.GetApiKey();

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace chdScoring.BusinessLogic.Hubs
 {
-    public class FlightHub(IFlightCacheService flightCacheService, ILogger<FlightHub> logger, IApiLogger apiLogger)
+    public class FlightHub(IFlightCacheService flightCacheService, ILogger<FlightHub> logger)
         : BaseAuthenticationHub<IFlightHub>(logger), IFlightHub
     {
         public override async Task OnConnectedAsync()
@@ -31,8 +31,6 @@ namespace chdScoring.BusinessLogic.Hubs
                 var hostEntry = await Dns.GetHostEntryAsync(ip);
                 hostName = hostEntry.HostName;
             }
-
-            await apiLogger.Log($"{(!string.IsNullOrWhiteSpace(hostName) ? hostName : ip)}({GetApiKey()}) connected ID: {Context.ConnectionId}");
         }
 
         public async Task<bool> RegisterAsJudge(int judge)

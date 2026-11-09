@@ -28,433 +28,453 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            notifyIconMain = new NotifyIcon(components);
-            contextMenuStripSysTray = new ContextMenuStrip(components);
-            öffnenToolStripMenuItem = new ToolStripMenuItem();
-            schließenToolStripMenuItem = new ToolStripMenuItem();
-            tabControl1 = new TabControl();
-            tabPage1 = new TabPage();
-            buttonImportCsv = new Button();
-            checkBoxAutoPrint = new CheckBox();
-            label2 = new Label();
-            comboBox1 = new ComboBox();
-            label1 = new Label();
-            comboBoxDataBase = new ComboBox();
-            tabPage2 = new TabPage();
-            button1 = new Button();
-            textBoxWebLog = new TextBox();
-            tabPage3 = new TabPage();
-            dataGridViewDevices = new DataGridView();
-            hostNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            apiKeyDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            lastUpdateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            User = new DataGridViewTextBoxColumn();
-            CurrentSite = new DataGridViewTextBoxColumn();
-            batteryLevelDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            batteryChargingDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            currentVersionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            currentLocalTimeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            platformDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            bindingSourceDevices = new BindingSource(components);
-            tabPage4 = new TabPage();
-            dataGridView1 = new DataGridView();
-            idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            keyDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            roleDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            judgeIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            surnameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            lastnameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            redirectDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            bindingSourceApiKeys = new BindingSource(components);
-            openFileDialogImportCsv = new OpenFileDialog();
-            checkBoxDetailLog = new CheckBox();
-            contextMenuStripSysTray.SuspendLayout();
-            tabControl1.SuspendLayout();
-            tabPage1.SuspendLayout();
-            tabPage2.SuspendLayout();
-            tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridViewDevices).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)bindingSourceDevices).BeginInit();
-            tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)bindingSourceApiKeys).BeginInit();
-            SuspendLayout();
+            this.notifyIconMain = new NotifyIcon(this.components);
+            this.contextMenuStripSysTray = new ContextMenuStrip(this.components);
+            this.öffnenToolStripMenuItem = new ToolStripMenuItem();
+            this.schließenToolStripMenuItem = new ToolStripMenuItem();
+            this.tabControl1 = new TabControl();
+            this.tabPage1 = new TabPage();
+            this.webModuleControlWeb = new chd.Base.Hosting.Forms.Controls.WebModuleControl();
+            this.groupBoxAppSettings = new GroupBox();
+            this.textBoxLocalApiUrl = new TextBox();
+            this.label4 = new Label();
+            this.textBoxRounPrintUrl = new TextBox();
+            this.label6 = new Label();
+            this.textBoxDefaultApiKey = new TextBox();
+            this.label3 = new Label();
+            this.webModuleControlServer = new chd.Base.Hosting.Forms.Controls.WebModuleControl();
+            this.buttonImportCsv = new Button();
+            this.checkBoxAutoPrint = new CheckBox();
+            this.label2 = new Label();
+            this.comboBox1 = new ComboBox();
+            this.label1 = new Label();
+            this.comboBoxDataBase = new ComboBox();
+            this.tabPage2 = new TabPage();
+            this.channelLogControl1 = new chd.Base.Hosting.Forms.Controls.ChannelLogControl();
+            this.tabPage3 = new TabPage();
+            this.dataGridViewDevices = new DataGridView();
+            this.hostNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            this.apiKeyDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            this.lastUpdateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            this.User = new DataGridViewTextBoxColumn();
+            this.CurrentSite = new DataGridViewTextBoxColumn();
+            this.batteryLevelDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            this.batteryChargingDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            this.currentVersionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            this.currentLocalTimeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            this.platformDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            this.bindingSourceDevices = new BindingSource(this.components);
+            this.bindingSourceApiKeys = new BindingSource(this.components);
+            this.openFileDialogImportCsv = new OpenFileDialog();
+            this.contextMenuStripSysTray.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.groupBoxAppSettings.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)this.dataGridViewDevices).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)this.bindingSourceDevices).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)this.bindingSourceApiKeys).BeginInit();
+            this.SuspendLayout();
             // 
             // notifyIconMain
             // 
-            notifyIconMain.BalloonTipIcon = ToolTipIcon.Info;
-            notifyIconMain.BalloonTipText = "chdScoring";
-            notifyIconMain.BalloonTipTitle = "chdScoring Title";
-            notifyIconMain.ContextMenuStrip = contextMenuStripSysTray;
-            notifyIconMain.Icon = (Icon)resources.GetObject("notifyIconMain.Icon");
-            notifyIconMain.Text = "chdScoring";
-            notifyIconMain.MouseDoubleClick += notifyIconMain_MouseDoubleClick;
+            this.notifyIconMain.BalloonTipIcon = ToolTipIcon.Info;
+            this.notifyIconMain.BalloonTipText = "chdScoring";
+            this.notifyIconMain.BalloonTipTitle = "chdScoring Title";
+            this.notifyIconMain.ContextMenuStrip = this.contextMenuStripSysTray;
+            this.notifyIconMain.Icon = (Icon)resources.GetObject("notifyIconMain.Icon");
+            this.notifyIconMain.Text = "chdScoring";
+            this.notifyIconMain.MouseDoubleClick += this.notifyIconMain_MouseDoubleClick;
             // 
             // contextMenuStripSysTray
             // 
-            contextMenuStripSysTray.ImageScalingSize = new Size(28, 28);
-            contextMenuStripSysTray.Items.AddRange(new ToolStripItem[] { öffnenToolStripMenuItem, schließenToolStripMenuItem });
-            contextMenuStripSysTray.Name = "contextMenuStripSysTray";
-            contextMenuStripSysTray.Size = new Size(126, 48);
+            this.contextMenuStripSysTray.ImageScalingSize = new Size(28, 28);
+            this.contextMenuStripSysTray.Items.AddRange(new ToolStripItem[] { this.öffnenToolStripMenuItem, this.schließenToolStripMenuItem });
+            this.contextMenuStripSysTray.Name = "contextMenuStripSysTray";
+            this.contextMenuStripSysTray.Size = new Size(175, 76);
             // 
             // öffnenToolStripMenuItem
             // 
-            öffnenToolStripMenuItem.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            öffnenToolStripMenuItem.Name = "öffnenToolStripMenuItem";
-            öffnenToolStripMenuItem.Size = new Size(125, 22);
-            öffnenToolStripMenuItem.Text = "Öffnen";
-            öffnenToolStripMenuItem.Click += öffnenToolStripMenuItem_Click;
+            this.öffnenToolStripMenuItem.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            this.öffnenToolStripMenuItem.Name = "öffnenToolStripMenuItem";
+            this.öffnenToolStripMenuItem.Size = new Size(174, 36);
+            this.öffnenToolStripMenuItem.Text = "Öffnen";
+            this.öffnenToolStripMenuItem.Click += this.öffnenToolStripMenuItem_Click;
             // 
             // schließenToolStripMenuItem
             // 
-            schließenToolStripMenuItem.Name = "schließenToolStripMenuItem";
-            schließenToolStripMenuItem.Size = new Size(125, 22);
-            schließenToolStripMenuItem.Text = "Schließen";
-            schließenToolStripMenuItem.Click += schließenToolStripMenuItem_Click;
+            this.schließenToolStripMenuItem.Name = "schließenToolStripMenuItem";
+            this.schließenToolStripMenuItem.Size = new Size(174, 36);
+            this.schließenToolStripMenuItem.Text = "Schließen";
+            this.schließenToolStripMenuItem.Click += this.schließenToolStripMenuItem_Click;
             // 
             // tabControl1
             // 
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
-            tabControl1.Controls.Add(tabPage3);
-            tabControl1.Controls.Add(tabPage4);
-            tabControl1.Dock = DockStyle.Fill;
-            tabControl1.Location = new Point(0, 0);
-            tabControl1.Margin = new Padding(2);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1125, 554);
-            tabControl1.TabIndex = 1;
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Dock = DockStyle.Fill;
+            this.tabControl1.Location = new Point(0, 0);
+            this.tabControl1.Margin = new Padding(3, 4, 3, 4);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new Size(1929, 1108);
+            this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
             // 
-            tabPage1.Controls.Add(buttonImportCsv);
-            tabPage1.Controls.Add(checkBoxAutoPrint);
-            tabPage1.Controls.Add(label2);
-            tabPage1.Controls.Add(comboBox1);
-            tabPage1.Controls.Add(label1);
-            tabPage1.Controls.Add(comboBoxDataBase);
-            tabPage1.Location = new Point(4, 24);
-            tabPage1.Margin = new Padding(2);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(2);
-            tabPage1.Size = new Size(1117, 526);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "Settings";
-            tabPage1.UseVisualStyleBackColor = true;
+            this.tabPage1.Controls.Add(this.webModuleControlWeb);
+            this.tabPage1.Controls.Add(this.groupBoxAppSettings);
+            this.tabPage1.Controls.Add(this.webModuleControlServer);
+            this.tabPage1.Controls.Add(this.buttonImportCsv);
+            this.tabPage1.Controls.Add(this.checkBoxAutoPrint);
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.comboBox1);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.comboBoxDataBase);
+            this.tabPage1.Location = new Point(4, 39);
+            this.tabPage1.Margin = new Padding(3, 4, 3, 4);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new Padding(3, 4, 3, 4);
+            this.tabPage1.Size = new Size(1921, 1065);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Settings";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // webModuleControlWeb
+            // 
+            this.webModuleControlWeb.ChoosenIP = "All (0.0.0.0)";
+            this.webModuleControlWeb.Location = new Point(626, 10);
+            this.webModuleControlWeb.Margin = new Padding(5, 6, 5, 6);
+            this.webModuleControlWeb.ModuleDefaultPort = 8082;
+            this.webModuleControlWeb.ModuleName = "WebModule";
+            this.webModuleControlWeb.Name = "webModuleControlWeb";
+            this.webModuleControlWeb.Size = new Size(601, 103);
+            this.webModuleControlWeb.TabIndex = 8;
+            // 
+            // groupBoxAppSettings
+            // 
+            this.groupBoxAppSettings.Controls.Add(this.textBoxLocalApiUrl);
+            this.groupBoxAppSettings.Controls.Add(this.label4);
+            this.groupBoxAppSettings.Controls.Add(this.textBoxRounPrintUrl);
+            this.groupBoxAppSettings.Controls.Add(this.label6);
+            this.groupBoxAppSettings.Controls.Add(this.textBoxDefaultApiKey);
+            this.groupBoxAppSettings.Controls.Add(this.label3);
+            this.groupBoxAppSettings.Location = new Point(8, 122);
+            this.groupBoxAppSettings.Name = "groupBoxAppSettings";
+            this.groupBoxAppSettings.Size = new Size(1219, 129);
+            this.groupBoxAppSettings.TabIndex = 7;
+            this.groupBoxAppSettings.TabStop = false;
+            this.groupBoxAppSettings.Text = "chdScoring";
+            // 
+            // textBoxLocalApiUrl
+            // 
+            this.textBoxLocalApiUrl.Location = new Point(673, 40);
+            this.textBoxLocalApiUrl.Name = "textBoxLocalApiUrl";
+            this.textBoxLocalApiUrl.Size = new Size(325, 35);
+            this.textBoxLocalApiUrl.TabIndex = 9;
+            this.textBoxLocalApiUrl.Text = "http://localhost:8081";
+            this.textBoxLocalApiUrl.TextChanged += this.textBoxLocalApiUrl_TextChanged;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new Point(516, 40);
+            this.label4.Name = "label4";
+            this.label4.Size = new Size(130, 30);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Local Api Url";
+            // 
+            // textBoxRounPrintUrl
+            // 
+            this.textBoxRounPrintUrl.Location = new Point(163, 81);
+            this.textBoxRounPrintUrl.Name = "textBoxRounPrintUrl";
+            this.textBoxRounPrintUrl.Size = new Size(325, 35);
+            this.textBoxRounPrintUrl.TabIndex = 7;
+            this.textBoxRounPrintUrl.TextChanged += this.textBoxRounPrintUrl_TextChanged;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new Point(6, 81);
+            this.label6.Name = "label6";
+            this.label6.Size = new Size(154, 30);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Round Print Url";
+            // 
+            // textBoxDefaultApiKey
+            // 
+            this.textBoxDefaultApiKey.Location = new Point(163, 40);
+            this.textBoxDefaultApiKey.Name = "textBoxDefaultApiKey";
+            this.textBoxDefaultApiKey.Size = new Size(325, 35);
+            this.textBoxDefaultApiKey.TabIndex = 1;
+            this.textBoxDefaultApiKey.TextChanged += this.textBoxDefaultApiKey_TextChanged;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new Point(6, 40);
+            this.label3.Name = "label3";
+            this.label3.Size = new Size(151, 30);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Default ApiKey";
+            // 
+            // webModuleControlServer
+            // 
+            this.webModuleControlServer.ChoosenIP = "All (0.0.0.0)";
+            this.webModuleControlServer.Location = new Point(8, 10);
+            this.webModuleControlServer.Margin = new Padding(5, 6, 5, 6);
+            this.webModuleControlServer.ModuleDefaultPort = 8081;
+            this.webModuleControlServer.ModuleName = "ServerModule";
+            this.webModuleControlServer.Name = "webModuleControlServer";
+            this.webModuleControlServer.Size = new Size(608, 103);
+            this.webModuleControlServer.TabIndex = 6;
             // 
             // buttonImportCsv
             // 
-            buttonImportCsv.Location = new Point(9, 75);
-            buttonImportCsv.Name = "buttonImportCsv";
-            buttonImportCsv.Size = new Size(75, 23);
-            buttonImportCsv.TabIndex = 5;
-            buttonImportCsv.Text = "CSV Import";
-            buttonImportCsv.UseVisualStyleBackColor = true;
-            buttonImportCsv.Click += buttonImportCsv_Click;
+            this.buttonImportCsv.Location = new Point(47, 414);
+            this.buttonImportCsv.Margin = new Padding(5, 6, 5, 6);
+            this.buttonImportCsv.Name = "buttonImportCsv";
+            this.buttonImportCsv.Size = new Size(129, 46);
+            this.buttonImportCsv.TabIndex = 5;
+            this.buttonImportCsv.Text = "CSV Import";
+            this.buttonImportCsv.UseVisualStyleBackColor = true;
+            this.buttonImportCsv.Click += this.buttonImportCsv_Click;
             // 
             // checkBoxAutoPrint
             // 
-            checkBoxAutoPrint.AutoSize = true;
-            checkBoxAutoPrint.Location = new Point(481, 36);
-            checkBoxAutoPrint.Margin = new Padding(2);
-            checkBoxAutoPrint.Name = "checkBoxAutoPrint";
-            checkBoxAutoPrint.Size = new Size(80, 19);
-            checkBoxAutoPrint.TabIndex = 4;
-            checkBoxAutoPrint.Text = "Auto Print";
-            checkBoxAutoPrint.UseVisualStyleBackColor = true;
-            checkBoxAutoPrint.CheckedChanged += checkBoxAutoPrint_CheckedChanged;
+            this.checkBoxAutoPrint.AutoSize = true;
+            this.checkBoxAutoPrint.Location = new Point(857, 336);
+            this.checkBoxAutoPrint.Margin = new Padding(3, 4, 3, 4);
+            this.checkBoxAutoPrint.Name = "checkBoxAutoPrint";
+            this.checkBoxAutoPrint.Size = new Size(133, 34);
+            this.checkBoxAutoPrint.TabIndex = 4;
+            this.checkBoxAutoPrint.Text = "Auto Print";
+            this.checkBoxAutoPrint.UseVisualStyleBackColor = true;
+            this.checkBoxAutoPrint.CheckedChanged += this.checkBoxAutoPrint_CheckedChanged;
             // 
             // label2
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(9, 36);
-            label2.Name = "label2";
-            label2.Size = new Size(51, 15);
-            label2.TabIndex = 3;
-            label2.Text = "Drucker:";
+            this.label2.AutoSize = true;
+            this.label2.Location = new Point(47, 336);
+            this.label2.Margin = new Padding(5, 0, 5, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new Size(90, 30);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Drucker:";
             // 
             // comboBox1
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(66, 33);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(402, 23);
-            comboBox1.TabIndex = 2;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new Point(145, 330);
+            this.comboBox1.Margin = new Padding(5, 6, 5, 6);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new Size(686, 38);
+            this.comboBox1.TabIndex = 2;
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(5, 11);
-            label1.Name = "label1";
-            label1.Size = new Size(55, 15);
-            label1.TabIndex = 1;
-            label1.Text = "Database";
+            this.label1.AutoSize = true;
+            this.label1.Location = new Point(41, 286);
+            this.label1.Margin = new Padding(5, 0, 5, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new Size(100, 30);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Database";
             // 
             // comboBoxDataBase
             // 
-            comboBoxDataBase.FormattingEnabled = true;
-            comboBoxDataBase.Location = new Point(66, 8);
-            comboBoxDataBase.Name = "comboBoxDataBase";
-            comboBoxDataBase.Size = new Size(121, 23);
-            comboBoxDataBase.TabIndex = 0;
-            comboBoxDataBase.SelectedIndexChanged += comboBoxDataBase_SelectedIndexChanged;
+            this.comboBoxDataBase.FormattingEnabled = true;
+            this.comboBoxDataBase.Location = new Point(145, 280);
+            this.comboBoxDataBase.Margin = new Padding(5, 6, 5, 6);
+            this.comboBoxDataBase.Name = "comboBoxDataBase";
+            this.comboBoxDataBase.Size = new Size(205, 38);
+            this.comboBoxDataBase.TabIndex = 0;
+            this.comboBoxDataBase.SelectedIndexChanged += this.comboBoxDataBase_SelectedIndexChanged;
             // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(checkBoxDetailLog);
-            tabPage2.Controls.Add(button1);
-            tabPage2.Controls.Add(textBoxWebLog);
-            tabPage2.Location = new Point(4, 24);
-            tabPage2.Margin = new Padding(2);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(2);
-            tabPage2.Size = new Size(1117, 526);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "Consol Log";
-            tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Controls.Add(this.channelLogControl1);
+            this.tabPage2.Location = new Point(4, 39);
+            this.tabPage2.Margin = new Padding(3, 4, 3, 4);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new Padding(3, 4, 3, 4);
+            this.tabPage2.Size = new Size(1921, 1065);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Log";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // channelLogControl1
             // 
-            button1.Location = new Point(950, 3);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 1;
-            button1.Text = "Clear";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // textBoxWebLog
-            // 
-            textBoxWebLog.Location = new Point(4, 3);
-            textBoxWebLog.Margin = new Padding(2);
-            textBoxWebLog.Multiline = true;
-            textBoxWebLog.Name = "textBoxWebLog";
-            textBoxWebLog.ScrollBars = ScrollBars.Vertical;
-            textBoxWebLog.Size = new Size(941, 519);
-            textBoxWebLog.TabIndex = 0;
+            this.channelLogControl1.Dock = DockStyle.Fill;
+            this.channelLogControl1.Location = new Point(3, 4);
+            this.channelLogControl1.Margin = new Padding(5, 6, 5, 6);
+            this.channelLogControl1.Name = "channelLogControl1";
+            this.channelLogControl1.Size = new Size(1915, 1057);
+            this.channelLogControl1.TabIndex = 0;
             // 
             // tabPage3
             // 
-            tabPage3.Controls.Add(dataGridViewDevices);
-            tabPage3.Location = new Point(4, 24);
-            tabPage3.Name = "tabPage3";
-            tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(1117, 526);
-            tabPage3.TabIndex = 2;
-            tabPage3.Text = "Devices";
-            tabPage3.UseVisualStyleBackColor = true;
+            this.tabPage3.Controls.Add(this.dataGridViewDevices);
+            this.tabPage3.Location = new Point(4, 39);
+            this.tabPage3.Margin = new Padding(5, 6, 5, 6);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new Padding(5, 6, 5, 6);
+            this.tabPage3.Size = new Size(1921, 1065);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Devices";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // dataGridViewDevices
             // 
-            dataGridViewDevices.AllowUserToAddRows = false;
-            dataGridViewDevices.AllowUserToDeleteRows = false;
-            dataGridViewDevices.AutoGenerateColumns = false;
-            dataGridViewDevices.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewDevices.Columns.AddRange(new DataGridViewColumn[] { hostNameDataGridViewTextBoxColumn, apiKeyDataGridViewTextBoxColumn, lastUpdateDataGridViewTextBoxColumn, User, CurrentSite, batteryLevelDataGridViewTextBoxColumn, batteryChargingDataGridViewTextBoxColumn, currentVersionDataGridViewTextBoxColumn, currentLocalTimeDataGridViewTextBoxColumn, platformDataGridViewTextBoxColumn });
-            dataGridViewDevices.DataSource = bindingSourceDevices;
-            dataGridViewDevices.Dock = DockStyle.Fill;
-            dataGridViewDevices.Location = new Point(3, 3);
-            dataGridViewDevices.Name = "dataGridViewDevices";
-            dataGridViewDevices.ReadOnly = true;
-            dataGridViewDevices.Size = new Size(1111, 520);
-            dataGridViewDevices.TabIndex = 0;
+            this.dataGridViewDevices.AllowUserToAddRows = false;
+            this.dataGridViewDevices.AllowUserToDeleteRows = false;
+            this.dataGridViewDevices.AutoGenerateColumns = false;
+            this.dataGridViewDevices.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewDevices.Columns.AddRange(new DataGridViewColumn[] { this.hostNameDataGridViewTextBoxColumn, this.apiKeyDataGridViewTextBoxColumn, this.lastUpdateDataGridViewTextBoxColumn, this.User, this.CurrentSite, this.batteryLevelDataGridViewTextBoxColumn, this.batteryChargingDataGridViewTextBoxColumn, this.currentVersionDataGridViewTextBoxColumn, this.currentLocalTimeDataGridViewTextBoxColumn, this.platformDataGridViewTextBoxColumn });
+            this.dataGridViewDevices.DataSource = this.bindingSourceDevices;
+            this.dataGridViewDevices.Dock = DockStyle.Fill;
+            this.dataGridViewDevices.Location = new Point(5, 6);
+            this.dataGridViewDevices.Margin = new Padding(5, 6, 5, 6);
+            this.dataGridViewDevices.Name = "dataGridViewDevices";
+            this.dataGridViewDevices.ReadOnly = true;
+            this.dataGridViewDevices.RowHeadersWidth = 72;
+            this.dataGridViewDevices.Size = new Size(1911, 1053);
+            this.dataGridViewDevices.TabIndex = 0;
             // 
             // hostNameDataGridViewTextBoxColumn
             // 
-            hostNameDataGridViewTextBoxColumn.DataPropertyName = "HostName";
-            hostNameDataGridViewTextBoxColumn.HeaderText = "HostName";
-            hostNameDataGridViewTextBoxColumn.Name = "hostNameDataGridViewTextBoxColumn";
-            hostNameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.hostNameDataGridViewTextBoxColumn.DataPropertyName = "HostName";
+            this.hostNameDataGridViewTextBoxColumn.HeaderText = "HostName";
+            this.hostNameDataGridViewTextBoxColumn.MinimumWidth = 9;
+            this.hostNameDataGridViewTextBoxColumn.Name = "hostNameDataGridViewTextBoxColumn";
+            this.hostNameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.hostNameDataGridViewTextBoxColumn.Width = 175;
             // 
             // apiKeyDataGridViewTextBoxColumn
             // 
-            apiKeyDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            apiKeyDataGridViewTextBoxColumn.DataPropertyName = "ApiKey";
-            apiKeyDataGridViewTextBoxColumn.HeaderText = "X-ApiKey";
-            apiKeyDataGridViewTextBoxColumn.Name = "apiKeyDataGridViewTextBoxColumn";
-            apiKeyDataGridViewTextBoxColumn.ReadOnly = true;
-            apiKeyDataGridViewTextBoxColumn.Width = 81;
+            this.apiKeyDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            this.apiKeyDataGridViewTextBoxColumn.DataPropertyName = "ApiKey";
+            this.apiKeyDataGridViewTextBoxColumn.HeaderText = "X-ApiKey";
+            this.apiKeyDataGridViewTextBoxColumn.MinimumWidth = 9;
+            this.apiKeyDataGridViewTextBoxColumn.Name = "apiKeyDataGridViewTextBoxColumn";
+            this.apiKeyDataGridViewTextBoxColumn.ReadOnly = true;
+            this.apiKeyDataGridViewTextBoxColumn.Width = 138;
             // 
             // lastUpdateDataGridViewTextBoxColumn
             // 
-            lastUpdateDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            lastUpdateDataGridViewTextBoxColumn.DataPropertyName = "LastUpdate";
-            lastUpdateDataGridViewTextBoxColumn.HeaderText = "LastUpdate";
-            lastUpdateDataGridViewTextBoxColumn.Name = "lastUpdateDataGridViewTextBoxColumn";
-            lastUpdateDataGridViewTextBoxColumn.ReadOnly = true;
-            lastUpdateDataGridViewTextBoxColumn.Width = 91;
+            this.lastUpdateDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            this.lastUpdateDataGridViewTextBoxColumn.DataPropertyName = "LastUpdate";
+            this.lastUpdateDataGridViewTextBoxColumn.HeaderText = "LastUpdate";
+            this.lastUpdateDataGridViewTextBoxColumn.MinimumWidth = 9;
+            this.lastUpdateDataGridViewTextBoxColumn.Name = "lastUpdateDataGridViewTextBoxColumn";
+            this.lastUpdateDataGridViewTextBoxColumn.ReadOnly = true;
+            this.lastUpdateDataGridViewTextBoxColumn.Width = 158;
             // 
             // User
             // 
-            User.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            User.DataPropertyName = "User";
-            User.HeaderText = "User";
-            User.Name = "User";
-            User.ReadOnly = true;
-            User.Width = 5;
+            this.User.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            this.User.DataPropertyName = "User";
+            this.User.HeaderText = "User";
+            this.User.MinimumWidth = 9;
+            this.User.Name = "User";
+            this.User.ReadOnly = true;
+            this.User.Width = 9;
             // 
             // CurrentSite
             // 
-            CurrentSite.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            CurrentSite.DataPropertyName = "CurrentSite";
-            CurrentSite.HeaderText = "CurrentSite";
-            CurrentSite.Name = "CurrentSite";
-            CurrentSite.ReadOnly = true;
-            CurrentSite.Width = 5;
+            this.CurrentSite.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            this.CurrentSite.DataPropertyName = "CurrentSite";
+            this.CurrentSite.HeaderText = "CurrentSite";
+            this.CurrentSite.MinimumWidth = 9;
+            this.CurrentSite.Name = "CurrentSite";
+            this.CurrentSite.ReadOnly = true;
+            this.CurrentSite.Width = 9;
             // 
             // batteryLevelDataGridViewTextBoxColumn
             // 
-            batteryLevelDataGridViewTextBoxColumn.DataPropertyName = "BatteryLevel";
-            batteryLevelDataGridViewTextBoxColumn.HeaderText = "BatteryLevel";
-            batteryLevelDataGridViewTextBoxColumn.Name = "batteryLevelDataGridViewTextBoxColumn";
-            batteryLevelDataGridViewTextBoxColumn.ReadOnly = true;
+            this.batteryLevelDataGridViewTextBoxColumn.DataPropertyName = "BatteryLevel";
+            this.batteryLevelDataGridViewTextBoxColumn.HeaderText = "BatteryLevel";
+            this.batteryLevelDataGridViewTextBoxColumn.MinimumWidth = 9;
+            this.batteryLevelDataGridViewTextBoxColumn.Name = "batteryLevelDataGridViewTextBoxColumn";
+            this.batteryLevelDataGridViewTextBoxColumn.ReadOnly = true;
+            this.batteryLevelDataGridViewTextBoxColumn.Width = 175;
             // 
             // batteryChargingDataGridViewTextBoxColumn
             // 
-            batteryChargingDataGridViewTextBoxColumn.DataPropertyName = "BatteryCharging";
-            batteryChargingDataGridViewTextBoxColumn.HeaderText = "BatteryCharging";
-            batteryChargingDataGridViewTextBoxColumn.Name = "batteryChargingDataGridViewTextBoxColumn";
-            batteryChargingDataGridViewTextBoxColumn.ReadOnly = true;
+            this.batteryChargingDataGridViewTextBoxColumn.DataPropertyName = "BatteryCharging";
+            this.batteryChargingDataGridViewTextBoxColumn.HeaderText = "BatteryCharging";
+            this.batteryChargingDataGridViewTextBoxColumn.MinimumWidth = 9;
+            this.batteryChargingDataGridViewTextBoxColumn.Name = "batteryChargingDataGridViewTextBoxColumn";
+            this.batteryChargingDataGridViewTextBoxColumn.ReadOnly = true;
+            this.batteryChargingDataGridViewTextBoxColumn.Width = 175;
             // 
             // currentVersionDataGridViewTextBoxColumn
             // 
-            currentVersionDataGridViewTextBoxColumn.DataPropertyName = "CurrentVersion";
-            currentVersionDataGridViewTextBoxColumn.HeaderText = "CurrentVersion";
-            currentVersionDataGridViewTextBoxColumn.Name = "currentVersionDataGridViewTextBoxColumn";
-            currentVersionDataGridViewTextBoxColumn.ReadOnly = true;
+            this.currentVersionDataGridViewTextBoxColumn.DataPropertyName = "CurrentVersion";
+            this.currentVersionDataGridViewTextBoxColumn.HeaderText = "CurrentVersion";
+            this.currentVersionDataGridViewTextBoxColumn.MinimumWidth = 9;
+            this.currentVersionDataGridViewTextBoxColumn.Name = "currentVersionDataGridViewTextBoxColumn";
+            this.currentVersionDataGridViewTextBoxColumn.ReadOnly = true;
+            this.currentVersionDataGridViewTextBoxColumn.Width = 175;
             // 
             // currentLocalTimeDataGridViewTextBoxColumn
             // 
-            currentLocalTimeDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            currentLocalTimeDataGridViewTextBoxColumn.DataPropertyName = "CurrentLocalTime";
-            currentLocalTimeDataGridViewTextBoxColumn.HeaderText = "CurrentLocalTime";
-            currentLocalTimeDataGridViewTextBoxColumn.Name = "currentLocalTimeDataGridViewTextBoxColumn";
-            currentLocalTimeDataGridViewTextBoxColumn.ReadOnly = true;
-            currentLocalTimeDataGridViewTextBoxColumn.Width = 127;
+            this.currentLocalTimeDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            this.currentLocalTimeDataGridViewTextBoxColumn.DataPropertyName = "CurrentLocalTime";
+            this.currentLocalTimeDataGridViewTextBoxColumn.HeaderText = "CurrentLocalTime";
+            this.currentLocalTimeDataGridViewTextBoxColumn.MinimumWidth = 9;
+            this.currentLocalTimeDataGridViewTextBoxColumn.Name = "currentLocalTimeDataGridViewTextBoxColumn";
+            this.currentLocalTimeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.currentLocalTimeDataGridViewTextBoxColumn.Width = 216;
             // 
             // platformDataGridViewTextBoxColumn
             // 
-            platformDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            platformDataGridViewTextBoxColumn.DataPropertyName = "Platform";
-            platformDataGridViewTextBoxColumn.HeaderText = "Platform";
-            platformDataGridViewTextBoxColumn.Name = "platformDataGridViewTextBoxColumn";
-            platformDataGridViewTextBoxColumn.ReadOnly = true;
-            platformDataGridViewTextBoxColumn.Width = 78;
+            this.platformDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            this.platformDataGridViewTextBoxColumn.DataPropertyName = "Platform";
+            this.platformDataGridViewTextBoxColumn.HeaderText = "Platform";
+            this.platformDataGridViewTextBoxColumn.MinimumWidth = 9;
+            this.platformDataGridViewTextBoxColumn.Name = "platformDataGridViewTextBoxColumn";
+            this.platformDataGridViewTextBoxColumn.ReadOnly = true;
+            this.platformDataGridViewTextBoxColumn.Width = 133;
             // 
             // bindingSourceDevices
             // 
-            bindingSourceDevices.DataSource = typeof(Contracts.Dtos.DeviceStatusDto);
-            // 
-            // tabPage4
-            // 
-            tabPage4.Controls.Add(dataGridView1);
-            tabPage4.Location = new Point(4, 24);
-            tabPage4.Name = "tabPage4";
-            tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(1117, 526);
-            tabPage4.TabIndex = 3;
-            tabPage4.Text = "Api-Keys";
-            tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, keyDataGridViewTextBoxColumn, roleDataGridViewTextBoxColumn, judgeIdDataGridViewTextBoxColumn, surnameDataGridViewTextBoxColumn, lastnameDataGridViewTextBoxColumn, redirectDataGridViewTextBoxColumn });
-            dataGridView1.DataSource = bindingSourceApiKeys;
-            dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.Location = new Point(3, 3);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(1111, 520);
-            dataGridView1.TabIndex = 0;
-            // 
-            // idDataGridViewTextBoxColumn
-            // 
-            idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            idDataGridViewTextBoxColumn.HeaderText = "Id";
-            idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            // 
-            // keyDataGridViewTextBoxColumn
-            // 
-            keyDataGridViewTextBoxColumn.DataPropertyName = "Key";
-            keyDataGridViewTextBoxColumn.HeaderText = "Key";
-            keyDataGridViewTextBoxColumn.Name = "keyDataGridViewTextBoxColumn";
-            // 
-            // roleDataGridViewTextBoxColumn
-            // 
-            roleDataGridViewTextBoxColumn.DataPropertyName = "Role";
-            roleDataGridViewTextBoxColumn.HeaderText = "Role";
-            roleDataGridViewTextBoxColumn.Name = "roleDataGridViewTextBoxColumn";
-            // 
-            // judgeIdDataGridViewTextBoxColumn
-            // 
-            judgeIdDataGridViewTextBoxColumn.DataPropertyName = "JudgeId";
-            judgeIdDataGridViewTextBoxColumn.HeaderText = "JudgeId";
-            judgeIdDataGridViewTextBoxColumn.Name = "judgeIdDataGridViewTextBoxColumn";
-            // 
-            // surnameDataGridViewTextBoxColumn
-            // 
-            surnameDataGridViewTextBoxColumn.DataPropertyName = "Surname";
-            surnameDataGridViewTextBoxColumn.HeaderText = "Surname";
-            surnameDataGridViewTextBoxColumn.Name = "surnameDataGridViewTextBoxColumn";
-            // 
-            // lastnameDataGridViewTextBoxColumn
-            // 
-            lastnameDataGridViewTextBoxColumn.DataPropertyName = "Lastname";
-            lastnameDataGridViewTextBoxColumn.HeaderText = "Lastname";
-            lastnameDataGridViewTextBoxColumn.Name = "lastnameDataGridViewTextBoxColumn";
-            // 
-            // redirectDataGridViewTextBoxColumn
-            // 
-            redirectDataGridViewTextBoxColumn.DataPropertyName = "Redirect";
-            redirectDataGridViewTextBoxColumn.HeaderText = "Redirect";
-            redirectDataGridViewTextBoxColumn.Name = "redirectDataGridViewTextBoxColumn";
+            this.bindingSourceDevices.DataSource = typeof(Contracts.Dtos.DeviceStatusDto);
             // 
             // bindingSourceApiKeys
             // 
-            bindingSourceApiKeys.DataSource = typeof(Contracts.Dtos.ApiKeyDto);
+            this.bindingSourceApiKeys.DataSource = typeof(Contracts.Dtos.ApiKeyDto);
             // 
             // openFileDialogImportCsv
             // 
-            openFileDialogImportCsv.FileName = "openFileDialogImportCsv";
-            // 
-            // checkBoxDetailLog
-            // 
-            checkBoxDetailLog.AutoSize = true;
-            checkBoxDetailLog.Location = new Point(950, 32);
-            checkBoxDetailLog.Name = "checkBoxDetailLog";
-            checkBoxDetailLog.Size = new Size(79, 19);
-            checkBoxDetailLog.TabIndex = 2;
-            checkBoxDetailLog.Text = "Log Detail";
-            checkBoxDetailLog.UseVisualStyleBackColor = true;
-            checkBoxDetailLog.CheckedChanged += checkBoxDetailLog_CheckedChanged;
+            this.openFileDialogImportCsv.FileName = "openFileDialogImportCsv";
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1125, 554);
-            Controls.Add(tabControl1);
-            Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(2);
-            Name = "MainForm";
-            Text = "chdScoring";
-            contextMenuStripSysTray.ResumeLayout(false);
-            tabControl1.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
-            tabPage1.PerformLayout();
-            tabPage2.ResumeLayout(false);
-            tabPage2.PerformLayout();
-            tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridViewDevices).EndInit();
-            ((System.ComponentModel.ISupportInitialize)bindingSourceDevices).EndInit();
-            tabPage4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)bindingSourceApiKeys).EndInit();
-            ResumeLayout(false);
+            this.AutoScaleDimensions = new SizeF(12F, 30F);
+            this.AutoScaleMode = AutoScaleMode.Font;
+            this.ClientSize = new Size(1929, 1108);
+            this.Controls.Add(this.tabControl1);
+            this.Icon = (Icon)resources.GetObject("$this.Icon");
+            this.Margin = new Padding(3, 4, 3, 4);
+            this.Name = "MainForm";
+            this.Text = "chdScoring";
+            this.contextMenuStripSysTray.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.groupBoxAppSettings.ResumeLayout(false);
+            this.groupBoxAppSettings.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)this.dataGridViewDevices).EndInit();
+            ((System.ComponentModel.ISupportInitialize)this.bindingSourceDevices).EndInit();
+            ((System.ComponentModel.ISupportInitialize)this.bindingSourceApiKeys).EndInit();
+            this.ResumeLayout(false);
         }
 
         #endregion
@@ -466,8 +486,6 @@
         private TabControl tabControl1;
         private TabPage tabPage1;
         private TabPage tabPage2;
-        private TextBox textBoxWebLog;
-        private Button button1;
         private Label label1;
         private ComboBox comboBoxDataBase;
         private Label label2;
@@ -488,16 +506,16 @@
         private DataGridViewTextBoxColumn batteryChargingDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn currentVersionDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn currentLocalTimeDataGridViewTextBoxColumn;
-        private TabPage tabPage4;
-        private DataGridView dataGridView1;
         private BindingSource bindingSourceApiKeys;
-        private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn keyDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn roleDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn judgeIdDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn surnameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn lastnameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn redirectDataGridViewTextBoxColumn;
-        private CheckBox checkBoxDetailLog;
+        private chd.Base.Hosting.Forms.Controls.WebModuleControl webModuleControlServer;
+        private chd.Base.Hosting.Forms.Controls.ChannelLogControl channelLogControl1;
+        private GroupBox groupBoxAppSettings;
+        private TextBox textBoxDefaultApiKey;
+        private Label label3;
+        private TextBox textBoxRounPrintUrl;
+        private Label label6;
+        private chd.Base.Hosting.Forms.Controls.WebModuleControl webModuleControlWeb;
+        private TextBox textBoxLocalApiUrl;
+        private Label label4;
     }
 }

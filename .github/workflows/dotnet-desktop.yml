@@ -1,29 +1,34 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
 name: Build MAUI Android APP
-
 on:
   workflow_dispatch:
     inputs: 
       build_config:
-        description: 'How to build debug/release'
+        description: 'How to build'
         required: true
+        type: choice
+        options: [Release, Debug]
         default: 'Release'
-      use_aab:
-        description: 'Create an AAB Artifact'
-        required: true
-        default: 'true'
-      use_apk:
-        description: 'Create an APK Artifact'
-        required: true
-        default: 'false'
-
+      play_track:
+        description: 'Google Play Track'
+        type: choice
+        options: [internal, alpha, beta, production]
+        default: internal
+      play_status:
+        description: 'Google Play Status'
+        type: choice
+        options: [completed, draft]
+        default: draft
+      
+permissions:
+  contents: write
+  
 jobs:
   build:
     env:
       BUILD_CONFIG: ${{ github.event.inputs.build_config }}
       SOLUTION: 'chdscoring.sln'
+      APP_PROJECT: 'src/chdScoring.App/chdScoring.App.csproj'
+      PACKAGE_NAME: 'com.chdscoring.app'
       
     runs-on: windows-latest
 
@@ -41,33 +46,69 @@ jobs:
    
     - name: Install Maui
       run: dotnet workload install maui 
-        
-   
+
     - name: Restore dependencies
       run: dotnet restore
-    - name: Publish
+           
+    - name: Set Version
+      shell: pwsh
       run: |
-        $MAJOR=2
-        $MINOR=2
-        $YEAR=& Get-Date -UFormat "%y%j"
-        $HOUR=& Get-Date -format HHmm
-        $VERSION="$MAJOR.$MINOR.$YEAR.$HOUR"
-        echo "DATEVERSION=$VERSION" >> $env:GITHUB_ENV
-        dotnet publish src/chdScoring.App/chdScoring.App.csproj --no-restore --configuration ${{ env.BUILD_CONFIG }} --framework net10.0-android /p:ApplicationDisplayVersion=$VERSION /p:ApplicationVersion=${{ github.run_number}} /p:AndroidSigningKeyPass=${{secrets.CHDSCORING_KEYPASS}} /p:AndroidSigningStorePass=${{secrets.CHDSCORING_KEYPASS}} /p:AndroidKeyStore=true /p:AndroidSigningKeyStore=chdscoring.keystore /p:AndroidSigningKeyAlias=chdScoring /p:AndroidSigningKeyAlias=chdScoring /p:AndroidVersionCode=${{github.run_number}}
+        $now = (Get-Date).ToUniversalTime()
+        $version = "2.2.$($now.ToString('yy'))$($now.DayOfYear.ToString('000')).$($now.ToString('HHmm'))"
+        echo $version
+        "VERSION=$version" >> $env:GITHUB_ENV
 
-    - name: Upload APK Build Artifact
-      if: ${{ github.event.inputs.use_apk == 'true' }}
-      uses: actions/upload-artifact@v4.4.2
+    - name: Publish
+      run: >
+        dotnet publish ${{ env.APP_PROJECT }}
+        --no-restore
+        --configuration ${{ env.BUILD_CONFIG }}
+        --framework net10.0-android
+        /p:ApplicationDisplayVersion=${{ env.VERSION }}
+        /p:ApplicationVersion=${{ github.run_number }}
+        /p:AndroidVersionCode=${{ github.run_number }}
+        /p:AndroidKeyStore=true
+        /p:AndroidSigningKeyStore=chdscoring.keystore
+        /p:AndroidSigningKeyAlias=chdScoring
+        /p:AndroidSigningKeyPass=${{ secrets.CHDSCORING_KEYPASS }}
+        /p:AndroidSigningStorePass=${{ secrets.CHDSCORING_KEYPASS }}
+
+    - name: Collect files
+      shell: pwsh
+      run: |
+        New-Item -ItemType Directory -Force release | Out-Null
+        $aab = Get-ChildItem -Recurse src -Filter *-Signed.aab | Where-Object { $_.FullName -match 'publish' } | Select-Object -First 1
+        Copy-Item $aab.FullName "release/chdScoring-${{ env.VERSION }}.aab"
+        $apk = Get-ChildItem -Recurse src -Filter *.apk | Where-Object { $_.FullName -match 'publish' } | Select-Object -First 1
+        Copy-Item $apk.FullName "release/chdScoring-${{ env.VERSION }}.apk"
+  
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
       with:
-        name: chdScoring
-        path: ./**/bin/Release/**/publish/*.apk
-          
-    - name: Upload AAB Build Artifact
-      if: ${{ github.event.inputs.use_aab == 'true' }}
-      uses: actions/upload-artifact@v4.4.2
+        name: chdScoring-${{ env.VERSION }}
+        path: release/*
+        
+    - name: Create Tag and Release
+      uses: softprops/action-gh-release@v2
       with:
-        name: chdScoringAAB
-        path: ./**/bin/Release/**/publish/*-Signed.aab
+        tag_name: v${{ env.VERSION }}
+        target_commitish: ${{ github.sha }}
+        name: chd Scoring Mobilde ${{ env.VERSION }}
+        files: release/*.exe
+        generate_release_notes: true
+        prerelease: ${{ env.BUILD_CONFIG == 'Debug' }}
+        make_latest: ${{ env.BUILD_CONFIG == 'Release' }}
+
+    - name: Upload to Google Play
+      if: ${{ inputs.build_config == 'Release' }}
+      uses: r0adkll/upload-google-play@v1
+      with:
+        serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        packageName: ${{ env.PACKAGE_NAME }}
+        releaseFiles: release/*.aab
+        track: ${{ inputs.play_track }}
+        status:  ${{ inputs.play_status }} # "completed"   "draft", falls die App in Play noch im Entwurfsstatus ist
+        changesNotSentForReview: true
 
      
         

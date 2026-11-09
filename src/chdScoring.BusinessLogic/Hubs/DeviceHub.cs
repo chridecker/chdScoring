@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace chdScoring.BusinessLogic.Hubs
 {
-    public class DeviceHub(ILogger<DeviceHub> logger, IDeviceCacheService deviceCacheService, IApiLogger apiLogger)
+    public class DeviceHub(ILogger<DeviceHub> logger, IDeviceCacheService deviceCacheService)
         : BaseAuthenticationHub<IDeviceHub>(logger), IDeviceHub
     {
         public override async Task OnConnectedAsync()
@@ -30,7 +30,6 @@ namespace chdScoring.BusinessLogic.Hubs
                 hostName = hostEntry.HostName;
             }
 
-            await apiLogger.Log($"{(!string.IsNullOrWhiteSpace(hostName) ? hostName : ip)}({GetApiKey()}) connected ID: {Context.ConnectionId}");
             deviceCacheService.AddConnection(Context.ConnectionId, GetApiKey());
         }
 
