@@ -8,22 +8,18 @@ using Microsoft.Extensions.Logging;
 using chdScoring.App.UI.Interfaces;
 using chdScoring.App.UI.Services;
 using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 
 namespace chdScoring.App.Services
 {
-    public abstract class AppSettingManager : BaseSettingManager
+    public abstract class AppSettingManager(
+        ILogger<AppSettingManager> logger,
+        IBatteryService batteryService,
+        IConfiguration configuration, 
+        IProtecedLocalStorageHandler protecedLocalStorageHandler,
+        NavigationManager navigationManager)
+        : BaseSettingManager(logger, configuration, protecedLocalStorageHandler, navigationManager)
     {
-        private readonly IConfiguration _configuration;
-
-        public event EventHandler<string> AutoRedirectToChanged;
-
-        public AppSettingManager(ILogger<AppSettingManager> logger, IConfiguration configuration,
-            IProtecedLocalStorageHandler protecedLocalStorageHandler,
-            NavigationManager navigationManager) : base(logger, configuration, protecedLocalStorageHandler, navigationManager)
-        {
-            this._configuration = configuration;
-        }
-
         public override T? GetNativSetting<T>(string key) where T : class
         {
             if (Preferences.ContainsKey(key))
@@ -38,6 +34,21 @@ namespace chdScoring.App.Services
         {
             Preferences.Default.Set<T>(key, value);
         }
+
+        public override async Task UpdateMainUrl(string url)
+        {
+            if (this._mainUrl != url)
+            {
+                await base.UpdateMainUrl(url);
+                var snack = Snackbar.Make("Main URL changed. You need to RESTART the app!",
+                    async ()=>await batteryService.ExitApplication(true),
+                    "Restart",
+                    TimeSpan.FromSeconds(5));
+                await snack.Show();
+            }
+        }
+
+
     }
 
 }

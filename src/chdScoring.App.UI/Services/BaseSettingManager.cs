@@ -60,7 +60,7 @@ namespace chdScoring.App.UI.Services
         protected abstract bool _isiOS();
         protected abstract bool _apiKeyIsEditable();
 
-        public async Task UpdateMainUrl(string url)
+        public virtual async Task UpdateMainUrl(string url)
         {
             this._mainUrl = url;
             await this.StoreSettingLocal<string>(SettingConstants.BaseAddress, url);

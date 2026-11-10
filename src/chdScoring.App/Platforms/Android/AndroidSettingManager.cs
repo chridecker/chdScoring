@@ -1,5 +1,6 @@
 ﻿using chd.UI.Base.Contracts.Interfaces.Services;
 using chdScoring.App.Services;
+using chdScoring.App.UI.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -13,7 +14,8 @@ namespace chdScoring.App.Platforms.Android
 {
     public class AndroidSettingManager : AppSettingManager
     {
-        public AndroidSettingManager(ILogger<AndroidSettingManager> logger, IConfiguration configuration, IProtecedLocalStorageHandler protecedLocalStorageHandler, NavigationManager navigationManager) : base(logger, configuration, protecedLocalStorageHandler, navigationManager)
+        public AndroidSettingManager(ILogger<AndroidSettingManager> logger, IBatteryService batteryService, IConfiguration configuration, IProtecedLocalStorageHandler protecedLocalStorageHandler, NavigationManager navigationManager)
+            : base(logger, batteryService, configuration, protecedLocalStorageHandler, navigationManager)
         {
         }
 

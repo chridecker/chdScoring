@@ -50,6 +50,9 @@ namespace chdScoring.App
             builder.UseAndroidInAppUpdates(options =>
             {
                 options.ImmediateUpdatePriority = 6;
+#if DEBUG
+                options.UseFakeAppUpdateManager = true;
+#endif
             });
 #endif
 
