@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
@@ -9,9 +9,9 @@
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
   <ItemGroup>
-    <PackageReference Include="chd.Api.Base.Contracts" Version="2.0.26313.218" />
-    <PackageReference Include="chd.Base.Hosting" Version="2.0.26313.218" />
-    <PackageReference Include="chd.Hub.Base.Server" Version="2.0.26313.218" />
+    <PackageReference Include="chd.Api.Base.Contracts" Version="2.0.26316.220" />
+    <PackageReference Include="chd.Base.Hosting" Version="2.0.26316.220" />
+    <PackageReference Include="chd.Hub.Base.Server" Version="2.0.26316.220" />
   </ItemGroup>
 
   <ItemGroup>

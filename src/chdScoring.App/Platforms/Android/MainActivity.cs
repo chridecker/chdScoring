@@ -95,7 +95,7 @@ namespace chdScoring.App
 
             public override void HandleOnBackPressed()
             {
-                var navigation = Microsoft.Maui.Controls.Application.Current?.MainPage?.Navigation;
+                var navigation = Microsoft.Maui.Controls.Application.Current?.Windows[0].Page?.Navigation;
                 if (navigation is not null && navigation.ModalStack.Count > 0)
                 {
                     Task.Run(navigation.PopModalAsync);

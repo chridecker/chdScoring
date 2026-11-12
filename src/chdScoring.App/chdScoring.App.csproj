@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 	<PropertyGroup>
-		<TargetFrameworks>net10.0-android</TargetFrameworks>
-		<!--<TargetFrameworks>net10.0-android;net10.0-ios</TargetFrameworks>-->
+		<TargetFrameworks>net11.0-android</TargetFrameworks>
+		<!--<TargetFrameworks>net11.0-android;net11.0-ios</TargetFrameworks>-->
 		<OutputType>Exe</OutputType>
 		<Nullable>enable</Nullable>
 		<RootNamespace>chdScoring.App</RootNamespace>
@@ -27,19 +27,23 @@
 
 		<!--<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">ios-arm64</RuntimeIdentifiers>-->
 	</PropertyGroup>
+	<PropertyGroup>
+		<!--<RuntimeIdentifier>android-arm64</RuntimeIdentifier>-->
+		<UseCoreCLR>true</UseCoreCLR>
+	</PropertyGroup>
 
 
 	<!--
-	<PropertyGroup Condition="'$(Configuration)' == 'Debug' AND '$(TargetFramework)' == 'net10.0-ios'">
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug' AND '$(TargetFramework)' == 'net11.0-ios'">
 		<RuntimeIdentifiers>iossimulator-arm64</RuntimeIdentifiers>
 	</PropertyGroup>-->
 
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net11.0-android'">
 		<PublishAot>False</PublishAot>
-		<RunAOTCompilation>false</RunAOTCompilation>
+		<!--<RunAOTCompilation>false</RunAOTCompilation>-->
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(TargetFramework)'=='net10.0-android'">
+	<PropertyGroup Condition="'$(TargetFramework)'=='net11.0-android'">
 		<AndroidKeyStore>False</AndroidKeyStore>
 	</PropertyGroup>
 
@@ -53,16 +57,16 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
-		<PackageReference Include="Xamarin.Google.Android.Play.App.Update.Ktx" Version="2.1.0.16" />
+	<ItemGroup Condition="'$(TargetFramework)' == 'net11.0-android'">
+		<PackageReference Include="Xamarin.Google.Android.Play.App.Update.Ktx" Version="2.1.0.19" />
 		<PackageReference Include="Oscore.Maui.Android.InAppUpdates" Version="1.5.1" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="15.0.1" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.120" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.120" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="10.0.120" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="17.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="11.0.10" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="11.0.0-preview.5.26304.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="11.0.10" />
 	</ItemGroup>
 
 	<ItemGroup>
