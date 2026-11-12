@@ -64,6 +64,7 @@ jobs:
         --no-restore
         --configuration ${{ env.BUILD_CONFIG }}
         --framework net11.0-android
+        /p:PublishReadyToRun=false
         /p:ApplicationDisplayVersion=${{ env.VERSION }}
         /p:ApplicationVersion=${{ github.run_number }}
         /p:AndroidVersionCode=${{ github.run_number }}
