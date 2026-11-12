@@ -63,7 +63,7 @@ jobs:
         dotnet publish ${{ env.APP_PROJECT }}
         --no-restore
         --configuration ${{ env.BUILD_CONFIG }}
-        --framework net10.0-android
+        --framework net11.0-android
         /p:ApplicationDisplayVersion=${{ env.VERSION }}
         /p:ApplicationVersion=${{ github.run_number }}
         /p:AndroidVersionCode=${{ github.run_number }}
