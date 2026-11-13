@@ -10,9 +10,12 @@ using chdScoring.Main.WebServer.Modules;
 using NLog.Web;
 using System.Configuration;
 
+if (args.Length > 0 && args[0].Equals("Playwright", StringComparison.OrdinalIgnoreCase))
+{
+    Microsoft.Playwright.Program.Main(["install"]);
+    return;
+}
 
-//Microsoft.Playwright.Program.Main(["install"]);
-//return;
 Thread.CurrentThread.SetApartmentState(ApartmentState.Unknown);
 Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
 
