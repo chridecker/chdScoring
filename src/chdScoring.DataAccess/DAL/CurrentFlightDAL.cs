@@ -77,7 +77,12 @@ namespace chdScoring.DataAccess.DAL
                 .Where(x => x.Status >= (int)EFlightState.OnAir)
                 .Include(i => i.Pilot)
                 .ThenInclude(i => i.Country_Image)
-                .FirstOrDefaultAsync(x => x.Teilnehmer == pilot && x.Durchgang == round, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Teilnehmer == pilot && x.Durchgang == round, cancellationToken)
+                     ?? await this._wettkampfLeitungRepository
+                         .Where(x => true)
+                         .Include(i => i.Pilot)
+                         .ThenInclude(i => i.Country_Image)
+                         .FirstOrDefaultAsync(x => x.Teilnehmer == pilot && x.Durchgang == round, cancellationToken);
 
             return await this.GetRoundData(dto, wl, cancellationToken);
         }
