@@ -22,7 +22,7 @@ namespace chdScoring.DataAccess.EFCore
 
             }
 
-            var builder = serviceProvider.GetKeyedService<DbContextOptionsBuilder<TContext>>(connection);
+            var builder = serviceProvider.GetRequiredKeyedService<DbContextOptionsBuilder<TContext>>(connection);
             return (TContext)Activator.CreateInstance(typeof(TContext), builder.Options);
         }
     }
