@@ -11,9 +11,9 @@ using static chdScoring.Contracts.Constants.EndpointConstants;
 
 namespace chdScoring.Main.Client.Clients
 {
-    public class StammdatenClient : BaseAuthenticationApiService, IStammdatenService
+    public class StammdatenClient : BaseApiKeyApiService, IStammdatenService
     {
-        public StammdatenClient(ILogger<StammdatenClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, apiKeyProvider, httpClientFactory)
+        public StammdatenClient(ILogger<StammdatenClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, httpClientFactory, apiKeyProvider)
         {
         }
 

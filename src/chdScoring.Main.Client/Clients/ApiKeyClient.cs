@@ -12,7 +12,7 @@ using static chdScoring.Contracts.Constants.EndpointConstants.ApiKey;
 namespace chdScoring.Main.Client.Clients
 {
     public class ApiKeyClient(ILogger<ApiKeyClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory)
-        : BaseAuthenticationApiService(logger, apiKeyProvider, httpClientFactory), IApiKeyService
+        : BaseApiKeyApiService(logger, httpClientFactory, apiKeyProvider), IApiKeyService
     {
         public Task<ApiKeyDto> GetAsync(string key, CancellationToken cancellationToken)
         => this.Get<ApiKeyDto>(GET.SetUrlParameters((nameof(key), key)), cancellationToken);

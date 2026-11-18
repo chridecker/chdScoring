@@ -13,7 +13,7 @@ namespace chdScoring.Main.Client.Clients
         ILogger<CompetitionClient> logger,
         IApiKeyProvider apiKeyProvider,
         IHttpClientFactory httpClientFactory)
-        : BaseAuthenticationApiService(logger, apiKeyProvider, httpClientFactory), ICompetitionService
+        : BaseApiKeyApiService(logger, httpClientFactory,apiKeyProvider), ICompetitionService
     {
         public Task ClearDataAsync(CancellationToken cancellationToken)
             => Delete(Control.DELETE_Clear, cancellationToken);

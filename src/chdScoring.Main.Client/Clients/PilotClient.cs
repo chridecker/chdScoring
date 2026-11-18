@@ -8,9 +8,9 @@ using Microsoft.Extensions.Logging;
 
 namespace chdScoring.Main.Client.Clients
 {
-    public class PilotClient : BaseAuthenticationApiService, IPilotService
+    public class PilotClient : BaseApiKeyApiService, IPilotService
     {
-        public PilotClient(ILogger<PilotClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, apiKeyProvider, httpClientFactory)
+        public PilotClient(ILogger<PilotClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, httpClientFactory, apiKeyProvider)
         {
         }
 

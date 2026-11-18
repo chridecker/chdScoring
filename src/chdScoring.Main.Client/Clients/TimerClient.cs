@@ -7,9 +7,9 @@ using Microsoft.Extensions.Logging;
 
 namespace chdScoring.Main.Client.Clients
 {
-    public class TimerClient : BaseAuthenticationApiService, ITimerService
+    public class TimerClient : BaseApiKeyApiService, ITimerService
     {
-        public TimerClient(ILogger<TimerClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, apiKeyProvider, httpClientFactory)
+        public TimerClient(ILogger<TimerClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, httpClientFactory, apiKeyProvider)
         {
         }
 

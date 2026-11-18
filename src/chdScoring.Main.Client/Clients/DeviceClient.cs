@@ -11,9 +11,9 @@ using static chdScoring.Contracts.Constants.EndpointConstants;
 
 namespace chdScoring.Main.Client.Clients
 {
-    public class DeviceClient : BaseAuthenticationApiService, IDeviceService
+    public class DeviceClient : BaseApiKeyApiService, IDeviceService
     {
-        public DeviceClient(ILogger<DeviceClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, apiKeyProvider, httpClientFactory)
+        public DeviceClient(ILogger<DeviceClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, httpClientFactory, apiKeyProvider)
         {
         }
 

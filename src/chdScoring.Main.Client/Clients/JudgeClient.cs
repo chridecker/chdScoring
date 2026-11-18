@@ -7,9 +7,9 @@ using Microsoft.Extensions.Logging;
 
 namespace chdScoring.Main.Client.Clients
 {
-    public class JudgeClient : BaseAuthenticationApiService, IJudgeService
+    public class JudgeClient : BaseApiKeyApiService, IJudgeService
     {
-        public JudgeClient(ILogger<JudgeClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, apiKeyProvider, httpClientFactory)
+        public JudgeClient(ILogger<JudgeClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, httpClientFactory, apiKeyProvider)
         {
         }
 

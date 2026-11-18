@@ -10,9 +10,9 @@ using Microsoft.Extensions.Logging;
 
 namespace chdScoring.Main.Client.Clients
 {
-    public class ImportClient : BaseAuthenticationApiService, IImportService
+    public class ImportClient : BaseApiKeyApiService, IImportService
     {
-        public ImportClient(ILogger<ImportClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, apiKeyProvider, httpClientFactory)
+        public ImportClient(ILogger<ImportClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, httpClientFactory, apiKeyProvider)
         {
         }
 

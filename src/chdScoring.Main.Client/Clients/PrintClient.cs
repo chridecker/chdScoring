@@ -12,9 +12,9 @@ using static chdScoring.Contracts.Constants.EndpointConstants;
 
 namespace chdScoring.Main.Client.Clients
 {
-    public class PrintClient : BaseAuthenticationApiService, IPrintService
+    public class PrintClient : BaseApiKeyApiService, IPrintService
     {
-        public PrintClient(ILogger<BaseApiService> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, apiKeyProvider, httpClientFactory)
+        public PrintClient(ILogger<PrintClient> logger, IApiKeyProvider apiKeyProvider, IHttpClientFactory httpClientFactory) : base(logger, httpClientFactory, apiKeyProvider)
         {
         }
 
